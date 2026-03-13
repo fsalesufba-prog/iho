@@ -37,7 +37,16 @@ All environment variables are set in Replit's secrets/env panel:
 - `PORT=3001` — Backend port
 - See `backend/.env.example` for full list
 
-## Migration Notes (Replit Import)
+## Migration Notes (Replit Import - Session 3)
+
+- Backend `.env` updated: removed MySQL `DATABASE_URL` override so Replit's PostgreSQL env var takes precedence
+- Prisma schema updated from `mysql` to `postgresql` provider
+- Both `npm install` runs completed for `/backend` and `/frontend`
+- Prisma client regenerated for PostgreSQL
+- Migrations deployed to Replit PostgreSQL (`heliumdb`)
+- Both workflows running: Backend API (port 3001) and Start application (port 5000)
+
+## Migration Notes (Replit Import - Previous)
 
 - Migrated from MySQL to PostgreSQL (Prisma schema updated)
 - TypeScript strict mode relaxed (`noUnusedLocals`, `noUnusedParameters`, `noImplicitReturns` set to false) to allow compilation
