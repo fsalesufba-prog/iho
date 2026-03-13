@@ -47,7 +47,6 @@ import {
   MessageSquare,
   HelpCircle,
   Info,
-  Warning,
   AlertTriangle,
   XCircle as XCircleIcon,
   CheckCircle as CheckCircleIcon,
