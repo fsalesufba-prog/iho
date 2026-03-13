@@ -40,7 +40,7 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
   const [unreadCount, setUnreadCount] = useState(0)
   const [loading, setLoading] = useState(false)
 
-  useEffect() {
+  useEffect(() => {
     carregarNotificacoes()
     
     // Configurar SSE para notificações em tempo real

@@ -69,7 +69,6 @@ export default function NovoUsuarioPage() {
     formState: { errors },
     setValue,
     watch,
-    reset
   } = useForm<UsuarioFormData>({
     resolver: zodResolver(usuarioSchema),
     defaultValues: {
@@ -85,10 +84,11 @@ export default function NovoUsuarioPage() {
   const verificarLimites = () => {
     if (!plano || !empresa) return true
 
+    const empresaAny = empresa as any
     const stats = {
-      adm_empresa: empresa.stats?.admEmpresa || 0,
-      controlador: empresa.stats?.controladores || 0,
-      apontador: empresa.stats?.apontadores || 0
+      adm_empresa: empresaAny.stats?.admEmpresa || 0,
+      controlador: empresaAny.stats?.controladores || 0,
+      apontador: empresaAny.stats?.apontadores || 0
     }
 
     const limites = {

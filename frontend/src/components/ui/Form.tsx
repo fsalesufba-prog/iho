@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Controller, FormProvider, useFormContext } from 'react-hook-form'
+import { Controller, FormProvider, useFormContext, type ControllerProps, type FieldPath, type FieldValues } from 'react-hook-form'
 import { Label } from '@/components/ui/Label'
 import { cn } from '@/lib/utils'
 
@@ -52,9 +52,9 @@ const FormLabel = React.forwardRef<React.ElementRef<typeof Label>, React.Compone
 })
 FormLabel.displayName = 'FormLabel'
 
-const FormControl = React.forwardRef<React.ElementRef<typeof React.Fragment>, React.ComponentPropsWithoutRef<typeof React.Fragment>>(({ ...props }, ref) => {
-  const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
-  return <React.Fragment {...props} />
+const FormControl = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ ...props }, ref) => {
+  const { formItemId } = useFormField()
+  return <div ref={ref} id={formItemId} {...props} />
 })
 FormControl.displayName = 'FormControl'
 

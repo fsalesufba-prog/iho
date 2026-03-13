@@ -59,7 +59,7 @@ export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
                 variant="outline"
                 className="relative h-12"
                 style={{ backgroundColor: scheme.color + '20' }}
-                onClick={() => setColorScheme(scheme.value)}
+                onClick={() => setColorScheme(scheme.value as Parameters<typeof setColorScheme>[0])}
               >
                 <div
                   className="absolute inset-0 rounded-md"

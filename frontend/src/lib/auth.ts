@@ -46,8 +46,8 @@ export const authService = {
 
     // Salvar tokens
     if (credentials.rememberMe) {
-      setCookie(TOKEN_KEY, response.token, 30) // 30 dias
-      setCookie(REFRESH_TOKEN_KEY, response.refreshToken, 30)
+      setCookie(TOKEN_KEY, response.token, { days: 30 }) // 30 dias
+      setCookie(REFRESH_TOKEN_KEY, response.refreshToken, { days: 30 })
       localStorage.setItem(TOKEN_KEY, response.token)
       localStorage.setItem(REFRESH_TOKEN_KEY, response.refreshToken)
       localStorage.setItem(USER_KEY, JSON.stringify(response.user))

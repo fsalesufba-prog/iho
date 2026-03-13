@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import * as ToastPrimitives from '@radix-ui/react-toast'
-import { cva } from 'class-variance-authority'
+import { cva, type VariantProps } from 'class-variance-authority'
 import { X, CheckCircle, AlertCircle, AlertTriangle, Info } from 'lucide-react'
 
 import { cn } from '@/lib/utils'

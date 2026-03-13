@@ -15,7 +15,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/Radio-group'
 import { Slider } from '@/components/ui/Slider'
 import { Switch } from '@/components/ui/Switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-import { Paintbrush, Type, Radius, Settings, RotateCcw } from 'lucide-react'
+import { Paintbrush, Type, Circle, Settings, RotateCcw } from 'lucide-react'
 import { useTheme } from './ThemeProvider'
 import { ThemePreview } from './ThemePreview'
 
@@ -92,7 +92,7 @@ export function ThemeCustomizer({ children }: ThemeCustomizerProps) {
                 <Type className="h-4 w-4" />
               </TabsTrigger>
               <TabsTrigger value="radius">
-                <Radius className="h-4 w-4" />
+                <Circle className="h-4 w-4" />
               </TabsTrigger>
               <TabsTrigger value="advanced">
                 <Settings className="h-4 w-4" />

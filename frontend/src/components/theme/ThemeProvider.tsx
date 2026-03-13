@@ -32,13 +32,6 @@ interface ThemeContextData {
   isLight: boolean
 }
 
-const defaultTheme: Omit<ThemeContextData, 'setMode' | 'setColorScheme' | 'setFontFamily' | 'setRadius' | 'toggleMode' | 'resetToDefaults' | 'resolvedMode' | 'isDark' | 'isLight'> = {
-  mode: 'system',
-  colorScheme: 'default',
-  fontFamily: 'inter',
-  radius: 'md',
-}
-
 export const ThemeContext = createContext<ThemeContextData>({} as ThemeContextData)
 
 // Mapeamento de cores por esquema

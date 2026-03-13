@@ -15,7 +15,7 @@ const DEFAULT_PREFIX = '@iho:'
 class Storage {
   private type: StorageType
   private prefix: string
-  private storage: Storage | null
+  private storage: globalThis.Storage | null
 
   constructor(options: StorageOptions = {}) {
     this.type = options.type || 'local'

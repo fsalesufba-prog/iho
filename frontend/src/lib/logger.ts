@@ -279,10 +279,10 @@ class Logger {
 
     const data = error instanceof Error
       ? {
+          ...error,
           name: error.name,
           message: error.message,
           stack: error.stack,
-          ...error,
         }
       : error
 
