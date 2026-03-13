@@ -292,8 +292,8 @@ export default function JuridicoPage() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-3 text-sm">
                       <Mail className="h-4 w-4 text-primary" />
-                      <a href="mailto:dpo@iho.com.br" className="hover:text-primary transition-colors">
-                        dpo@iho.com.br
+                      <a href="contato@sqtecnologiadainformacao.com" className="hover:text-primary transition-colors">
+                        contato@sqtecnologiadainformacao.com
                       </a>
                     </div>
                     <div className="flex items-center gap-3 text-sm">

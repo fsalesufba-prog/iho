@@ -82,13 +82,13 @@ export function Footer() {
               <li className="flex items-start gap-2">
                 <Phone className="h-4 w-4 text-muted-foreground mt-0.5" />
                 <span className="text-sm text-muted-foreground">
-                  (11) 0000-0000
+                  (71) 9 98260-7352
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
                 <span className="text-sm text-muted-foreground">
-                  São Paulo, SP
+                  Salvador, BA
                 </span>
               </li>
             </ul>

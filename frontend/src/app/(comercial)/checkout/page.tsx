@@ -217,7 +217,6 @@ import {
   BadgeUgandanShilling,
   BadgeZambianKwacha,
   BadgeZimbabweanDollar,
-  BadgeAfghanAfghani,
   BadgeArmenianDram,
   BadgeAzerbaijaniManat,
   BadgeBahrainiDinar,
@@ -225,15 +224,11 @@ import {
   BadgeBhutaneseNgultrum,
   BadgeBruneiDollar,
   BadgeCambodianRiel,
-  BadgeChineseYuan,
   BadgeGeorgianLari,
   BadgeHongKongDollar,
-  BadgeIndianRupee,
   BadgeIndonesianRupiah,
   BadgeIranianRial,
   BadgeIraqiDinar,
-  BadgeIsraeliShekel,
-  BadgeJapaneseYen,
   BadgeJordanianDinar,
   BadgeKazakhstaniTenge,
   BadgeKuwaitiDinar,
@@ -251,7 +246,6 @@ import {
   BadgePakistaniRupee,
   BadgePhilippinePeso,
   BadgeQatariRiyal,
-  BadgeRussianRuble,
   BadgeSaudiRiyal,
   BadgeSingaporeDollar,
   BadgeSouthKoreanWon,
@@ -281,16 +275,10 @@ import {
   BadgeRomanianLeu,
   BadgeSerbianDinar,
   BadgeSwedishKrona,
-  BadgeSwissFranc,
-  BadgeTurkishLira,
   BadgeUkrainianHryvnia,
   BadgeBritishPound,
-  BadgeEuro,
-  BadgeDollarSign,
-  BadgeCent,
   BadgeYen,
   BadgeWon,
-  BadgePoundSterling,
   BadgeFranc,
   BadgeLira,
   BadgeRuble,
@@ -1514,34 +1502,6 @@ export default function CheckoutPage() {
                   </CardContent>
                 </Card>
 
-                {/* Selos de segurança */}
-                <Card>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-center gap-4">
-                      <Image
-                        src="/images/ssl-secure.png"
-                        alt="SSL Secure"
-                        width={50}
-                        height={30}
-                        className="opacity-70"
-                      />
-                      <Image
-                        src="/images/pci-compliant.png"
-                        alt="PCI Compliant"
-                        width={50}
-                        height={30}
-                        className="opacity-70"
-                      />
-                      <Image
-                        src="/images/reclame-aqui.png"
-                        alt="Reclame Aqui"
-                        width={50}
-                        height={30}
-                        className="opacity-70"
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
 
                 {/* Precisa de ajuda? */}
                 <Card>
@@ -1553,7 +1513,7 @@ export default function CheckoutPage() {
                         <p className="text-xs text-muted-foreground mb-2">
                           Fale com nossa equipe de vendas
                         </p>
-                        <Link href="/contato" className="text-xs text-primary hover:underline">
+                        <Link href="https://wa.me/55719982607352?text=Oi,%20quero%20falar%20sobre%20o%20IHO." className="text-xs text-primary hover:underline">
                           Falar com consultor →
                         </Link>
                       </div>

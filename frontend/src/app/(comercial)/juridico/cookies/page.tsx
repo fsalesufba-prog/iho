@@ -304,8 +304,8 @@ export default function CookiesPage() {
                       <div className="space-y-2">
                         <p className="text-sm">
                           <strong>E-mail:</strong>{' '}
-                          <a href="mailto:dpo@iho.com.br" className="text-primary hover:underline">
-                            dpo@iho.com.br
+                          <a href="mailto:contato@sqtecnologiadainformacao.com" className="text-primary hover:underline">
+                            contato@sqtecnologiadainformacao.com
                           </a>
                         </p>
                         <p className="text-sm">

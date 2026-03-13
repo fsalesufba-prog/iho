@@ -198,7 +198,7 @@ export default function TermosPage() {
                       <p className="text-xs text-muted-foreground mb-2">
                         Entre em contato com nosso suporte jurídico
                       </p>
-                      <Link href="/contato" className="text-xs text-primary hover:underline inline-flex items-center">
+                      <Link href="https://wa.me/55719982607352?text=Oi,%20quero%20falar%20sobre%20o%20IHO." className="text-xs text-primary hover:underline inline-flex items-center">
                         Falar com especialista
                         <ArrowRight className="h-3 w-3 ml-1" />
                       </Link>

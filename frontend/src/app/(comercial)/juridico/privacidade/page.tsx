@@ -119,12 +119,11 @@ export default function PrivacidadePage() {
     },
     {
       titulo: '10. Encarregado de Dados (DPO)',
-      conteudo: `Para questões relacionadas à privacidade e proteção de dados, entre em contato com nosso Encarregado:`,
+      conteudo: `Para questões relacionadas à privacidade e proteção de dados, entre em contato com nosss Encarregada:`,
       contato: {
-        nome: 'João Silva',
-        email: 'dpo@iho.com.br',
-        telefone: '(11) 0000-0000',
-        endereco: 'São Paulo, SP'
+        nome: 'Fernanda Sales',
+        email: 'contato@sqtecnologiadainformacao.com',
+        endereco: 'Salvador, BA'
       }
     }
   ]
@@ -195,8 +194,8 @@ export default function PrivacidadePage() {
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
                       <Mail className="h-4 w-4 text-primary" />
-                      <a href="mailto:dpo@iho.com.br" className="text-sm hover:text-primary">
-                        dpo@iho.com.br
+                      <a href="mailto:contato@sqtecnologiadainformacao.com" className="text-sm hover:text-primary">
+                        contato@sqtecnologiadainformacao.com
                       </a>
                     </div>
                     <div className="flex items-center gap-2">

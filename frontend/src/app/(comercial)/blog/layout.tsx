@@ -14,7 +14,6 @@ export default function BlogLayout({
 }) {
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
       
       <main className="flex-1">
         <BlogHeader />
@@ -38,7 +37,6 @@ export default function BlogLayout({
         </Container>
       </main>
 
-      <Footer />
     </div>
   )
 }

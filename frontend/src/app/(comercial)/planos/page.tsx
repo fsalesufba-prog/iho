@@ -405,7 +405,7 @@ export default function PlanosPage() {
               Escolha o plano ideal para sua operação e comece a otimizar sua gestão hoje mesmo
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="#">
+              <Link href="https://wa.me/55719982607352?text=Oi,%20quero%20falar%20sobre%20o%20IHO.">
                 <Button size="lg" variant="secondary" className="group">
                   Falar com consultor
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />

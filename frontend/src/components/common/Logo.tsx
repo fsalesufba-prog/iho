@@ -75,17 +75,7 @@ export function Logo({
       sizeConfig.container,
       className
     )}>
-      <div className="relative flex-shrink-0">
-        <Image
-          src={getLogoSrc()}
-          alt="IHO"
-          width={sizeConfig.icon}
-          height={sizeConfig.icon}
-          className="object-contain"
-          priority
-        />
-      </div>
-      
+    
       {showText && variant !== 'icon' && (
         <span className={cn(
           'font-bold tracking-tight',

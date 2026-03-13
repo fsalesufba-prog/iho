@@ -266,12 +266,6 @@ export default function ComercialPage() {
               transition={{ delay: 0.2 }}
               className="flex justify-center mb-6"
             >
-              <Badge className="px-4 py-2 text-sm bg-gradient-to-r from-primary/20 to-accent/20 border-primary/30">
-                <Sparkles className="h-4 w-4 mr-2 text-primary" />
-                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-semibold">
-                  Transforme sua operação
-                </span>
-              </Badge>
             </motion.div>
 
             {/* Título principal */}
@@ -321,7 +315,7 @@ export default function ComercialPage() {
                   </span>
                 </Button>
               </Link>
-              <Link href="/contato">
+              <Link href="https://wa.me/55719982607352?text=Oi,%20quero%20falar%20sobre%20o%20IHO.">
                 <Button size="lg" variant="outline" className="group">
                   Falar com especialista
                   <Zap className="ml-2 h-5 w-5 group-hover:scale-110 transition-transform" />
@@ -614,7 +608,7 @@ export default function ComercialPage() {
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Link href="/contato">
+              <Link href="https://wa.me/55719982607352?text=Oi,%20quero%20falar%20sobre%20o%20IHO.">
                 <Button size="lg" variant="outline" className="bg-transparent text-white border-white hover:bg-white/10">
                   Falar com consultor
                 </Button>
