@@ -1,0 +1,67 @@
+'use client'
+
+import React, { Component, ErrorInfo, ReactNode } from 'react'
+import { AlertTriangle, RefreshCw } from 'lucide-react'
+import { Button } from '@/components/ui/Button'
+
+interface Props {
+  children: ReactNode
+  fallback?: ReactNode
+  onError?: (error: Error, errorInfo: ErrorInfo) => void
+}
+
+interface State {
+  hasError: boolean
+  error: Error | null
+}
+
+export class ErrorBoundary extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props)
+    this.state = { hasError: false, error: null }
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error }
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo)
+    this.props.onError?.(error, errorInfo)
+  }
+
+  reset = () => {
+    this.setState({ hasError: false, error: null })
+  }
+
+  render() {
+    if (this.state.hasError) {
+      if (this.props.fallback) {
+        return this.props.fallback
+      }
+
+      return (
+        <div className="min-h-[400px] flex flex-col items-center justify-center p-8 text-center">
+          <div className="h-16 w-16 rounded-full bg-destructive/10 flex items-center justify-center mb-4">
+            <AlertTriangle className="h-8 w-8 text-destructive" />
+          </div>
+          
+          <h3 className="text-lg font-semibold mb-2">
+            Algo deu errado
+          </h3>
+          
+          <p className="text-sm text-muted-foreground max-w-md mb-4">
+            {this.state.error?.message || 'Ocorreu um erro inesperado ao carregar esta página.'}
+          </p>
+          
+          <Button onClick={this.reset}>
+            <RefreshCw className="h-4 w-4 mr-2" />
+            Tentar novamente
+          </Button>
+        </div>
+      )
+    }
+
+    return this.props.children
+  }
+}

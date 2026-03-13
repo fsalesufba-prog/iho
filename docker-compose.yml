@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: iho-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: iho_local
+      MYSQL_USER: iho_user
+      MYSQL_PASSWORD: iho_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - iho-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: iho-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 100M
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - iho-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: iho-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - iho-network
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  iho-network:
+    driver: bridge

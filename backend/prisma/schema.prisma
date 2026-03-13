@@ -1,0 +1,442 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Empresa {
+  id                 Int       @id @default(autoincrement())
+  nome               String
+  cnpj               String    @unique
+  email              String    @unique
+  telefone           String
+  endereco           String
+  cidade             String
+  estado             String
+  cep                String
+  planoId            Int
+  dataCadastro       DateTime  @default(now())
+  dataAtivacao       DateTime?
+  status             String    @default("ativo") // ativo, inativo, atrasado, cancelado
+  diasAtraso         Int       @default(0)
+  implantacaoPaga    Boolean   @default(false)
+  dataPagamentoImplantacao DateTime?
+  assinaturaId       String?   // ID da assinatura na RecargaPay
+  cartaoId           String?   // ID do cartão na RecargaPay
+  usuarios           Usuario[]
+  obras              Obra[]
+  equipamentos       Equipamento[]
+  centroCustos       CentroCusto[]
+  plano              Plano      @relation(fields: [planoId], references: [id])
+  pagamentos         Pagamento[]
+  logs               Log[]
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+}
+
+model Plano {
+  id                Int       @id @default(autoincrement())
+  nome              String    // Start, Growth, Pro, Enterprise
+  descricao         String
+  valorImplantacao  Float
+  valorMensal       Float
+  limiteAdm         Int
+  limiteControlador Int
+  limiteApontador   Int
+  limiteEquipamentos Int
+  recursos          String    // JSON com recursos adicionais
+  empresas          Empresa[]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([nome])
+}
+
+model Usuario {
+  id                Int       @id @default(autoincrement())
+  email             String    @unique
+  senha             String
+  nome              String
+  tipo              String    // adm_sistema, adm_empresa, controlador, apontador
+  empresaId         Int?
+  ativo             Boolean   @default(true)
+  ultimoAcesso      DateTime?
+  tokens            Token[]
+  logs              Log[]
+  empresa           Empresa?   @relation(fields: [empresaId], references: [id])
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Token {
+  id                Int       @id @default(autoincrement())
+  token             String    @unique
+  tipo              String    // refresh, reset_password, confirmacao
+  usuarioId         Int
+  expiraEm          DateTime
+  usado             Boolean   @default(false)
+  usuario           Usuario   @relation(fields: [usuarioId], references: [id])
+  createdAt         DateTime  @default(now())
+}
+
+model Obra {
+  id                Int       @id @default(autoincrement())
+  nome              String
+  codigo            String    @unique
+  cnpj              String
+  endereco          String
+  cidade            String
+  estado            String
+  status            String    @default("ativa")
+  empresaId         Int
+  dataInicio        DateTime?
+  dataPrevisaoTermino DateTime?
+  dataTermino       DateTime?
+  empresa           Empresa   @relation(fields: [empresaId], references: [id])
+  frenteServicos    FrenteServico[]
+  centroCustos      CentroCusto[]
+  equipamentos      Equipamento[]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model FrenteServico {
+  id                Int       @id @default(autoincrement())
+  nome              String
+  descricao         String?
+  obraId            Int
+  status            String    @default("ativa")
+  obra              Obra      @relation(fields: [obraId], references: [id])
+  apontamentos      Apontamento[]
+  equipamentos      Equipamento[]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model CentroCusto {
+  id                Int       @id @default(autoincrement())
+  nome              String
+  codigo            String
+  empresaId         Int
+  obraId            Int?
+  contato           String?
+  telefone          String?
+  email             String?
+  empresa           Empresa   @relation(fields: [empresaId], references: [id])
+  obra              Obra?     @relation(fields: [obraId], references: [id])
+  equipamentos      Equipamento[]
+  avaliacoes        AvaliacaoCentroCusto[]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([codigo, empresaId])
+}
+
+model AvaliacaoCentroCusto {
+  id                Int       @id @default(autoincrement())
+  centroCustoId     Int
+  dataAvaliacao     DateTime  @default(now())
+  avaliadorId       Int
+  precoCondicoes    Float     // 20%
+  qualidadeServico  Float     // 25%
+  qualidadeEntrega  Float     // 15%
+  segurançaSaude    Float     // 25%
+  estoque           Float     // 10%
+  administracao     Float     // 5%
+  ocorrencias       String?   // JSON com ocorrências que afetam nota
+  notaFinal         Float
+  observacoes       String?
+  centroCusto       CentroCusto @relation(fields: [centroCustoId], references: [id])
+  avaliador         Usuario     @relation(fields: [avaliadorId], references: [id])
+  createdAt         DateTime  @default(now())
+}
+
+model Equipamento {
+  id                Int       @id @default(autoincrement())
+  tag               String    @unique
+  nome              String
+  tipo              String    // caminhao, escavadeira, trator, etc
+  marca             String
+  modelo            String
+  anoFabricacao     Int
+  numeroSerie       String
+  placa             String?
+  horaAtual         Int       @default(0)
+  kmAtual           Int?      @default(0)
+  status            String    @default("disponivel") // disponivel, em_uso, manutencao, inativo
+  obraId            Int?
+  frenteServicoId   Int?
+  centroCustoId     Int?
+  empresaId         Int
+  valorAquisicao    Float?
+  valorDepreciacaoAnual Float?
+  dataAquisicao     DateTime?
+  vidaUtilAnos      Int?      @default(5)
+  valorResidual     Float?    @default(0)
+  valorLocacaoDiaria Float?
+  valorLocacaoMensal Float?
+  comOperador       Boolean   @default(false)
+  planoManutencao   String?   // JSON com plano de manutenção
+  empresa           Empresa   @relation(fields: [empresaId], references: [id])
+  obra              Obra?     @relation(fields: [obraId], references: [id])
+  frenteServico     FrenteServico? @relation(fields: [frenteServicoId], references: [id])
+  centroCusto       CentroCusto? @relation(fields: [centroCustoId], references: [id])
+  manutencoes       Manutencao[]
+  apontamentos      Apontamento[]
+  historico         HistoricoEquipamento[]
+  estoqueMovimentos EstoqueMovimento[]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Manutencao {
+  id                Int       @id @default(autoincrement())
+  equipamentoId     Int
+  tipo              String    // preventiva, corretiva, preditiva
+  dataProgramada    DateTime?
+  dataRealizada     DateTime?
+  descricao         String
+  observacoes       String?
+  horasEquipamento  Int       // horas no momento da manutenção
+  custo             Float?
+  status            String    @default("programada") // programada, em_andamento, concluida, cancelada
+  prioridade        String    @default("media") // baixa, media, alta, critica
+  equipamento       Equipamento @relation(fields: [equipamentoId], references: [id])
+  itens             ManutencaoItem[]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model ManutencaoItem {
+  id                Int       @id @default(autoincrement())
+  manutencaoId      Int
+  descricao         String
+  quantidade        Int
+  valorUnitario     Float?
+  tipo              String    // servico, peca, insumo
+  manutencao        Manutencao @relation(fields: [manutencaoId], references: [id])
+  createdAt         DateTime  @default(now())
+}
+
+model Apontamento {
+  id                Int       @id @default(autoincrement())
+  data              DateTime  @default(now())
+  equipamentoId     Int
+  frenteServicoId   Int
+  operadorId        Int?      // ID do usuário apontador
+  horasInicial      Int
+  horasFinal        Int
+  horasTrabalhadas  Int
+  combustivelLitros Float?
+  observacoes       String?
+  equipamento       Equipamento @relation(fields: [equipamentoId], references: [id])
+  frenteServico     FrenteServico @relation(fields: [frenteServicoId], references: [id])
+  operador          Usuario?    @relation(fields: [operadorId], references: [id])
+  createdAt         DateTime  @default(now())
+}
+
+model HistoricoEquipamento {
+  id                Int       @id @default(autoincrement())
+  equipamentoId     Int
+  tipo              String    // transferencia, manutencao, parada, etc
+  data              DateTime  @default(now())
+  descricao         String
+  valor             Float?
+  obraOrigemId      Int?
+  obraDestinoId     Int?
+  usuarioId         Int
+  equipamento       Equipamento @relation(fields: [equipamentoId], references: [id])
+  obraOrigem        Obra?       @relation("origem", fields: [obraOrigemId], references: [id])
+  obraDestino       Obra?       @relation("destino", fields: [obraDestinoId], references: [id])
+  usuario           Usuario     @relation(fields: [usuarioId], references: [id])
+  createdAt         DateTime  @default(now())
+}
+
+model Estoque {
+  id                Int       @id @default(autoincrement())
+  nome              String
+  codigo            String    @unique
+  descricao         String?
+  categoria         String
+  unidade           String    // un, kg, l, m, etc
+  estoqueMinimo     Int
+  estoqueMaximo     Int
+  estoqueAtual      Int       @default(0)
+  valorUnitario     Float?
+  localizacao       String?
+  empresaId         Int
+  empresa           Empresa   @relation(fields: [empresaId], references: [id])
+  movimentos        EstoqueMovimento[]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model EstoqueMovimento {
+  id                Int       @id @default(autoincrement())
+  estoqueId         Int
+  tipo              String    // entrada, saida, ajuste
+  quantidade        Int
+  valorUnitario     Float?
+  valorTotal        Float?
+  data              DateTime  @default(now())
+  equipamentoId     Int?
+  observacao        String?
+  usuarioId         Int
+  estoque           Estoque   @relation(fields: [estoqueId], references: [id])
+  equipamento       Equipamento? @relation(fields: [equipamentoId], references: [id])
+  usuario           Usuario   @relation(fields: [usuarioId], references: [id])
+  createdAt         DateTime  @default(now())
+}
+
+model Pagamento {
+  id             Int       @id @default(autoincrement())
+  empresaId      Int
+  tipo           String    // implantacao, mensalidade
+  valor          Float
+  status         String    @default("pendente") // pendente, pago, cancelado
+  dataVencimento DateTime
+  dataPagamento  DateTime?
+  formaPagamento String?   // cartao, pix, boleto
+  transacaoId    String?   @unique
+  reciboUrl      String?
+  linkPagamento  String?   // link para pagamento (PIX copia e cola)
+  qrCode         String?   // QR Code PIX
+  linhaDigitavel String?   // linha digitável do boleto
+  urlBoleto      String?   // URL do boleto em PDF
+  observacoes    String?
+  empresa        Empresa   @relation(fields: [empresaId], references: [id])
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([empresaId])
+  @@index([status])
+  @@index([transacaoId])
+}
+
+model Log {
+  id                Int       @id @default(autoincrement())
+  usuarioId         Int?
+  empresaId         Int?
+  acao              String
+  entidade          String    // usuario, obra, equipamento, etc
+  entidadeId        Int?
+  dadosAntigos      String?   // JSON
+  dadosNovos        String?   // JSON
+  ip                String?
+  userAgent         String?
+  usuario           Usuario?  @relation(fields: [usuarioId], references: [id])
+  empresa           Empresa?  @relation(fields: [empresaId], references: [id])
+  createdAt         DateTime  @default(now())
+}
+
+model Blog {
+  id             Int       @id @default(autoincrement())
+  titulo         String
+  slug           String    @unique
+  resumo         String
+  conteudo       String    @db.Text
+  imagem         String?
+  autor          String
+  autorAvatar    String?
+  autorBio       String?
+  categoria      String
+  tags           String[]  // JSON array
+  destaque       Boolean   @default(false)
+  publicado      Boolean   @default(false)
+  dataPublicacao DateTime?
+  visualizacoes  Int       @default(0)
+  likes          Int       @default(0)
+  comentarios    Comentario[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@map("blog")
+}
+
+model Comentario {
+  id          Int         @id @default(autoincrement())
+  blogId      Int
+  usuarioId   Int?
+  nome        String
+  email       String?
+  comentario  String      @db.Text
+  parentId    Int?
+  likes       Int         @default(0)
+  data        DateTime    @default(now())
+  blog        Blog        @relation(fields: [blogId], references: [id])
+  usuario     Usuario?    @relation(fields: [usuarioId], references: [id])
+  respostas   Comentario[] @relation("respostas")
+  parent      Comentario?  @relation("respostas", fields: [parentId], references: [id])
+
+  @@index([blogId])
+  @@index([parentId])
+  @@map("comentario")
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  usuarioId Int
+  blogId    Int
+  data      DateTime @default(now())
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  blog      Blog     @relation(fields: [blogId], references: [id])
+
+  @@unique([usuarioId, blogId])
+  @@map("like")
+}
+
+model Configuracao {
+  id                Int       @id @default(autoincrement())
+  chave             String    @unique
+  valor             String    // JSON
+  descricao         String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Newsletter {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  nome      String?
+  ativo     Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Contato {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String
+  telefone  String?
+  empresa   String?
+  mensagem  String
+  status    String   @default("pendente") // pendente, respondido, arquivado
+  resposta  String?
+  respondidoEm DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([email])
+}
+
+model ConfiguracaoNotificacao {
+  id                Int      @id @default(autoincrement())
+  empresaId         Int      @unique
+  emailAlertas      Boolean  @default(true)
+  emailRelatorios   Boolean  @default(false)
+  emailManutencoes  Boolean  @default(true)
+  emailPromocoes    Boolean  @default(false)
+  sistemaAlertas    Boolean  @default(true)
+  sistemaManutencoes Boolean @default(true)
+  sistemaRelatorios Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  empresa Empresa @relation(fields: [empresaId], references: [id])
+
+  @@map("configuracao_notificacao")
+}

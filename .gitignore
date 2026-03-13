@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment
+.env
+.env.local
+.env.production
+.env.development
+
+# Build
+dist/
+build/
+.next/
+out/
+
+# Database
+*.db
+*.sqlite
+prisma/*.db
+prisma/*.sqlite
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Misc
+.DS_Store
+*.pem
+*.p8
+*.p12
+*.key
+*.crt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.tsbuildinfo
+
+# Tests
+coverage/
+.nyc_output/
+
+# Uploads
+uploads/
+public/uploads/
+temp/
+
+# Backups
+*.backup
+*.bak
+backup/
