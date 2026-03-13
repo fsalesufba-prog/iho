@@ -46,3 +46,20 @@ All environment variables are set in Replit's secrets/env panel:
 - Missing utility files created: `utils/format.ts`, `utils/string.ts`, `services/LogService.ts`
 - CSS circular dependency fixed in globals.css (removed `@apply dark` inside media query)
 - framer-motion and @radix-ui/react-scroll-area installed as missing dependencies
+
+## Schema & Controller Fixes (session 2)
+
+Schema fields added to match controller usage:
+- `Usuario`: added `avatar`, `telefone`, `cargo`, `departamento` (all optional)
+- `Empresa`: added `nextBillingAt DateTime?`
+- `Obra`: added `cep`, `valor`, `observacoes` (all optional)
+- `FrenteServico`: added `progresso Float? @default(0)`
+- `CentroCusto`: added `status String @default("ativo")`, `endereco String?`, `observacoes String?`
+- `AvaliacaoCentroCusto`: added `updatedAt DateTime @updatedAt`
+- New models added: `Medicao`, `MedicaoEquipamento`, `ModeloMedicao`
+- Migration applied: `20260313180344_add_missing_fields`
+
+Controller bugs fixed:
+- `EmpresaController`: `centrosCusto` → `centroCustos` in `_count.select` (matches Prisma relation name)
+- `AdminBlogController`: `tags` array now JSON-stringified before saving to `String @db.Text` field
+- `MedicaoController`: removed invalid `obra.cliente` includes (Obra has no `cliente` relation)

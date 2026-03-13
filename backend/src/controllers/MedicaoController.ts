@@ -81,11 +81,7 @@ export class MedicaoController {
           }
         },
         include: {
-          obra: {
-            include: {
-              cliente: true
-            }
-          },
+          obra: true,
           equipamentos: {
             include: {
               equipamento: true
@@ -293,11 +289,7 @@ export class MedicaoController {
           }
         },
         include: {
-          obra: {
-            include: {
-              cliente: true
-            }
-          },
+          obra: true,
           equipamentos: {
             include: {
               equipamento: true
@@ -508,11 +500,7 @@ export class MedicaoController {
           }
         },
         include: {
-          obra: {
-            include: {
-              cliente: true
-            }
-          },
+          obra: true,
           equipamentos: {
             include: {
               equipamento: true

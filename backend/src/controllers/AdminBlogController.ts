@@ -116,7 +116,7 @@ export class AdminBlogController {
           imagem,
           autor,
           categoria,
-          tags: tags || [],
+          tags: Array.isArray(tags) ? JSON.stringify(tags) : (tags || '[]'),
           destaque: destaque || false,
           publicado: publicado || false,
           dataPublicacao: publicado ? (dataPublicacao ? new Date(dataPublicacao) : new Date()) : null
@@ -171,7 +171,7 @@ export class AdminBlogController {
           imagem,
           autor,
           categoria,
-          tags,
+          tags: tags !== undefined ? (Array.isArray(tags) ? JSON.stringify(tags) : tags) : undefined,
           destaque,
           publicado,
           dataPublicacao: publicado ? (dataPublicacao ? new Date(dataPublicacao) : new Date()) : null

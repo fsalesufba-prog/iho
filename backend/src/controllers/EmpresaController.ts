@@ -33,7 +33,7 @@ export class EmpresaController {
                 usuarios: true,
                 obras: true,
                 equipamentos: true,
-                centrosCusto: true
+                centroCustos: true
               }
             }
           },
@@ -120,7 +120,7 @@ export class EmpresaController {
               usuarios: true,
               obras: true,
               equipamentos: true,
-              centrosCusto: true
+              centroCustos: true
             }
           }
         }

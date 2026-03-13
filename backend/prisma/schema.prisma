@@ -26,6 +26,7 @@ model Empresa {
   dataPagamentoImplantacao DateTime?
   assinaturaId       String?
   cartaoId           String?
+  nextBillingAt      DateTime?
   usuarios           Usuario[]
   obras              Obra[]
   equipamentos       Equipamento[]
@@ -66,6 +67,10 @@ model Usuario {
   empresaId         Int?
   ativo             Boolean   @default(true)
   ultimoAcesso      DateTime?
+  avatar            String?
+  telefone          String?
+  cargo             String?
+  departamento      String?
   tokens            Token[]
   logs              Log[]
   empresa           Empresa?   @relation(fields: [empresaId], references: [id])
@@ -75,6 +80,8 @@ model Usuario {
   estoqueMovimentos EstoqueMovimento[]
   comentarios       Comentario[]
   likes             Like[]
+  medicoesCriadas   Medicao[]  @relation("medicoesCriadas")
+  medicoesAprovadas Medicao[]  @relation("medicoesAprovadas")
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 }
@@ -98,17 +105,21 @@ model Obra {
   endereco          String
   cidade            String
   estado            String
+  cep               String?
   status            String    @default("ativa")
   empresaId         Int
   dataInicio        DateTime?
   dataPrevisaoTermino DateTime?
   dataTermino       DateTime?
+  valor             Float?
+  observacoes       String?
   empresa           Empresa   @relation(fields: [empresaId], references: [id])
   frenteServicos    FrenteServico[]
   centroCustos      CentroCusto[]
   equipamentos      Equipamento[]
   historicoOrigem   HistoricoEquipamento[] @relation("origem")
   historicoDestino  HistoricoEquipamento[] @relation("destino")
+  medicoes          Medicao[]
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 }
@@ -119,6 +130,7 @@ model FrenteServico {
   descricao         String?
   obraId            Int
   status            String    @default("ativa")
+  progresso         Float?    @default(0)
   obra              Obra      @relation(fields: [obraId], references: [id])
   apontamentos      Apontamento[]
   equipamentos      Equipamento[]
@@ -135,6 +147,9 @@ model CentroCusto {
   contato           String?
   telefone          String?
   email             String?
+  status            String    @default("ativo")
+  endereco          String?
+  observacoes       String?
   empresa           Empresa   @relation(fields: [empresaId], references: [id])
   obra              Obra?     @relation(fields: [obraId], references: [id])
   equipamentos      Equipamento[]
@@ -162,6 +177,7 @@ model AvaliacaoCentroCusto {
   centroCusto       CentroCusto @relation(fields: [centroCustoId], references: [id])
   avaliador         Usuario     @relation(fields: [avaliadorId], references: [id])
   createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 }
 
 model Equipamento {
@@ -198,6 +214,7 @@ model Equipamento {
   apontamentos      Apontamento[]
   historico         HistoricoEquipamento[]
   estoqueMovimentos EstoqueMovimento[]
+  medicaoEquipamentos MedicaoEquipamento[]
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 }
@@ -450,4 +467,54 @@ model ConfiguracaoNotificacao {
   empresa Empresa @relation(fields: [empresaId], references: [id])
 
   @@map("configuracao_notificacao")
+}
+
+model ModeloMedicao {
+  id          Int       @id @default(autoincrement())
+  nome        String
+  descricao   String?
+  empresaId   Int?
+  isPublic    Boolean   @default(false)
+  campos      String?   @db.Text
+  medicoes    Medicao[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Medicao {
+  id                   Int       @id @default(autoincrement())
+  titulo               String
+  obraId               Int
+  periodoInicio        DateTime
+  periodoFim           DateTime
+  valorTotal           Float
+  horasTotal           Float
+  observacoes          String?
+  status               String    @default("rascunho")
+  modeloId             Int?
+  createdById          Int
+  dataEmissao          DateTime?
+  dataAprovacao        DateTime?
+  aprovadoPorId        Int?
+  observacoesAprovacao String?
+  motivoCancelamento   String?
+  obra                 Obra      @relation(fields: [obraId], references: [id])
+  modelo               ModeloMedicao? @relation(fields: [modeloId], references: [id])
+  createdBy            Usuario   @relation("medicoesCriadas", fields: [createdById], references: [id])
+  aprovadoPor          Usuario?  @relation("medicoesAprovadas", fields: [aprovadoPorId], references: [id])
+  equipamentos         MedicaoEquipamento[]
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+}
+
+model MedicaoEquipamento {
+  id               Int         @id @default(autoincrement())
+  medicaoId        Int
+  equipamentoId    Int
+  horasTrabalhadas Float
+  valorUnitario    Float
+  valorTotal       Float
+  medicao          Medicao     @relation(fields: [medicaoId], references: [id])
+  equipamento      Equipamento @relation(fields: [equipamentoId], references: [id])
+  createdAt        DateTime    @default(now())
 }
