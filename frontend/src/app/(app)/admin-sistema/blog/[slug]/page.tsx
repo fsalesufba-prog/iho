@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
 import Image from 'next/image'
 import {
   ArrowLeft,
@@ -21,6 +20,7 @@ import {
   Star,
   MoreVertical,
   Link2,
+  TrendingUp
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
@@ -100,7 +100,7 @@ export default function PostDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o post',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -122,7 +122,7 @@ export default function PostDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o post',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -142,7 +142,7 @@ export default function PostDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar a publicação',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -162,7 +162,7 @@ export default function PostDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o destaque',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

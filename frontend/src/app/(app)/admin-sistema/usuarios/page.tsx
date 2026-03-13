@@ -128,7 +128,7 @@ export default function UsuariosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os usuários',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -153,7 +153,7 @@ export default function UsuariosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -170,7 +170,7 @@ export default function UsuariosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível resetar a senha',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -192,7 +192,7 @@ export default function UsuariosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o usuário',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

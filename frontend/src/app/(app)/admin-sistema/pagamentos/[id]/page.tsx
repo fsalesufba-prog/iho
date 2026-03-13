@@ -15,7 +15,6 @@ import {
   Calendar,
   CreditCard,
   QrCode,
-  Barcode,
   FileText,
   Printer,
   Mail,
@@ -31,6 +30,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Separator } from '@/components/ui/Separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+import { Input } from '@/components/ui/Input'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -125,7 +125,7 @@ export default function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes do pagamento',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -147,7 +147,7 @@ export default function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -167,7 +167,7 @@ export default function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o pagamento',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -186,7 +186,7 @@ export default function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível reenviar o e-mail',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -259,7 +259,7 @@ export default function PagamentoDetalhePage() {
       case 'pix':
         return <QrCode className="h-5 w-5" />
       case 'boleto':
-        return <Barcode className="h-5 w-5" />
+        return <FileText  className="h-5 w-5" />
       default:
         return <DollarSign className="h-5 w-5" />
     }
@@ -438,7 +438,7 @@ export default function PagamentoDetalhePage() {
               </div>
               {pagamento.formaPagamento === 'cartao' && <CreditCard className="h-8 w-8 text-blue-600" />}
               {pagamento.formaPagamento === 'pix' && <QrCode className="h-8 w-8 text-green-600" />}
-              {pagamento.formaPagamento === 'boleto' && <Barcode className="h-8 w-8 text-orange-600" />}
+              {pagamento.formaPagamento === 'boleto' && <FileText  className="h-8 w-8 text-orange-600" />}
             </div>
           </CardContent>
         </Card>

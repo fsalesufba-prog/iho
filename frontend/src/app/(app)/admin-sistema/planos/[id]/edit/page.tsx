@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -97,7 +96,7 @@ export default function EditarPlanoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o plano',
-        variant: 'destructive'
+        variant: 'error'
       })
       router.push('/admin-sistema/planos')
     } finally {
@@ -136,7 +135,7 @@ export default function EditarPlanoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível atualizar o plano',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setSaving(false)

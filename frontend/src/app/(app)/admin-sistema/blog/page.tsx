@@ -148,7 +148,7 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os posts',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -187,7 +187,7 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o post',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -205,7 +205,7 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o destaque',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -224,7 +224,7 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar a publicação',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -248,7 +248,7 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível duplicar o post',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
