@@ -240,9 +240,6 @@ export default function CentroCustoDetalhePage() {
     return format(new Date(date), "dd/MM/yyyy", { locale: ptBR })
   }
 
-  const formatDateTime = (date: string) => {
-    return format(new Date(date), "dd/MM/yyyy HH:mm", { locale: ptBR })
-  }
 
   if (loading || !centro) {
     return (

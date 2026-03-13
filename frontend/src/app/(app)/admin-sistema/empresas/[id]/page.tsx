@@ -233,25 +233,6 @@ export default function EmpresaDetalhePage() {
     }
   }
 
-  const handleStatusChange = async (novoStatus: string) => {
-    if (!empresa) return
-
-    try {
-      await api.patch(`/empresas/${empresa.id}/status`, { status: novoStatus })
-      toast({
-        title: 'Sucesso',
-        description: `Status alterado para ${novoStatus}`
-      })
-      carregarEmpresa()
-    } catch (error) {
-      console.error('Erro ao alterar status:', error)
-      toast({
-        title: 'Erro',
-        description: 'Não foi possível alterar o status',
-        variant: 'destructive'
-      })
-    }
-  }
 
   const handleDelete = async () => {
     if (!empresa) return
@@ -317,14 +298,6 @@ export default function EmpresaDetalhePage() {
     }
   }
 
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2)
-  }
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {

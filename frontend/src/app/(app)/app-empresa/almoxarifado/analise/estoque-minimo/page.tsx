@@ -72,21 +72,7 @@ export default function AnaliseEstoqueMinimoPage() {
     setRefreshing(false)
   }
 
-  const getStatusBadge = (item: ItemAnalise) => {
-    if (item.estoqueAtual <= 0) {
-      return <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">ESGOTADO</Badge>
-    }
-    if (item.estoqueAtual <= item.estoqueMinimo) {
-      return <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">ABAIXO DO MÍNIMO</Badge>
-    }
-    return <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">NORMAL</Badge>
-  }
 
-  const getStatusColor = (item: ItemAnalise) => {
-    if (item.estoqueAtual <= 0) return 'bg-red-500'
-    if (item.estoqueAtual <= item.estoqueMinimo) return 'bg-yellow-500'
-    return 'bg-green-500'
-  }
 
   const itemsCriticos = items.filter(i => i.estoqueAtual <= 0)
   const itemsAtencao = items.filter(i => i.estoqueAtual > 0 && i.estoqueAtual <= i.estoqueMinimo)

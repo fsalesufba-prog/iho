@@ -85,15 +85,6 @@ export function EstoqueMovimentoList() {
     carregarMovimentos()
   }
 
-  const getPeriodoLabel = (periodo: string) => {
-    const map = {
-      '7d': 'Últimos 7 dias',
-      '30d': 'Últimos 30 dias',
-      '90d': 'Últimos 90 dias',
-      '12m': 'Últimos 12 meses'
-    }
-    return map[periodo as keyof typeof map] || periodo
-  }
 
   return (
     <Card>

@@ -102,12 +102,6 @@ export function FrenteServicoDetails({ open, onOpenChange, frenteId }: FrenteSer
     return `${h}h ${m}min`
   }
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(value)
-  }
 
   if (loading || !frente) {
     return (

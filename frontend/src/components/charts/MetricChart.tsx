@@ -64,7 +64,6 @@ export function MetricChart({
   sparklineColor
 }: MetricChartProps) {
   const { theme } = useTheme()
-  const isDark = theme === 'dark'
 
   // Calcular tendência se não for fornecida
   let trend = propTrend

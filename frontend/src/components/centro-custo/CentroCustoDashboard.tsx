@@ -120,14 +120,6 @@ export function CentroCustoDashboard() {
     }
   }
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'critico': return <AlertTriangle className="h-4 w-4" />
-      case 'baixo': return <TrendingDown className="h-4 w-4" />
-      case 'otimo': return <TrendingUp className="h-4 w-4" />
-      default: return <Star className="h-4 w-4" />
-    }
-  }
 
   if (loading || !data) {
     return (

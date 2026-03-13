@@ -189,18 +189,6 @@ export default function DetalheManutencaoPage() {
     return variants[prioridade as keyof typeof variants] || ''
   }
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'concluida':
-        return <CheckCircle2 className="h-5 w-5 text-green-600" />
-      case 'cancelada':
-        return <XCircle className="h-5 w-5 text-gray-600" />
-      case 'em_andamento':
-        return <Activity className="h-5 w-5 text-blue-600" />
-      default:
-        return <Clock className="h-5 w-5 text-yellow-600" />
-    }
-  }
 
   const getTipoIcon = (tipo: string) => {
     switch (tipo) {
