@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import { blogController } from '../controllers/BlogController'
 import { authMiddleware } from '../middlewares/auth'
-import { adminBlogController } from '../../controllers/AdminBlogController'
-import { adminSistemaOnly } from '../../middlewares/role'
+import { adminBlogController } from '../controllers/AdminBlogController'
+import { adminSistemaOnly } from '../middlewares/role'
 
 const router = Router()
 

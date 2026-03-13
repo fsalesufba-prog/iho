@@ -46,5 +46,39 @@ waitForPort = 3001
 outputType = "console"
 
 [[ports]]
+localPort = 3001
+externalPort = 3001
+
+[[ports]]
 localPort = 5000
 externalPort = 80
+
+[userenv]
+
+[userenv.shared]
+PORT = "3001"
+NODE_ENV = "development"
+JWT_SECRET = "iho-jwt-secret-replit-2024-change-in-production"
+JWT_REFRESH_SECRET = "iho-jwt-refresh-secret-replit-2024-change-in-production"
+JWT_EXPIRES_IN = "15m"
+JWT_REFRESH_EXPIRES_IN = "7d"
+BCRYPT_ROUNDS = "10"
+LOG_LEVEL = "info"
+UPLOAD_DIR = "uploads"
+MAX_FILE_SIZE = "10485760"
+SYSTEM_NAME = "IHO - Índice de Saúde Operacional"
+SYSTEM_VERSION = "1.0.0"
+DIAS_TOLERANCIA_ATRASO = "10"
+DIAS_IMPLANTACAO = "10"
+DIAS_PRIMEIRA_MENSALIDADE = "40"
+REDIS_HOST = "localhost"
+REDIS_PORT = "6379"
+CORS_ORIGIN = "https://22e24a93-22b6-488a-bd13-517245dd22d0-00-wg1xi2g3alak.janeway.replit.dev:5000"
+RATE_LIMIT_WINDOW = "15"
+RATE_LIMIT_MAX = "100"
+NEXT_PUBLIC_API_URL = "https://22e24a93-22b6-488a-bd13-517245dd22d0-00-wg1xi2g3alak.janeway.replit.dev:3001/api"
+NEXT_PUBLIC_APP_URL = "https://22e24a93-22b6-488a-bd13-517245dd22d0-00-wg1xi2g3alak.janeway.replit.dev:5000"
+NEXT_PUBLIC_ENVIRONMENT = "development"
+NEXT_PUBLIC_ENABLE_DARK_MODE = "true"
+NEXT_PUBLIC_ENABLE_ANALYTICS = "false"
+FRONTEND_URL = "https://22e24a93-22b6-488a-bd13-517245dd22d0-00-wg1xi2g3alak.janeway.replit.dev:5000"

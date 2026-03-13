@@ -39,7 +39,7 @@ const defaultTheme: Omit<ThemeContextData, 'setMode' | 'setColorScheme' | 'setFo
   radius: 'md',
 }
 
-const ThemeContext = createContext<ThemeContextData>({} as ThemeContextData)
+export const ThemeContext = createContext<ThemeContextData>({} as ThemeContextData)
 
 // Mapeamento de cores por esquema
 const colorSchemes = {

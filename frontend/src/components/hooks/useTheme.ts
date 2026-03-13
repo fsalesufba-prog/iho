@@ -1,37 +1,31 @@
 'use client'
 
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { ThemeContext } from '@/components/theme/ThemeProvider'
 
-interface ThemeContextData {
-  theme: 'light' | 'dark' | 'system'
-  setTheme: (theme: 'light' | 'dark' | 'system') => void
-  resolvedTheme: 'light' | 'dark'
-  toggleTheme: () => void
-  isDark: boolean
-  isLight: boolean
-}
-
-export function useTheme(): ThemeContextData {
+export function useTheme() {
   const context = useContext(ThemeContext)
   
   if (!context) {
     throw new Error('useTheme must be used within a ThemeProvider')
   }
 
-  const toggleTheme = () => {
-    context.setTheme(context.resolvedTheme === 'dark' ? 'light' : 'dark')
-  }
+  const theme = context.mode
+  const setTheme = context.setMode
+  const resolvedTheme = context.resolvedMode
+  const toggleTheme = context.toggleMode
 
   return {
     ...context,
+    theme,
+    setTheme,
+    resolvedTheme,
     toggleTheme,
-    isDark: context.resolvedTheme === 'dark',
-    isLight: context.resolvedTheme === 'light'
+    isDark: context.isDark,
+    isLight: context.isLight,
   }
 }
 
-// Hooks específicos
 export function useDarkMode() {
   const { isDark } = useTheme()
   return isDark

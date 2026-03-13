@@ -844,18 +844,7 @@
   }
 }
 
-/* Suporte para temas claros/escuros */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light):not(.dark) {
-    @apply dark;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  :root:not(.light):not(.dark) {
-    @apply light;
-  }
-}
+/* Suporte para temas claros/escuros - handled via class-based dark mode */
 
 /* Efeitos específicos para a página comercial */
 @layer components {
@@ -2743,7 +2732,8 @@
 }
 
 .back-to-top.visible {
-  @apply opacity-100 visible;
+  opacity: 1;
+  visibility: visible;
 }
 
 .back-to-top:hover {

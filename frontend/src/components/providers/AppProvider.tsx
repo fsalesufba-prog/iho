@@ -20,10 +20,10 @@ export function AppProvider({ children }: AppProviderProps) {
   return (
     <ErrorBoundaryProvider>
       <QueryProvider>
-        <AuthProvider>
-          <SessionProvider>
-            <ThemeProvider>
-              <ToastProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <SessionProvider>
+              <ThemeProvider>
                 <ModalProvider>
                   <ConfirmationProvider>
                     <LoadingProvider>
@@ -33,10 +33,10 @@ export function AppProvider({ children }: AppProviderProps) {
                     </LoadingProvider>
                   </ConfirmationProvider>
                 </ModalProvider>
-              </ToastProvider>
-            </ThemeProvider>
-          </SessionProvider>
-        </AuthProvider>
+              </ThemeProvider>
+            </SessionProvider>
+          </AuthProvider>
+        </ToastProvider>
       </QueryProvider>
     </ErrorBoundaryProvider>
   )
