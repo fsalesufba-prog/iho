@@ -253,7 +253,7 @@ export default function BlogAdminPage() {
     }
   }
 
-  const getStatusBadge = (publicado: boolean, dataPublicacao?: string) => {
+  const getStatusBadge = (publicado: boolean) => {
     if (publicado) {
       return (
         <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
@@ -512,7 +512,7 @@ export default function BlogAdminPage() {
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col gap-1">
-                          {getStatusBadge(post.publicado, post.dataPublicacao)}
+                          {getStatusBadge(post.publicado)}
                           {getDestaqueBadge(post.destaque)}
                         </div>
                       </TableCell>
