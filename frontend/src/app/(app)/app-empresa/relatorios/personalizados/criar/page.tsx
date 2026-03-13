@@ -21,6 +21,7 @@ import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
+import { Badge } from '@/components/ui/Badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -28,7 +29,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/Textarea'
 import { Switch } from '@/components/ui/Switch'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 const relatorioSchema = z.object({
@@ -45,7 +45,6 @@ type RelatorioFormData = z.infer<typeof relatorioSchema>
 
 export default function CriarRelatorioPersonalizadoPage() {
   const router = useRouter()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [saving, setSaving] = useState(false)

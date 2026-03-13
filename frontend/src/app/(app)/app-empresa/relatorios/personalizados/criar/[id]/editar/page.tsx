@@ -29,7 +29,6 @@ import { Textarea } from '@/components/ui/Textarea'
 import { Switch } from '@/components/ui/Switch'
 import { Badge } from '@/components/ui/Badge'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 const relatorioSchema = z.object({
@@ -47,7 +46,6 @@ type RelatorioFormData = z.infer<typeof relatorioSchema>
 export default function EditarRelatorioPersonalizadoPage() {
   const router = useRouter()
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(true)

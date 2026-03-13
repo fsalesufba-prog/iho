@@ -1,4 +1,4 @@
-import { clsx } from "clsx"
+import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 /**
@@ -27,8 +27,10 @@ export function formatDateTime(date: Date | string | number | null | undefined):
 /**
  * Formata uma data para o padrão brasileiro
  */
-export function formatDate(date: Date | string | number, format: 'short' | 'long' | 'full' = 'short'): string {
+export function formatDate(date: Date | string | number | null | undefined, format: string = 'short'): string {
+  if (!date) return '-'
   const d = new Date(date)
+  if (isNaN(d.getTime())) return '-'
   
   const formats = {
     short: d.toLocaleDateString('pt-BR'),
@@ -49,7 +51,19 @@ export function formatDate(date: Date | string | number, format: 'short' | 'long
     })
   }
   
-  return formats[format]
+  if (format in formats) {
+    return (formats as Record<string, string>)[format]
+  }
+
+  // Handle date-fns style format strings (e.g. 'dd/MM/yyyy HH:mm')
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return format
+    .replace('dd', pad(d.getDate()))
+    .replace('MM', pad(d.getMonth() + 1))
+    .replace('yyyy', String(d.getFullYear()))
+    .replace('HH', pad(d.getHours()))
+    .replace('mm', pad(d.getMinutes()))
+    .replace('ss', pad(d.getSeconds()))
 }
 
 /**

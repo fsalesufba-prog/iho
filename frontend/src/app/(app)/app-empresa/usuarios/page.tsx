@@ -29,7 +29,7 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
-import { Select } from '@/components/ui/Select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 
 import {
@@ -67,7 +67,7 @@ interface Usuario {
 
 export default function UsuariosPage() {
   const { user } = useAuth()
-  const { empresa, plano } = useEmpresa()
+  const { plano } = useEmpresa()
   const { toast } = useToast()
 
   const [usuarios, setUsuarios] = useState<Usuario[]>([])

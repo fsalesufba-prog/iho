@@ -23,11 +23,9 @@ import { Card, CardContent } from '@/components/ui/Card'
 import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 export default function RelatoriosGerenciaisPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(false)

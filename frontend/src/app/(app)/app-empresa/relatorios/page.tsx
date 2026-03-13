@@ -23,7 +23,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatDate } from '@/lib/utils'
 
@@ -55,7 +54,6 @@ interface DashboardData {
 }
 
 export default function RelatoriosPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<DashboardData | null>(null)
