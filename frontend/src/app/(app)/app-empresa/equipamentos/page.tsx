@@ -65,8 +65,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useEmpresa } from '@/hooks/useEmpresa'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
-import { formatCurrency, formatDate } from '@/lib/utils'
+import { cn, formatCurrency, formatDate } from '@/lib/utils'
 
 interface Equipamento {
   id: number
