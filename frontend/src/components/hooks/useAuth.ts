@@ -1,7 +1,6 @@
 'use client'
 
-import { useContext } from 'react'
-import { SessionContext } from '@/components/auth/SessionProvider'
+import { useSession } from '@/components/auth/SessionProvider'
 
 interface User {
   id: number
@@ -26,11 +25,7 @@ interface AuthContextData {
 }
 
 export function useAuth(): AuthContextData {
-  const context = useContext(SessionContext)
-  
-  if (!context) {
-    throw new Error('useAuth must be used within a SessionProvider')
-  }
+  const context = useSession()
 
   const hasPermission = (permission: string): boolean => {
     if (!context.user) return false
