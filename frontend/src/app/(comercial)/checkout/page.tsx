@@ -109,7 +109,6 @@ const formatCurrency = (value: number) =>
 
 export default function CheckoutPage() {
   const searchParams = useSearchParams()
-  const router = useRouter()
 
   const [etapa, setEtapa] = useState<Etapa>('plano')
   const [planos, setPlanos] = useState<Plano[]>([])
@@ -220,7 +219,6 @@ export default function CheckoutPage() {
   }
 
   const etapaIndex = ETAPAS.indexOf(etapa)
-  const progresso = ((etapaIndex + 1) / ETAPAS.length) * 100
 
   if (loading) {
     return (

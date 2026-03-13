@@ -65,7 +65,6 @@ export function GaugeChart({
   endAngle = 0
 }: GaugeChartProps) {
   const { theme } = useTheme()
-  const isDark = theme === 'dark'
 
   const normalizedValue = Math.min(Math.max(value, min), max)
   const percentage = (normalizedValue - min) / (max - min)

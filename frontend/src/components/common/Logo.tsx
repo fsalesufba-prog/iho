@@ -43,18 +43,6 @@ export function Logo({
   className,
   onClick
 }: LogoProps) {
-  const getLogoSrc = () => {
-    switch (variant) {
-      case 'dark':
-        return '/logo-dark.svg'
-      case 'light':
-        return '/logo-light.svg'
-      case 'icon':
-        return '/favicon.svg'
-      default:
-        return '/logo.svg'
-    }
-  }
 
   const getTextColor = () => {
     switch (variant) {

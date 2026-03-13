@@ -56,7 +56,6 @@ interface Pagamento {
 export default function PagamentoDetalhePage() {
   const params = useParams()
   const searchParams = useSearchParams()
-  const router = useRouter()
   const { toast } = useToast()
 
   const [pagamento, setPagamento] = useState<Pagamento | null>(null)

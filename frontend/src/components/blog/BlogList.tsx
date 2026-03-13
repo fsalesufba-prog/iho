@@ -23,7 +23,6 @@ export function BlogList({ categoria, tag, search, limit = 9 }: BlogListProps) {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   
-  const searchParams = useSearchParams()
 
   useEffect(() => {
     carregarPosts()

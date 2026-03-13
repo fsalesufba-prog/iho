@@ -26,12 +26,6 @@ export function middleware(request: NextRequest) {
     return path === publicPath
   })
 
-  // Rotas de admin
-  const isAdminPath = path.startsWith('/admin-sistema')
-  
-  // Rotas da empresa
-  const isAppPath = path.startsWith('/app-empresa')
-
   if (!token && !isPublicPath) {
     return NextResponse.redirect(new URL('/login', request.url))
   }

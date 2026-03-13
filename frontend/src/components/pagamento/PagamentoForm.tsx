@@ -78,7 +78,6 @@ export function PagamentoForm({ open, onOpenChange, pagamento, onSuccess }: Paga
     }
   })
 
-  const tipoSelecionado = form.watch('tipo')
   const valor = form.watch('valor')
 
   useEffect(() => {

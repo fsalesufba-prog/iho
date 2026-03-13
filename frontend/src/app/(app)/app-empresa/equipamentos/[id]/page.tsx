@@ -210,18 +210,6 @@ export default function EquipamentoDetalhePage() {
     return labels[status as keyof typeof labels] || status
   }
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'disponivel':
-        return <CheckCircle2 className="h-5 w-5 text-green-600" />
-      case 'em_uso':
-        return <Activity className="h-5 w-5 text-blue-600" />
-      case 'manutencao':
-        return <Wrench className="h-5 w-5 text-yellow-600" />
-      default:
-        return <XCircle className="h-5 w-5 text-gray-600" />
-    }
-  }
 
   const calcularDepreciacaoMensal = () => {
     if (!equipamento?.valorAquisicao || !equipamento?.vidaUtilAnos) return 0

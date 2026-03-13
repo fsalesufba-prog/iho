@@ -83,7 +83,6 @@ interface Post {
 
 export default function PostPage() {
   const params = useParams()
-  const router = useRouter()
   const { toast } = useToast()
   const slug = params.slug as string
 

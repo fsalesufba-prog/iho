@@ -66,7 +66,6 @@ export function HeatMap({
   onCellClick
 }: HeatMapProps) {
   const { theme } = useTheme()
-  const isDark = theme === 'dark'
 
   if (loading) {
     return <ChartSkeleton height={height} />
@@ -110,25 +109,6 @@ export function HeatMap({
 
   const formattedData = formatData()
 
-  const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload
-      return (
-        <div className="bg-background border rounded-lg shadow-lg p-3">
-          <p className="font-medium">{data[yAxisDataKey]}</p>
-          {xValues.map(x => (
-            data[x] !== null && (
-              <p key={x} className="text-sm">
-                <span className="text-muted-foreground">{x}:</span>{' '}
-                <span className="font-medium">{data[x]}</span>
-              </p>
-            )
-          ))}
-        </div>
-      )
-    }
-    return null
-  }
 
   const handleClick = (data: any) => {
     if (onCellClick) {

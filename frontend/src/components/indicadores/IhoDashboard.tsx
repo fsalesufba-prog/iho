@@ -157,16 +157,7 @@ export function IhoDashboard() {
     }
   }
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(value)
-  }
 
-  const formatNumber = (value: number) => {
-    return value.toLocaleString('pt-BR', { maximumFractionDigits: 1 })
-  }
 
   const formatHours = (hours: number) => {
     return `${hours.toFixed(1)}h`

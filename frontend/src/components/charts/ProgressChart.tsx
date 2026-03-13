@@ -60,7 +60,6 @@ export function ProgressChart({
   formatValue = (value, unit) => unit ? `${value}${unit}` : value.toString()
 }: ProgressChartProps) {
   const { theme } = useTheme()
-  const isDark = theme === 'dark'
 
   if (loading) {
     return <ChartSkeleton height={height} />
@@ -81,7 +80,6 @@ export function ProgressChart({
     uv: 100 // Para o background
   }))
 
-  const radius = 100 - (data.length - 1) * gap
 
   return (
     <ChartCard title={title} subtitle={subtitle} className={className}>
