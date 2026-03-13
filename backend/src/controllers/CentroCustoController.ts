@@ -60,7 +60,7 @@ export class CentroCustoController {
               ? todasAvaliacoes.reduce((acc, a) => acc + a.qualidadeEntrega, 0) / todasAvaliacoes.length
               : 0,
             segurancaSaude: todasAvaliacoes.length > 0
-              ? todasAvaliacoes.reduce((acc, a) => acc + a.segurançaSaude, 0) / todasAvaliacoes.length
+              ? todasAvaliacoes.reduce((acc, a) => acc + a.segurancaSaude, 0) / todasAvaliacoes.length
               : 0,
             estoque: todasAvaliacoes.length > 0
               ? todasAvaliacoes.reduce((acc, a) => acc + a.estoque, 0) / todasAvaliacoes.length
@@ -139,7 +139,7 @@ export class CentroCustoController {
           ? centro.avaliacoes.reduce((acc, a) => acc + a.qualidadeEntrega, 0) / centro.avaliacoes.length
           : 0,
         segurancaSaude: centro.avaliacoes.length > 0
-          ? centro.avaliacoes.reduce((acc, a) => acc + a.segurançaSaude, 0) / centro.avaliacoes.length
+          ? centro.avaliacoes.reduce((acc, a) => acc + a.segurancaSaude, 0) / centro.avaliacoes.length
           : 0,
         estoque: centro.avaliacoes.length > 0
           ? centro.avaliacoes.reduce((acc, a) => acc + a.estoque, 0) / centro.avaliacoes.length
@@ -369,7 +369,7 @@ export class CentroCustoController {
             precoCondicoes: a.precoCondicoes,
             qualidadeServico: a.qualidadeServico,
             qualidadeEntrega: a.qualidadeEntrega,
-            segurancaSaude: a.segurançaSaude,
+            segurancaSaude: a.segurancaSaude,
             estoque: a.estoque,
             administracao: a.administracao
           },
@@ -495,7 +495,7 @@ export class CentroCustoController {
           precoCondicoes: avaliacao.precoCondicoes,
           qualidadeServico: avaliacao.qualidadeServico,
           qualidadeEntrega: avaliacao.qualidadeEntrega,
-          segurancaSaude: avaliacao.segurançaSaude,
+          segurancaSaude: avaliacao.segurancaSaude,
           estoque: avaliacao.estoque,
           administracao: avaliacao.administracao
         },

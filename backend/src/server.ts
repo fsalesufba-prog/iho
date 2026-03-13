@@ -18,9 +18,26 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' }
 }))
 
-// CORS
+// CORS - allows Replit dev domains and configured origins
+const allowedOrigins = [
+  process.env.CORS_ORIGIN,
+  process.env.FRONTEND_URL,
+  'http://localhost:5000',
+  'http://localhost:3000',
+].filter(Boolean)
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'https://iho.sqtecnologiadainformacao.com',
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true)
+    const replitDomain = process.env.REPLIT_DEV_DOMAIN
+    if (
+      allowedOrigins.includes(origin) ||
+      (replitDomain && origin.includes(replitDomain))
+    ) {
+      return callback(null, true)
+    }
+    callback(new Error('Not allowed by CORS'))
+  },
   credentials: true
 }))
 
@@ -59,12 +76,13 @@ app.get('/health', (req, res) => {
 })
 
 // 404 handler
-app.use((req, res) => {
+app.use((_req, res) => {
   res.status(404).json({ error: 'Rota não encontrada' })
 })
 
 // Error handler
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error(err.stack)
   
   const status = err.status || 500
@@ -76,7 +94,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   })
 })
 
-app.listen(PORT, () => {
+app.listen(Number(PORT), '0.0.0.0', () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`)
   console.log(`📝 Ambiente: ${process.env.NODE_ENV}`)
   console.log(`🔗 API: https://iho.sqtecnologiadainformacao.com/api`)

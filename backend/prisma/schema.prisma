@@ -20,12 +20,12 @@ model Empresa {
   planoId            Int
   dataCadastro       DateTime  @default(now())
   dataAtivacao       DateTime?
-  status             String    @default("ativo") // ativo, inativo, atrasado, cancelado
+  status             String    @default("ativo")
   diasAtraso         Int       @default(0)
   implantacaoPaga    Boolean   @default(false)
   dataPagamentoImplantacao DateTime?
-  assinaturaId       String?   // ID da assinatura na RecargaPay
-  cartaoId           String?   // ID do cartão na RecargaPay
+  assinaturaId       String?
+  cartaoId           String?
   usuarios           Usuario[]
   obras              Obra[]
   equipamentos       Equipamento[]
@@ -33,13 +33,15 @@ model Empresa {
   plano              Plano      @relation(fields: [planoId], references: [id])
   pagamentos         Pagamento[]
   logs               Log[]
+  estoques           Estoque[]
+  configuracaoNotificacao ConfiguracaoNotificacao?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 }
 
 model Plano {
   id                Int       @id @default(autoincrement())
-  nome              String    // Start, Growth, Pro, Enterprise
+  nome              String
   descricao         String
   valorImplantacao  Float
   valorMensal       Float
@@ -47,7 +49,7 @@ model Plano {
   limiteControlador Int
   limiteApontador   Int
   limiteEquipamentos Int
-  recursos          String    // JSON com recursos adicionais
+  recursos          String
   empresas          Empresa[]
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
@@ -60,13 +62,19 @@ model Usuario {
   email             String    @unique
   senha             String
   nome              String
-  tipo              String    // adm_sistema, adm_empresa, controlador, apontador
+  tipo              String
   empresaId         Int?
   ativo             Boolean   @default(true)
   ultimoAcesso      DateTime?
   tokens            Token[]
   logs              Log[]
   empresa           Empresa?   @relation(fields: [empresaId], references: [id])
+  avaliacoes        AvaliacaoCentroCusto[]
+  apontamentos      Apontamento[]
+  historicoEquipamentos HistoricoEquipamento[]
+  estoqueMovimentos EstoqueMovimento[]
+  comentarios       Comentario[]
+  likes             Like[]
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 }
@@ -74,7 +82,7 @@ model Usuario {
 model Token {
   id                Int       @id @default(autoincrement())
   token             String    @unique
-  tipo              String    // refresh, reset_password, confirmacao
+  tipo              String
   usuarioId         Int
   expiraEm          DateTime
   usado             Boolean   @default(false)
@@ -99,6 +107,8 @@ model Obra {
   frenteServicos    FrenteServico[]
   centroCustos      CentroCusto[]
   equipamentos      Equipamento[]
+  historicoOrigem   HistoricoEquipamento[] @relation("origem")
+  historicoDestino  HistoricoEquipamento[] @relation("destino")
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 }
@@ -140,13 +150,13 @@ model AvaliacaoCentroCusto {
   centroCustoId     Int
   dataAvaliacao     DateTime  @default(now())
   avaliadorId       Int
-  precoCondicoes    Float     // 20%
-  qualidadeServico  Float     // 25%
-  qualidadeEntrega  Float     // 15%
-  segurançaSaude    Float     // 25%
-  estoque           Float     // 10%
-  administracao     Float     // 5%
-  ocorrencias       String?   // JSON com ocorrências que afetam nota
+  precoCondicoes    Float
+  qualidadeServico  Float
+  qualidadeEntrega  Float
+  segurancaSaude    Float
+  estoque           Float
+  administracao     Float
+  ocorrencias       String?   @db.Text
   notaFinal         Float
   observacoes       String?
   centroCusto       CentroCusto @relation(fields: [centroCustoId], references: [id])
@@ -158,7 +168,7 @@ model Equipamento {
   id                Int       @id @default(autoincrement())
   tag               String    @unique
   nome              String
-  tipo              String    // caminhao, escavadeira, trator, etc
+  tipo              String
   marca             String
   modelo            String
   anoFabricacao     Int
@@ -166,7 +176,7 @@ model Equipamento {
   placa             String?
   horaAtual         Int       @default(0)
   kmAtual           Int?      @default(0)
-  status            String    @default("disponivel") // disponivel, em_uso, manutencao, inativo
+  status            String    @default("disponivel")
   obraId            Int?
   frenteServicoId   Int?
   centroCustoId     Int?
@@ -179,7 +189,7 @@ model Equipamento {
   valorLocacaoDiaria Float?
   valorLocacaoMensal Float?
   comOperador       Boolean   @default(false)
-  planoManutencao   String?   // JSON com plano de manutenção
+  planoManutencao   String?   @db.Text
   empresa           Empresa   @relation(fields: [empresaId], references: [id])
   obra              Obra?     @relation(fields: [obraId], references: [id])
   frenteServico     FrenteServico? @relation(fields: [frenteServicoId], references: [id])
@@ -195,15 +205,15 @@ model Equipamento {
 model Manutencao {
   id                Int       @id @default(autoincrement())
   equipamentoId     Int
-  tipo              String    // preventiva, corretiva, preditiva
+  tipo              String
   dataProgramada    DateTime?
   dataRealizada     DateTime?
   descricao         String
   observacoes       String?
-  horasEquipamento  Int       // horas no momento da manutenção
+  horasEquipamento  Int
   custo             Float?
-  status            String    @default("programada") // programada, em_andamento, concluida, cancelada
-  prioridade        String    @default("media") // baixa, media, alta, critica
+  status            String    @default("programada")
+  prioridade        String    @default("media")
   equipamento       Equipamento @relation(fields: [equipamentoId], references: [id])
   itens             ManutencaoItem[]
   createdAt         DateTime  @default(now())
@@ -216,7 +226,7 @@ model ManutencaoItem {
   descricao         String
   quantidade        Int
   valorUnitario     Float?
-  tipo              String    // servico, peca, insumo
+  tipo              String
   manutencao        Manutencao @relation(fields: [manutencaoId], references: [id])
   createdAt         DateTime  @default(now())
 }
@@ -226,7 +236,7 @@ model Apontamento {
   data              DateTime  @default(now())
   equipamentoId     Int
   frenteServicoId   Int
-  operadorId        Int?      // ID do usuário apontador
+  operadorId        Int?
   horasInicial      Int
   horasFinal        Int
   horasTrabalhadas  Int
@@ -241,7 +251,7 @@ model Apontamento {
 model HistoricoEquipamento {
   id                Int       @id @default(autoincrement())
   equipamentoId     Int
-  tipo              String    // transferencia, manutencao, parada, etc
+  tipo              String
   data              DateTime  @default(now())
   descricao         String
   valor             Float?
@@ -261,7 +271,7 @@ model Estoque {
   codigo            String    @unique
   descricao         String?
   categoria         String
-  unidade           String    // un, kg, l, m, etc
+  unidade           String
   estoqueMinimo     Int
   estoqueMaximo     Int
   estoqueAtual      Int       @default(0)
@@ -277,7 +287,7 @@ model Estoque {
 model EstoqueMovimento {
   id                Int       @id @default(autoincrement())
   estoqueId         Int
-  tipo              String    // entrada, saida, ajuste
+  tipo              String
   quantidade        Int
   valorUnitario     Float?
   valorTotal        Float?
@@ -294,18 +304,18 @@ model EstoqueMovimento {
 model Pagamento {
   id             Int       @id @default(autoincrement())
   empresaId      Int
-  tipo           String    // implantacao, mensalidade
+  tipo           String
   valor          Float
-  status         String    @default("pendente") // pendente, pago, cancelado
+  status         String    @default("pendente")
   dataVencimento DateTime
   dataPagamento  DateTime?
-  formaPagamento String?   // cartao, pix, boleto
+  formaPagamento String?
   transacaoId    String?   @unique
   reciboUrl      String?
-  linkPagamento  String?   // link para pagamento (PIX copia e cola)
-  qrCode         String?   // QR Code PIX
-  linhaDigitavel String?   // linha digitável do boleto
-  urlBoleto      String?   // URL do boleto em PDF
+  linkPagamento  String?
+  qrCode         String?
+  linhaDigitavel String?
+  urlBoleto      String?
   observacoes    String?
   empresa        Empresa   @relation(fields: [empresaId], references: [id])
   createdAt      DateTime  @default(now())
@@ -321,10 +331,10 @@ model Log {
   usuarioId         Int?
   empresaId         Int?
   acao              String
-  entidade          String    // usuario, obra, equipamento, etc
+  entidade          String
   entidadeId        Int?
-  dadosAntigos      String?   // JSON
-  dadosNovos        String?   // JSON
+  dadosAntigos      String?   @db.Text
+  dadosNovos        String?   @db.Text
   ip                String?
   userAgent         String?
   usuario           Usuario?  @relation(fields: [usuarioId], references: [id])
@@ -343,13 +353,14 @@ model Blog {
   autorAvatar    String?
   autorBio       String?
   categoria      String
-  tags           String[]  // JSON array
+  tags           String    @db.Text
   destaque       Boolean   @default(false)
   publicado      Boolean   @default(false)
   dataPublicacao DateTime?
   visualizacoes  Int       @default(0)
   likes          Int       @default(0)
   comentarios    Comentario[]
+  likesRel       Like[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
@@ -391,7 +402,7 @@ model Like {
 model Configuracao {
   id                Int       @id @default(autoincrement())
   chave             String    @unique
-  valor             String    // JSON
+  valor             String    @db.Text
   descricao         String?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
@@ -413,7 +424,7 @@ model Contato {
   telefone  String?
   empresa   String?
   mensagem  String
-  status    String   @default("pendente") // pendente, respondido, arquivado
+  status    String   @default("pendente")
   resposta  String?
   respondidoEm DateTime?
   createdAt DateTime @default(now())

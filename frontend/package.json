@@ -4,13 +4,13 @@
   "description": "Frontend do sistema IHO - Índice de Saúde Operacional",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 5000 -H 0.0.0.0",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 5000 -H 0.0.0.0",
     "lint": "next lint",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "type-check": "tsc --noEmit",
-    "prepare": "husky install"
+    "prepare": "echo 'husky skipped in Replit'"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",

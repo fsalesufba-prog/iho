@@ -112,3 +112,4 @@ export const checkEmpresaAccess = async (
     return res.status(500).json({ error: 'Erro ao verificar acesso à empresa' })
   }
 }
+export const authMiddleware = authenticate
