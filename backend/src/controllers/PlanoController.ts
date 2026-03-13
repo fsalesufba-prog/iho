@@ -4,11 +4,10 @@ import prisma from '../config/database'
 export class PlanoController {
   async listar(req: Request, res: Response) {
     try {
-      const { page = 1, limit = 10, status, search } = req.query
+      const { page = 1, limit = 10, search } = req.query
 
       const where: any = {}
 
-      if (status) where.status = status
       if (search) {
         where.OR = [
           { nome: { contains: search as string } },
@@ -92,8 +91,7 @@ export class PlanoController {
         limiteControlador,
         limiteApontador,
         limiteEquipamentos,
-        recursos,
-        status
+        recursos
       } = req.body
 
       const plano = await prisma.plano.create({
@@ -106,8 +104,7 @@ export class PlanoController {
           limiteControlador,
           limiteApontador,
           limiteEquipamentos,
-          recursos,
-          status
+          recursos
         }
       })
 
@@ -130,8 +127,7 @@ export class PlanoController {
         limiteControlador,
         limiteApontador,
         limiteEquipamentos,
-        recursos,
-        status
+        recursos
       } = req.body
 
       const plano = await prisma.plano.update({
@@ -145,8 +141,7 @@ export class PlanoController {
           limiteControlador,
           limiteApontador,
           limiteEquipamentos,
-          recursos,
-          status
+          recursos
         }
       })
 
@@ -161,7 +156,6 @@ export class PlanoController {
     try {
       const { id } = req.params
 
-      // Verificar se existem empresas usando este plano
       const empresas = await prisma.empresa.count({
         where: { planoId: parseInt(id) }
       })
@@ -185,16 +179,12 @@ export class PlanoController {
 
   async getStats(req: Request, res: Response) {
     try {
-      const [total, ativos, inativos, empresas] = await Promise.all([
+      const [total, empresas] = await Promise.all([
         prisma.plano.count(),
-        prisma.plano.count({ where: { status: 'ativo' } }),
-        prisma.plano.count({ where: { status: 'inativo' } }),
         prisma.empresa.count()
       ])
 
-      // Calcular faturamento mensal estimado
-      const planosAtivos = await prisma.plano.findMany({
-        where: { status: 'ativo' },
+      const todos = await prisma.plano.findMany({
         include: {
           _count: {
             select: { empresas: true }
@@ -202,15 +192,13 @@ export class PlanoController {
         }
       })
 
-      const faturamentoMensal = planosAtivos.reduce(
+      const faturamentoMensal = todos.reduce(
         (acc, plano) => acc + (plano.valorMensal * plano._count.empresas),
         0
       )
 
       res.json({
         total,
-        ativos,
-        inativos,
         empresas,
         faturamentoMensal
       })

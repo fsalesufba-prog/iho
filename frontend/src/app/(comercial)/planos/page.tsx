@@ -64,7 +64,7 @@ export default function PlanosPage() {
     try {
       setLoading(true)
       const [planosRes, faqRes] = await Promise.all([
-        api.get('/planos', { params: { limit: 100, ativos: true } }),
+        api.get('/comercial/planos'),
         api.get('/comercial/faq')
       ])
       
