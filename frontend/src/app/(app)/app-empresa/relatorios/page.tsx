@@ -9,15 +9,10 @@ import {
   DollarSign,
   Wrench,
   Calendar,
-  Download,
-  Eye,
   Clock,
   ChevronRight,
-  BarChart3,
-  PieChart,
-  LineChart,
   Plus,
-  RefreshCw
+  RefreshCw,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -30,7 +25,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
-import { formatDate, formatCurrency } from '@/lib/utils'
+import { formatDate } from '@/lib/utils'
 
 interface DashboardData {
   recentes: Array<{

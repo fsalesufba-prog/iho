@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
-import { CheckCircle, XCircle } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface PlanoCardProps {

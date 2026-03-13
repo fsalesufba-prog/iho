@@ -5,15 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   ArrowLeft,
-  Wrench,
   Download,
   Calendar,
   RefreshCw,
-  BarChart3,
-  Clock,
-  AlertCircle,
-  CheckCircle2,
-  FileText
+  FileText,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

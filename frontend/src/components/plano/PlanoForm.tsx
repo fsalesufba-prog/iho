@@ -31,7 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select'
-import { Switch } from '@/components/ui/Switch'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { RefreshCw, Plus, Trash2 } from 'lucide-react'
 import { api } from '@/lib/api'

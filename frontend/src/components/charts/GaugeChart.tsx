@@ -9,7 +9,7 @@ import {
 } from 'recharts'
 import { ChartCard } from './ChartCard'
 import { ChartSkeleton } from './ChartSkeleton'
-import { ChartNoData } from './ChartNoData'
+
 import { ChartError } from './ChartError'
 import { useTheme } from '@/components/theme/useTheme'
 

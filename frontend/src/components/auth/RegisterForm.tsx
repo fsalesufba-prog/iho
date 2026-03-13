@@ -14,9 +14,8 @@ import {
   Lock,
   Phone,
   Building2,
-  FileText,
   MapPin,
-  Loader2
+  Loader2,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'

@@ -5,15 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   ArrowLeft,
-  Wrench,
   Calendar,
   Download,
   RefreshCw,
-  TrendingUp,
-  Clock,
   ChevronRight,
-  AlertTriangle,
-  CheckCircle2
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

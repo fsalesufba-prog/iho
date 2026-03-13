@@ -2,18 +2,11 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Check, HelpCircle } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { Container } from '@/components/common/Container'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { Badge } from '@/components/ui/Badge'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/Tooltip'
-import { cn } from '@/lib/utils'
+
 import { api } from '@/lib/api'
 
 interface Plano {

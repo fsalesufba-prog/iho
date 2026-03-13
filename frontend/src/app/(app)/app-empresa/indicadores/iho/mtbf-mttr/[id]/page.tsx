@@ -6,17 +6,11 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import {
   ArrowLeft,
-  BarChart3,
   TrendingUp,
   Calendar,
   Download,
   RefreshCw,
-  Clock,
-  AlertCircle,
-  CheckCircle2,
   Truck,
-  Activity,
-  Wrench
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -30,7 +24,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
-import { formatNumber, formatDate } from '@/lib/utils'
+import { formatDate } from '@/lib/utils'
 
 interface Equipamento {
   id: number

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
-  Wrench,
   Search,
   Filter,
   Plus,
@@ -13,15 +12,13 @@ import {
   Trash2,
   Calendar,
   Clock,
-  DollarSign,
-  AlertCircle,
   CheckCircle2,
   XCircle,
   ChevronLeft,
   ChevronRight,
   RefreshCw,
   Activity,
-  TrendingUp
+  TrendingUp,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

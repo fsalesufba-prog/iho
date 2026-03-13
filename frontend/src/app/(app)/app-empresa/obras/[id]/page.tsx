@@ -5,77 +5,24 @@ import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
-  Building2,
   ArrowLeft,
   Edit,
   Trash2,
-  MapPin,
-  Calendar,
   DollarSign,
-  Users,
   Truck,
   CheckCircle,
   XCircle,
   Clock,
   AlertTriangle,
   TrendingUp,
-  TrendingDown,
-  BarChart3,
-  PieChart,
-  Activity,
-  Award,
-  Target,
-  Zap,
-  Sparkles,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Copy,
-  Printer,
   Upload,
   Download,
-  Share2,
-  Heart,
-  Star,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle,
-  Info,
-  AlertCircle,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  Users as UsersIcon,
-  Building,
-  Home,
-  Settings,
-  LogOut,
-  Bell,
-  Eye,
   MoreVertical,
-  FileText,
   FolderTree,
-  Package,
-  Wrench,
-  HardHat,
-  Briefcase,
-  FileText as FileTextIcon,
-  Video,
-  Music,
-  Camera,
-  Mic,
-  Headphones,
-  Speaker
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Progress } from '@/components/ui/Progress'
@@ -99,7 +46,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/AlertDialog'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
+
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'

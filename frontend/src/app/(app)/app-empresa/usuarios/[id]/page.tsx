@@ -10,21 +10,18 @@ import {
   Phone,
   Calendar,
   Shield,
-  MapPin,
   Clock,
   User,
   Edit,
   Trash2,
   Activity,
   LogIn,
-  Settings,
   Key,
   AlertCircle,
   CheckCircle2,
   XCircle,
   Building2,
   Briefcase,
-  MoreVertical
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -35,14 +32,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/DropdownMenu'
+
 import {
   Dialog,
   DialogContent,

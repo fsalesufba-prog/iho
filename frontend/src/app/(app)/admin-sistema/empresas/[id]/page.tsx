@@ -12,104 +12,25 @@ import {
   Mail,
   Phone,
   MapPin,
-  Calendar,
   Users,
-  CreditCard,
-  DollarSign,
   CheckCircle,
   XCircle,
   AlertTriangle,
   Clock,
-  RefreshCw,
-  Download,
-  Printer,
-  Share2,
   MoreVertical,
   UserPlus,
-  FileText,
-  Settings,
-  Activity,
-  TrendingUp,
-  TrendingDown,
-  BarChart3,
-  PieChart,
-  Package,
   Truck,
-  Wrench,
-  HardHat,
   Briefcase,
-  Globe,
-  Shield,
-  Lock,
-  Copy,
-  Eye,
-  Edit as EditIcon,
-  Trash2 as Trash2Icon,
   Plus,
-  Search,
-  Filter,
-  Save,
-  Upload,
-  Download as DownloadIcon,
-  Heart,
-  Star,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle,
-  Info,
-  AlertCircle,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  BarChart,
-  PieChart as PieChartIcon,
-  Activity as ActivityIcon,
-  Users as UsersIcon,
-  Building,
-  Home,
-  Settings as SettingsIcon,
-  LogOut,
-  Bell,
-  Search as SearchIcon,
-  Filter as FilterIcon,
-  Plus as PlusIcon,
-  Edit as EditIconIcon,
-  Trash2 as Trash2IconIcon,
-  Copy as CopyIcon,
-  Printer as PrinterIcon,
-  Upload as UploadIcon,
-  Download as DownloadIconIcon,
-  Share2 as Share2Icon,
-  Heart as HeartIcon,
-  Star as StarIcon,
-  Bookmark as BookmarkIcon,
-  ThumbsUp as ThumbsUpIcon,
-  MessageCircle as MessageCircleIcon,
-  MessageSquare as MessageSquareIcon,
-  HelpCircle as HelpCircleIcon,
-  Info as InfoIcon,
-  AlertCircle as AlertCircleIcon,
-  XCircle as XCircleIconIcon,
-  CheckCircle as CheckCircleIconIcon,
-  Clock as ClockIconIcon,
-  Calendar as CalendarIconIcon,
-  TrendingUp as TrendingUpIconIcon,
-  TrendingDown as TrendingDownIconIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { Progress } from '@/components/ui/Progress'
-import { Separator } from '@/components/ui/Separator'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
+
 import {
   Table,
   TableBody,
@@ -130,7 +51,6 @@ import {
 } from '@/components/ui/AlertDialog'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
 
 interface Empresa {
   id: number
@@ -233,7 +153,6 @@ export default function EmpresaDetalhePage() {
     }
   }
 
-
   const handleDelete = async () => {
     if (!empresa) return
 
@@ -297,7 +216,6 @@ export default function EmpresaDetalhePage() {
         return <Badge variant="outline">{empresa.status}</Badge>
     }
   }
-
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {

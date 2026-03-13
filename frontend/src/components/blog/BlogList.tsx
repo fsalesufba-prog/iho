@@ -1,8 +1,6 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { RefreshCw } from 'lucide-react'
 
 import { BlogCard } from './BlogCard'
 import { BlogPagination } from './BlogPagination'

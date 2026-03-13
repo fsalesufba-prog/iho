@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Card, CardContent } from '@/components/ui/Card'
-import { Button } from '@/components/ui/Button'
+
 import { Check } from 'lucide-react'
 import { useTheme } from './ThemeProvider'
 import { cn } from '@/lib/utils'

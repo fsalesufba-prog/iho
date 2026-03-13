@@ -8,19 +8,16 @@ import {
   CheckCircle,
   Clock,
   TrendingUp,
-  TrendingDown,
-  DollarSign,
-  Fuel,
   Calendar,
   RefreshCw,
-  Download
+  Download,
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { Progress } from '@/components/ui/Progress'
-import { Badge } from '@/components/ui/Badge'
+
 import {
   Select,
   SelectContent,

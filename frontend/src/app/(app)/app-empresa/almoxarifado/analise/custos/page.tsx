@@ -9,10 +9,6 @@ import {
   Calendar,
   Download,
   RefreshCw,
-  BarChart3,
-  PieChart,
-  TrendingUp,
-  Package
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

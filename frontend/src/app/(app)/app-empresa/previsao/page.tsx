@@ -8,18 +8,14 @@ import {
   Calendar,
   Download,
   RefreshCw,
-  BarChart3,
-  LineChart,
-  PieChart,
   AlertCircle,
-  Clock,
   DollarSign,
   Wrench,
   Truck,
   ChevronRight,
   AlertTriangle,
   CheckCircle2,
-  Zap
+  Zap,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

@@ -13,9 +13,7 @@ import {
   Heart,
   MessageCircle,
   Bookmark,
-  Share2,
-  ChevronLeft,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'

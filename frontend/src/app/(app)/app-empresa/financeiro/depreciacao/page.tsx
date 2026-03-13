@@ -5,16 +5,11 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   ArrowLeft,
-  TrendingDown,
   Calendar,
   Download,
   RefreshCw,
-  BarChart3,
-  PieChart,
-  Truck,
   Package,
-  Building2,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

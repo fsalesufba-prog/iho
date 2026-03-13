@@ -24,7 +24,7 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Progress } from '@/components/ui/Progress'
@@ -44,7 +44,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
+
 import { useAuth } from '@/components/hooks/useAuth'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
@@ -130,7 +130,6 @@ export default function AdminDashboardPage() {
       currency: 'BRL'
     }).format(value)
   }
-
 
   const getStatusBadge = (status: string) => {
     switch (status) {

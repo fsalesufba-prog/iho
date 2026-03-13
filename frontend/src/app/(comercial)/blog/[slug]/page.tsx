@@ -2,19 +2,17 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
   Calendar,
-  User,
   Clock,
   Eye,
   Heart,
   MessageCircle,
   Share2,
   Bookmark,
-  ChevronLeft,
   ChevronRight,
   Facebook,
   Twitter,
@@ -22,22 +20,18 @@ import {
   Link2,
   Mail,
   Printer,
-  Download,
-  ArrowLeft,
   ThumbsUp,
   Reply,
   Flag,
   MoreHorizontal,
-  AlertCircle,
-  CheckCircle
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
-import { Separator } from '@/components/ui/Separator'
+
 import { Textarea } from '@/components/ui/Textarea'
 import {
   DropdownMenu,

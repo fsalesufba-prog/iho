@@ -8,19 +8,13 @@ import {
   ArrowLeft,
   Wrench,
   Calendar,
-  Clock,
-  DollarSign,
-  AlertCircle,
   CheckCircle2,
-  XCircle,
   Edit,
   Trash2,
   Package,
   FileText,
-  User,
   Tag,
-  Activity,
-  Play
+  Play,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -40,7 +34,7 @@ import {
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
-import { formatCurrency, formatDate, formatDateTime } from '@/lib/utils'
+import { formatCurrency, formatDate } from '@/lib/utils'
 
 interface Manutencao {
   id: number

@@ -5,15 +5,12 @@ import {
   Building2,
   TrendingUp,
   TrendingDown,
-  Star,
   AlertTriangle,
   DollarSign,
   Calendar,
   RefreshCw,
   Download,
-  BarChart3,
-  PieChart,
-  Award
+  Award,
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'

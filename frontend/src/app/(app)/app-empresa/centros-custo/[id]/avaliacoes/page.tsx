@@ -9,86 +9,27 @@ import {
   ArrowLeft,
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   Eye,
-  Edit,
   Trash2,
   Calendar,
-  User,
   TrendingUp,
   TrendingDown,
-  BarChart3,
-  PieChart,
   MoreVertical,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
   Award,
-  CheckCircle,
-  XCircle,
-  AlertCircle,
-  Clock,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Copy,
-  Printer,
-  Upload,
-  Download as DownloadIcon,
-  Share2,
-  Heart,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle,
-  Info,
-  AlertTriangle,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  Users,
-  Building,
-  Home,
-  Settings,
-  LogOut,
-  Bell,
-  Search as SearchIcon,
-  Filter as FilterIcon,
-  Plus as PlusIcon,
-  Edit as EditIcon,
-  Trash2 as Trash2Icon,
-  Copy as CopyIcon,
-  Printer as PrinterIcon,
-  Upload as UploadIcon,
-  Download as DownloadIconIcon,
-  Share2 as Share2Icon,
-  Heart as HeartIcon,
-  Star as StarIcon,
-  Bookmark as BookmarkIcon,
-  ThumbsUp as ThumbsUpIcon,
-  MessageCircle as MessageCircleIcon,
-  MessageSquare as MessageSquareIcon,
-  HelpCircle as HelpCircleIcon,
-  Info as InfoIcon,
-  AlertCircle as AlertCircleIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
-import { Badge } from '@/components/ui/Badge'
+
+import { Card, CardContent } from '@/components/ui/Card'
+
 import { Input } from '@/components/ui/Input'
-import { Progress } from '@/components/ui/Progress'
+
 import {
   Select,
   SelectContent,
@@ -125,7 +66,6 @@ import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { cn } from '@/lib/utils'
 
 interface Avaliacao {
   id: number

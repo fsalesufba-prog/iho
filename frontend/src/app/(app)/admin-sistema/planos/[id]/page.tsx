@@ -10,76 +10,19 @@ import {
   Edit,
   Trash2,
   Users,
-  Truck,
   CheckCircle,
   XCircle,
   DollarSign,
-  Calendar,
-  Clock,
   Building2,
-  Package,
-  Box,
-  Archive,
-  Star,
-  Crown,
-  Gem,
-  Diamond,
-  Medal,
-  Trophy,
-  Gift,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Award,
-  BarChart3,
-  PieChart,
-  TrendingUp,
-  TrendingDown,
-  Copy,
-  Eye,
-  Edit as EditIcon,
-  Trash2 as Trash2Icon,
-  Save,
-  Upload,
-  Download,
-  Share2,
-  Heart,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle,
-  Info,
-  AlertCircle,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  Users as UsersIcon,
-  Building,
-  Home,
-  Settings,
-  LogOut,
-  Bell,
-  Search,
-  Filter,
-  Plus,
-  Minus,
   MoreVertical,
-  MoreHorizontal
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-import { Progress } from '@/components/ui/Progress'
+
 import { Separator } from '@/components/ui/Separator'
 import {
   Table,
@@ -102,7 +45,6 @@ import {
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
 
 interface Plano {
   id: number

@@ -5,81 +5,22 @@ import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
-  FolderTree,
   ArrowLeft,
   Edit,
   Trash2,
-  Building2,
   Clock,
-  Users,
-  Truck,
   Fuel,
   TrendingUp,
-  Calendar,
-  MapPin,
-  Activity,
-  BarChart3,
-  PieChart,
   FileText,
   Plus,
   Eye,
   MoreVertical,
   CheckCircle,
   XCircle,
-  AlertCircle,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Copy,
-  Printer,
-  Upload,
-  Download,
-  Share2,
-  Heart,
-  Star,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle,
-  Info,
-  AlertTriangle,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  Users as UsersIcon,
-  Building,
-  Home,
-  Settings,
-  LogOut,
-  Bell,
-  Eye as EyeIcon,
-  Edit as EditIcon,
-  Trash2 as Trash2Icon,
-  Copy as CopyIcon,
-  Printer as PrinterIcon,
-  Upload as UploadIcon,
-  Download as DownloadIconIcon,
-  Share2 as Share2Icon,
-  Heart as HeartIcon,
-  Star as StarIcon,
-  Bookmark as BookmarkIcon,
-  ThumbsUp as ThumbsUpIcon,
-  MessageCircle as MessageCircleIcon,
-  MessageSquare as MessageSquareIcon,
-  HelpCircle as HelpCircleIcon,
-  Info as InfoIcon,
-  AlertCircle as AlertCircleIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Progress } from '@/components/ui/Progress'
@@ -103,12 +44,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/AlertDialog'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
+
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
+
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 

@@ -32,13 +32,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import { DepreciacaoCalculo } from './DepreciacaoCalculo'
 import { DepreciacaoGrafico } from './DepreciacaoGrafico'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 interface Depreciacao {
   id: number
@@ -135,7 +134,6 @@ export function DepreciacaoList() {
     }
     return metodos[metodo as keyof typeof metodos] || metodo
   }
-
 
   return (
     <div className="space-y-6">

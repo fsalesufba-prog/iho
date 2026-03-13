@@ -1,17 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import {
-  Package,
-  MapPin,
-  Calendar,
-  User,
-  History,
-  TrendingUp,
-  TrendingDown,
-  Minus,
-  Download
-} from 'lucide-react'
+import { Package, MapPin, Calendar, Download } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -23,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Progress } from '@/components/ui/Progress'
-import { Separator } from '@/components/ui/Separator'
+
 import {
   Table,
   TableBody,

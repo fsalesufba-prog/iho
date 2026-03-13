@@ -11,15 +11,13 @@ import {
   CheckCircle,
   Clock,
   AlertTriangle,
-  BarChart3,
-  PieChart
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import { Progress } from '@/components/ui/Progress'
-import { Badge } from '@/components/ui/Badge'
+
 import {
   Select,
   SelectContent,

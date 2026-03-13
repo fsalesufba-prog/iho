@@ -5,15 +5,12 @@ import {
   TrendingDown,
   DollarSign,
   Percent,
-  Clock,
   Activity,
   BarChart3,
-  PieChart
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Progress } from '@/components/ui/Progress'
 import { Badge } from '@/components/ui/Badge'
-import { cn } from '@/lib/utils'
 
 interface Indicador {
   nome: string

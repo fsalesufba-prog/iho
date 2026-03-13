@@ -10,13 +10,9 @@ import {
   ArrowLeft,
   Save,
   Wrench,
-  Calendar,
-  Clock,
-  DollarSign,
-  AlertCircle,
   Plus,
   X,
-  Package
+  Package,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

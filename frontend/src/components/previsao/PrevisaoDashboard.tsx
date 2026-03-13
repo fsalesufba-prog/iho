@@ -6,20 +6,16 @@ import {
   Calendar,
   RefreshCw,
   Download,
-  AlertTriangle,
-  CheckCircle,
   Clock,
   BarChart3,
-  LineChart,
-  PieChart,
   Target,
-  Activity
+  Activity,
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-import { Progress } from '@/components/ui/Progress'
+
 import { Badge } from '@/components/ui/Badge'
 import {
   Select,
@@ -31,7 +27,7 @@ import {
 import { PrevisaoUso } from './PrevisaoUso'
 import { PrevisaoManutencao } from './PrevisaoManutencao'
 import { PrevisaoCustos } from './PrevisaoCustos'
-import { PrevisaoChart } from './PrevisaoChart'
+
 import { PrevisaoAlerta } from './PrevisaoAlerta'
 import { api } from '@/lib/api'
 import { useAuth } from '@/components/hooks/useAuth'

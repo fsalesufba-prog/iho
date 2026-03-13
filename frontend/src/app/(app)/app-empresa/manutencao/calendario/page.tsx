@@ -7,12 +7,10 @@ import {
   Calendar as CalendarIcon,
   ChevronLeft,
   ChevronRight,
-  Wrench,
   AlertCircle,
   CheckCircle2,
   Clock,
-  Eye,
-  Filter
+  Filter,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -25,7 +23,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
-import { formatDate } from '@/lib/utils'
 
 interface ManutencaoCalendario {
   id: number

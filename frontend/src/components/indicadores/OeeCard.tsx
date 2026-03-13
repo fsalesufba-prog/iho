@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Progress } from '@/components/ui/Progress'
-import { cn } from '@/lib/utils'
 
 interface OeeCardProps {
   label: string

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useParams, useSearchParams, useRouter } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import {
   CheckCircle,
@@ -13,19 +13,12 @@ import {
   Download,
   Printer,
   ArrowRight,
-  Clock,
   Calendar,
-  DollarSign,
   CreditCard,
   QrCode,
   Barcode,
-  AlertCircle,
-  Home,
   FileText,
-  Mail,
   Sparkles,
-  Zap,
-  Share2
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
@@ -33,8 +26,7 @@ import { Container } from '@/components/common/Container'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
-import { Separator } from '@/components/ui/Separator'
-import { Progress } from '@/components/ui/Progress'
+
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
 import { cn } from '@/lib/utils'

@@ -10,9 +10,8 @@ import {
   EyeOff,
   CheckCircle,
   AlertCircle,
-  Sparkles,
   ArrowLeft,
-  Key
+  Key,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'

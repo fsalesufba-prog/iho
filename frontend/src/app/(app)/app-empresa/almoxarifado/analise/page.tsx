@@ -6,19 +6,17 @@ import Link from 'next/link'
 import {
   ArrowLeft,
   TrendingUp,
-  Package,
   DollarSign,
   AlertCircle,
   BarChart3,
-  PieChart,
   LineChart,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
-import { Button } from '@/components/ui/Button'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'

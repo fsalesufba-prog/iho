@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Progress } from '@/components/ui/Progress'
-import { Badge } from '@/components/ui/Badge'
+
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
 interface PrevisaoMetricasProps {

@@ -3,18 +3,16 @@
 import React, { useState, useEffect } from 'react'
 import {
   Search,
-  Filter,
   RefreshCw,
   Download,
   Eye,
   MoreVertical,
-  Calendar,
   User,
   FileText,
   AlertCircle,
   CheckCircle,
   Info,
-  AlertTriangle
+  AlertTriangle,
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -35,21 +33,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/Select'
+
 import { LogFilters } from './LogFilters'
 import { LogDetails } from './LogDetails'
 import { api } from '@/lib/api'
 import { useAuth } from '@/components/hooks/useAuth'
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
-import { cn } from '@/lib/utils'
 
 interface Log {
   id: number

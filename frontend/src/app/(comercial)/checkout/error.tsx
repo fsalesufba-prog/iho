@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { AlertTriangle, RefreshCw, Home, ArrowLeft, ShoppingCart } from 'lucide-react'
+import { RefreshCw, ArrowLeft, ShoppingCart } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/common/Container'
 

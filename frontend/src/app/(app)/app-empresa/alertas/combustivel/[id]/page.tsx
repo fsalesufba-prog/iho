@@ -10,12 +10,9 @@ import {
   AlertCircle,
   CheckCircle2,
   XCircle,
-  Calendar,
   Truck,
-  TrendingUp,
   Check,
   X,
-  Edit
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

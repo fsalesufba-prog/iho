@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
-  Calculator,
   ArrowLeft,
   Edit,
   Trash2,
@@ -14,60 +13,22 @@ import {
   Phone,
   Mail,
   MapPin,
-  FileText,
   Star,
   TrendingUp,
   TrendingDown,
   Award,
   CheckCircle,
   XCircle,
-  Clock,
   Calendar,
-  BarChart3,
-  PieChart,
-  Activity,
-  Plus,
-  Eye,
   MoreVertical,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Copy,
-  Printer,
-  Upload,
-  Download,
-  Share2,
-  Heart,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle,
-  Info,
-  AlertTriangle,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  Users,
-  Building,
-  Home,
-  Settings,
-  LogOut,
-  Bell
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Progress } from '@/components/ui/Progress'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import { Separator } from '@/components/ui/Separator'
 import {
   Table,
@@ -87,12 +48,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/AlertDialog'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
+
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
+
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
@@ -239,7 +200,6 @@ export default function CentroCustoDetalhePage() {
   const formatDate = (date: string) => {
     return format(new Date(date), "dd/MM/yyyy", { locale: ptBR })
   }
-
 
   if (loading || !centro) {
     return (

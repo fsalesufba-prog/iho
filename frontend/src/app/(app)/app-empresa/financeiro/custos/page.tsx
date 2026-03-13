@@ -5,17 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   ArrowLeft,
-  TrendingDown,
   Calendar,
   Download,
   RefreshCw,
-  BarChart3,
-  PieChart,
-  Wrench,
-  Fuel,
-  Package,
-  Truck,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -23,9 +16,9 @@ import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
-import { Badge } from '@/components/ui/Badge'
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'

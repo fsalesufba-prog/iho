@@ -9,13 +9,11 @@ import {
   Calendar,
   Clock,
   Mail,
-  Download,
   Edit,
   Trash2,
   Play,
   Pause,
-  FileText,
-  User
+  User,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

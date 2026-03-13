@@ -7,62 +7,19 @@ import Link from 'next/link'
 import {
   Star,
   ArrowLeft,
-  Edit,
   Trash2,
   Calendar,
   User,
   AlertCircle,
   FileText,
-  TrendingUp,
-  TrendingDown,
-  BarChart3,
-  PieChart,
   MoreVertical,
-  CheckCircle,
-  XCircle,
-  Clock,
-  Award,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Copy,
-  Printer,
-  Upload,
-  Download,
-  Share2,
-  Heart,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle,
-  Info,
-  Warning,
-  AlertTriangle,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  Users,
-  Building,
-  Home,
-  Settings,
-  LogOut,
-  Bell,
-  Eye,
-  MoreVertical as MoreVerticalIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { Separator } from '@/components/ui/Separator'
+
 import { Progress } from '@/components/ui/Progress'
 import {
   AlertDialog,
@@ -79,7 +36,6 @@ import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { cn } from '@/lib/utils'
 
 interface Avaliacao {
   id: number

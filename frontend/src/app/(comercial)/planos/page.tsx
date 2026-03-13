@@ -11,20 +11,14 @@ import {
   Truck,
   HelpCircle,
   Sparkles,
-  Zap,
-  Target,
-  Award,
-  CreditCard,
-  Calendar,
-  Shield,
-  Star
+  Star,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/common/Container'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import {
   Accordion,
   AccordionContent,

@@ -1,4 +1,10 @@
-import { format, formatDistance, formatRelative, formatDistanceToNow, isToday, isYesterday, isThisWeek } from 'date-fns'
+import {
+  format,
+  formatDistanceToNow,
+  isToday,
+  isYesterday,
+  isThisWeek,
+} from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
 /**

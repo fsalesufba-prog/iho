@@ -11,15 +11,9 @@ import {
   Save,
   Package,
   Tag,
-  Truck,
-  Calendar,
   DollarSign,
-  Clock,
   MapPin,
   Wrench,
-  AlertCircle,
-  Plus,
-  X
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -35,7 +29,6 @@ import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
 
 const equipamentoSchema = z.object({
   tag: z.string().min(1, 'Tag é obrigatória'),

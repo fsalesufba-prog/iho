@@ -5,15 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   ArrowLeft,
-  DollarSign,
   Calendar,
   Download,
   RefreshCw,
   TrendingUp,
-  BarChart3,
-  PieChart,
-  AlertTriangle,
-  CheckCircle2
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

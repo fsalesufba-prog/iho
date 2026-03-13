@@ -9,8 +9,6 @@ import {
   Package,
   Search,
   AlertCircle,
-  Calendar,
-  Wrench
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

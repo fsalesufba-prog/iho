@@ -8,7 +8,6 @@ import {
   Building2,
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
@@ -16,97 +15,15 @@ import {
   Edit,
   Trash2,
   Users,
-  CreditCard,
   AlertTriangle,
   CheckCircle,
   XCircle,
   Clock,
-  Calendar,
-  DollarSign,
-  Mail,
-  Phone,
-  MapPin,
-  FileText,
-  Settings,
-  LogOut,
-  Bell,
-  Star,
-  TrendingUp,
-  TrendingDown,
-  BarChart3,
-  PieChart,
-  Activity,
-  Award,
-  Target,
-  Zap,
-  Sparkles,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Copy,
-  Printer,
-  Upload,
-  Download as DownloadIcon,
-  Share2,
-  Heart,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle,
-  Info,
-  AlertCircle,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  BarChart,
-  PieChart as PieChartIcon,
-  Activity as ActivityIcon,
-  Users as UsersIcon,
-  Building,
-  Home,
-  Settings as SettingsIcon,
-  LogOut as LogOutIcon,
-  Bell as BellIcon,
-  Search as SearchIcon,
-  Filter as FilterIcon,
-  Plus as PlusIcon,
-  Edit as EditIcon,
-  Trash2 as Trash2Icon,
-  Copy as CopyIcon,
-  Printer as PrinterIcon,
-  Upload as UploadIcon,
-  Download as DownloadIconIcon,
-  Share2 as Share2Icon,
-  Heart as HeartIcon,
-  Star as StarIcon,
-  Bookmark as BookmarkIcon,
-  ThumbsUp as ThumbsUpIcon,
-  MessageCircle as MessageCircleIcon,
-  MessageSquare as MessageSquareIcon,
-  HelpCircle as HelpCircleIcon,
-  Info as InfoIcon,
-  AlertCircle as AlertCircleIcon,
-  XCircle as XCircleIconIcon,
-  CheckCircle as CheckCircleIconIcon,
-  Clock as ClockIconIcon,
-  Calendar as CalendarIconIcon,
-  TrendingUp as TrendingUpIconIcon,
-  TrendingDown as TrendingDownIconIcon,
-  BarChart as BarChartIcon,
-  PieChart as PieChartIconIcon,
-  List as ListIcon,
-  Grid as GridIcon,
-  Activity as ActivityIconIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+
+import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
 import {
@@ -142,11 +59,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/AlertDialog'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
 
 interface Empresa {
   id: number

@@ -12,20 +12,10 @@ import {
   Wrench,
   History,
   Clock,
-  MapPin,
   Tag,
-  Calendar,
   DollarSign,
-  AlertCircle,
-  CheckCircle2,
-  XCircle,
   Activity,
-  Fuel,
-  FileText,
-  BarChart3,
   Truck,
-  Building2,
-  Users
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

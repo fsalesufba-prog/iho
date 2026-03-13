@@ -8,19 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/Card'
-import { Button } from '@/components/ui/Button'
+
 import { Badge } from '@/components/ui/Badge'
 import { Progress } from '@/components/ui/Progress'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/Select'
+
 import { PrevisaoChart } from './PrevisaoChart'
-import { PrevisaoTabela } from './PrevisaoTabela'
-import { DollarSign, TrendingUp, TrendingDown, Download } from 'lucide-react'
+
+import { DollarSign, TrendingUp, TrendingDown } from 'lucide-react'
 
 interface PrevisaoCustosProps {
   dados: Array<{ periodo: string; valor: number; previsto: number }>

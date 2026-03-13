@@ -7,41 +7,20 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import {
-  ArrowLeft,
-  Save,
-  RefreshCw,
-  Star,
-  AlertCircle,
-  Info,
-  HelpCircle,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Copy,
-  Trash2,
-  Plus,
-  Minus,
-  X,
-  Check
-} from 'lucide-react'
+import { ArrowLeft, Save, RefreshCw, Star } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Textarea } from '@/components/ui/Textarea'
-import { Alert, AlertDescription } from '@/components/ui/Alert'
+import { Alert } from '@/components/ui/Alert'
 import { Separator } from '@/components/ui/Separator'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
 
 const formSchema = z.object({
   precoCondicoes: z.number()

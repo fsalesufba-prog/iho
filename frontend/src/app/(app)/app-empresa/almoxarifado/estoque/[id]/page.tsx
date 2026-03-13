@@ -10,15 +10,8 @@ import {
   Edit,
   Trash2,
   TrendingUp,
-  Calendar,
-  DollarSign,
-  MapPin,
-  Tag,
   AlertCircle,
   CheckCircle2,
-  History,
-  User,
-  FileText
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

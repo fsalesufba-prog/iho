@@ -11,61 +11,14 @@ import {
   ArrowLeft,
   Save,
   RefreshCw,
-  BookOpen,
-  User,
-  Calendar,
-  Clock,
-  Tag,
-  FolderOpen,
-  Image as ImageIcon,
-  Eye,
-  Copy,
   X,
   Plus,
-  Trash2,
-  CheckCircle,
-  AlertCircle,
   Info,
-  HelpCircle,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Award,
-  Star,
-  Crown,
-  Gem,
-  Diamond,
-  Medal,
-  Trophy,
-  Gift,
-  Package,
-  Box,
-  Archive,
-  FileText,
-  Upload,
-  Download,
-  Share2,
-  Heart,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle as HelpCircleIcon,
-  Info as InfoIcon,
-  Warning,
-  AlertCircle as AlertCircleIcon,
-  XCircle,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+
+import { Card, CardContent } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Textarea } from '@/components/ui/Textarea'
@@ -83,7 +36,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Separator } from '@/components/ui/Separator'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
+
 import { BlogEditor } from '@/components/blog/BlogEditor'
 
 const postSchema = z.object({

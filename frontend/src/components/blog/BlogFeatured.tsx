@@ -9,7 +9,7 @@ import { Calendar, User, Clock, ChevronLeft, ChevronRight } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
-import { Card } from '@/components/ui/Card'
+
 import { api } from '@/lib/api'
 
 export function BlogFeatured() {

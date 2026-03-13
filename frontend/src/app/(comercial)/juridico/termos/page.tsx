@@ -12,13 +12,7 @@ import {
   CheckCircle,
   Scale,
   Gavel,
-  Users,
-  Building2,
-  CreditCard,
-  Lock,
-  Shield,
-  Clock,
-  ArrowRight
+  ArrowRight,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'

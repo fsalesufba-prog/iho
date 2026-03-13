@@ -3,106 +3,25 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+
 import {
   LayoutDashboard,
-  TrendingUp,
-  TrendingDown,
   Calendar,
   RefreshCw,
   Download,
-  Eye,
-  MoreHorizontal,
-  ArrowRight,
-  CheckCircle,
   AlertTriangle,
-  Clock,
-  BarChart3,
-  PieChart,
   Activity,
-  Award,
-  Target,
-  Zap,
   Sparkles,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
   Building2,
-  Users,
   Truck,
   Wrench,
-  Package,
   DollarSign,
   FileText,
-  Settings,
-  LogOut,
-  Bell,
-  Search,
-  Filter,
-  Plus,
-  Edit,
-  Trash2,
-  Copy,
-  Printer,
-  Upload,
-  Download as DownloadIcon,
-  Share2,
-  Heart,
-  Star,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle,
   Info,
-  AlertCircle as AlertCircleIcon,
-  XCircle,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  BarChart,
-  PieChart as PieChartIcon,
-  List,
-  Grid,
-  Activity as ActivityIcon,
-  Users as UsersIcon,
-  Building,
-  Home,
-  Settings as SettingsIcon,
-  LogOut as LogOutIcon,
-  Bell as BellIcon,
-  Search as SearchIcon,
-  Filter as FilterIcon,
-  Plus as PlusIcon,
-  Edit as EditIcon,
-  Trash2 as Trash2Icon,
-  Copy as CopyIcon,
-  Printer as PrinterIcon,
-  Upload as UploadIcon,
-  Download as DownloadIconIcon,
-  Share2 as Share2Icon,
-  Heart as HeartIcon,
-  Star as StarIcon,
-  Bookmark as BookmarkIcon,
-  ThumbsUp as ThumbsUpIcon,
-  MessageCircle as MessageCircleIcon,
-  MessageSquare as MessageSquareIcon,
-  HelpCircle as HelpCircleIcon,
-  Info as InfoIcon,
-  AlertCircle as AlertCircleIconIcon,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIconIcon,
-  Clock as ClockIconIcon,
-  Calendar as CalendarIconIcon,
-  TrendingUp as TrendingUpIconIcon,
-  TrendingDown as TrendingDownIconIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Progress } from '@/components/ui/Progress'
@@ -122,13 +41,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
+
 import { useAuth } from '@/components/hooks/useAuth'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 interface DashboardData {
   resumo: {

@@ -6,13 +6,11 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
-  User,
   ArrowLeft,
   Edit,
   Trash2,
   Mail,
   Phone,
-  Calendar,
   Clock,
   Shield,
   Key,
@@ -20,78 +18,12 @@ import {
   Unlock,
   CheckCircle,
   XCircle,
-  AlertTriangle,
-  RefreshCw,
-  Download,
-  Printer,
-  Share2,
   MoreVertical,
-  Copy,
-  Eye,
-  Edit as EditIcon,
-  Trash2 as Trash2Icon,
-  Save,
-  Upload,
-  Download as DownloadIcon,
-  Heart,
-  Star,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle,
-  Info,
-  AlertCircle,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  Activity,
-  BarChart3,
-  PieChart,
-  TrendingUp,
-  TrendingDown,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
   Building2,
-  Briefcase,
-  HardHat,
-  Wrench,
-  Truck,
-  Package,
-  CreditCard,
-  DollarSign,
-  FileText,
-  Home,
-  Building,
-  MapPin,
-  Users,
-  UserPlus,
-  UserMinus,
-  UserCog,
-  UserCircle,
-  UserRound,
-  UserRoundPlus,
-  UserRoundMinus,
-  UserRoundCog,
-  UserRoundCheck,
-  UserRoundX,
-  UserCheck,
-  UserX,
-  UserCog as UserCogIcon,
-  UserCircle as UserCircleIcon,
-  UserRound as UserRoundIcon,
-  UserRoundPlus as UserRoundPlusIcon,
-  UserRoundMinus as UserRoundMinusIcon,
-  UserRoundCog as UserRoundCogIcon,
-  UserRoundCheck as UserRoundCheckIcon,
-  UserRoundX as UserRoundXIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
@@ -118,7 +50,6 @@ import {
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
 
 interface Usuario {
   id: number

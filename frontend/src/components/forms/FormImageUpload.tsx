@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form'
 import { useDropzone } from 'react-dropzone'
 import { Upload, X, CheckCircle, AlertCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/Button'
+
 import { Progress } from '@/components/ui/Progress'
 import { FormField } from './FormField'
 import { api } from '@/lib/api'

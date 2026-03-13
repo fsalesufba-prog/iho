@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+
 import Link from 'next/link'
 import {
   ArrowLeft,
@@ -11,10 +11,8 @@ import {
   Package,
   Bell,
   Mail,
-  Settings as SettingsIcon,
   Plus,
   X,
-  Clock
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

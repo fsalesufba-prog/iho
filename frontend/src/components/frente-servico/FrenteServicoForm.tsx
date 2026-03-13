@@ -15,7 +15,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -31,7 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select'
-import { Switch } from '@/components/ui/Switch'
+
 import { RefreshCw } from 'lucide-react'
 import { api } from '@/lib/api'
 import { useAuth } from '@/components/hooks/useAuth'

@@ -7,32 +7,10 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import {
-  ArrowLeft,
-  Save,
-  RefreshCw,
-  FolderTree,
-  Building2,
-  FileText,
-  Info,
-  AlertCircle,
-  HelpCircle,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Copy,
-  Trash2,
-  Plus,
-  Minus,
-  X,
-  Check
-} from 'lucide-react'
+import { ArrowLeft, Save, RefreshCw } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -44,12 +22,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select'
-import { Alert, AlertDescription } from '@/components/ui/Alert'
+
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
 
 const frenteSchema = z.object({
   nome: z.string().min(1, 'Nome é obrigatório'),

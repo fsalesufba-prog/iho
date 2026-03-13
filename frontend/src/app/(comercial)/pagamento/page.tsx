@@ -11,17 +11,10 @@ import {
   ArrowRight,
   Lock,
   Shield,
-  Clock,
-  Calendar,
-  DollarSign,
   Truck,
   Users,
-  CheckCircle,
-  AlertCircle,
   Loader2,
-  Sparkles,
-  HelpCircle,
-  ChevronLeft
+  ChevronLeft,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'

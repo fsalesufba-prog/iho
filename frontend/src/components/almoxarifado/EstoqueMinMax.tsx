@@ -1,13 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import {
-  Package,
-  TrendingDown,
-  TrendingUp,
-  Save,
-  RefreshCw
-} from 'lucide-react'
+import { TrendingDown, Save, RefreshCw } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'

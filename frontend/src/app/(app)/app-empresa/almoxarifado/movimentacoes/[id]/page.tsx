@@ -7,14 +7,10 @@ import { useParams } from 'next/navigation'
 import {
   ArrowLeft,
   Package,
-  Calendar,
   User,
-  Tag,
-  DollarSign,
-  Wrench,
   FileText,
   AlertCircle,
-  CheckCircle2
+  CheckCircle2,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

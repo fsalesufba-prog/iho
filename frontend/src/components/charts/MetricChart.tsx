@@ -1,18 +1,9 @@
 'use client'
 
 import React from 'react'
-import {
-  Area,
-  AreaChart,
-  ResponsiveContainer,
-  Tooltip
-} from 'recharts'
+import { Area, AreaChart, ResponsiveContainer } from 'recharts'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
-import { ChartCard } from './ChartCard'
-import { ChartTooltip } from './ChartTooltip'
-import { ChartSkeleton } from './ChartSkeleton'
-import { ChartNoData } from './ChartNoData'
-import { ChartError } from './ChartError'
+
 import { cn } from '@/lib/utils'
 
 interface MetricData {

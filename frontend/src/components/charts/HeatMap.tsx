@@ -1,17 +1,9 @@
 'use client'
 
 import React from 'react'
-import {
-  ComposedChart,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Cell,
-  ResponsiveContainer,
-  Rectangle
-} from 'recharts'
+
 import { ChartCard } from './ChartCard'
-import { ChartTooltip } from './ChartTooltip'
+
 import { ChartSkeleton } from './ChartSkeleton'
 import { ChartNoData } from './ChartNoData'
 import { ChartError } from './ChartError'
@@ -108,7 +100,6 @@ export function HeatMap({
   }
 
   const formattedData = formatData()
-
 
   const handleClick = (data: any) => {
     if (onCellClick) {

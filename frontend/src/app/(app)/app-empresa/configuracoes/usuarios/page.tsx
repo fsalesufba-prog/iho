@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
@@ -12,17 +12,12 @@ import {
   Trash2,
   Eye,
   MoreVertical,
-  Shield,
   UserCheck,
   UserX,
-  Mail,
-  Phone,
-  Calendar,
   Search,
-  Filter,
   ChevronLeft,
   ChevronRight,
-  RefreshCw
+  RefreshCw,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

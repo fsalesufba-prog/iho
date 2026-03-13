@@ -19,8 +19,7 @@ import {
   ChevronLeft,
   ChevronRight,
   RefreshCw,
-  Box,
-  Archive
+  Archive,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

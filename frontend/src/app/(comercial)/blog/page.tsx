@@ -10,23 +10,17 @@ import {
   Clock,
   Eye,
   Heart,
-  MessageCircle,
   ArrowRight,
   ChevronLeft,
   ChevronRight,
   Search,
   Filter,
   X,
-  Sparkles,
-  TrendingUp,
   BookOpen,
-  Tag,
-  FolderOpen,
-  Award
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
@@ -41,7 +35,6 @@ import { Skeleton } from '@/components/ui/Skeleton'
 import { api } from '@/lib/api'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { cn } from '@/lib/utils'
 
 interface Post {
   id: number

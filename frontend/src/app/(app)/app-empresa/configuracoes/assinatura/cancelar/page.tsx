@@ -4,13 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import {
-  ArrowLeft,
-  AlertTriangle,
-  XCircle,
-  CheckCircle2,
-  Loader2
-} from 'lucide-react'
+import { ArrowLeft, AlertTriangle, XCircle, Loader2 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'

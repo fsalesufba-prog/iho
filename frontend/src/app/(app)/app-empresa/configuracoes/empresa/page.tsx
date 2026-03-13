@@ -6,17 +6,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion } from 'framer-motion'
-import {
-  ArrowLeft,
-  Save,
-  Building2,
-  Mail,
-  Phone,
-  MapPin,
-  FileText,
-  Upload,
-  Loader2
-} from 'lucide-react'
+import { ArrowLeft, Save, Building2, Loader2 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'

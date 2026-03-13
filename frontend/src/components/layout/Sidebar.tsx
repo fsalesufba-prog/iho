@@ -4,7 +4,6 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
-  Home,
   Building2,
   Users,
   CreditCard,
@@ -25,7 +24,7 @@ import {
   BookOpen,
   History,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'

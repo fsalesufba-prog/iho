@@ -7,24 +7,17 @@ import {
   Shield,
   Cookie,
   Scale,
-  Gavel,
   Lock,
   Eye,
-  Download,
-  Printer,
-  Calendar,
   ArrowRight,
   CheckCircle,
-  AlertCircle,
   HelpCircle,
-  BookOpen,
-  Award,
   Users,
   Globe,
   HardDrive,
   Server,
   Mail,
-  Phone
+  Phone,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'

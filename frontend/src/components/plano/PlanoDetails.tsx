@@ -1,19 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import {
-  CreditCard,
-  Users,
-  Truck,
-  DollarSign,
-  Calendar,
-  CheckCircle,
-  XCircle,
-  Building2,
-  RefreshCw,
-  Edit,
-  Copy
-} from 'lucide-react'
+import { CreditCard, CheckCircle, RefreshCw } from 'lucide-react'
 
 import {
   Dialog,
@@ -24,9 +12,7 @@ import {
 } from '@/components/ui/Dialog'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { Button } from '@/components/ui/Button'
-import { Separator } from '@/components/ui/Separator'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import {
   Table,
   TableBody,
@@ -38,7 +24,6 @@ import {
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 interface PlanoDetailsProps {
   open: boolean

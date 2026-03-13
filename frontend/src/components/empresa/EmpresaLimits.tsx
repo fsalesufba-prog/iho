@@ -3,7 +3,6 @@ import { AlertTriangle, CheckCircle, Users, Truck, HardHat } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Progress } from '@/components/ui/Progress'
 import { Badge } from '@/components/ui/Badge'
-import { cn } from '@/lib/utils'
 
 interface EmpresaLimitsProps {
   plano: {

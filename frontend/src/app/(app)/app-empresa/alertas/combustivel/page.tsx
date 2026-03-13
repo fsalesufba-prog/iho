@@ -15,7 +15,6 @@ import {
   ChevronLeft,
   ChevronRight,
   RefreshCw,
-  TrendingUp
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

@@ -8,21 +8,15 @@ import {
   ArrowLeft,
   Wrench,
   Calendar,
-  Clock,
-  DollarSign,
-  AlertCircle,
   CheckCircle2,
-  XCircle,
   Edit,
   Trash2,
   Package,
   FileText,
-  User,
   Tag,
-  Activity,
   Play,
   AlertTriangle,
-  TrendingUp
+  TrendingUp,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

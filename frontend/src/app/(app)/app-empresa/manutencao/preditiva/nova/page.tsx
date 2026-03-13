@@ -9,14 +9,10 @@ import { motion } from 'framer-motion'
 import {
   ArrowLeft,
   Save,
-  Wrench,
-  Calendar,
-  Clock,
-  DollarSign,
   TrendingUp,
   Plus,
   X,
-  Package
+  Package,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

@@ -10,15 +10,10 @@ import {
   ArrowLeft,
   Save,
   User,
-  Mail,
-  Phone,
-  Briefcase,
-  Building2,
   Shield,
-  AlertCircle,
   Eye,
   EyeOff,
-  Key
+  Key,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -30,7 +25,7 @@ import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Switch } from '@/components/ui/Switch'
-import { Alert, AlertDescription } from '@/components/ui/Alert'
+
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useEmpresa } from '@/hooks/useEmpresa'

@@ -1,19 +1,9 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
+
 import Link from 'next/link'
-import {
-  ArrowLeft,
-  Building2,
-  Download,
-  RefreshCw,
-  Printer,
-  FileText,
-  Truck,
-  Package,
-  Calendar
-} from 'lucide-react'
+import { ArrowLeft, Building2, Download, Printer } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'

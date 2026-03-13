@@ -14,9 +14,6 @@ import {
   Globe,
   Lock,
   Mail,
-  Clock,
-  User,
-  RefreshCw
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

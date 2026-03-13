@@ -8,10 +8,7 @@ import {
   DollarSign,
   AlertTriangle,
   CheckCircle,
-  FileText,
-  Package,
-  User,
-  RefreshCw
+  RefreshCw,
 } from 'lucide-react'
 
 import {
@@ -23,10 +20,7 @@ import {
 } from '@/components/ui/Dialog'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { Button } from '@/components/ui/Button'
-import { Progress } from '@/components/ui/Progress'
-import { Separator } from '@/components/ui/Separator'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import {
   Table,
   TableBody,
@@ -41,7 +35,6 @@ import { ManutencaoType } from './ManutencaoType'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 interface ManutencaoDetailsProps {
   open: boolean
