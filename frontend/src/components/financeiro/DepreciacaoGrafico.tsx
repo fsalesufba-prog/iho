@@ -2,7 +2,6 @@
 
 import React from 'react'
 import {
-  BarChart,
   Bar,
   XAxis,
   YAxis,
@@ -11,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
   Line,
-  ComposedChart
+  ComposedChart,
 } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { useTheme } from '@/components/theme/useTheme'

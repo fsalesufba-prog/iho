@@ -3,26 +3,18 @@
 import React, { useState, useEffect } from 'react'
 import {
   History,
-  Users,
-  Building2,
-  FileText,
   AlertTriangle,
-  CheckCircle,
   Clock,
   Calendar,
   RefreshCw,
   Download,
-  Filter,
-  BarChart3,
-  PieChart,
-  TrendingUp
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { Progress } from '@/components/ui/Progress'
-import { Badge } from '@/components/ui/Badge'
+
 import {
   Select,
   SelectContent,
@@ -36,8 +28,6 @@ import { LogStats } from './LogStats'
 import { api } from '@/lib/api'
 import { useAuth } from '@/components/hooks/useAuth'
 import { useToast } from '@/components/hooks/useToast'
-import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 interface DashboardData {
   resumo: {

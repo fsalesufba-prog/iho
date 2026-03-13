@@ -6,15 +6,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion } from 'framer-motion'
-import {
-  ArrowLeft,
-  Save,
-  Package,
-  Tag,
-  MapPin,
-  DollarSign,
-  AlertCircle
-} from 'lucide-react'
+import { ArrowLeft, Save, Package } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
@@ -25,7 +17,7 @@ import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
-import { Alert, AlertDescription } from '@/components/ui/Alert'
+
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'

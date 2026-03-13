@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react'
 import {
   Users,
-  UserPlus,
   UserCheck,
   UserX,
   Calendar,
@@ -14,14 +13,13 @@ import {
   Activity,
   Clock,
   Shield,
-  Key
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { Progress } from '@/components/ui/Progress'
-import { Badge } from '@/components/ui/Badge'
+
 import {
   Select,
   SelectContent,

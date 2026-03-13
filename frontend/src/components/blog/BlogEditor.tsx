@@ -16,12 +16,10 @@ import {
   Quote,
   Undo,
   Redo,
-  Eye
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
 import { Separator } from '@/components/ui/Separator'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 
 interface BlogEditorProps {
   value: string

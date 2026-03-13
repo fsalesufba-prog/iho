@@ -11,46 +11,13 @@ import {
   ArrowLeft,
   Save,
   RefreshCw,
-  User,
-  Mail,
-  Phone,
-  Lock,
   Eye,
   EyeOff,
-  Building2,
-  Shield,
-  CheckCircle,
-  AlertCircle,
   Info,
-  HelpCircle,
-  Sparkles,
-  Zap,
-  Globe,
-  Users,
-  Briefcase,
-  HardHat,
-  Wrench,
-  Truck,
-  Package,
-  CreditCard,
-  DollarSign,
-  FileText,
-  Home,
-  MapPin,
-  UserPlus,
-  UserCog,
-  UserCircle,
-  UserRound,
-  UserRoundPlus,
-  UserRoundCog,
-  Key,
-  Copy,
-  X,
-  Check
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -63,12 +30,12 @@ import {
 } from '@/components/ui/Select'
 import { Switch } from '@/components/ui/Switch'
 import { Alert, AlertDescription } from '@/components/ui/Alert'
-import { Badge } from '@/components/ui/Badge'
+
 import { Progress } from '@/components/ui/Progress'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
 import { masks } from '@/lib/masks'
-import { validators } from '@/lib/validators'
+
 import { cn } from '@/lib/utils'
 
 const usuarioSchema = z.object({

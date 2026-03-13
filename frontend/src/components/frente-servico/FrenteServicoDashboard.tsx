@@ -5,14 +5,10 @@ import {
   FolderTree,
   Clock,
   TrendingUp,
-  TrendingDown,
   Fuel,
-  DollarSign,
   Calendar,
   RefreshCw,
   Download,
-  Users,
-  Truck
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'

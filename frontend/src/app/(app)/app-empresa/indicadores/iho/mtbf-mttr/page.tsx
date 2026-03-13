@@ -4,17 +4,11 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
-  BarChart3,
   TrendingUp,
   ArrowLeft,
   Download,
   RefreshCw,
   Calendar,
-  Clock,
-  AlertCircle,
-  CheckCircle2,
-  Truck,
-  Activity
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -24,11 +18,10 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
-import { formatNumber } from '@/lib/utils'
 
 interface MTBFMTTRData {
   geral: {

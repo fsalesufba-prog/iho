@@ -5,21 +5,13 @@ import {
   FileText,
   Calendar,
   RefreshCw,
-  Download,
-  TrendingUp,
-  BarChart3,
-  PieChart,
   Clock,
   CheckCircle,
-  AlertTriangle,
-  Users,
-  Truck,
-  DollarSign
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import {
   Select,
   SelectContent,

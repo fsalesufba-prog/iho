@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { ScrollArea } from '@/components/ui/ScrollArea'
 import { Separator } from '@/components/ui/Separator'
 import { Badge } from '@/components/ui/Badge'
-import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
+
 import { cn } from '@/lib/utils'
 
 interface Notification {

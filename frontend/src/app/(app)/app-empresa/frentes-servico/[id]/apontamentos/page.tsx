@@ -5,33 +5,27 @@ import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
-  Clock,
   ArrowLeft,
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   Eye,
   Edit,
   Trash2,
   Calendar,
-  User,
-  Truck,
-  Fuel,
-  FileText,
   MoreVertical,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
-  ChevronsRight
+  ChevronsRight,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+
+import { Card, CardContent } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
-import { Badge } from '@/components/ui/Badge'
+
 import {
   Select,
   SelectContent,

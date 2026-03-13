@@ -6,15 +6,13 @@ import {
   Mail,
   Phone,
   Building2,
-  Calendar,
   Clock,
   Shield,
-  Key,
   Activity,
   RefreshCw,
   Edit,
   Lock,
-  Unlock
+  Unlock,
 } from 'lucide-react'
 
 import {
@@ -39,7 +37,7 @@ import {
   TableRow,
 } from '@/components/ui/Table'
 import { api } from '@/lib/api'
-import { useAuth } from '@/components/hooks/useAuth'
+
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'

@@ -3,20 +3,17 @@
 import React, { useState, useEffect } from 'react'
 import {
   Search,
-  Filter,
   Download,
   RefreshCw,
   Plus,
-  Calendar,
-  Eye,
   Edit,
-  Trash2
+  Trash2,
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { Badge } from '@/components/ui/Badge'
+
 import {
   Table,
   TableBody,
@@ -25,14 +22,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/Select'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { ApontamentoDay } from './ApontamentoDay'
 import { ApontamentoWeek } from './ApontamentoWeek'
 import { ApontamentoMonth } from './ApontamentoMonth'
@@ -41,7 +32,6 @@ import { api } from '@/lib/api'
 import { useAuth } from '@/components/hooks/useAuth'
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 interface Apontamento {
   id: number

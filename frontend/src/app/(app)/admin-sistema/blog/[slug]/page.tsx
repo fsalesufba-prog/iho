@@ -15,52 +15,21 @@ import {
   Eye,
   Heart,
   MessageCircle,
-  Share2,
-  Bookmark,
-  ThumbsUp,
-  Tag,
   FolderOpen,
   CheckCircle,
   XCircle,
-  AlertCircle,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Award,
   Star,
-  Crown,
-  Gem,
-  Diamond,
-  Medal,
-  Trophy,
-  Gift,
-  Package,
-  Box,
-  Archive,
-  FileText,
-  Download,
-  Printer,
-  Copy,
   MoreVertical,
-  ChevronLeft,
-  ChevronRight,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Mail,
-  Link2
+  Link2,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Separator } from '@/components/ui/Separator'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -80,7 +49,7 @@ import {
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
+
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 

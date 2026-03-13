@@ -4,24 +4,20 @@ import React, { useState, useEffect } from 'react'
 import {
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
   Eye,
   Edit,
   Trash2,
-  Calendar,
-  Clock,
-  DollarSign,
-  AlertTriangle
+  AlertTriangle,
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Badge } from '@/components/ui/Badge'
-import { Progress } from '@/components/ui/Progress'
+
 import {
   Table,
   TableBody,
@@ -47,14 +43,13 @@ import {
 } from '@/components/ui/Select'
 import { ManutencaoForm } from './ManutencaoForm'
 import { ManutencaoDetails } from './ManutencaoDetails'
-import { ManutencaoStatus } from './ManutencaoStatus'
+
 import { ManutencaoPriority } from './ManutencaoPriority'
 import { ManutencaoType } from './ManutencaoType'
 import { api } from '@/lib/api'
 import { useAuth } from '@/components/hooks/useAuth'
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 interface Manutencao {
   id: number

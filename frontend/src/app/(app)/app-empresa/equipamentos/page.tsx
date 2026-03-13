@@ -8,13 +8,10 @@ import {
   Search,
   Filter,
   Plus,
-  MoreVertical,
   Edit,
   Trash2,
   Eye,
   Wrench,
-  Truck,
-  AlertCircle,
   CheckCircle2,
   XCircle,
   Clock,
@@ -24,9 +21,7 @@ import {
   RefreshCw,
   ChevronLeft,
   ChevronRight,
-  BarChart3,
   Activity,
-  Fuel
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -45,14 +40,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/DropdownMenu'
+
 import {
   Dialog,
   DialogContent,
@@ -65,7 +53,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useEmpresa } from '@/hooks/useEmpresa'
 import { api } from '@/lib/api'
-import { cn, formatCurrency, formatDate } from '@/lib/utils'
+import { formatDate } from '@/lib/utils'
 
 interface Equipamento {
   id: number

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import {
@@ -10,10 +10,8 @@ import {
   Edit,
   Trash2,
   Copy,
-  Calendar,
-  User,
   Globe,
-  Lock
+  Lock,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -21,7 +19,7 @@ import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
-import { Badge } from '@/components/ui/Badge'
+
 import {
   Dialog,
   DialogContent,

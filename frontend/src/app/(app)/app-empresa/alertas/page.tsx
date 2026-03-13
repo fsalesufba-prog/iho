@@ -15,10 +15,9 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  RefreshCw,
   Eye,
   Check,
-  X
+  X,
 } from 'lucide-react'
 
 
@@ -39,7 +38,7 @@ import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
-import { formatDate, formatDateTime } from '@/lib/utils'
+import { formatDateTime } from '@/lib/utils'
 
 interface Alerta {
   id: number

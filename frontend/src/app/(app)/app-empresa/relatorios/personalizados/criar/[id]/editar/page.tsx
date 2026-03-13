@@ -13,9 +13,8 @@ import {
   Plus,
   X,
   Calendar,
-  Mail,
   Globe,
-  Lock
+  Lock,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

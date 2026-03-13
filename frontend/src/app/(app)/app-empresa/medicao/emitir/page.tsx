@@ -10,13 +10,9 @@ import {
   ArrowLeft,
   Save,
   FileText,
-  Calendar,
-  Building2,
   Plus,
-  X,
   Trash2,
-  DollarSign,
-  Clock
+  Clock,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

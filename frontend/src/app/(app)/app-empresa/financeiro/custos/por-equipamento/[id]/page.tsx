@@ -4,18 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import {
-  ArrowLeft,
-  TrendingDown,
-  Calendar,
-  Download,
-  RefreshCw,
-  Wrench,
-  Fuel,
-  Package,
-  Truck,
-  Clock
-} from 'lucide-react'
+import { ArrowLeft, Calendar, RefreshCw, Truck } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'

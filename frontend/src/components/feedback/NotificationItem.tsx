@@ -7,8 +7,7 @@ import {
   AlertTriangle,
   AlertCircle,
   X,
-  Bell,
-  ExternalLink
+  ExternalLink,
 } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'

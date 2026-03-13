@@ -9,15 +9,13 @@ import {
   QrCode,
   Barcode,
   CheckCircle,
-  XCircle,
-  Clock,
   AlertTriangle,
   Download,
   Printer,
   RefreshCw,
   FileText,
   Mail,
-  Share2
+  Share2,
 } from 'lucide-react'
 
 import {
@@ -30,16 +28,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
-import { Separator } from '@/components/ui/Separator'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/Table'
+
 import { PagamentoStatus } from './PagamentoStatus'
 import { api } from '@/lib/api'
 import { useAuth } from '@/components/hooks/useAuth'

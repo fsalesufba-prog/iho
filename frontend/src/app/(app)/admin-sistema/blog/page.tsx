@@ -8,7 +8,6 @@ import {
   BookOpen,
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
@@ -16,87 +15,17 @@ import {
   Edit,
   Trash2,
   Copy,
-  Calendar,
-  User,
   Clock,
-  Eye as ViewIcon,
   Heart,
   MessageCircle,
   CheckCircle,
   XCircle,
-  AlertCircle,
   Star,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Award,
-  Crown,
-  Gem,
-  Diamond,
-  Medal,
-  Trophy,
-  Gift,
-  Package,
-  Box,
-  Archive,
-  FileText,
-  Video,
-  Music,
-  Camera,
-  Mic,
-  Headphones,
-  Speaker,
-  Printer,
-  Monitor,
-  Laptop,
-  Tablet,
-  Smartphone,
-  Watch,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  TrendingUp,
-  TrendingDown,
-  BarChart3,
-  PieChart,
-  Activity,
-  Users,
-  Building,
-  Home,
-  Settings,
-  LogOut,
-  Bell,
-  Search as SearchIcon,
-  Filter as FilterIcon,
-  Plus as PlusIcon,
-  Edit as EditIcon,
-  Trash2 as Trash2Icon,
-  Copy as CopyIcon,
-  Printer as PrinterIcon,
-  Upload,
-  Download as DownloadIcon,
-  Share2,
-  Heart as HeartIcon,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle as MessageCircleIcon,
-  MessageSquare,
-  HelpCircle,
-  Info,
-  AlertCircle as AlertCircleIcon,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIconIcon,
-  Calendar as CalendarIconIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+
+import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
 import {
@@ -133,12 +62,11 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/AlertDialog'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-import { Progress } from '@/components/ui/Progress'
+
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
+
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import Image from 'next/image'

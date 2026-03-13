@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import {
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
@@ -12,10 +11,8 @@ import {
   Edit,
   Trash2,
   Users,
-  CreditCard,
-  AlertTriangle,
   CheckCircle,
-  XCircle
+  XCircle,
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'

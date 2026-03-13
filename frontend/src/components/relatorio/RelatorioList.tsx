@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import {
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
@@ -12,11 +11,9 @@ import {
   Edit,
   Trash2,
   Copy,
-  Calendar,
-  Clock,
   FileText,
   Share2,
-  Star
+  Star,
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -52,7 +49,6 @@ import { api } from '@/lib/api'
 import { useAuth } from '@/components/hooks/useAuth'
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 interface Relatorio {
   id: number

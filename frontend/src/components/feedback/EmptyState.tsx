@@ -1,5 +1,5 @@
 import React from 'react'
-import { Inbox, Search, File, AlertCircle, Plus } from 'lucide-react'
+import { Inbox, Search, File, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/lib/utils'
 

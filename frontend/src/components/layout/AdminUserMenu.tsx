@@ -7,11 +7,10 @@ import {
   Settings,
   HelpCircle,
   LogOut,
-  Shield,
   Key,
   Bell,
   Moon,
-  Sun
+  Sun,
 } from 'lucide-react'
 import {
   DropdownMenu,

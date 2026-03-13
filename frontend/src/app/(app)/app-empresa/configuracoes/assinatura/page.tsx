@@ -9,14 +9,8 @@ import {
   CreditCard,
   Calendar,
   AlertCircle,
-  CheckCircle2,
   XCircle,
-  Clock,
-  Download,
-  FileText,
   TrendingUp,
-  Users,
-  Truck
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

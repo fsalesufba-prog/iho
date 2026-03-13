@@ -1,5 +1,5 @@
 import React from 'react'
-import { ArrowUp, ArrowDown, Minus, MoreHorizontal } from 'lucide-react'
+import { ArrowUp, ArrowDown, Minus } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { cn } from '@/lib/utils'

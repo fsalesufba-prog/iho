@@ -5,14 +5,12 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   ArrowLeft,
-  TrendingUp,
   Download,
   Calendar,
   RefreshCw,
-  BarChart3,
   Clock,
   Truck,
-  FileText
+  FileText,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -25,7 +23,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
-import { formatDate, formatNumber } from '@/lib/utils'
+import { formatDate } from '@/lib/utils'
 
 interface OperacionalData {
   titulo: string

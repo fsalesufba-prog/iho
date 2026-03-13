@@ -3,25 +3,20 @@
 import React, { useState, useEffect } from 'react'
 import {
   DollarSign,
-  TrendingUp,
-  TrendingDown,
   Calendar,
   RefreshCw,
   Download,
   CheckCircle,
   Clock,
   AlertTriangle,
-  CreditCard,
-  BarChart3,
-  PieChart,
-  FileText
+  FileText,
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import { Progress } from '@/components/ui/Progress'
-import { Badge } from '@/components/ui/Badge'
+
 import {
   Select,
   SelectContent,

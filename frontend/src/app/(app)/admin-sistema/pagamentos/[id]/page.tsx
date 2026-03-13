@@ -7,7 +7,6 @@ import Link from 'next/link'
 import {
   DollarSign,
   ArrowLeft,
-  Edit,
   Trash2,
   CheckCircle,
   XCircle,
@@ -21,66 +20,13 @@ import {
   Printer,
   Mail,
   Download,
-  Share2,
   Copy,
   Eye,
   MoreVertical,
-  Building2,
-  Users,
-  User,
-  Phone,
-  MapPin,
-  Info,
-  AlertCircle,
-  HelpCircle,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Award,
-  Star,
-  Crown,
-  Gem,
-  Diamond,
-  Medal,
-  Trophy,
-  Gift,
-  Package,
-  Box,
-  Archive,
-  TrendingUp,
-  TrendingDown,
-  BarChart3,
-  PieChart,
-  Activity,
-  RefreshCw,
-  Send,
-  Printer as PrinterIcon,
-  Download as DownloadIcon,
-  Share2 as Share2Icon,
-  Copy as CopyIcon,
-  Mail as MailIcon,
-  Phone as PhoneIcon,
-  MapPin as MapPinIcon,
-  Building2 as Building2Icon,
-  Users as UsersIcon,
-  User as UserIcon,
-  Calendar as CalendarIcon,
-  Clock as ClockIcon,
-  AlertTriangle as AlertTriangleIcon,
-  CheckCircle as CheckCircleIcon,
-  XCircle as XCircleIcon,
-  DollarSign as DollarSignIcon,
-  CreditCard as CreditCardIcon,
-  QrCode as QrCodeIcon,
-  Barcode as BarcodeIcon,
-  FileText as FileTextIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Separator } from '@/components/ui/Separator'
@@ -103,11 +49,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
+
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 

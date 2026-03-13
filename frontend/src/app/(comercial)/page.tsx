@@ -9,17 +9,11 @@ import {
   ChevronDown,
   Sparkles,
   Zap,
-  Shield,
-  TrendingUp,
   Users,
   Target,
   Award,
-  Globe,
-  Lock,
   Clock,
   BarChart3,
-  PieChart,
-  LineChart,
   Activity,
   Wrench,
   Truck,
@@ -27,24 +21,13 @@ import {
   DollarSign,
   FileText,
   CheckCircle,
-  ChevronRight,
-  Menu,
-  X,
-  Mail,
-  Phone,
-  MapPin,
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
-  Youtube
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/common/Container'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import { cn } from '@/lib/utils'
 
 export default function ComercialPage() {

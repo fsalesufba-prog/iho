@@ -7,7 +7,6 @@ import { NotificationItem } from '@/components/feedback/NotificationItem'
 import { Bell, X } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { ScrollArea } from '@/components/ui/ScrollArea'
-import { cn } from '@/lib/utils'
 
 interface Notification {
   id: string

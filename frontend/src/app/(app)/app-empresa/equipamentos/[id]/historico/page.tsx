@@ -12,9 +12,8 @@ import {
   MapPin,
   Wrench,
   Activity,
-  Filter,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

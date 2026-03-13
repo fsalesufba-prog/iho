@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import {
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
@@ -13,7 +12,7 @@ import {
   Trash2,
   Wrench,
   MapPin,
-  History
+  History,
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -43,7 +42,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select'
-import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
+
 import { EquipamentoForm } from './EquipamentoForm'
 import { EquipamentoDetails } from './EquipamentoDetails'
 import { api } from '@/lib/api'
@@ -166,7 +165,6 @@ export function EquipamentoList({ obraId, empresaId }: EquipamentoListProps) {
         return <Badge variant="outline">{status}</Badge>
     }
   }
-
 
   return (
     <>

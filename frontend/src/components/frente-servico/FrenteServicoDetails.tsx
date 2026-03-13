@@ -3,15 +3,11 @@
 import React, { useState, useEffect } from 'react'
 import {
   FolderTree,
-  Building2,
   Clock,
   Fuel,
-  Truck,
-  Users,
-  Calendar,
   FileText,
   TrendingUp,
-  RefreshCw
+  RefreshCw,
 } from 'lucide-react'
 
 import {
@@ -23,10 +19,7 @@ import {
 } from '@/components/ui/Dialog'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { Button } from '@/components/ui/Button'
-import { Progress } from '@/components/ui/Progress'
-import { Separator } from '@/components/ui/Separator'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import {
   Table,
   TableBody,
@@ -101,7 +94,6 @@ export function FrenteServicoDetails({ open, onOpenChange, frenteId }: FrenteSer
     const m = Math.round((hours - h) * 60)
     return `${h}h ${m}min`
   }
-
 
   if (loading || !frente) {
     return (

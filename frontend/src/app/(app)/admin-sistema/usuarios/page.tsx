@@ -8,7 +8,6 @@ import {
   Users,
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
@@ -18,80 +17,13 @@ import {
   Lock,
   Unlock,
   Key,
-  Mail,
-  Phone,
-  UserCheck,
-  UserX,
-  Shield,
-  Award,
-  Star,
-  Clock,
-  Calendar,
-  AlertCircle,
   CheckCircle,
   XCircle,
-  HelpCircle,
-  Info,
-  Settings,
-  LogOut,
-  Bell,
-  Copy,
-  Printer,
-  Upload,
-  Download as DownloadIcon,
-  Share2,
-  Heart,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  Activity,
-  BarChart3,
-  PieChart,
-  TrendingUp,
-  TrendingDown,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Building2,
-  Briefcase,
-  HardHat,
-  Wrench,
-  Truck,
-  Package,
-  CreditCard,
-  DollarSign,
-  FileText,
-  Home,
-  Building,
-  MapPin,
-  Users as UsersIcon,
-  UserPlus,
-  UserMinus,
-  UserCog,
-  UserCircle,
-  UserRound,
-  UserRoundPlus,
-  UserRoundMinus,
-  UserRoundCog,
-  UserRoundCheck,
-  UserRoundX,
-  UserCheck as UserCheckIcon,
-  UserX as UserXIcon,
-  UserCog as UserCogIcon,
-  UserCircle as UserCircleIcon,
-  UserRound as UserRoundIcon,
-  UserRoundPlus as UserRoundPlusIcon,
-  UserRoundMinus as UserRoundMinusIcon,
-  UserRoundCog as UserRoundCogIcon,
-  UserRoundCheck as UserRoundCheckIcon,
-  UserRoundX as UserRoundXIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+
+import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
 import {
@@ -131,7 +63,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
 
 interface Usuario {
   id: number

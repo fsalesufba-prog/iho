@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
-  Settings,
   Building2,
   Users,
   Bell,
@@ -15,20 +14,17 @@ import {
   Mail,
   Phone,
   MapPin,
-  Calendar,
-  AlertCircle
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
-import { Button } from '@/components/ui/Button'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
-import { formatDate } from '@/lib/utils'
 
 interface Empresa {
   id: number

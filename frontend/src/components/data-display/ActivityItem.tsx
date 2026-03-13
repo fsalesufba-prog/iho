@@ -1,7 +1,15 @@
 import React from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { User, Settings, FileText, CreditCard, Package, Wrench, Truck, Building2 } from 'lucide-react'
+import {
+  User,
+  Settings,
+  CreditCard,
+  Package,
+  Wrench,
+  Truck,
+  Building2,
+} from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import { cn } from '@/lib/utils'
 

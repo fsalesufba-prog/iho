@@ -1,6 +1,6 @@
 import React from 'react'
 import { Badge } from '@/components/ui/Badge'
-import { CheckCircle, AlertCircle, PauseCircle, XCircle } from 'lucide-react'
+import { CheckCircle, PauseCircle, XCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export type ObraStatusType = 'ativa' | 'paralisada' | 'concluida' | 'cancelada'

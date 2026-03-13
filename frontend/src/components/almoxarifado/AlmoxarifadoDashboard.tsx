@@ -3,16 +3,12 @@
 import React, { useState, useEffect } from 'react'
 import {
   Package,
-  TrendingUp,
-  TrendingDown,
   AlertTriangle,
   DollarSign,
   RefreshCw,
   Download,
-  Filter,
   Boxes,
-  ArrowUpDown,
-  History
+  History,
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -22,7 +18,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -32,8 +27,7 @@ import { EstoqueMovimentoList } from './EstoqueMovimentoList'
 import { EstoqueAlerts } from './EstoqueAlerts'
 import { InventoryAnalytics } from './InventoryAnalytics'
 import { api } from '@/lib/api'
-import { format, subDays } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { format } from 'date-fns'
 
 interface DashboardData {
   resumo: {

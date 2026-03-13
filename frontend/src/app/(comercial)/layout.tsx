@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import { Header } from '@/components/landing/Header'
 import { Footer } from '@/components/landing/Footer'
-import { Container } from '@/components/common/Container'
 
 export default function ComercialLayout({
   children,

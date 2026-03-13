@@ -2,7 +2,13 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { Menu, Bell, Search, Settings, HelpCircle, LogOut } from 'lucide-react'
+import {
+  Menu,
+  Search,
+  Settings,
+  HelpCircle,
+  LogOut,
+} from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import {
@@ -14,10 +20,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
-import { Badge } from '@/components/ui/Badge'
+
 import { ThemeToggle } from '@/components/common/ThemeToggle'
 import { AdminNotificationCenter } from './AdminNotificationCenter'
-import { AdminUserMenu } from './AdminUserMenu'
+
 import { useAuth } from '@/components/hooks/useAuth'
 import { cn } from '@/lib/utils'
 

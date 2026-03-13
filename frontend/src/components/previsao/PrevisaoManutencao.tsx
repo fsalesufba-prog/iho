@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/Select'
 import { PrevisaoChart } from './PrevisaoChart'
-import { PrevisaoAlerta } from './PrevisaoAlerta'
+
 import { Wrench, AlertTriangle, Calendar, Download } from 'lucide-react'
 
 interface PrevisaoManutencaoProps {

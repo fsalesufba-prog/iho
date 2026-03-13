@@ -1,19 +1,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import {
   ArrowLeft,
-  Activity,
-  TrendingUp,
   Calendar,
   Download,
   RefreshCw,
   DollarSign,
-  Truck,
-  Building2
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -26,7 +22,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
-import { formatNumber } from '@/lib/utils'
 
 interface CentroCustoData {
   centroCusto: {

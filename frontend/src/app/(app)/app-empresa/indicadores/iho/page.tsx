@@ -4,20 +4,12 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
-  Activity,
   TrendingUp,
   ArrowLeft,
   Download,
   RefreshCw,
   Calendar,
-  Filter,
-  ChevronDown,
-  Award,
-  BarChart3,
-  PieChart,
-  Truck,
-  Building2,
-  Package
+  Package,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -31,7 +23,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
-import { formatNumber } from '@/lib/utils'
 
 interface IHOData {
   geral: {

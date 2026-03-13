@@ -5,15 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useRouter } from 'next/navigation'
-import {
-  Save,
-  Loader2,
-  Eye,
-  Calendar,
-  Tag,
-  Image as ImageIcon,
-  X
-} from 'lucide-react'
+import { Save, Loader2, Eye } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'

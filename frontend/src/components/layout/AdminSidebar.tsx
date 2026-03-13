@@ -20,9 +20,6 @@ import {
   Mail,
   Shield,
   Database,
-  Globe,
-  Bell,
-  HelpCircle
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'

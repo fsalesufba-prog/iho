@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import {
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
@@ -13,10 +12,7 @@ import {
   Trash2,
   CheckCircle,
   XCircle,
-  Clock,
-  AlertTriangle,
   CreditCard,
-  FileText
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -48,12 +44,11 @@ import {
 } from '@/components/ui/Select'
 import { PagamentoForm } from './PagamentoForm'
 import { PagamentoDetails } from './PagamentoDetails'
-import { PagamentoStatus } from './PagamentoStatus'
+
 import { api } from '@/lib/api'
 import { useAuth } from '@/components/hooks/useAuth'
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 interface Pagamento {
   id: number

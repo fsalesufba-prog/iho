@@ -11,47 +11,17 @@ import {
   ArrowLeft,
   Save,
   RefreshCw,
-  Building2,
-  Mail,
-  Phone,
-  MapPin,
-  CreditCard,
-  UserPlus,
   Eye,
   EyeOff,
-  CheckCircle,
-  AlertCircle,
   Info,
-  HelpCircle,
-  Sparkles,
-  Zap,
-  Shield,
-  Lock,
-  Globe,
-  Users,
-  Truck,
-  Package,
-  Wrench,
-  HardHat,
-  Briefcase,
-  Calendar,
-  DollarSign,
-  FileText,
-  Settings,
-  Copy,
-  Trash2,
-  Plus,
-  Minus,
-  X,
-  Check
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
-import { Textarea } from '@/components/ui/Textarea'
+
 import {
   Select,
   SelectContent,
@@ -62,13 +32,10 @@ import {
 import { Switch } from '@/components/ui/Switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { Alert, AlertDescription } from '@/components/ui/Alert'
-import { Badge } from '@/components/ui/Badge'
-import { Separator } from '@/components/ui/Separator'
+
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
 import { masks } from '@/lib/masks'
-import { validators } from '@/lib/validators'
-import { cn } from '@/lib/utils'
 
 const empresaSchema = z.object({
   nome: z.string().min(1, 'Nome da empresa é obrigatório'),

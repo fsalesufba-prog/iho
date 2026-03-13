@@ -4,15 +4,13 @@ import React, { useState, useEffect } from 'react'
 import {
   FileText,
   Calendar,
-  DollarSign,
   Building2,
   User,
   CheckCircle,
   XCircle,
-  Clock,
   Download,
   Printer,
-  RefreshCw
+  RefreshCw,
 } from 'lucide-react'
 
 import {
@@ -26,7 +24,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Separator } from '@/components/ui/Separator'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import {
   Table,
   TableBody,

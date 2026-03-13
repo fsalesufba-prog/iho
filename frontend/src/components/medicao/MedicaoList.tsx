@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import {
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
@@ -14,7 +13,7 @@ import {
   CheckCircle,
   XCircle,
   Clock,
-  FileText
+  FileText,
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -46,12 +45,11 @@ import {
 } from '@/components/ui/Select'
 import { MedicaoForm } from './MedicaoForm'
 import { MedicaoDetails } from './MedicaoDetails'
-import { MedicaoStatus } from './MedicaoStatus'
+
 import { api } from '@/lib/api'
 import { useAuth } from '@/components/hooks/useAuth'
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 interface Medicao {
   id: number

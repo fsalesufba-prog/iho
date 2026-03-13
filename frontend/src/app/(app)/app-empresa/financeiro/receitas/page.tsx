@@ -3,18 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import {
-  ArrowLeft,
-  TrendingUp,
-  Calendar,
-  Download,
-  RefreshCw,
-  BarChart3,
-  PieChart,
-  Truck,
-  Clock,
-  DollarSign
-} from 'lucide-react'
+import { ArrowLeft, Calendar, Download, RefreshCw } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'

@@ -15,15 +15,7 @@ import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { Progress } from '@/components/ui/Progress'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/Table'
-import { AlertaCard } from '@/components/alerta/AlertaCard'
+
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
 

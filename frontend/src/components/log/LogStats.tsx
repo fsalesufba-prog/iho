@@ -4,13 +4,10 @@ import { Progress } from '@/components/ui/Progress'
 import { Badge } from '@/components/ui/Badge'
 import {
   Users,
-  Building2,
   FileText,
   AlertTriangle,
-  CheckCircle,
   Clock,
   Calendar,
-  TrendingUp
 } from 'lucide-react'
 
 interface LogStatsProps {

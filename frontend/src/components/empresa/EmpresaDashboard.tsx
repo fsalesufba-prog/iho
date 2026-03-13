@@ -3,18 +3,12 @@
 import React, { useState, useEffect } from 'react'
 import {
   Building2,
-  Users,
-  HardHat,
-  Truck,
   DollarSign,
-  TrendingUp,
-  TrendingDown,
   Calendar,
   RefreshCw,
   Download,
   AlertTriangle,
   CheckCircle,
-  Clock
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -22,7 +16,7 @@ import { Button } from '@/components/ui/Button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { Progress } from '@/components/ui/Progress'
 import { Badge } from '@/components/ui/Badge'
-import { Separator } from '@/components/ui/Separator'
+
 import {
   Select,
   SelectContent,

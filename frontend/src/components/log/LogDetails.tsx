@@ -10,17 +10,15 @@ import {
 } from '@/components/ui/Dialog'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { Separator } from '@/components/ui/Separator'
+
 import { JsonViewer } from '@/components/data-display/JsonViewer'
 import {
-  Calendar,
   User,
   FileText,
   Monitor,
   Globe,
-  Clock,
   Building2,
-  Fingerprint
+  Fingerprint,
 } from 'lucide-react'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'

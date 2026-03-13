@@ -8,7 +8,6 @@ import {
   CreditCard,
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
@@ -17,90 +16,15 @@ import {
   Trash2,
   Copy,
   Users,
-  Truck,
   CheckCircle,
   XCircle,
   DollarSign,
-  Calendar,
-  Clock,
-  AlertTriangle,
-  BarChart3,
-  PieChart,
-  TrendingUp,
-  TrendingDown,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Award,
-  Star,
-  Crown,
-  Gem,
-  Diamond,
-  Medal,
-  Trophy,
-  Gift,
   Package,
-  Box,
-  Archive,
-  Folder,
-  File,
-  Video,
-  Music,
-  Camera,
-  Mic,
-  Headphones,
-  Speaker,
-  Printer,
-  Monitor,
-  Laptop,
-  Tablet,
-  Smartphone,
-  Watch,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  BarChart,
-  PieChart as PieChartIcon,
-  Activity,
-  Users as UsersIcon,
-  Building,
-  Home,
-  Settings,
-  LogOut,
-  Bell,
-  Search as SearchIcon,
-  Filter as FilterIcon,
-  Plus as PlusIcon,
-  Edit as EditIcon,
-  Trash2 as Trash2Icon,
-  Copy as CopyIcon,
-  Printer as PrinterIcon,
-  Upload,
-  Download as DownloadIcon,
-  Share2,
-  Heart,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle,
-  Info,
-  AlertCircle,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIconIcon,
-  Calendar as CalendarIconIcon,
-  TrendingUp as TrendingUpIconIcon,
-  TrendingDown as TrendingDownIconIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+
+import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
 import {
@@ -137,10 +61,9 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/AlertDialog'
 import { Skeleton } from '@/components/ui/Skeleton'
-import { Progress } from '@/components/ui/Progress'
+
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
 
 interface Plano {
   id: number

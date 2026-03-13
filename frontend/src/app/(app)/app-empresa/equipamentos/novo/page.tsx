@@ -11,15 +11,10 @@ import {
   Save,
   Package,
   Tag,
-  Truck,
-  Calendar,
   DollarSign,
-  Clock,
   MapPin,
   Wrench,
   AlertCircle,
-  Plus,
-  X
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

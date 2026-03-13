@@ -10,11 +10,8 @@ import {
   Calendar,
   Download,
   RefreshCw,
-  Clock,
   AlertTriangle,
   CheckCircle2,
-  BarChart3,
-  TrendingUp
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

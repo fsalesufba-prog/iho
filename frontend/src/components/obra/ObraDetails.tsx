@@ -8,10 +8,9 @@ import {
   DollarSign,
   Users,
   Truck,
-  FileText,
   RefreshCw,
   Edit,
-  Download
+  Download,
 } from 'lucide-react'
 
 import {
@@ -25,7 +24,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Progress } from '@/components/ui/Progress'
-import { Separator } from '@/components/ui/Separator'
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import {
   Table,
@@ -35,12 +34,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table'
-import { ObraStatus } from './ObraStatus'
+
 import { api } from '@/lib/api'
-import { useAuth } from '@/components/hooks/useAuth'
+
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 interface ObraDetailsProps {
   open: boolean

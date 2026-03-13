@@ -13,14 +13,12 @@ import {
   Trash2,
   Calendar,
   Clock,
-  DollarSign,
-  AlertCircle,
   CheckCircle2,
   XCircle,
   ChevronLeft,
   ChevronRight,
   RefreshCw,
-  Activity
+  Activity,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

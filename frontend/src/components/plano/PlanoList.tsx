@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import {
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
@@ -12,11 +11,6 @@ import {
   Edit,
   Trash2,
   Copy,
-  Users,
-  Building2,
-  DollarSign,
-  CheckCircle,
-  XCircle
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -48,9 +42,9 @@ import {
 } from '@/components/ui/Select'
 import { PlanoForm } from './PlanoForm'
 import { PlanoDetails } from './PlanoDetails'
-import { PlanoStatus } from './PlanoStatus'
+
 import { api } from '@/lib/api'
-import { useAuth } from '@/components/hooks/useAuth'
+
 import { useToast } from '@/components/hooks/useToast'
 
 interface Plano {

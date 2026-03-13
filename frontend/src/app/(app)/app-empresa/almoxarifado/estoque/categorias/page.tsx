@@ -7,17 +7,15 @@ import {
   ArrowLeft,
   Package,
   Plus,
-  Edit,
-  Trash2,
   Search,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Card, CardContent } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import {
   Dialog,

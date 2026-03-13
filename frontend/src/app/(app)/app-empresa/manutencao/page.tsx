@@ -14,17 +14,12 @@ import {
   Calendar,
   Clock,
   DollarSign,
-  AlertCircle,
   CheckCircle2,
   XCircle,
   ChevronLeft,
   ChevronRight,
-  Download,
   RefreshCw,
-  BarChart3,
   Activity,
-  Fuel,
-  Package
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -51,7 +46,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/Dialog'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'

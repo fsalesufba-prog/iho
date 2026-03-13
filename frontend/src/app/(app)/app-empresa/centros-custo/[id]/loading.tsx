@@ -1,4 +1,4 @@
-import { Container } from '@/components/common/Container'
+
 import { Skeleton } from '@/components/ui/Skeleton'
 import { Card, CardContent, CardHeader } from '@/components/ui/Card'
 

@@ -9,10 +9,6 @@ import {
   Calendar,
   Download,
   RefreshCw,
-  BarChart3,
-  PieChart,
-  Package,
-  DollarSign
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

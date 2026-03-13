@@ -15,7 +15,6 @@ import {
   ChevronLeft,
   ChevronRight,
   RefreshCw,
-  Calendar
 } from 'lucide-react'
 
 import { Container } from '@/components/common/Container'

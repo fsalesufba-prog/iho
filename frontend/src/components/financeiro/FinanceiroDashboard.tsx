@@ -7,13 +7,11 @@ import {
   TrendingDown,
   Wallet,
   PieChart,
-  BarChart3,
-  Calendar,
   RefreshCw,
   Download,
   ArrowUpRight,
   ArrowDownRight,
-  Minus
+  Minus,
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'

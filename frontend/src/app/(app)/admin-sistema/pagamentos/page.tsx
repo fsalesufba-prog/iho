@@ -7,84 +7,26 @@ import { useRouter } from 'next/navigation'
 import {
   DollarSign,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
   Eye,
-  Edit,
   Trash2,
   CheckCircle,
   XCircle,
   Clock,
   AlertTriangle,
-  Calendar,
   CreditCard,
   QrCode,
   Barcode,
   FileText,
-  Printer,
   Mail,
-  Phone,
-  Building2,
-  Users,
   TrendingUp,
-  TrendingDown,
-  BarChart3,
-  PieChart,
-  Activity,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Award,
-  Star,
-  Crown,
-  Gem,
-  Diamond,
-  Medal,
-  Trophy,
-  Gift,
-  Package,
-  Box,
-  Archive,
-  Copy,
-  Upload,
-  Download as DownloadIcon,
-  Share2,
-  Heart,
-  Bookmark,
-  ThumbsUp,
-  MessageCircle,
-  MessageSquare,
-  HelpCircle,
-  Info,
-  AlertCircle,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  Clock as ClockIcon,
-  Calendar as CalendarIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  Users as UsersIcon,
-  Building,
-  Home,
-  Settings,
-  LogOut,
-  Bell,
-  Search as SearchIcon,
-  Filter as FilterIcon,
-  Plus,
-  Minus,
-  MoreHorizontal,
-  MoreVertical as MoreVerticalIcon
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+
+import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
 import {
@@ -120,13 +62,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/AlertDialog'
-import { Progress } from '@/components/ui/Progress'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
+
+import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
+
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 

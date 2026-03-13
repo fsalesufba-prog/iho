@@ -1,5 +1,11 @@
 import React from 'react'
-import { format, formatDistance, formatRelative, isToday, isYesterday, isThisWeek } from 'date-fns'
+import {
+  format,
+  formatDistance,
+  isToday,
+  isYesterday,
+  isThisWeek,
+} from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Calendar, Clock } from 'lucide-react'
 import { cn } from '@/lib/utils'

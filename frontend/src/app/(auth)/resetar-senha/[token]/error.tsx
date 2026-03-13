@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { AlertTriangle, RefreshCw, ArrowLeft, Key } from 'lucide-react'
+import { RefreshCw, ArrowLeft, Key } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 

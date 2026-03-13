@@ -9,9 +9,7 @@ import {
   Bell,
   Mail,
   BellRing,
-  Megaphone,
-  AlertCircle,
-  Loader2
+  Loader2,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

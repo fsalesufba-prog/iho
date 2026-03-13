@@ -11,83 +11,23 @@ import {
   ArrowLeft,
   Save,
   RefreshCw,
-  CreditCard,
-  Users,
-  Truck,
-  DollarSign,
-  Package,
-  Box,
-  Archive,
   Plus,
   Trash2,
-  CheckCircle,
-  XCircle,
   Info,
-  AlertCircle,
-  HelpCircle,
-  Sparkles,
-  Zap,
-  Rocket,
-  Globe,
-  Shield,
-  Lock,
-  Award,
-  Star,
-  Crown,
-  Gem,
-  Diamond,
-  Medal,
-  Trophy,
-  Gift,
-  Edit,
-  Copy,
-  Eye,
-  MoreVertical,
-  MoreHorizontal,
-  Settings,
-  Sliders,
-  ToggleLeft,
-  ToggleRight,
-  List,
-  Grid,
-  Columns,
-  Maximize,
-  Minimize,
-  Move,
-  MoveHorizontal,
-  MoveVertical,
-  RotateCw,
-  RotateCcw,
-  ZoomIn,
-  ZoomOut,
-  Focus,
-  Crosshair,
-  Target,
-  Circle,
-  Square,
-  Triangle,
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-import { Container } from '@/components/common/Container'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Textarea } from '@/components/ui/Textarea'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/Select'
+
 import { Switch } from '@/components/ui/Switch'
 import { Alert, AlertDescription } from '@/components/ui/Alert'
-import { Badge } from '@/components/ui/Badge'
-import { Separator } from '@/components/ui/Separator'
+
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-import { cn } from '@/lib/utils'
 
 const planoSchema = z.object({
   nome: z.string().min(1, 'Nome é obrigatório'),

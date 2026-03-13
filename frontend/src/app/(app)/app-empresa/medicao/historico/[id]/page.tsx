@@ -9,14 +9,12 @@ import {
   FileText,
   Calendar,
   Building2,
-  Download,
   CheckCircle,
   XCircle,
   Clock,
   DollarSign,
-  User,
   FileSpreadsheet,
-  Printer
+  Printer,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

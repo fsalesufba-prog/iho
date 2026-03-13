@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import {
   Plus,
   Search,
-  Filter,
   Download,
   RefreshCw,
   MoreVertical,
@@ -12,7 +11,6 @@ import {
   Edit,
   Trash2,
   History,
-  AlertTriangle
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -48,7 +46,6 @@ import { EstoqueMovimentoForm } from './EstoqueMovimentoForm'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 
 interface EstoqueItem {
   id: string

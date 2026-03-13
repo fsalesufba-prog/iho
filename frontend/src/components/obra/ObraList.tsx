@@ -31,7 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+
 import { RefreshCw } from 'lucide-react'
 import { api } from '@/lib/api'
 import { useAuth } from '@/components/hooks/useAuth'

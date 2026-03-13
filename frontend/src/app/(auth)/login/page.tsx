@@ -34,7 +34,6 @@ import { Alert, AlertDescription } from '@/components/ui/Alert'
 import { Badge } from '@/components/ui/Badge'
 import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'
-import { cn } from '@/lib/utils'
 
 export default function LoginPage() {
   const router = useRouter()
