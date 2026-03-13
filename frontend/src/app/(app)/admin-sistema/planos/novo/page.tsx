@@ -46,7 +46,6 @@ import {
   Sliders,
   ToggleLeft,
   ToggleRight,
-  Switch,
   Radio,
   Checkbox,
   List,
