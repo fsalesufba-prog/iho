@@ -6,8 +6,6 @@ import Link from 'next/link'
 import { AlertTriangle, RefreshCw, ArrowLeft, Home, Bell } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/common/Container'
-import { Header } from '@/components/app/Header'
-import { Sidebar } from '@/components/app/Sidebar'
 import { Card, CardContent } from '@/components/ui/Card'
 
 export default function AlertasError({
@@ -29,10 +27,10 @@ export default function AlertasError({
 
   return (
     <>
-      <Sidebar />
+
       
       <main className="flex-1 overflow-y-auto bg-background">
-        <Header title="Erro" />
+
         
         <Container size="lg" className="py-8">
           <div className="min-h-[60vh] flex items-center justify-center">

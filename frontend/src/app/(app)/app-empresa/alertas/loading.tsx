@@ -1,5 +1,4 @@
-import { Header } from '@/components/app/Header'
-import { Sidebar } from '@/components/app/Sidebar'
+
 import { Container } from '@/components/common/Container'
 import { Card, CardContent, CardHeader } from '@/components/ui/Card'
 import { Skeleton } from '@/components/ui/Skeleton'
@@ -8,10 +7,9 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 export default function AlertasLoading() {
   return (
     <>
-      <Sidebar />
       
       <main className="flex-1 overflow-y-auto bg-background">
-        <Header title="Alertas" />
+
         
         <Container size="xl" className="py-8">
           {/* Header Skeleton */}

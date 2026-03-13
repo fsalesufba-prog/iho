@@ -18,8 +18,6 @@ import {
   Calendar
 } from 'lucide-react'
 
-import { Header } from '@/components/app/Header'
-import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -185,10 +183,9 @@ export default function AlertasManutencaoPage() {
 
   return (
     <>
-      <Sidebar />
+
       
       <main className="flex-1 overflow-y-auto bg-background">
-        <Header title="Alertas de Manutenção" />
         
         <Container size="xl" className="py-8">
           {/* Breadcrumb */}

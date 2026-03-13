@@ -17,8 +17,7 @@ import {
   X
 } from 'lucide-react'
 
-import { Header } from '@/components/app/Header'
-import { Sidebar } from '@/components/app/Sidebar'
+
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -182,9 +181,9 @@ export default function DetalheAlertaEstoquePage() {
   if (loading) {
     return (
       <>
-        <Sidebar />
+
         <main className="flex-1 overflow-y-auto bg-background">
-          <Header title="Carregando..." />
+
           <Container size="xl" className="py-8">
             <div className="space-y-6">
               <div className="h-8 w-32 bg-muted rounded animate-pulse" />
@@ -199,9 +198,9 @@ export default function DetalheAlertaEstoquePage() {
   if (!alerta) {
     return (
       <>
-        <Sidebar />
+
         <main className="flex-1 overflow-y-auto bg-background">
-          <Header title="Alerta não encontrado" />
+
           <Container size="xl" className="py-8">
             <div className="text-center py-12">
               <Package className="h-12 w-12 text-destructive mx-auto mb-4" />
