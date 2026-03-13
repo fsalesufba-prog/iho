@@ -53,7 +53,6 @@ import {
   MessageSquare,
   HelpCircle,
   Info,
-  Warning,
   AlertCircle,
   XCircle as XCircleIcon,
   CheckCircle as CheckCircleIcon,

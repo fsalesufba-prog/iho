@@ -48,7 +48,6 @@ import {
   MessageSquare,
   HelpCircle,
   Info,
-  Warning,
   AlertTriangle,
   XCircle as XCircleIcon,
   CheckCircle as CheckCircleIcon,
@@ -80,7 +79,6 @@ import {
   MessageSquare as MessageSquareIcon,
   HelpCircle as HelpCircleIcon,
   Info as InfoIcon,
-  Warning as WarningIcon,
   AlertCircle as AlertCircleIcon
 } from 'lucide-react'
 
