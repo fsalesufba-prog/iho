@@ -95,7 +95,7 @@ export class PagamentoController {
       const payload = req.body
 
       // Processar webhook
-      const result = infinitePayService.processWebhook(payload)
+      const result = infinitePayService.processWebhook(payload as any)
 
       // Buscar pagamento pelo orderId (transacaoId)
       const pagamento = await prisma.pagamento.findFirst({
@@ -158,7 +158,7 @@ export class PagamentoController {
         }
 
         // Enviar email de confirmação
-        await emailService.sendPagamentoConfirmado(
+        await (emailService as any).sendPagamentoConfirmado(
           pagamento.empresa.email,
           pagamento.empresa.plano.nome,
           pagamento.valor
@@ -222,7 +222,7 @@ export class PagamentoController {
         data: {
           status: 'cancelado',
           canceledAt: new Date()
-        }
+        } as any
       })
 
       const empresa = await prisma.empresa.findUnique({
@@ -571,7 +571,7 @@ export class PagamentoController {
       }
 
       // Reutilizar lógica do webhook existente
-      const result = infinitePayService.processWebhook(payload)
+      const result = infinitePayService.processWebhook(payload as any)
 
       if (result.status === 'paid') {
         // Atualizar pagamento
@@ -617,7 +617,7 @@ export class PagamentoController {
         }
 
         // Enviar email de confirmação
-        await emailService.sendPagamentoConfirmado(
+        await (emailService as any).sendPagamentoConfirmado(
           pagamento.empresa.email,
           pagamento.empresa.plano.nome,
           pagamento.valor
@@ -1008,7 +1008,7 @@ export class PagamentoController {
     try {
       const { id } = req.params
 
-      const pagamento = await prisma.pagamento.findUnique({
+      const pagamento = await (prisma.pagamento.findUnique as any)({
         where: { id: parseInt(id) },
         include: {
           empresa: {
@@ -1035,7 +1035,7 @@ export class PagamentoController {
       }
 
       // Formatar logs
-      const logsFormatados = pagamento.logs.map(log => ({
+      const logsFormatados = (pagamento as any).logs.map((log: any) => ({
         id: log.id,
         acao: log.acao,
         usuario: log.usuario?.nome || 'Sistema',

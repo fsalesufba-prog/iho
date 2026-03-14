@@ -242,7 +242,7 @@ export class AlertaService {
 
     // Notificar por email se configurado
     if (config?.notificarEmail && config.destinatarios?.length) {
-      await emailService.enviarAlerta(alerta, config.destinatarios)
+      await (emailService as any).enviarAlerta(alerta, config.destinatarios)
     }
 
     return alerta

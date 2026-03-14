@@ -80,19 +80,19 @@ export class RelatorioController {
 
       switch (dados.tipo) {
         case 'gerencial':
-          relatorio = await relatorioService.gerarRelatorioGerencial(empresaId, dados)
+          relatorio = await relatorioService.gerarRelatorioGerencial(empresaId, dados as any)
           filename = 'relatorio-gerencial'
           break
         case 'operacional':
-          relatorio = await relatorioService.gerarRelatorioOperacional(empresaId, dados)
+          relatorio = await relatorioService.gerarRelatorioOperacional(empresaId, dados as any)
           filename = 'relatorio-operacional'
           break
         case 'financeiro':
-          relatorio = await relatorioService.gerarRelatorioFinanceiro(empresaId, dados)
+          relatorio = await relatorioService.gerarRelatorioFinanceiro(empresaId, dados as any)
           filename = 'relatorio-financeiro'
           break
         case 'manutencao':
-          relatorio = await relatorioService.gerarRelatorioManutencao(empresaId, dados)
+          relatorio = await relatorioService.gerarRelatorioManutencao(empresaId, dados as any)
           filename = 'relatorio-manutencao'
           break
         default:

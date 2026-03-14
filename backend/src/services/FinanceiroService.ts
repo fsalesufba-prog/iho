@@ -36,7 +36,7 @@ export class FinanceiroService {
     const patrimonioTotal = equipamentos.reduce((sum, eq) => sum + (eq.valorAquisicao || 0), 0)
     const depreciacaoTotal = equipamentos.reduce((sum, eq) => {
       if (eq.valorAquisicao && eq.dataAquisicao) {
-        return sum + this.calcularDepreciacaoEquipamento(eq.id)
+        return sum + (this.calcularDepreciacaoEquipamento(eq.id) as any)
       }
       return sum
     }, 0)
@@ -227,7 +227,7 @@ export class FinanceiroService {
         tag: eq.tag,
         nome: eq.nome,
         valorAquisicao: eq.valorAquisicao,
-        valorAtual: (eq.valorAquisicao || 0) - (this.calcularDepreciacaoEquipamento(eq.id) || 0),
+        valorAtual: (eq.valorAquisicao || 0) - ((this.calcularDepreciacaoEquipamento(eq.id) as any) || 0),
         obra: eq.obra?.nome
       }))
     }

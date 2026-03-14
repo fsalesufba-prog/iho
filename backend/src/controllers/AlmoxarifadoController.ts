@@ -150,7 +150,7 @@ export class AlmoxarifadoController {
         data: {
           ...dados,
           empresaId
-        }
+        } as any
       })
 
       // Registrar log

@@ -287,7 +287,7 @@ export class EquipamentoController {
           ...dados,
           empresaId,
           dataAquisicao: dados.dataAquisicao ? new Date(dados.dataAquisicao) : null
-        }
+        } as any
       })
 
       // Registrar log

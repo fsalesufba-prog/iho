@@ -69,7 +69,7 @@ export class FinanceiroController {
         success: true,
         data: {
           equipamento,
-          ...depreciacao
+          ...(depreciacao as any)
         }
       })
     } catch (error) {

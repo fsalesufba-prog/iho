@@ -90,8 +90,7 @@ export class EmpresaController {
               id: true,
               nome: true,
               codigo: true,
-              status: true,
-              progresso: true
+              status: true
             }
           },
           equipamentos: {
@@ -213,7 +212,7 @@ export class EmpresaController {
         await emailService.sendBoasVindas(usuario.email, usuario.nome, novaEmpresa.nome)
       } else {
         // Se não criou usuário, enviar e-mail para o contato da empresa
-        await emailService.sendEmpresaCriada(novaEmpresa.email, novaEmpresa.nome)
+        await emailService.sendEmpresaCriada(novaEmpresa.email, novaEmpresa.nome, plano!.nome)
       }
 
       // Registrar log

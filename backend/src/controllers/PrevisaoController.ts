@@ -139,7 +139,7 @@ export class PrevisaoController {
           equipamento,
           previsao,
           historico,
-          recomendacoes: previsaoService.gerarRecomendacoesManutencao(previsao)
+          recomendacoes: (previsaoService as any).gerarRecomendacoesManutencao(previsao)
         }
       })
     } catch (error) {
