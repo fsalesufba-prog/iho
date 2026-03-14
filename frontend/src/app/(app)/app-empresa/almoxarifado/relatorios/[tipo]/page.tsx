@@ -1,6 +1,10 @@
 'use client'
 
+<<<<<<< HEAD
 import { useState, useEffect } from 'react'
+=======
+import { useState, useEffect, useRef } from 'react'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -13,7 +17,12 @@ import {
   TrendingUp,
   DollarSign,
   AlertCircle,
+<<<<<<< HEAD
   Calendar
+=======
+  Calendar,
+  RefreshCw
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -24,7 +33,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
+<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { formatDate } from '@/lib/utils'
 
@@ -42,9 +54,14 @@ interface RelatorioData {
 
 export default function RelatorioTipoPage() {
   const params = useParams()
+<<<<<<< HEAD
   const { user } = useAuth()
   const { toast } = useToast()
 
+=======
+  const { toast } = useToast()
+  const printRef = useRef<HTMLDivElement>(null)
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const [data, setData] = useState<RelatorioData | null>(null)
   const [loading, setLoading] = useState(true)
   const [periodo, setPeriodo] = useState('30')

@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
+<<<<<<< HEAD
 import Link from 'next/link'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import {
   Star,
   ArrowLeft,
@@ -58,6 +61,7 @@ interface Avaliacao {
   updatedAt: string
 }
 
+<<<<<<< HEAD
 const pesos = {
   precoCondicoes: 0.20,
   qualidadeServico: 0.25,
@@ -66,6 +70,8 @@ const pesos = {
   estoque: 0.10,
   administracao: 0.05,
 }
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 export default function AvaliacaoDetalhePage() {
   const params = useParams()
@@ -91,7 +97,11 @@ export default function AvaliacaoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes da avaliação',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -113,7 +123,11 @@ export default function AvaliacaoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a avaliação',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

@@ -5,6 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   TrendingUp,
+<<<<<<< HEAD
+=======
+  Minus,
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   ArrowLeft,
   Download,
   RefreshCw,
@@ -19,7 +23,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
+<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 interface PerformanceData {
@@ -51,7 +58,10 @@ interface PerformanceData {
 }
 
 export default function PerformancePage() {
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [data, setData] = useState<PerformanceData | null>(null)

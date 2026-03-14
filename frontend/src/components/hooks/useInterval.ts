@@ -1,6 +1,10 @@
 'use client'
 
+<<<<<<< HEAD
 import { useEffect, useRef } from 'react'
+=======
+import { useEffect, useRef, useState, useCallback } from 'react'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 export function useInterval(callback: () => void, delay: number | null): void {
   const savedCallback = useRef(callback)

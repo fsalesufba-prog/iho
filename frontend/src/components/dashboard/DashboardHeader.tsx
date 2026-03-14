@@ -10,9 +10,13 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+<<<<<<< HEAD
   DashboardMenuTrigger,
 } from '@/components/ui/DropdownMenu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
+=======
+} from '@/components/ui/DropdownMenu'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Badge } from '@/components/ui/Badge'
 import { ThemeToggle } from '@/components/common/ThemeToggle'
 import { useAuth } from '@/components/hooks/useAuth'
@@ -39,6 +43,7 @@ export function DashboardHeader({
 }: DashboardHeaderProps) {
   const { user, logout } = useAuth()
 
+<<<<<<< HEAD
   const getInitials = (name: string) => {
     return name
       .split(' ')
@@ -47,6 +52,9 @@ export function DashboardHeader({
       .toUpperCase()
       .slice(0, 2)
   }
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   return (
     <header className={cn(
@@ -108,6 +116,7 @@ export function DashboardHeader({
 
           {showUserMenu && user && (
             <DropdownMenu>
+<<<<<<< HEAD
               <DashboardMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                   <Avatar className="h-8 w-8">
@@ -116,6 +125,8 @@ export function DashboardHeader({
                   </Avatar>
                 </Button>
               </DashboardMenuTrigger>
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>
                   <div className="flex flex-col">

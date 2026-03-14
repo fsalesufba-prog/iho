@@ -1,4 +1,8 @@
 import { Router } from 'express'
+<<<<<<< HEAD
+=======
+import bcrypt from 'bcryptjs'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import prisma from '../config/database'
 import { usuarioController } from '../controllers/UsuarioController'
 import { authMiddleware } from '../middlewares/auth'

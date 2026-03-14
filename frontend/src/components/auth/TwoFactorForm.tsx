@@ -40,7 +40,11 @@ export function TwoFactorForm({ email, onSuccess, onCancel }: TwoFactorFormProps
   const [error, setError] = useState<string | null>(null)
   const [timeLeft, setTimeLeft] = useState(300) // 5 minutos em segundos
   const [canResend, setCanResend] = useState(false)
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
@@ -52,12 +56,22 @@ export function TwoFactorForm({ email, onSuccess, onCancel }: TwoFactorFormProps
   })
 
   useEffect(() => {
+<<<<<<< HEAD
     if (timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000)
       return () => clearTimeout(timer)
     } else {
       setCanResend(true)
     }
+=======
+    if (timeLeft <= 0) {
+      setCanResend(true)
+      return
+    }
+
+    const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000)
+    return () => clearTimeout(timer)
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   }, [timeLeft])
 
   const formatTime = (seconds: number) => {
@@ -123,7 +137,11 @@ export function TwoFactorForm({ email, onSuccess, onCancel }: TwoFactorFormProps
       toast({
         title: 'Erro',
         description: 'Não foi possível reenviar o código',
+<<<<<<< HEAD
         variant: 'destructive',
+=======
+        variant: 'error',
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

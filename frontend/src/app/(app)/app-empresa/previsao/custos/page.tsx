@@ -9,6 +9,10 @@ import {
   Download,
   RefreshCw,
   TrendingUp,
+<<<<<<< HEAD
+=======
+  Minus
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -19,7 +23,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
+<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
 
@@ -45,7 +52,10 @@ interface CustosPrevisaoData {
 }
 
 export default function PrevisaoCustosPage() {
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [data, setData] = useState<CustosPrevisaoData | null>(null)
@@ -198,14 +208,23 @@ export default function PrevisaoCustosPage() {
                   <div>
                     <p className="text-sm text-muted-foreground">Tendência de Custos</p>
                     <p className="text-lg font-bold">
+<<<<<<< HEAD
                       {data?.estatisticas.tendencia > 0 ? '+' : ''}
+=======
+                      {((data?.estatisticas.tendencia ?? 0) > 0 ? '+' : '')}
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                       {((data?.estatisticas.tendencia || 0) * 100).toFixed(1)}%
                     </p>
                   </div>
                 </div>
                 <Badge variant="outline" className="text-sm">
+<<<<<<< HEAD
                   {data?.estatisticas.tendencia > 0.1 ? 'Alta' :
                    data?.estatisticas.tendencia < -0.1 ? 'Queda' : 'Estável'}
+=======
+                  {(data?.estatisticas.tendencia ?? 0) > 0.1 ? 'Alta' :
+                   (data?.estatisticas.tendencia ?? 0) < -0.1 ? 'Queda' : 'Estável'}
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                 </Badge>
               </div>
             </CardContent>

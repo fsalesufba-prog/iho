@@ -17,7 +17,10 @@ import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Separator } from '@/components/ui/Separator'
 import { useToast } from '@/components/ui/use-toast'
+<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { formatCNPJ, formatPhone, formatCEP } from '@/lib/utils'
 
@@ -39,7 +42,10 @@ type EmpresaFormData = z.infer<typeof empresaSchema>
 
 export default function ConfiguracoesEmpresaPage() {
   const router = useRouter()
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(true)

@@ -44,7 +44,10 @@ import {
 } from '@/components/ui/Select'
 
 import { EquipamentoForm } from './EquipamentoForm'
+<<<<<<< HEAD
 import { EquipamentoDetails } from './EquipamentoDetails'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
 
@@ -79,7 +82,11 @@ export function EquipamentoList({ obraId, empresaId }: EquipamentoListProps) {
   const [totalPages, setTotalPages] = useState(1)
   const [selectedEquipamento, setSelectedEquipamento] = useState<Equipamento | null>(null)
   const [showForm, setShowForm] = useState(false)
+<<<<<<< HEAD
   const [showDetails, setShowDetails] = useState(false)
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const { toast } = useToast()
 
@@ -121,7 +128,11 @@ export function EquipamentoList({ obraId, empresaId }: EquipamentoListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os equipamentos',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -146,7 +157,11 @@ export function EquipamentoList({ obraId, empresaId }: EquipamentoListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o equipamento',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -297,7 +312,10 @@ export function EquipamentoList({ obraId, empresaId }: EquipamentoListProps) {
                             <DropdownMenuLabel>Ações</DropdownMenuLabel>
                             <DropdownMenuItem onClick={() => {
                               setSelectedEquipamento(equip)
+<<<<<<< HEAD
                               setShowDetails(true)
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                             }}>
                               <Eye className="h-4 w-4 mr-2" />
                               Detalhes
@@ -377,6 +395,7 @@ export function EquipamentoList({ obraId, empresaId }: EquipamentoListProps) {
           }}
         />
       )}
+<<<<<<< HEAD
 
       {showDetails && selectedEquipamento && (
         <EquipamentoDetails
@@ -385,6 +404,8 @@ export function EquipamentoList({ obraId, empresaId }: EquipamentoListProps) {
           equipamentoId={selectedEquipamento.id}
         />
       )}
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     </>
   )
 }

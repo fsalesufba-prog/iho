@@ -2,7 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+<<<<<<< HEAD
 import { useParams, useSearchParams } from 'next/navigation'
+=======
+import { useSearchParams } from 'next/navigation'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import Link from 'next/link'
 import {
   CheckCircle,
@@ -16,7 +20,10 @@ import {
   Calendar,
   CreditCard,
   QrCode,
+<<<<<<< HEAD
   Barcode,
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   FileText,
   Sparkles,
 } from 'lucide-react'
@@ -24,6 +31,10 @@ import {
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/common/Container'
 import { Card, CardContent } from '@/components/ui/Card'
+<<<<<<< HEAD
+=======
+import { Label } from '@/components/ui/Label'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
 
@@ -46,11 +57,15 @@ interface Pagamento {
 }
 
 export default function PagamentoDetalhePage() {
+<<<<<<< HEAD
   const params = useParams()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const searchParams = useSearchParams()
   const { toast } = useToast()
 
   const [pagamento, setPagamento] = useState<Pagamento | null>(null)
+<<<<<<< HEAD
   const [loading, setLoading] = useState(true)
   const [copied, setCopied] = useState(false)
   const [tempoRestante, setTempoRestante] = useState<string>('')
@@ -66,6 +81,15 @@ export default function PagamentoDetalhePage() {
   }, [params.id])
 
   useEffect(() => {
+=======
+  const [loading] = useState(true)
+  const [copied, setCopied] = useState(false)
+  const [tempoRestante, setTempoRestante] = useState<string>('')
+
+  const statusParam = searchParams.get('status')
+
+  useEffect(() => {
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     if (pagamento?.status === 'pendente' && pagamento.metodo === 'pix') {
       const intervalo = setInterval(() => {
         verificarStatusPagamento()
@@ -73,6 +97,11 @@ export default function PagamentoDetalhePage() {
 
       return () => clearInterval(intervalo)
     }
+<<<<<<< HEAD
+=======
+
+    return // return vazio para ser explícito
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   }, [pagamento?.id, pagamento?.status])
 
   useEffect(() => {
@@ -96,6 +125,7 @@ export default function PagamentoDetalhePage() {
       const timer = setInterval(atualizarTimer, 1000)
       return () => clearInterval(timer)
     }
+<<<<<<< HEAD
   }, [pagamento?.dataVencimento, pagamento?.metodo])
 
   const carregarPagamento = async (id: number) => {
@@ -114,6 +144,12 @@ export default function PagamentoDetalhePage() {
       setLoading(false)
     }
   }
+=======
+
+    return // return vazio para ser explícito
+  }, [pagamento?.dataVencimento, pagamento?.metodo])
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const verificarStatusPagamento = async () => {
     if (!pagamento?.id) return
@@ -289,18 +325,31 @@ export default function PagamentoDetalhePage() {
           <div className="text-center">
             <Badge className="mb-4 px-4 py-2">
               {pagamento.metodo === 'pix' && <QrCode className="h-4 w-4 mr-2" />}
+<<<<<<< HEAD
               {pagamento.metodo === 'boleto' && <Barcode className="h-4 w-4 mr-2" />}
               {pagamento.metodo === 'cartao' && <CreditCard className="h-4 w-4 mr-2" />}
               Pagamento via {pagamento.metodo === 'pix' ? 'PIX' : 
                              pagamento.metodo === 'boleto' ? 'Boleto' : 'Cartão'}
             </Badge>
             
+=======
+              {pagamento.metodo === 'boleto' && <FileText className="h-4 w-4 mr-2" />}
+              {pagamento.metodo === 'cartao' && <CreditCard className="h-4 w-4 mr-2" />}
+              Pagamento via {pagamento.metodo === 'pix' ? 'PIX' :
+                pagamento.metodo === 'boleto' ? 'Boleto' : 'Cartão'}
+            </Badge>
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
             <h1 className="text-3xl font-bold mb-2">
               {pagamento.metodo === 'pix' && 'Pague com PIX'}
               {pagamento.metodo === 'boleto' && 'Boleto Bancário'}
               {pagamento.metodo === 'cartao' && 'Pagamento com Cartão'}
             </h1>
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
             <p className="text-muted-foreground">
               {pagamento.metodo === 'pix' && 'Escaneie o QR Code ou copie o código para pagar'}
               {pagamento.metodo === 'boleto' && 'Pague o boleto em qualquer banco ou app'}
@@ -325,9 +374,15 @@ export default function PagamentoDetalhePage() {
                 {/* QR Code */}
                 {pagamento.qrCode ? (
                   <div className="flex justify-center">
+<<<<<<< HEAD
                     <img 
                       src={pagamento.qrCode} 
                       alt="QR Code PIX" 
+=======
+                    <img
+                      src={pagamento.qrCode}
+                      alt="QR Code PIX"
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                       className="w-48 h-48"
                     />
                   </div>
@@ -342,9 +397,15 @@ export default function PagamentoDetalhePage() {
                   <div className="space-y-2">
                     <Label>Código PIX Copia e Cola</Label>
                     <div className="flex gap-2">
+<<<<<<< HEAD
                       <Input 
                         value={pagamento.linkPagamento} 
                         readOnly 
+=======
+                      <Input
+                        value={pagamento.linkPagamento}
+                        readOnly
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                         className="font-mono text-sm"
                       />
                       <Button
@@ -386,7 +447,11 @@ export default function PagamentoDetalhePage() {
                   </ol>
                 </div>
 
+<<<<<<< HEAD
                 <Button 
+=======
+                <Button
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                   className="w-full"
                   onClick={() => verificarStatusPagamento()}
                 >
@@ -403,15 +468,26 @@ export default function PagamentoDetalhePage() {
               <CardContent className="p-6 space-y-6">
                 {/* Código de Barras */}
                 <div className="text-center p-6 bg-muted rounded-lg">
+<<<<<<< HEAD
                   <Barcode className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
                   
+=======
+                  <FileText className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                   {pagamento.linhaDigitavel && (
                     <div className="space-y-2">
                       <p className="text-sm font-medium">Linha digitável</p>
                       <div className="flex gap-2">
+<<<<<<< HEAD
                         <Input 
                           value={pagamento.linhaDigitavel} 
                           readOnly 
+=======
+                        <Input
+                          value={pagamento.linhaDigitavel}
+                          readOnly
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                           className="font-mono text-center"
                         />
                         <Button
@@ -442,8 +518,13 @@ export default function PagamentoDetalhePage() {
                 {/* Ações */}
                 <div className="grid grid-cols-2 gap-4">
                   {pagamento.urlBoleto && (
+<<<<<<< HEAD
                     <Button 
                       variant="outline" 
+=======
+                    <Button
+                      variant="outline"
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                       className="w-full"
                       onClick={() => window.open(pagamento.urlBoleto, '_blank')}
                     >
@@ -451,8 +532,13 @@ export default function PagamentoDetalhePage() {
                       Baixar Boleto
                     </Button>
                   )}
+<<<<<<< HEAD
                   <Button 
                     variant="outline" 
+=======
+                  <Button
+                    variant="outline"
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                     className="w-full"
                     onClick={() => window.print()}
                   >
@@ -471,7 +557,11 @@ export default function PagamentoDetalhePage() {
                   </ul>
                 </div>
 
+<<<<<<< HEAD
                 <Button 
+=======
+                <Button
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                   className="w-full"
                   onClick={() => verificarStatusPagamento()}
                 >

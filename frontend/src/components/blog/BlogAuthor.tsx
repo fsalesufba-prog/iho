@@ -1,7 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+<<<<<<< HEAD
 import Image from 'next/image'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import Link from 'next/link'
 import { Twitter, Linkedin, Github, Mail } from 'lucide-react'
 

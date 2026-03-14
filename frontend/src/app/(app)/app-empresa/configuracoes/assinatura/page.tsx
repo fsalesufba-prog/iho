@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
+<<<<<<< HEAD
 import Link from 'next/link'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import {
   ArrowLeft,
   CreditCard,
@@ -32,7 +35,10 @@ import {
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { useToast } from '@/components/ui/use-toast'
+<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { formatCurrency, formatDate } from '@/lib/utils'
 
@@ -62,7 +68,10 @@ interface AssinaturaData {
 
 export default function AssinaturaPage() {
   const router = useRouter()
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(true)

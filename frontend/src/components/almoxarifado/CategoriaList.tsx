@@ -52,7 +52,11 @@ export function CategoriaList() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as categorias',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -74,7 +78,11 @@ export function CategoriaList() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a categoria',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

@@ -33,6 +33,7 @@ export class EmailService {
     })
   }
 
+<<<<<<< HEAD
   async sendPagamentoConfirmado(to: string, plano: string, valor: number): Promise<boolean> {
     const template = emailTemplates.pagamentoConfirmado(plano, valor)
     return this.sendEmail({
@@ -42,6 +43,8 @@ export class EmailService {
     })
   }
 
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   async sendAssinaturaCancelada(to: string): Promise<boolean> {
     const template = emailTemplates.assinaturaCancelada()
     return this.sendEmail({
@@ -225,6 +228,51 @@ export class EmailService {
     })
   }
 
+<<<<<<< HEAD
+=======
+  async sendNewsletterWelcome(to: string, nome?: string): Promise<boolean> {
+    return this.sendEmail({
+      to,
+      subject: 'Bem-vindo à newsletter IHO',
+      html: `<h1>Olá${nome ? ` ${nome}` : ''}!</h1><p>Obrigado por assinar a newsletter da IHO. Você receberá novidades, dicas e atualizações do sistema.</p><p>Atenciosamente,<br>Equipe IHO</p>`
+    })
+  }
+
+  async sendContactEmail(dados: { nome: string; email: string; telefone?: string; empresa?: string; mensagem: string }): Promise<boolean> {
+    return this.sendEmail({
+      to: process.env.EMAIL_FROM || 'contato@iho.com.br',
+      subject: `Novo contato de ${dados.nome}`,
+      html: `<h2>Novo contato recebido</h2><p><strong>Nome:</strong> ${dados.nome}</p><p><strong>E-mail:</strong> ${dados.email}</p>${dados.telefone ? `<p><strong>Telefone:</strong> ${dados.telefone}</p>` : ''}${dados.empresa ? `<p><strong>Empresa:</strong> ${dados.empresa}</p>` : ''}<p><strong>Mensagem:</strong></p><p>${dados.mensagem}</p>`
+    })
+  }
+
+  async sendContactConfirmation(to: string, nome: string): Promise<boolean> {
+    return this.sendEmail({
+      to,
+      subject: 'Recebemos seu contato - IHO',
+      html: `<h1>Olá ${nome}!</h1><p>Recebemos sua mensagem e entraremos em contato em breve.</p><p>Atenciosamente,<br>Equipe IHO</p>`
+    })
+  }
+
+  async sendEmpresaCriada(to: string, nomeEmpresa: string, nomePlano: string): Promise<boolean> {
+    return this.sendEmail({
+      to,
+      subject: 'Empresa cadastrada com sucesso - IHO',
+      html: `<h1>Empresa cadastrada!</h1><p>A empresa <strong>${nomeEmpresa}</strong> foi cadastrada com sucesso no plano <strong>${nomePlano}</strong>.</p><p>Acesse o sistema para começar a configurar seu ambiente.</p><p>Atenciosamente,<br>Equipe IHO</p>`
+    })
+  }
+
+  async enviarAlerta(to: string, titulo: string, descricao: string, gravidade: string): Promise<boolean> {
+    const cores: Record<string, string> = { alta: '#dc2626', media: '#d97706', baixa: '#2563eb' }
+    const cor = cores[gravidade] || '#2563eb'
+    return this.sendEmail({
+      to,
+      subject: `[Alerta ${gravidade.toUpperCase()}] ${titulo} - IHO`,
+      html: `<div style="border-left: 4px solid ${cor}; padding: 10px 20px;"><h2 style="color:${cor}">${titulo}</h2><p>${descricao}</p></div><p style="margin-top:20px">Acesse o sistema para mais detalhes.</p><p>Atenciosamente,<br>Equipe IHO</p>`
+    })
+  }
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 }
 
 export const emailService = new EmailService()

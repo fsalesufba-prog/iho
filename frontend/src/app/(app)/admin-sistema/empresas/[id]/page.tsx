@@ -30,6 +30,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { Progress } from '@/components/ui/Progress'
+<<<<<<< HEAD
+=======
+import { Skeleton } from '@/components/ui/Skeleton'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 import {
   Table,
@@ -146,7 +150,11 @@ export default function EmpresaDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes da empresa',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -168,7 +176,11 @@ export default function EmpresaDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a empresa',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

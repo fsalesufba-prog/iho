@@ -6,6 +6,7 @@ import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
+<<<<<<< HEAD
 interface MetricData {
   value: number
   previousValue?: number
@@ -14,6 +15,8 @@ interface MetricData {
   trend?: 'up' | 'down' | 'stable'
   sparklineData?: Array<{ value: number }>
 }
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 interface MetricChartProps {
   title: string
@@ -46,7 +49,10 @@ export function MetricChart({
   formatValue = (v) => v.toString(),
   loading = false,
   error,
+<<<<<<< HEAD
   height = 120,
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   className,
   color = '#3b82f6',
   icon,
@@ -54,7 +60,10 @@ export function MetricChart({
   showSparkline = true,
   sparklineColor
 }: MetricChartProps) {
+<<<<<<< HEAD
   const { theme } = useTheme()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   // Calcular tendência se não for fornecida
   let trend = propTrend

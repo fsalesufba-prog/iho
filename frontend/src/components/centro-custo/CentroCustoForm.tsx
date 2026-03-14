@@ -139,7 +139,11 @@ export function CentroCustoForm({ open, onOpenChange, centro, onSuccess }: Centr
       toast({
         title: 'Erro',
         description: 'Não foi possível salvar o centro de custo',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)

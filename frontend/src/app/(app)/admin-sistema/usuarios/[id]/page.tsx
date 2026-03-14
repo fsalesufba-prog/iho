@@ -4,7 +4,10 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+<<<<<<< HEAD
 import Image from 'next/image'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import {
   ArrowLeft,
   Edit,
@@ -104,7 +107,11 @@ export default function UsuarioDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes do usuário',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -126,7 +133,11 @@ export default function UsuarioDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -145,7 +156,11 @@ export default function UsuarioDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível resetar a senha',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -165,7 +180,11 @@ export default function UsuarioDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o usuário',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

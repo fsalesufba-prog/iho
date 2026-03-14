@@ -16,6 +16,10 @@ import {
   Calendar,
   TrendingUp,
   TrendingDown,
+<<<<<<< HEAD
+=======
+  Minus,
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   MoreVertical,
   ChevronLeft,
   ChevronRight,
@@ -138,7 +142,11 @@ export default function AvaliacoesPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as avaliações',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -177,7 +185,11 @@ export default function AvaliacoesPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a avaliação',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

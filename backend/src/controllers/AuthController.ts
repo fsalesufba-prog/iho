@@ -50,14 +50,24 @@ export class AuthController {
 
       const token = jwt.sign(
         { id: user.id, email: user.email, tipo: user.tipo, empresaId: user.empresaId },
+<<<<<<< HEAD
         authConfig.jwt.secret,
         { expiresIn: authConfig.jwt.expiresIn }
+=======
+        authConfig.jwt.secret as string,
+        { expiresIn: authConfig.jwt.expiresIn as any }
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       )
 
       const refreshToken = jwt.sign(
         { id: user.id },
+<<<<<<< HEAD
         authConfig.jwt.refreshSecret,
         { expiresIn: authConfig.jwt.refreshExpiresIn }
+=======
+        authConfig.jwt.refreshSecret as string,
+        { expiresIn: authConfig.jwt.refreshExpiresIn as any }
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       )
 
       // Salvar refresh token
@@ -186,7 +196,11 @@ export class AuthController {
           empresaId: tokenRecord.usuario.empresaId 
         },
         authConfig.jwt.secret,
+<<<<<<< HEAD
         { expiresIn: authConfig.jwt.expiresIn }
+=======
+        { expiresIn: authConfig.jwt.expiresIn as any }
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       )
 
       // Marcar token como usado

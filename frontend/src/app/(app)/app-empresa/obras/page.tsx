@@ -133,7 +133,11 @@ export default function ObrasPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as obras',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -174,7 +178,11 @@ export default function ObrasPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a obra',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

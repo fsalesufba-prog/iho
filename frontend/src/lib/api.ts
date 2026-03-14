@@ -3,6 +3,7 @@ import { getCookie, setCookie, removeCookie } from './cookies'
 import { logger } from './logger'
 
 // Configuração base da API
+<<<<<<< HEAD
 // - Se NEXT_PUBLIC_API_URL estiver definido, usa ele (produção / dev externo)
 // - No servidor combinado (Hostinger): client-side usa URL relativa, SSR usa localhost
 const API_URL = process.env.NEXT_PUBLIC_API_URL || (
@@ -10,6 +11,9 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || (
     ? '/api'                                                          // browser → URL relativa
     : `http://localhost:${process.env.PORT || 3000}/api`             // SSR → localhost
 )
+=======
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 const API_TIMEOUT = 30000 // 30 segundos
 
 // Tipos de erro da API

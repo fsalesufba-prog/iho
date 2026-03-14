@@ -265,7 +265,12 @@ export class BlogController {
 
       const tags: Record<string, number> = {}
       posts.forEach(post => {
+<<<<<<< HEAD
         post.tags?.forEach(tag => {
+=======
+        const tagList: string[] = post.tags ? JSON.parse(post.tags) : []
+        tagList.forEach((tag: string) => {
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           tags[tag] = (tags[tag] || 0) + 1
         })
       })

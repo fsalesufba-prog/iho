@@ -21,7 +21,10 @@ import { Switch } from '@/components/ui/Switch'
 import { Label } from '@/components/ui/Label'
 import { Separator } from '@/components/ui/Separator'
 import { useToast } from '@/components/ui/use-toast'
+<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 interface NotificacoesConfig {
@@ -36,7 +39,10 @@ interface NotificacoesConfig {
 
 export default function ConfiguracoesNotificacoesPage() {
   const router = useRouter()
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(true)

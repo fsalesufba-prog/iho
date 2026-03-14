@@ -160,8 +160,17 @@ export class PagamentoController {
         // Enviar email de confirmação
         await emailService.sendPagamentoConfirmado(
           pagamento.empresa.email,
+<<<<<<< HEAD
           pagamento.empresa.plano.nome,
           pagamento.valor
+=======
+          pagamento.empresa.nome,
+          {
+            plano: pagamento.empresa.plano.nome,
+            valor: pagamento.valor,
+            dataPagamento: new Date()
+          }
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         )
       }
 
@@ -222,7 +231,11 @@ export class PagamentoController {
         data: {
           status: 'cancelado',
           canceledAt: new Date()
+<<<<<<< HEAD
         }
+=======
+        } as any
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
 
       const empresa = await prisma.empresa.findUnique({
@@ -571,7 +584,11 @@ export class PagamentoController {
       }
 
       // Reutilizar lógica do webhook existente
+<<<<<<< HEAD
       const result = infinitePayService.processWebhook(payload)
+=======
+      const result = infinitePayService.processWebhook(payload as any)
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
       if (result.status === 'paid') {
         // Atualizar pagamento
@@ -619,8 +636,17 @@ export class PagamentoController {
         // Enviar email de confirmação
         await emailService.sendPagamentoConfirmado(
           pagamento.empresa.email,
+<<<<<<< HEAD
           pagamento.empresa.plano.nome,
           pagamento.valor
+=======
+          pagamento.empresa.nome,
+          {
+            plano: pagamento.empresa.plano.nome,
+            valor: pagamento.valor,
+            dataPagamento: new Date()
+          }
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         )
       }
 
@@ -672,10 +698,17 @@ export class PagamentoController {
           valor: pagamento.valor,
           metodo: pagamento.formaPagamento!,
           dataVencimento: pagamento.dataVencimento,
+<<<<<<< HEAD
           qrCode: pagamento.qrCode,
           codigoPix: pagamento.linkPagamento,
           linhaDigitavel: pagamento.linhaDigitavel,
           urlBoleto: pagamento.urlBoleto
+=======
+          qrCode: pagamento.qrCode ?? undefined,
+          codigoPix: pagamento.linkPagamento ?? undefined,
+          linhaDigitavel: pagamento.linhaDigitavel ?? undefined,
+          urlBoleto: pagamento.urlBoleto ?? undefined
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         }
       )
 
@@ -1017,6 +1050,7 @@ export class PagamentoController {
                 select: { id: true, nome: true }
               }
             }
+<<<<<<< HEAD
           },
           logs: {
             take: 20,
@@ -1026,6 +1060,8 @@ export class PagamentoController {
                 select: { nome: true }
               }
             }
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           }
         }
       })
@@ -1034,6 +1070,7 @@ export class PagamentoController {
         return res.status(404).json({ error: 'Pagamento não encontrado' })
       }
 
+<<<<<<< HEAD
       // Formatar logs
       const logsFormatados = pagamento.logs.map(log => ({
         id: log.id,
@@ -1047,6 +1084,9 @@ export class PagamentoController {
         ...pagamento,
         logs: logsFormatados
       })
+=======
+      res.json(pagamento)
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     } catch (error) {
       console.error('Erro ao buscar pagamento:', error)
       res.status(500).json({ error: 'Erro interno do servidor' })

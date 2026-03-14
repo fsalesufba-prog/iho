@@ -12,7 +12,11 @@ import { cn } from '@/lib/utils'
 
 interface DateDisplayProps {
   date: Date | string | number
+<<<<<<< HEAD
   format?: string
+=======
+  dateFormat?: string  // Renomeado de 'format' para 'dateFormat'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   className?: string
   showIcon?: boolean
   iconPosition?: 'left' | 'right'
@@ -21,7 +25,11 @@ interface DateDisplayProps {
 
 export function DateDisplay({
   date,
+<<<<<<< HEAD
   format: formatStr = 'dd/MM/yyyy',
+=======
+  dateFormat = 'dd/MM/yyyy',  // Nome alterado
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   className,
   showIcon = false,
   iconPosition = 'left',
@@ -37,7 +45,11 @@ export function DateDisplay({
       {showIcon && iconPosition === 'left' && (
         <Calendar className="h-4 w-4 text-muted-foreground" />
       )}
+<<<<<<< HEAD
       {format(dateObj, formatStr, { locale })}
+=======
+      {format(dateObj, dateFormat, { locale })}  {/* Agora funciona */}
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       {showIcon && iconPosition === 'right' && (
         <Calendar className="h-4 w-4 text-muted-foreground" />
       )}
@@ -48,10 +60,17 @@ export function DateDisplay({
 // Data e hora
 DateDisplay.DateTime = function DateTimeDisplay({
   date,
+<<<<<<< HEAD
   format = 'dd/MM/yyyy HH:mm',
   ...props
 }: DateDisplayProps) {
   return <DateDisplay date={date} format={format} {...props} />
+=======
+  dateFormat = 'dd/MM/yyyy HH:mm',  // Nome alterado
+  ...props
+}: DateDisplayProps) {
+  return <DateDisplay date={date} dateFormat={dateFormat} {...props} />
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 }
 
 // Data relativa (ex: "há 2 dias")
@@ -104,14 +123,22 @@ DateDisplay.Range = function DateRange({
   startDate,
   endDate,
   separator = 'até',
+<<<<<<< HEAD
   format = 'dd/MM/yyyy',
+=======
+  dateFormat = 'dd/MM/yyyy',  // Nome alterado
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   className,
   locale = ptBR
 }: {
   startDate: Date | string | number
   endDate: Date | string | number
   separator?: string
+<<<<<<< HEAD
   format?: string
+=======
+  dateFormat?: string
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   className?: string
   locale?: Locale
 }) {
@@ -120,7 +147,11 @@ DateDisplay.Range = function DateRange({
 
   return (
     <span className={className}>
+<<<<<<< HEAD
       {format(start, format, { locale })} {separator} {format(end, format, { locale })}
+=======
+      {format(start, dateFormat, { locale })} {separator} {format(end, dateFormat, { locale })}
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     </span>
   )
 }

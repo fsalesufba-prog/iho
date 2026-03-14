@@ -69,7 +69,11 @@ export class FinanceiroController {
         success: true,
         data: {
           equipamento,
+<<<<<<< HEAD
           ...depreciacao
+=======
+          ...(depreciacao as any)
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         }
       })
     } catch (error) {
@@ -103,8 +107,13 @@ export class FinanceiroController {
         success: true,
         data: {
           classe: tipo,
+<<<<<<< HEAD
           totalEquipamentos: equipamentos.length,
           ...depreciacao
+=======
+          ...(depreciacao as any),
+          totalEquipamentos: equipamentos.length
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         }
       })
     } catch (error) {

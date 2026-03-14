@@ -7,7 +7,11 @@ import Link from 'next/link'
 import {
   CreditCard,
   QrCode,
+<<<<<<< HEAD
   Barcode,
+=======
+  FileText,
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   ArrowRight,
   Lock,
   Shield,
@@ -97,7 +101,11 @@ export default function PagamentoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as informações do plano',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
       router.push('/planos')
     } finally {
@@ -141,7 +149,11 @@ export default function PagamentoPage() {
         toast({
           title: 'Atenção',
           description: 'Selecione um método de pagamento',
+<<<<<<< HEAD
           variant: 'destructive'
+=======
+          variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         })
       }
     }
@@ -156,7 +168,11 @@ export default function PagamentoPage() {
       toast({
         title: 'Atenção',
         description: 'Você precisa aceitar os termos de uso',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
       return
     }
@@ -186,7 +202,11 @@ export default function PagamentoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível processar o pagamento',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
       setProcessing(false)
     }
@@ -386,7 +406,11 @@ export default function PagamentoPage() {
                           htmlFor="boleto"
                           className="flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer hover:bg-accent peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                         >
+<<<<<<< HEAD
                           <Barcode className="h-6 w-6" />
+=======
+                          <FileText className="h-6 w-6" />
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                           <div className="flex-1">
                             <p className="font-medium">Boleto Bancário</p>
                             <p className="text-sm text-muted-foreground">

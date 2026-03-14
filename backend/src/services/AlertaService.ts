@@ -23,7 +23,11 @@ export class AlertaService {
       }
     })
 
+<<<<<<< HEAD
     const configuracoes = await prisma.configuracaoAlerta.findUnique({
+=======
+    const configuracoes = await (prisma as any).configuracaoAlerta.findUnique({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       where: {
         empresaId_tipo: {
           empresaId,
@@ -64,7 +68,11 @@ export class AlertaService {
     const dataLimite = new Date()
     dataLimite.setDate(dataLimite.getDate() + 7)
 
+<<<<<<< HEAD
     const configuracoes = await prisma.configuracaoAlerta.findUnique({
+=======
+    const configuracoes = await (prisma as any).configuracaoAlerta.findUnique({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       where: {
         empresaId_tipo: {
           empresaId,
@@ -93,7 +101,11 @@ export class AlertaService {
 
     for (const manutencao of manutencoes) {
       const diasRestantes = Math.ceil(
+<<<<<<< HEAD
         (manutencao.dataProgramada.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24)
+=======
+        (manutencao.dataProgramada!.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24)
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       )
 
       let gravidade = 'baixa'
@@ -130,7 +142,11 @@ export class AlertaService {
 
     for (const manutencao of manutencoesAtrasadas) {
       const diasAtraso = Math.ceil(
+<<<<<<< HEAD
         (hoje.getTime() - manutencao.dataProgramada.getTime()) / (1000 * 60 * 60 * 24)
+=======
+        (hoje.getTime() - manutencao.dataProgramada!.getTime()) / (1000 * 60 * 60 * 24)
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       )
 
       await this.criarAlerta({
@@ -149,7 +165,11 @@ export class AlertaService {
    * Verificar alertas de estoque
    */
   async verificarEstoque(empresaId: number) {
+<<<<<<< HEAD
     const configuracoes = await prisma.configuracaoAlerta.findUnique({
+=======
+    const configuracoes = await (prisma as any).configuracaoAlerta.findUnique({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       where: {
         empresaId_tipo: {
           empresaId,
@@ -200,7 +220,11 @@ export class AlertaService {
    */
   async criarAlerta(dados: any) {
     // Verificar se já existe alerta pendente similar
+<<<<<<< HEAD
     const existente = await prisma.alerta.findFirst({
+=======
+    const existente = await (prisma as any).alerta.findFirst({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       where: {
         empresaId: dados.empresaId,
         tipo: dados.tipo,
@@ -212,7 +236,11 @@ export class AlertaService {
 
     if (existente) return existente
 
+<<<<<<< HEAD
     const alerta = await prisma.alerta.create({
+=======
+    const alerta = await (prisma as any).alerta.create({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       data: {
         empresaId: dados.empresaId,
         tipo: dados.tipo,
@@ -231,7 +259,11 @@ export class AlertaService {
     })
 
     // Buscar configurações para notificação
+<<<<<<< HEAD
     const config = await prisma.configuracaoAlerta.findUnique({
+=======
+    const config = await (prisma as any).configuracaoAlerta.findUnique({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       where: {
         empresaId_tipo: {
           empresaId: dados.empresaId,
@@ -242,7 +274,13 @@ export class AlertaService {
 
     // Notificar por email se configurado
     if (config?.notificarEmail && config.destinatarios?.length) {
+<<<<<<< HEAD
       await emailService.enviarAlerta(alerta, config.destinatarios)
+=======
+      for (const destinatario of config.destinatarios) {
+        await emailService.enviarAlerta(destinatario, alerta.titulo, alerta.descricao, alerta.nivel)
+      }
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     }
 
     return alerta
@@ -266,7 +304,11 @@ export class AlertaService {
     const dataLimite = new Date()
     dataLimite.setDate(dataLimite.getDate() - 30)
 
+<<<<<<< HEAD
     await prisma.alerta.updateMany({
+=======
+    await (prisma as any).alerta.updateMany({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       where: {
         empresaId,
         status: 'pendente',
@@ -289,6 +331,7 @@ export class AlertaService {
 
     for (const tipo of tipos) {
       const [pendentes, resolvidos, totais] = await Promise.all([
+<<<<<<< HEAD
         prisma.alerta.count({
           where: { empresaId, tipo, status: 'pendente' }
         }),
@@ -296,6 +339,15 @@ export class AlertaService {
           where: { empresaId, tipo, status: 'resolvido' }
         }),
         prisma.alerta.count({
+=======
+        (prisma as any).alerta.count({
+          where: { empresaId, tipo, status: 'pendente' }
+        }),
+        (prisma as any).alerta.count({
+          where: { empresaId, tipo, status: 'resolvido' }
+        }),
+        (prisma as any).alerta.count({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           where: { empresaId, tipo }
         })
       ])
@@ -316,7 +368,11 @@ export class AlertaService {
    * Obter equipamentos com mais alertas
    */
   async topEquipamentosAlertas(empresaId: number, limite: number = 10) {
+<<<<<<< HEAD
     const result = await prisma.alerta.groupBy({
+=======
+    const result = await (prisma as any).alerta.groupBy({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       by: ['equipamentoId'],
       where: {
         empresaId,
@@ -332,7 +388,11 @@ export class AlertaService {
     })
 
     const equipamentos = await Promise.all(
+<<<<<<< HEAD
       result.map(async (item) => {
+=======
+      result.map(async (item: any) => {
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         const equipamento = await prisma.equipamento.findUnique({
           where: { id: item.equipamentoId! },
           select: { tag: true, nome: true }
@@ -352,7 +412,11 @@ export class AlertaService {
    * Obter itens de estoque com mais alertas
    */
   async topItensEstoqueAlertas(empresaId: number, limite: number = 10) {
+<<<<<<< HEAD
     const result = await prisma.alerta.groupBy({
+=======
+    const result = await (prisma as any).alerta.groupBy({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       by: ['itemEstoqueId'],
       where: {
         empresaId,
@@ -368,7 +432,11 @@ export class AlertaService {
     })
 
     const itens = await Promise.all(
+<<<<<<< HEAD
       result.map(async (item) => {
+=======
+      result.map(async (item: any) => {
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         const estoque = await prisma.estoque.findUnique({
           where: { id: item.itemEstoqueId! },
           select: { nome: true, codigo: true }

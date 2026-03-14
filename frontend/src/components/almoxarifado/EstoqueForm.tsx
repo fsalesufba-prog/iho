@@ -32,7 +32,11 @@ import {
 import { Textarea } from '@/components/ui/Textarea'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
+<<<<<<< HEAD
 
+=======
+import { RefreshCw } from 'lucide-react'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 const formSchema = z.object({
   codigo: z.string().min(1, 'Código é obrigatório'),
   nome: z.string().min(1, 'Nome é obrigatório'),
@@ -115,7 +119,11 @@ export function EstoqueForm({ open, onOpenChange, item, onSuccess }: EstoqueForm
       toast({
         title: 'Erro',
         description: 'Não foi possível salvar o item',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)

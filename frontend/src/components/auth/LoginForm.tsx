@@ -92,7 +92,11 @@ export function LoginForm({ onSuccess, redirectTo = '/app-empresa/dashboard' }: 
       toast({
         title: 'Erro no login',
         description: err.message || 'Credenciais inválidas',
+<<<<<<< HEAD
         variant: 'destructive',
+=======
+        variant: 'error',
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setIsLoading(false)

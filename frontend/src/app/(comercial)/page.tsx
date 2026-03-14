@@ -1,9 +1,15 @@
 'use client'
 
+<<<<<<< HEAD
 import { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
+=======
+import { useRef, useEffect } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import Link from 'next/link'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import {
   ArrowRight,
   ChevronDown,
@@ -32,6 +38,7 @@ import { cn } from '@/lib/utils'
 
 export default function ComercialPage() {
   const { scrollYProgress } = useScroll()
+<<<<<<< HEAD
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
@@ -43,6 +50,20 @@ export default function ComercialPage() {
         x: (e.clientX / window.innerWidth - 0.5) * 20,
         y: (e.clientY / window.innerHeight - 0.5) * 20,
       })
+=======
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
+  const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95])
+
+  const mousePositionRef = useRef({ x: 0, y: 0 })
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mousePositionRef.current = {
+        x: (e.clientX / window.innerWidth - 0.5) * 20,
+        y: (e.clientY / window.innerHeight - 0.5) * 20,
+      }
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     }
 
     window.addEventListener('mousemove', handleMouseMove)
@@ -382,18 +403,30 @@ export default function ComercialPage() {
               >
                 <Card className="group relative overflow-hidden border-0 bg-gradient-to-b from-card to-card/50 backdrop-blur h-full">
                   <div className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity`} />
+<<<<<<< HEAD
                   
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                   <CardContent className="p-6">
                     <div className={`h-12 w-12 rounded-xl bg-gradient-to-r ${feature.gradient} p-0.5 mb-4`}>
                       <div className="h-full w-full rounded-xl bg-background flex items-center justify-center text-white">
                         {feature.icon}
                       </div>
                     </div>
+<<<<<<< HEAD
                     
                     <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                       {feature.title}
                     </h3>
                     
+=======
+
+                    <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+                      {feature.title}
+                    </h3>
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                     <p className="text-muted-foreground">
                       {feature.description}
                     </p>
@@ -458,12 +491,20 @@ export default function ComercialPage() {
                   plan.popular && "scale-105 border-2 border-primary/20 shadow-2xl"
                 )}>
                   <div className={`absolute inset-0 bg-gradient-to-r ${plan.gradient} opacity-0 group-hover:opacity-5 transition-opacity`} />
+<<<<<<< HEAD
                   
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                   <CardContent className="p-6">
                     <h3 className={`text-2xl font-bold mb-2 bg-gradient-to-r ${plan.gradient} bg-clip-text text-transparent`}>
                       {plan.name}
                     </h3>
+<<<<<<< HEAD
                     
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                     <div className="mb-4">
                       <span className="text-3xl font-bold">R$ {plan.price}</span>
                       <span className="text-muted-foreground">/mês</span>
@@ -493,7 +534,11 @@ export default function ComercialPage() {
                     </div>
 
                     <Link href="/checkout">
+<<<<<<< HEAD
                       <Button 
+=======
+                      <Button
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                         className={cn(
                           "w-full group relative overflow-hidden",
                           plan.popular ? "bg-gradient-to-r from-primary to-accent" : ""
@@ -570,7 +615,11 @@ export default function ComercialPage() {
       {/* CTA Section */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-90" />
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         <Container size="lg" className="relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -1,6 +1,10 @@
 'use client'
 
+<<<<<<< HEAD
 import React, { useState } from 'react'
+=======
+import React from 'react'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { cn } from '@/lib/utils'

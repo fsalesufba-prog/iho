@@ -11,6 +11,10 @@ import {
   RefreshCw
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+<<<<<<< HEAD
+=======
+import { Badge } from '../ui/Badge'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Button } from '@/components/ui/Button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import {

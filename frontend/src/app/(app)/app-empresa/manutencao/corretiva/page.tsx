@@ -8,6 +8,10 @@ import {
   Search,
   Filter,
   Plus,
+<<<<<<< HEAD
+=======
+  Play,
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   Eye,
   Edit,
   Trash2,

@@ -77,9 +77,15 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 }
 
+<<<<<<< HEAD
 // ErrorBoundary para rotas
 ErrorBoundary.Route = function RouteErrorBoundary({ children }: { children: ReactNode }) {
   return (
+=======
+// Namespace para agrupar os subcomponentes
+export namespace ErrorBoundary {
+  export const Route: React.FC<{ children: ReactNode }> = ({ children }) => (
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     <ErrorBoundary
       fallback={
         <div className="min-h-[400px] flex flex-col items-center justify-center p-8 text-center">
@@ -95,6 +101,7 @@ ErrorBoundary.Route = function RouteErrorBoundary({ children }: { children: Reac
       {children}
     </ErrorBoundary>
   )
+<<<<<<< HEAD
 }
 
 // ErrorBoundary para componentes
@@ -106,6 +113,13 @@ ErrorBoundary.Component = function ComponentErrorBoundary({
   name?: string 
 }) {
   return (
+=======
+
+  export const Component: React.FC<{ children: ReactNode; name?: string }> = ({ 
+    children,
+    name 
+  }) => (
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     <ErrorBoundary
       fallback={
         <div className="p-4 border border-destructive/50 rounded-md bg-destructive/5">
@@ -118,18 +132,27 @@ ErrorBoundary.Component = function ComponentErrorBoundary({
       {children}
     </ErrorBoundary>
   )
+<<<<<<< HEAD
 }
 
 // ErrorBoundary para formulários
 ErrorBoundary.Form = function FormErrorBoundary({ children }: { children: ReactNode }) {
   return (
+=======
+
+  export const Form: React.FC<{ children: ReactNode }> = ({ children }) => (
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     <ErrorBoundary
       fallback={
         <div className="p-4 border border-destructive/50 rounded-md bg-destructive/5">
           <p className="text-sm text-destructive mb-2">
             Erro no formulário
           </p>
+<<<<<<< HEAD
           <Button size="sm" variant="outline">
+=======
+          <Button size="sm" variant="outline" onClick={() => window.location.reload()}>
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
             Recarregar formulário
           </Button>
         </div>

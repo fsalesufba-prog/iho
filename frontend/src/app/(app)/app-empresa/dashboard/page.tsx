@@ -10,6 +10,10 @@ import {
   RefreshCw,
   Download,
   AlertTriangle,
+<<<<<<< HEAD
+=======
+  AlertCircle,
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   Activity,
   Sparkles,
   Building2,
@@ -124,7 +128,11 @@ export default function EmpresaDashboardPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o dashboard',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)

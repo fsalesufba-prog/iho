@@ -21,7 +21,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
+<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 interface ManutencaoCalendario {
@@ -39,12 +42,18 @@ interface ManutencaoCalendario {
 }
 
 export default function CalendarioManutencaoPage() {
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [currentDate, setCurrentDate] = useState(new Date())
   const [manutencoes, setManutencoes] = useState<Record<string, ManutencaoCalendario[]>>({})
+<<<<<<< HEAD
   const [loading, setLoading] = useState(true)
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const [tipoFiltro, setTipoFiltro] = useState<string>('todos')
 
   const monthNames = [
@@ -54,13 +63,21 @@ export default function CalendarioManutencaoPage() {
 
   const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   useEffect(() => {
     carregarManutencoes()
   }, [currentDate, tipoFiltro])
 
   const carregarManutencoes = async () => {
     try {
+<<<<<<< HEAD
       setLoading(true)
+=======
+      // setLoading(true)  <- remova
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       const response = await api.get('/manutencoes/calendario', {
         params: {
           mes: currentDate.getMonth() + 1,
@@ -76,7 +93,11 @@ export default function CalendarioManutencaoPage() {
         variant: 'destructive'
       })
     } finally {
+<<<<<<< HEAD
       setLoading(false)
+=======
+      // setLoading(false)  <- remova
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     }
   }
 
@@ -85,15 +106,26 @@ export default function CalendarioManutencaoPage() {
     const month = currentDate.getMonth()
     const firstDay = new Date(year, month, 1)
     const lastDay = new Date(year, month + 1, 0)
+<<<<<<< HEAD
     
     const days = []
     const startPadding = firstDay.getDay()
     
+=======
+
+    const days = []
+    const startPadding = firstDay.getDay()
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     // Dias do mês anterior
     for (let i = 0; i < startPadding; i++) {
       days.push(null)
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     // Dias do mês atual
     for (let i = 1; i <= lastDay.getDate(); i++) {
       const date = new Date(year, month, i)
@@ -104,7 +136,11 @@ export default function CalendarioManutencaoPage() {
         manutencoes: manutencoes[dateStr] || []
       })
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     return days
   }
 
@@ -143,10 +179,17 @@ export default function CalendarioManutencaoPage() {
   return (
     <>
       <Sidebar />
+<<<<<<< HEAD
       
       <main className="flex-1 overflow-y-auto bg-background">
         <Header title="Calendário de Manutenções" />
         
+=======
+
+      <main className="flex-1 overflow-y-auto bg-background">
+        <Header title="Calendário de Manutenções" />
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         <Container size="xl" className="py-8">
           {/* Header */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
@@ -225,18 +268,30 @@ export default function CalendarioManutencaoPage() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.01 }}
+<<<<<<< HEAD
                     className={`min-h-[120px] p-2 rounded-lg border ${
                       day ? 'bg-card hover:shadow-md transition-shadow' : 'bg-muted/30'
                     }`}
+=======
+                    className={`min-h-[120px] p-2 rounded-lg border ${day ? 'bg-card hover:shadow-md transition-shadow' : 'bg-muted/30'
+                      }`}
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                   >
                     {day && (
                       <>
                         <div className="flex justify-between items-start mb-2">
+<<<<<<< HEAD
                           <span className={`text-sm font-medium ${
                             new Date(day.date).toDateString() === new Date().toDateString()
                               ? 'text-primary font-bold'
                               : ''
                           }`}>
+=======
+                          <span className={`text-sm font-medium ${new Date(day.date).toDateString() === new Date().toDateString()
+                              ? 'text-primary font-bold'
+                              : ''
+                            }`}>
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                             {day.day}
                           </span>
                           {day.manutencoes.length > 0 && (

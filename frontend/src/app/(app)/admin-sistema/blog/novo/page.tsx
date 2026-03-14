@@ -3,7 +3,10 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+<<<<<<< HEAD
 import Link from 'next/link'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -123,7 +126,11 @@ export default function NovoPostPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível criar o post',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -345,7 +352,16 @@ export default function NovoPostPage() {
                   <Alert>
                     <Info className="h-4 w-4" />
                     <AlertDescription>
+<<<<<<< HEAD
                       O post será agendado para {new Date(form.watch('dataPublicacao')).toLocaleDateString('pt-BR')}
+=======
+                      O post será agendado para {
+                        (() => {
+                          const data = form.watch('dataPublicacao')
+                          return data ? new Date(data).toLocaleDateString('pt-BR') : ''
+                        })()
+                      }
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                     </AlertDescription>
                   </Alert>
                 )}

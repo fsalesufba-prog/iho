@@ -14,7 +14,11 @@ interface TagProps {
   showTitle?: boolean
 }
 
+<<<<<<< HEAD
 export function BlogTags({ tags, showTitle = true }: TagProps) {
+=======
+export function BlogTags({ tags }: TagProps) {
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const [allTags, setAllTags] = useState<Array<{ nome: string; count: number }>>([])
   const [loading, setLoading] = useState(true)
 

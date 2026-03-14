@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
+<<<<<<< HEAD
 import Link from 'next/link'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -107,7 +110,11 @@ export default function EditarCentroCustoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o centro de custo',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
       router.push('/app-empresa/centros-custo')
     } finally {
@@ -136,7 +143,11 @@ export default function EditarCentroCustoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível atualizar o centro de custo',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setSaving(false)

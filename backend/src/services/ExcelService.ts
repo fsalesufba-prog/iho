@@ -199,6 +199,34 @@ export class ExcelService {
     const buffer = await workbook.xlsx.writeBuffer()
     return Buffer.from(buffer)
   }
+<<<<<<< HEAD
+=======
+
+  async gerarRelatorio(relatorio: any, tipo: string): Promise<Buffer> {
+    const workbook = new ExcelJS.Workbook()
+    const worksheet = workbook.addWorksheet(tipo || 'Relatório')
+
+    worksheet.addRow(['Relatório IHO - ' + tipo])
+    worksheet.addRow(['Gerado em:', new Date().toLocaleString('pt-BR')])
+    worksheet.addRow([])
+
+    if (relatorio && typeof relatorio === 'object') {
+      const flatten = (obj: any, prefix = ''): [string, any][] =>
+        Object.entries(obj).flatMap(([k, v]) =>
+          v && typeof v === 'object' && !Array.isArray(v) && !(v instanceof Date)
+            ? flatten(v, prefix ? `${prefix}.${k}` : k)
+            : [[prefix ? `${prefix}.${k}` : k, v]]
+        )
+      const rows = flatten(relatorio)
+      rows.forEach(([key, value]) => {
+        worksheet.addRow([key, String(value ?? '')])
+      })
+    }
+
+    const buffer = await workbook.xlsx.writeBuffer()
+    return Buffer.from(buffer)
+  }
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 }
 
 export const excelService = new ExcelService()

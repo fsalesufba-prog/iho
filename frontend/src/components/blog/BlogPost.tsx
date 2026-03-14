@@ -25,6 +25,10 @@ import { BlogComments } from './BlogComments'
 import { BlogShare } from './BlogShare'
 import { BlogRelated } from './BlogRelated'
 import { BlogTags } from './BlogTags'
+<<<<<<< HEAD
+=======
+import { BlogNewsletter } from './BlogNewsletter'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
 
@@ -54,7 +58,11 @@ export function BlogPost({ slug }: BlogPostProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o artigo',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)

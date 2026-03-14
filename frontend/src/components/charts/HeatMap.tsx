@@ -7,7 +7,10 @@ import { ChartCard } from './ChartCard'
 import { ChartSkeleton } from './ChartSkeleton'
 import { ChartNoData } from './ChartNoData'
 import { ChartError } from './ChartError'
+<<<<<<< HEAD
 import { useTheme } from '@/components/theme/useTheme'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 interface DataPoint {
   x: string
@@ -49,15 +52,21 @@ export function HeatMap({
   yAxisDataKey = 'y',
   valueDataKey = 'value',
   colors = DEFAULT_COLORS,
+<<<<<<< HEAD
   minColor = '#fee2e2',
   maxColor = '#b91c1c',
   showTooltip = true,
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   showValues = false,
   cellSize = 40,
   className = '',
   onCellClick
 }: HeatMapProps) {
+<<<<<<< HEAD
   const { theme } = useTheme()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   if (loading) {
     return <ChartSkeleton height={height} />
@@ -72,8 +81,13 @@ export function HeatMap({
   }
 
   // Agrupar dados por x e y
+<<<<<<< HEAD
   const xValues = [...new Set(data.map(d => d[xAxisDataKey]))]
   const yValues = [...new Set(data.map(d => d[yAxisDataKey]))]
+=======
+  const xValues = Array.from(new Set(data.map(d => d[xAxisDataKey])))
+  const yValues = Array.from(new Set(data.map(d => d[yAxisDataKey])))
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   // Encontrar valor mínimo e máximo para escala de cores
   const values = data.map(d => d[valueDataKey])
@@ -82,7 +96,11 @@ export function HeatMap({
 
   const getColor = (value: number) => {
     if (maxValue === minValue) return colors[Math.floor(colors.length / 2)]
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     const percentage = (value - minValue) / (maxValue - minValue)
     const colorIndex = Math.floor(percentage * (colors.length - 1))
     return colors[colorIndex]
@@ -103,10 +121,24 @@ export function HeatMap({
 
   const handleClick = (data: any) => {
     if (onCellClick) {
+<<<<<<< HEAD
       const cellData = {
         [xAxisDataKey]: data.x,
         [yAxisDataKey]: data[yAxisDataKey],
         [valueDataKey]: data.value
+=======
+      const xValue = data.x
+      const yValue = data[yAxisDataKey]
+      const value = data.value
+
+      const cellData = {
+        [xAxisDataKey]: xValue,
+        [yAxisDataKey]: yValue,
+        [valueDataKey]: value,
+        x: xValue,
+        y: yValue,
+        value: value
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       }
       onCellClick(cellData)
     }

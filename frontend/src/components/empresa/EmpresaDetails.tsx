@@ -67,7 +67,11 @@ export function EmpresaDetails({ open, onOpenChange, empresaId }: EmpresaDetails
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes da empresa',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)

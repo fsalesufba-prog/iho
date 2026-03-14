@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+<<<<<<< HEAD
 import Link from 'next/link'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -127,7 +130,11 @@ export default function NovoUsuarioPage() {
       toast({
         title: 'Erro',
         description: error.response?.data?.message || 'Não foi possível criar o usuário',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)

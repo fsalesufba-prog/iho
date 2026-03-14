@@ -100,7 +100,11 @@ export class RelatorioController {
       }
 
       // Registrar geração do relatório
+<<<<<<< HEAD
       await prisma.relatorioLog.create({
+=======
+      await (prisma as any).relatorioLog.create({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         data: {
           empresaId,
           tipo: dados.tipo,
@@ -264,7 +268,11 @@ export class RelatorioController {
     try {
       const { id: empresaId } = (req as any).empresa
 
+<<<<<<< HEAD
       const relatorios = await prisma.relatorioPersonalizado.findMany({
+=======
+      const relatorios = await (prisma as any).relatorioPersonalizado.findMany({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { 
           OR: [
             { empresaId },
@@ -292,7 +300,11 @@ export class RelatorioController {
       const { id: empresaId } = (req as any).empresa
       const dados = criarRelatorioPersonalizadoSchema.parse(req.body)
 
+<<<<<<< HEAD
       const relatorio = await prisma.relatorioPersonalizado.create({
+=======
+      const relatorio = await (prisma as any).relatorioPersonalizado.create({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         data: {
           ...dados,
           empresaId,
@@ -330,7 +342,11 @@ export class RelatorioController {
       const { id } = req.params
       const { id: empresaId } = (req as any).empresa
 
+<<<<<<< HEAD
       const relatorio = await prisma.relatorioPersonalizado.findFirst({
+=======
+      const relatorio = await (prisma as any).relatorioPersonalizado.findFirst({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { 
           id: parseInt(id),
           OR: [
@@ -368,7 +384,11 @@ export class RelatorioController {
       const { id: empresaId } = (req as any).empresa
       const dados = atualizarRelatorioPersonalizadoSchema.parse(req.body)
 
+<<<<<<< HEAD
       const relatorio = await prisma.relatorioPersonalizado.findFirst({
+=======
+      const relatorio = await (prisma as any).relatorioPersonalizado.findFirst({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { 
           id: parseInt(id),
           empresaId 
@@ -379,7 +399,11 @@ export class RelatorioController {
         return res.status(404).json({ error: 'Relatório não encontrado' })
       }
 
+<<<<<<< HEAD
       const updated = await prisma.relatorioPersonalizado.update({
+=======
+      const updated = await (prisma as any).relatorioPersonalizado.update({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { id: parseInt(id) },
         data: dados
       })
@@ -415,7 +439,11 @@ export class RelatorioController {
       const { id: empresaId } = (req as any).empresa
       const { formato = 'pdf', periodo } = req.query
 
+<<<<<<< HEAD
       const relatorio = await prisma.relatorioPersonalizado.findFirst({
+=======
+      const relatorio = await (prisma as any).relatorioPersonalizado.findFirst({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { 
           id: parseInt(id),
           OR: [
@@ -470,7 +498,11 @@ export class RelatorioController {
       const { id } = req.params
       const { id: empresaId } = (req as any).empresa
 
+<<<<<<< HEAD
       const relatorio = await prisma.relatorioPersonalizado.findFirst({
+=======
+      const relatorio = await (prisma as any).relatorioPersonalizado.findFirst({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { 
           id: parseInt(id),
           empresaId 
@@ -486,7 +518,11 @@ export class RelatorioController {
         await relatorioService.removerAgendamento(relatorio.id)
       }
 
+<<<<<<< HEAD
       await prisma.relatorioPersonalizado.delete({
+=======
+      await (prisma as any).relatorioPersonalizado.delete({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { id: parseInt(id) }
       })
 
@@ -507,7 +543,11 @@ export class RelatorioController {
     try {
       const { id: empresaId } = (req as any).empresa
 
+<<<<<<< HEAD
       const agendados = await prisma.relatorioPersonalizado.findMany({
+=======
+      const agendados = await (prisma as any).relatorioPersonalizado.findMany({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { 
           empresaId,
           agendado: true
@@ -533,7 +573,11 @@ export class RelatorioController {
       const { id } = req.params
       const { id: empresaId } = (req as any).empresa
 
+<<<<<<< HEAD
       const agendado = await prisma.relatorioPersonalizado.findFirst({
+=======
+      const agendado = await (prisma as any).relatorioPersonalizado.findFirst({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { 
           id: parseInt(id),
           empresaId,
@@ -564,7 +608,11 @@ export class RelatorioController {
       const { id: empresaId } = (req as any).empresa
       const { ativo } = req.body
 
+<<<<<<< HEAD
       const relatorio = await prisma.relatorioPersonalizado.findFirst({
+=======
+      const relatorio = await (prisma as any).relatorioPersonalizado.findFirst({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { 
           id: parseInt(id),
           empresaId 
@@ -575,7 +623,11 @@ export class RelatorioController {
         return res.status(404).json({ error: 'Relatório não encontrado' })
       }
 
+<<<<<<< HEAD
       const updated = await prisma.relatorioPersonalizado.update({
+=======
+      const updated = await (prisma as any).relatorioPersonalizado.update({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { id: parseInt(id) },
         data: { agendado: ativo }
       })
@@ -605,7 +657,11 @@ export class RelatorioController {
       const { id: empresaId } = (req as any).empresa
       const { page = 1, limit = 20 } = req.query
 
+<<<<<<< HEAD
       const historico = await prisma.relatorioLog.findMany({
+=======
+      const historico = await (prisma as any).relatorioLog.findMany({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { empresaId },
         include: {
           usuario: {
@@ -617,7 +673,11 @@ export class RelatorioController {
         orderBy: { createdAt: 'desc' }
       })
 
+<<<<<<< HEAD
       const total = await prisma.relatorioLog.count({
+=======
+      const total = await (prisma as any).relatorioLog.count({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { empresaId }
       })
 

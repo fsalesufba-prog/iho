@@ -148,7 +148,11 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os posts',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -187,7 +191,11 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o post',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -205,7 +213,11 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o destaque',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -224,7 +236,11 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar a publicação',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -248,12 +264,20 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível duplicar o post',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
 
+<<<<<<< HEAD
   const getStatusBadge = (publicado: boolean, dataPublicacao?: string) => {
+=======
+  const getStatusBadge = (publicado: boolean) => {
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     if (publicado) {
       return (
         <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
@@ -512,7 +536,11 @@ export default function BlogAdminPage() {
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col gap-1">
+<<<<<<< HEAD
                           {getStatusBadge(post.publicado, post.dataPublicacao)}
+=======
+                          {getStatusBadge(post.publicado)}
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                           {getDestaqueBadge(post.destaque)}
                         </div>
                       </TableCell>

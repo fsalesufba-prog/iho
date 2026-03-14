@@ -30,6 +30,10 @@ const toastVariants = cva(
     variants: {
       variant: {
         default: 'border bg-background text-foreground',
+<<<<<<< HEAD
+=======
+        destructive: 'destructive group border-destructive bg-destructive text-destructive-foreground',
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         success: 'success group border-success bg-success text-success-foreground',
         error: 'destructive group border-destructive bg-destructive text-destructive-foreground',
         warning: 'warning group border-warning bg-warning text-warning-foreground',
@@ -131,7 +135,11 @@ export {
 }
 
 // Toast com ícone
+<<<<<<< HEAD
 Toast.WithIcon = function ToastWithIcon({
+=======
+;(Toast as any).WithIcon = function ToastWithIcon({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   variant = 'default',
   title,
   description,
@@ -140,6 +148,10 @@ Toast.WithIcon = function ToastWithIcon({
   const icons = {
     success: <CheckCircle className="h-5 w-5" />,
     error: <AlertCircle className="h-5 w-5" />,
+<<<<<<< HEAD
+=======
+    destructive: <AlertCircle className="h-5 w-5" />,
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     warning: <AlertTriangle className="h-5 w-5" />,
     info: <Info className="h-5 w-5" />,
     default: null,

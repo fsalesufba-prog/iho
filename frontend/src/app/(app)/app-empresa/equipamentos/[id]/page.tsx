@@ -12,7 +12,10 @@ import {
   Wrench,
   History,
   Clock,
+<<<<<<< HEAD
   Tag,
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   DollarSign,
   Activity,
   Truck,

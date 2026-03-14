@@ -128,7 +128,11 @@ export default function UsuariosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os usuários',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -153,7 +157,11 @@ export default function UsuariosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -170,7 +178,11 @@ export default function UsuariosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível resetar a senha',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -192,7 +204,11 @@ export default function UsuariosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o usuário',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

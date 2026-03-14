@@ -19,7 +19,10 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Alert, AlertDescription } from '@/components/ui/Alert'
 import { useToast } from '@/components/hooks/useToast'
+<<<<<<< HEAD
 import { useAuth } from '@/components/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 const formSchema = z.object({
@@ -44,7 +47,10 @@ export function ChangePasswordForm() {
   const [error, setError] = useState<string | null>(null)
 
   const { toast } = useToast()
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -76,7 +82,11 @@ export function ChangePasswordForm() {
       toast({
         title: 'Erro',
         description: err.response?.data?.message || 'Tente novamente mais tarde',
+<<<<<<< HEAD
         variant: 'destructive',
+=======
+        variant: 'error',
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setIsLoading(false)

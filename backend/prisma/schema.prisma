@@ -8,6 +8,7 @@ datasource db {
 }
 
 model Empresa {
+<<<<<<< HEAD
   id                 Int       @id @default(autoincrement())
   nome               String
   cnpj               String    @unique
@@ -36,10 +37,63 @@ model Empresa {
   logs               Log[]
   estoques           Estoque[]
   configuracaoNotificacao ConfiguracaoNotificacao?
+=======
+  id                       Int       @id @default(autoincrement())
+  nome                     String
+  cnpj                     String    @unique
+  email                    String    @unique
+  telefone                 String
+  endereco                 String
+  cidade                   String
+  estado                   String
+  cep                      String
+  planoId                  Int
+  dataCadastro             DateTime  @default(now())
+  dataAtivacao             DateTime?
+  status                   String    @default("ativo")
+  diasAtraso               Int       @default(0)
+  implantacaoPaga          Boolean   @default(false)
+  dataPagamentoImplantacao DateTime?
+  assinaturaId             String?
+  cartaoId                 String?
+  motivoCancelamento       String?
+  canceledAt               DateTime?
+  nextBillingAt            DateTime?
+  usuarios                 Usuario[]
+  obras                    Obra[]
+  equipamentos             Equipamento[]
+  centroCustos             CentroCusto[]
+  plano                    Plano      @relation(fields: [planoId], references: [id])
+  pagamentos               Pagamento[]
+  logs                     Log[]
+  estoques                 Estoque[]
+  configuracaoNotificacao  ConfiguracaoNotificacao?
+  alertas                  Alerta[]
+  configuracaoAlertas      ConfiguracaoAlerta[]
+  relatorioLogs            RelatorioLog[]
+  relatoriosPersonalizados RelatorioPersonalizado[]
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+}
+
+model Plano {
+  id                 Int       @id @default(autoincrement())
+  nome               String    @unique
+  descricao          String
+  valorImplantacao   Float
+  valorMensal        Float
+  limiteAdm          Int
+  limiteControlador  Int
+  limiteApontador    Int
+  limiteEquipamentos Int
+  recursos           String
+  empresas           Empresa[]
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 }
 
+<<<<<<< HEAD
 model Plano {
   id                Int       @id @default(autoincrement())
   nome              String
@@ -156,11 +210,114 @@ model CentroCusto {
   avaliacoes        AvaliacaoCentroCusto[]
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
+=======
+model Usuario {
+  id                    Int       @id @default(autoincrement())
+  email                 String    @unique
+  senha                 String
+  nome                  String
+  tipo                  String
+  empresaId             Int?
+  ativo                 Boolean   @default(true)
+  ultimoAcesso          DateTime?
+  avatar                String?
+  telefone              String?
+  cargo                 String?
+  departamento          String?
+  tokens                Token[]
+  logs                  Log[]
+  relatorioLogs         RelatorioLog[]
+  empresa               Empresa?   @relation(fields: [empresaId], references: [id])
+  avaliacoes            AvaliacaoCentroCusto[]
+  apontamentos          Apontamento[]
+  historicoEquipamentos HistoricoEquipamento[]
+  estoqueMovimentos     EstoqueMovimento[]
+  comentarios           Comentario[]
+  likes                 Like[]
+  medicoesCriadas       Medicao[]  @relation("medicoesCriadas")
+  medicoesAprovadas     Medicao[]  @relation("medicoesAprovadas")
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+model Token {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  tipo      String
+  usuarioId Int
+  expiraEm  DateTime
+  usado     Boolean  @default(false)
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Obra {
+  id                  Int       @id @default(autoincrement())
+  nome                String
+  codigo              String    @unique
+  cnpj                String
+  endereco            String
+  cidade              String
+  estado              String
+  cep                 String?
+  status              String    @default("ativa")
+  progresso           Float?    @default(0)
+  empresaId           Int
+  dataInicio          DateTime?
+  dataPrevisaoTermino DateTime?
+  dataTermino         DateTime?
+  valor               Float?
+  observacoes         String?
+  empresa             Empresa   @relation(fields: [empresaId], references: [id])
+  frenteServicos      FrenteServico[]
+  centroCustos        CentroCusto[]
+  equipamentos        Equipamento[]
+  historicoOrigem     HistoricoEquipamento[] @relation("origem")
+  historicoDestino    HistoricoEquipamento[] @relation("destino")
+  medicoes            Medicao[]
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+model FrenteServico {
+  id           Int       @id @default(autoincrement())
+  nome         String
+  descricao    String?
+  obraId       Int
+  status       String    @default("ativa")
+  progresso    Float?    @default(0)
+  obra         Obra      @relation(fields: [obraId], references: [id])
+  apontamentos Apontamento[]
+  equipamentos Equipamento[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model CentroCusto {
+  id          Int       @id @default(autoincrement())
+  nome        String
+  codigo      String
+  empresaId   Int
+  obraId      Int?
+  contato     String?
+  telefone    String?
+  email       String?
+  status      String    @default("ativo")
+  endereco    String?
+  observacoes String?
+  empresa     Empresa   @relation(fields: [empresaId], references: [id])
+  obra        Obra?     @relation(fields: [obraId], references: [id])
+  equipamentos Equipamento[]
+  avaliacoes  AvaliacaoCentroCusto[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   @@unique([codigo, empresaId])
 }
 
 model AvaliacaoCentroCusto {
+<<<<<<< HEAD
   id                Int       @id @default(autoincrement())
   centroCustoId     Int
   dataAvaliacao     DateTime  @default(now())
@@ -316,6 +473,164 @@ model EstoqueMovimento {
   equipamento       Equipamento? @relation(fields: [equipamentoId], references: [id])
   usuario           Usuario   @relation(fields: [usuarioId], references: [id])
   createdAt         DateTime  @default(now())
+=======
+  id               Int         @id @default(autoincrement())
+  centroCustoId    Int
+  dataAvaliacao    DateTime    @default(now())
+  avaliadorId      Int
+  precoCondicoes   Float
+  qualidadeServico Float
+  qualidadeEntrega Float
+  segurancaSaude   Float
+  estoque          Float
+  administracao    Float
+  ocorrencias      String?
+  notaFinal        Float
+  observacoes      String?
+  centroCusto      CentroCusto @relation(fields: [centroCustoId], references: [id])
+  avaliador        Usuario     @relation(fields: [avaliadorId], references: [id])
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+}
+
+model Equipamento {
+  id                    Int       @id @default(autoincrement())
+  tag                   String    @unique
+  nome                  String
+  tipo                  String
+  marca                 String
+  modelo                String
+  anoFabricacao         Int
+  numeroSerie           String
+  placa                 String?
+  horaAtual             Int       @default(0)
+  kmAtual               Int?      @default(0)
+  status                String    @default("disponivel")
+  obraId                Int?
+  frenteServicoId       Int?
+  centroCustoId         Int?
+  empresaId             Int
+  valorAquisicao        Float?
+  valorDepreciacaoAnual Float?
+  dataAquisicao         DateTime?
+  vidaUtilAnos          Int?      @default(5)
+  valorResidual         Float?    @default(0)
+  valorLocacaoDiaria    Float?
+  valorLocacaoMensal    Float?
+  comOperador           Boolean   @default(false)
+  planoManutencao       String?
+  empresa               Empresa   @relation(fields: [empresaId], references: [id])
+  obra                  Obra?     @relation(fields: [obraId], references: [id])
+  frenteServico         FrenteServico? @relation(fields: [frenteServicoId], references: [id])
+  centroCusto           CentroCusto? @relation(fields: [centroCustoId], references: [id])
+  manutencoes           Manutencao[]
+  apontamentos          Apontamento[]
+  historico             HistoricoEquipamento[]
+  estoqueMovimentos     EstoqueMovimento[]
+  medicaoEquipamentos   MedicaoEquipamento[]
+  alertas               Alerta[]
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+model Manutencao {
+  id               Int       @id @default(autoincrement())
+  equipamentoId    Int
+  tipo             String
+  dataProgramada   DateTime?
+  dataRealizada    DateTime?
+  descricao        String
+  observacoes      String?
+  horasEquipamento Int
+  custo            Float?
+  status           String    @default("programada")
+  prioridade       String    @default("media")
+  equipamento      Equipamento @relation(fields: [equipamentoId], references: [id])
+  itens            ManutencaoItem[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model ManutencaoItem {
+  id           Int        @id @default(autoincrement())
+  manutencaoId Int
+  descricao    String
+  quantidade   Int
+  valorUnitario Float?
+  tipo         String
+  manutencao   Manutencao @relation(fields: [manutencaoId], references: [id])
+  createdAt    DateTime   @default(now())
+}
+
+model Apontamento {
+  id               Int       @id @default(autoincrement())
+  data             DateTime  @default(now())
+  equipamentoId    Int
+  frenteServicoId  Int
+  operadorId       Int?
+  horasInicial     Int
+  horasFinal       Int
+  horasTrabalhadas Int
+  combustivelLitros Float?
+  observacoes      String?
+  equipamento      Equipamento   @relation(fields: [equipamentoId], references: [id])
+  frenteServico    FrenteServico @relation(fields: [frenteServicoId], references: [id])
+  operador         Usuario?      @relation(fields: [operadorId], references: [id])
+  createdAt        DateTime  @default(now())
+}
+
+model HistoricoEquipamento {
+  id            Int         @id @default(autoincrement())
+  equipamentoId Int
+  tipo          String
+  data          DateTime    @default(now())
+  descricao     String
+  valor         Float?
+  obraOrigemId  Int?
+  obraDestinoId Int?
+  usuarioId     Int
+  equipamento   Equipamento @relation(fields: [equipamentoId], references: [id])
+  obraOrigem    Obra?       @relation("origem", fields: [obraOrigemId], references: [id])
+  obraDestino   Obra?       @relation("destino", fields: [obraDestinoId], references: [id])
+  usuario       Usuario     @relation(fields: [usuarioId], references: [id])
+  createdAt     DateTime    @default(now())
+}
+
+model Estoque {
+  id            Int       @id @default(autoincrement())
+  nome          String
+  codigo        String    @unique
+  descricao     String?
+  categoria     String
+  unidade       String
+  estoqueMinimo Int
+  estoqueMaximo Int
+  estoqueAtual  Int       @default(0)
+  valorUnitario Float?
+  localizacao   String?
+  empresaId     Int
+  empresa       Empresa   @relation(fields: [empresaId], references: [id])
+  movimentos    EstoqueMovimento[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model EstoqueMovimento {
+  id            Int         @id @default(autoincrement())
+  estoqueId     Int
+  tipo          String
+  quantidade    Int
+  valorUnitario Float?
+  valorTotal    Float?
+  data          DateTime    @default(now())
+  equipamentoId Int?
+  observacao    String?
+  usuarioId     Int
+  estoque       Estoque     @relation(fields: [estoqueId], references: [id])
+  equipamento   Equipamento? @relation(fields: [equipamentoId], references: [id])
+  usuario       Usuario     @relation(fields: [usuarioId], references: [id])
+  createdAt     DateTime    @default(now())
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 }
 
 model Pagamento {
@@ -344,6 +659,7 @@ model Pagamento {
 }
 
 model Log {
+<<<<<<< HEAD
   id                Int       @id @default(autoincrement())
   usuarioId         Int?
   empresaId         Int?
@@ -357,6 +673,104 @@ model Log {
   usuario           Usuario?  @relation(fields: [usuarioId], references: [id])
   empresa           Empresa?  @relation(fields: [empresaId], references: [id])
   createdAt         DateTime  @default(now())
+=======
+  id          Int      @id @default(autoincrement())
+  usuarioId   Int?
+  empresaId   Int?
+  acao        String
+  entidade    String
+  entidadeId  Int?
+  dadosAntigos String?
+  dadosNovos  String?
+  ip          String?
+  userAgent   String?
+  usuario     Usuario? @relation(fields: [usuarioId], references: [id])
+  empresa     Empresa? @relation(fields: [empresaId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model Alerta {
+  id            Int         @id @default(autoincrement())
+  empresaId     Int
+  equipamentoId Int?
+  tipo          String
+  gravidade     String      @default("media")
+  titulo        String
+  descricao     String
+  status        String      @default("ativo")
+  lido          Boolean     @default(false)
+  lidoEm        DateTime?
+  valor         Float?
+  limite        Float?
+  diasRestantes Int?
+  diasAtraso    Int?
+  data          DateTime?
+  empresa       Empresa     @relation(fields: [empresaId], references: [id])
+  equipamento   Equipamento? @relation(fields: [equipamentoId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([empresaId])
+  @@index([status])
+}
+
+model ConfiguracaoAlerta {
+  id                  Int      @id @default(autoincrement())
+  empresaId           Int
+  tipo                String
+  limite              Float
+  unidade             String
+  notificarEmail      Boolean  @default(false)
+  notificarSistema    Boolean  @default(true)
+  destinatarios       String?
+  diasAntecedencia    Int?     @default(7)
+  horarioNotificacao  String?
+  ativo               Boolean  @default(true)
+  empresa             Empresa  @relation(fields: [empresaId], references: [id])
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@unique([empresaId, tipo])
+  @@map("configuracao_alerta")
+}
+
+model RelatorioLog {
+  id         Int      @id @default(autoincrement())
+  empresaId  Int
+  usuarioId  Int?
+  tipo       String
+  formato    String   @default("pdf")
+  parametros String?
+  status     String   @default("concluido")
+  empresa    Empresa  @relation(fields: [empresaId], references: [id])
+  usuario    Usuario? @relation(fields: [usuarioId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([empresaId])
+  @@map("relatorio_log")
+}
+
+model RelatorioPersonalizado {
+  id              Int       @id @default(autoincrement())
+  empresaId       Int
+  nome            String
+  descricao       String?
+  tipo            String
+  formato         String    @default("pdf")
+  parametros      String?
+  agendado        Boolean   @default(false)
+  frequencia      String?
+  proximaExecucao DateTime?
+  ultimaExecucao  DateTime?
+  ativo           Boolean   @default(true)
+  empresa         Empresa   @relation(fields: [empresaId], references: [id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([empresaId])
+  @@map("relatorio_personalizado")
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 }
 
 model Blog {
@@ -364,13 +778,21 @@ model Blog {
   titulo         String
   slug           String    @unique
   resumo         String
+<<<<<<< HEAD
   conteudo       String    @db.Text
+=======
+  conteudo       String
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   imagem         String?
   autor          String
   autorAvatar    String?
   autorBio       String?
   categoria      String
+<<<<<<< HEAD
   tags           String    @db.Text
+=======
+  tags           String
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   destaque       Boolean   @default(false)
   publicado      Boolean   @default(false)
   dataPublicacao DateTime?
@@ -385,6 +807,7 @@ model Blog {
 }
 
 model Comentario {
+<<<<<<< HEAD
   id          Int         @id @default(autoincrement())
   blogId      Int
   usuarioId   Int?
@@ -398,6 +821,21 @@ model Comentario {
   usuario     Usuario?    @relation(fields: [usuarioId], references: [id])
   respostas   Comentario[] @relation("respostas")
   parent      Comentario?  @relation("respostas", fields: [parentId], references: [id])
+=======
+  id         Int         @id @default(autoincrement())
+  blogId     Int
+  usuarioId  Int?
+  nome       String
+  email      String?
+  comentario String
+  parentId   Int?
+  likes      Int         @default(0)
+  data       DateTime    @default(now())
+  blog       Blog        @relation(fields: [blogId], references: [id])
+  usuario    Usuario?    @relation(fields: [usuarioId], references: [id])
+  respostas  Comentario[] @relation("respostas")
+  parent     Comentario?  @relation("respostas", fields: [parentId], references: [id])
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   @@index([blogId])
   @@index([parentId])
@@ -417,12 +855,21 @@ model Like {
 }
 
 model Configuracao {
+<<<<<<< HEAD
   id                Int       @id @default(autoincrement())
   chave             String    @unique
   valor             String    @db.Text
   descricao         String?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
+=======
+  id        Int      @id @default(autoincrement())
+  chave     String   @unique
+  valor     String
+  descricao String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 }
 
 model Newsletter {
@@ -435,6 +882,7 @@ model Newsletter {
 }
 
 model Contato {
+<<<<<<< HEAD
   id        Int      @id @default(autoincrement())
   nome      String
   email     String
@@ -446,12 +894,26 @@ model Contato {
   respondidoEm DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+=======
+  id           Int      @id @default(autoincrement())
+  nome         String
+  email        String
+  telefone     String?
+  empresa      String?
+  mensagem     String
+  status       String   @default("pendente")
+  resposta     String?
+  respondidoEm DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   @@index([status])
   @@index([email])
 }
 
 model ConfiguracaoNotificacao {
+<<<<<<< HEAD
   id                Int      @id @default(autoincrement())
   empresaId         Int      @unique
   emailAlertas      Boolean  @default(true)
@@ -463,6 +925,19 @@ model ConfiguracaoNotificacao {
   sistemaRelatorios Boolean  @default(true)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+=======
+  id                 Int      @id @default(autoincrement())
+  empresaId          Int      @unique
+  emailAlertas       Boolean  @default(true)
+  emailRelatorios    Boolean  @default(false)
+  emailManutencoes   Boolean  @default(true)
+  emailPromocoes     Boolean  @default(false)
+  sistemaAlertas     Boolean  @default(true)
+  sistemaManutencoes Boolean  @default(true)
+  sistemaRelatorios  Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   empresa Empresa @relation(fields: [empresaId], references: [id])
 
@@ -470,6 +945,7 @@ model ConfiguracaoNotificacao {
 }
 
 model ModeloMedicao {
+<<<<<<< HEAD
   id          Int       @id @default(autoincrement())
   nome        String
   descricao   String?
@@ -479,6 +955,17 @@ model ModeloMedicao {
   medicoes    Medicao[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+=======
+  id        Int       @id @default(autoincrement())
+  nome      String
+  descricao String?
+  empresaId Int?
+  isPublic  Boolean   @default(false)
+  campos    String?
+  medicoes  Medicao[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 }
 
 model Medicao {

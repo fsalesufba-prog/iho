@@ -27,7 +27,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/Textarea'
 import { Alert, AlertDescription } from '@/components/ui/Alert'
 import { useToast } from '@/components/ui/use-toast'
+<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 const itemSchema = z.object({
@@ -61,7 +64,10 @@ interface Equipamento {
 
 export default function NovaManutencaoCorretivaPage() {
   const router = useRouter()
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [saving, setSaving] = useState(false)
@@ -70,7 +76,11 @@ export default function NovaManutencaoCorretivaPage() {
   const [novoItem, setNovoItem] = useState<Partial<ItemFormData>>({
     tipo: 'servico'
   })
+<<<<<<< HEAD
   const [showAlert, setShowAlert] = useState(false)
+=======
+  const [showAlert] = useState(false)
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const {
     register,
@@ -287,7 +297,11 @@ export default function NovaManutencaoCorretivaPage() {
                         {...register('descricao')}
                         placeholder="Descreva o problema/falha observada..."
                         className="min-h-[100px]"
+<<<<<<< HEAD
                         error={!!errors.descricao}
+=======
+                        aria-invalid={!!errors.descricao}
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                       />
                       {errors.descricao && (
                         <p className="text-sm text-destructive">{errors.descricao.message}</p>

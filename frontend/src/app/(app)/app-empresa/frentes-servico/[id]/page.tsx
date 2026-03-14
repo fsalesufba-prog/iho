@@ -47,7 +47,10 @@ import {
 
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
+<<<<<<< HEAD
 import { useAuth } from '@/components/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 import { format } from 'date-fns'
@@ -96,7 +99,10 @@ export default function FrenteDetalhePage() {
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const id = params.id as string
 
   const [frente, setFrente] = useState<FrenteServico | null>(null)
@@ -118,7 +124,11 @@ export default function FrenteDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes da frente',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -140,7 +150,11 @@ export default function FrenteDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a frente de serviço',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

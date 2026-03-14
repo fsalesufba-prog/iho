@@ -13,7 +13,10 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 import { useToast } from '@/components/ui/use-toast'
+<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
 
@@ -36,7 +39,10 @@ interface ClasseData {
 
 export default function DepreciacaoClassePage() {
   const params = useParams()
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [data, setData] = useState<ClasseData | null>(null)
@@ -50,7 +56,11 @@ export default function DepreciacaoClassePage() {
   const carregarDados = async () => {
     try {
       setLoading(true)
+<<<<<<< HEAD
       const response = await api.get(`/financeiro/depreciacao/classes/${encodeURIComponent(params.tipo)}`)
+=======
+      const response = await api.get(`/financeiro/depreciacao/classes/${encodeURIComponent(String(params.tipo))}`)
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       setData(response.data.data)
     } catch (error) {
       toast({

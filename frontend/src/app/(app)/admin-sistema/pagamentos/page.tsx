@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+<<<<<<< HEAD
 import Link from 'next/link'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { useRouter } from 'next/navigation'
 import {
   DollarSign,
@@ -18,7 +21,10 @@ import {
   AlertTriangle,
   CreditCard,
   QrCode,
+<<<<<<< HEAD
   Barcode,
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   FileText,
   Mail,
   TrendingUp,
@@ -150,7 +156,11 @@ export default function PagamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os pagamentos',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -189,7 +199,11 @@ export default function PagamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o pagamento',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -208,7 +222,11 @@ export default function PagamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -225,7 +243,11 @@ export default function PagamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível reenviar o e-mail',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -284,7 +306,11 @@ export default function PagamentosPage() {
       case 'pix':
         return <QrCode className="h-4 w-4" />
       case 'boleto':
+<<<<<<< HEAD
         return <Barcode className="h-4 w-4" />
+=======
+        return <FileText className="h-4 w-4" />
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       default:
         return <DollarSign className="h-4 w-4" />
     }

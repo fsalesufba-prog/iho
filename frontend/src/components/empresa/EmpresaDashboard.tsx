@@ -16,7 +16,11 @@ import { Button } from '@/components/ui/Button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { Progress } from '@/components/ui/Progress'
 import { Badge } from '@/components/ui/Badge'
+<<<<<<< HEAD
 
+=======
+import { cn } from '@/lib/utils'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import {
   Select,
   SelectContent,
@@ -25,8 +29,11 @@ import {
   SelectValue,
 } from '@/components/ui/Select'
 import { EmpresaList } from './EmpresaList'
+<<<<<<< HEAD
 import { EmpresaMetrics } from './EmpresaMetrics'
 import { EmpresaAlerts } from './EmpresaAlerts'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
 
@@ -84,7 +91,11 @@ export function EmpresaDashboard() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o dashboard',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -287,6 +298,7 @@ export function EmpresaDashboard() {
           <EmpresaList />
         </TabsContent>
 
+<<<<<<< HEAD
         <TabsContent value="metricas" className="mt-4">
           <EmpresaMetrics />
         </TabsContent>
@@ -295,6 +307,8 @@ export function EmpresaDashboard() {
           <EmpresaAlerts />
         </TabsContent>
 
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         <TabsContent value="financeiro" className="mt-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card>

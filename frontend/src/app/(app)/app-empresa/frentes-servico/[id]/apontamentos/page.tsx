@@ -125,7 +125,11 @@ export default function ApontamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os apontamentos',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -154,7 +158,11 @@ export default function ApontamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o apontamento',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

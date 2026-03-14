@@ -37,6 +37,7 @@ All environment variables are set in Replit's secrets/env panel:
 - `PORT=3001` — Backend port
 - See `backend/.env.example` for full list
 
+<<<<<<< HEAD
 ## Hostinger Deployment (Servidor Unificado)
 
 A pasta raiz contém um servidor unificado que serve frontend e backend na mesma porta:
@@ -77,6 +78,8 @@ A pasta raiz contém um servidor unificado que serve frontend e backend na mesma
 
 ---
 
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 ## Migration Notes (Replit Import - Session 3)
 
 - Backend `.env` updated: removed MySQL `DATABASE_URL` override so Replit's PostgreSQL env var takes precedence

@@ -15,7 +15,11 @@ import {
   Phone,
   Building2,
   MapPin,
+<<<<<<< HEAD
   Loader2,
+=======
+  Loader2
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
@@ -30,11 +34,19 @@ import {
   FormDescription,
 } from '@/components/ui/Form'
 import { Alert, AlertDescription } from '@/components/ui/Alert'
+<<<<<<< HEAD
+=======
+import { Checkbox } from '../ui/Checkbox'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
 import { cn } from '@/lib/utils'
+<<<<<<< HEAD
 import { Masks } from '@/lib/masks'
+=======
+import { masks } from '@/lib/masks'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 const formSchema = z.object({
   // Dados da Empresa
@@ -151,7 +163,11 @@ export function RegisterForm({ planos, onSuccess }: RegisterFormProps) {
       toast({
         title: 'Erro no cadastro',
         description: err.response?.data?.message || 'Tente novamente mais tarde',
+<<<<<<< HEAD
         variant: 'destructive',
+=======
+        variant: 'error',
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setIsLoading(false)
@@ -238,7 +254,11 @@ export function RegisterForm({ planos, onSuccess }: RegisterFormProps) {
                           <Input
                             placeholder="00.000.000/0000-00"
                             {...field}
+<<<<<<< HEAD
                             onChange={(e) => field.onChange(Masks.cnpj(e.target.value))}
+=======
+                            onChange={(e) => field.onChange(masks.cnpj(e.target.value))}
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                           />
                         </FormControl>
                         <FormMessage />
@@ -282,7 +302,11 @@ export function RegisterForm({ planos, onSuccess }: RegisterFormProps) {
                               placeholder="(00) 00000-0000"
                               className="pl-10"
                               {...field}
+<<<<<<< HEAD
                               onChange={(e) => field.onChange(Masks.phone(e.target.value))}
+=======
+                              onChange={(e) => field.onChange(masks.phone(e.target.value))}
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                             />
                           </div>
                         </FormControl>
@@ -301,7 +325,11 @@ export function RegisterForm({ planos, onSuccess }: RegisterFormProps) {
                           <Input
                             placeholder="00000-000"
                             {...field}
+<<<<<<< HEAD
                             onChange={(e) => field.onChange(Masks.cep(e.target.value))}
+=======
+                            onChange={(e) => field.onChange(masks.cep(e.target.value))}
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                           />
                         </FormControl>
                         <FormMessage />
@@ -428,7 +456,11 @@ export function RegisterForm({ planos, onSuccess }: RegisterFormProps) {
                               placeholder="(00) 00000-0000"
                               className="pl-10"
                               {...field}
+<<<<<<< HEAD
                               onChange={(e) => field.onChange(Masks.phone(e.target.value))}
+=======
+                              onChange={(e) => field.onChange(masks.phone(e.target.value))}
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                             />
                           </div>
                         </FormControl>

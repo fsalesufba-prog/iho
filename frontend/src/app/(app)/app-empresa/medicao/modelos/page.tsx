@@ -18,6 +18,10 @@ import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
+<<<<<<< HEAD
+=======
+import { Skeleton } from '@/components/ui/Skeleton'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Card, CardContent } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Badge } from '@/components/ui/Badge'

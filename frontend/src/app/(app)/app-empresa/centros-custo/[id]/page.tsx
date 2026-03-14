@@ -16,11 +16,19 @@ import {
   Star,
   TrendingUp,
   TrendingDown,
+<<<<<<< HEAD
+=======
+  Minus,
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   Award,
   CheckCircle,
   XCircle,
   Calendar,
   MoreVertical,
+<<<<<<< HEAD
+=======
+  ArrowRight
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
@@ -51,7 +59,10 @@ import {
 
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
+<<<<<<< HEAD
 import { useAuth } from '@/components/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 import { format } from 'date-fns'
@@ -111,12 +122,18 @@ export default function CentroCustoDetalhePage() {
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const id = params.id as string
 
   const [centro, setCentro] = useState<CentroCusto | null>(null)
   const [loading, setLoading] = useState(true)
+<<<<<<< HEAD
   const [activeTab, setActiveTab] = useState('visao-geral')
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   useEffect(() => {
@@ -133,7 +150,11 @@ export default function CentroCustoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes do centro de custo',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -155,7 +176,11 @@ export default function CentroCustoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o centro de custo',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

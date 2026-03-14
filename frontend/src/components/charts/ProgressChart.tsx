@@ -11,7 +11,11 @@ import { ChartCard } from './ChartCard'
 import { ChartSkeleton } from './ChartSkeleton'
 import { ChartNoData } from './ChartNoData'
 import { ChartError } from './ChartError'
+<<<<<<< HEAD
 import { useTheme } from '@/components/theme/useTheme'
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 interface ProgressItem {
   name: string
@@ -56,10 +60,16 @@ export function ProgressChart({
   showTargets = true,
   className = '',
   thickness = 20,
+<<<<<<< HEAD
   gap = 10,
   formatValue = (value, unit) => unit ? `${value}${unit}` : value.toString()
 }: ProgressChartProps) {
   const { theme } = useTheme()
+=======
+  formatValue = (value, unit) => unit ? `${value}${unit}` : value.toString()
+}: ProgressChartProps) {
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   if (loading) {
     return <ChartSkeleton height={height} />

@@ -8,7 +8,10 @@ import {
   Plus,
   Search,
   Filter,
+<<<<<<< HEAD
   Download,
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   Eye,
   Edit,
   Trash2,

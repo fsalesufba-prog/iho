@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
+<<<<<<< HEAD
 import Link from 'next/link'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -78,7 +81,11 @@ export default function NovaEmpresaPage() {
   const [criarUsuario, setCriarUsuario] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+<<<<<<< HEAD
   const [erros, setErros] = useState<Record<string, string>>({})
+=======
+
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const empresaForm = useForm<EmpresaFormData>({
     resolver: zodResolver(empresaSchema),
@@ -163,7 +170,11 @@ export default function NovaEmpresaPage() {
       toast({
         title: 'Erro',
         description: error.response?.data?.message || 'Não foi possível criar a empresa',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)

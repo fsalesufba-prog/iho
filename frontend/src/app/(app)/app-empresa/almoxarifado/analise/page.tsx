@@ -19,7 +19,10 @@ import { Container } from '@/components/common/Container'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { useToast } from '@/components/ui/use-toast'
+<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
 
@@ -45,7 +48,10 @@ interface AnaliseData {
 }
 
 export default function AnalisePage() {
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [data, setData] = useState<AnaliseData | null>(null)
@@ -165,7 +171,11 @@ export default function AnalisePage() {
                       <div>
                         <p className="text-sm text-muted-foreground mb-2">Top itens consumidos</p>
                         <div className="space-y-2">
+<<<<<<< HEAD
                           {data?.consumo.topItems.slice(0, 3).map((item, index) => (
+=======
+                          {data?.consumo.topItems.slice(0, 3).map((item) => (
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                             <div key={item.id} className="flex justify-between text-sm">
                               <span className="truncate max-w-[150px]">{item.nome}</span>
                               <span className="font-medium">{item.quantidade} un</span>
@@ -253,7 +263,11 @@ export default function AnalisePage() {
                             Object.entries(data.custos.porCategoria)
                               .sort(([, a], [, b]) => b - a)
                               .slice(0, 3)
+<<<<<<< HEAD
                               .map(([categoria, valor], index) => (
+=======
+                              .map(([categoria, valor]) => (
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                                 <div key={categoria} className="flex justify-between text-sm">
                                   <span className="truncate max-w-[150px]">{categoria}</span>
                                   <span className="font-medium">{formatCurrency(valor)}</span>

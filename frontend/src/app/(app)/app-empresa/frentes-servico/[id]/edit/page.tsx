@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
+<<<<<<< HEAD
 import Link from 'next/link'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -25,7 +28,10 @@ import {
 
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
+<<<<<<< HEAD
 import { useAuth } from '@/components/hooks/useAuth'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 const frenteSchema = z.object({
@@ -40,7 +46,10 @@ export default function EditarFrentePage() {
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
+<<<<<<< HEAD
   const { user } = useAuth()
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const id = params.id as string
 
   const [loading, setLoading] = useState(true)
@@ -74,7 +83,11 @@ export default function EditarFrentePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar a frente de serviço',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
       router.push('/app-empresa/frentes-servico')
     } finally {
@@ -99,7 +112,11 @@ export default function EditarFrentePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível atualizar a frente de serviço',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setSaving(false)

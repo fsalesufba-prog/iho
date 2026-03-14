@@ -402,7 +402,11 @@ export class PrevisaoService {
     })
 
     for (const m of manutencoesProgramadas) {
+<<<<<<< HEAD
       const diasAte = Math.round((m.dataProgramada.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24))
+=======
+      const diasAte = Math.round((m.dataProgramada!.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24))
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       
       if (diasAte <= 7) {
         alertas.push({
@@ -410,7 +414,11 @@ export class PrevisaoService {
           gravidade: diasAte <= 3 ? 'alta' : 'media',
           equipamento: m.equipamento.tag,
           descricao: `Manutenção preventiva programada para daqui a ${diasAte} dias`,
+<<<<<<< HEAD
           data: m.dataProgramada.toISOString().split('T')[0],
+=======
+          data: m.dataProgramada!.toISOString().split('T')[0],
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           diasAte
         })
       }
@@ -472,7 +480,11 @@ export class PrevisaoService {
     const cenarios = {
       otimista: {
         ...base,
+<<<<<<< HEAD
         previsao: base.previsao.map(p => ({
+=======
+        previsao: base.previsao.map((p: any) => ({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           ...p,
           valor: p.valor * 0.9,
           intervaloMin: p.intervaloMin * 0.85,
@@ -482,7 +494,11 @@ export class PrevisaoService {
       realista: base,
       pessimista: {
         ...base,
+<<<<<<< HEAD
         previsao: base.previsao.map(p => ({
+=======
+        previsao: base.previsao.map((p: any) => ({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           ...p,
           valor: p.valor * 1.2,
           intervaloMin: p.intervaloMin * 1.15,
@@ -504,7 +520,11 @@ export class PrevisaoService {
       this.preverCustos(empresaId, 6)
     ])
 
+<<<<<<< HEAD
     const recomendacoes = []
+=======
+    const recomendacoes: any[] = []
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
     // Recomendações de uso
     const equipamentosCriticos = this.identificarEquipamentosCriticos(uso)
@@ -519,7 +539,11 @@ export class PrevisaoService {
     }
 
     // Recomendações de manutenção
+<<<<<<< HEAD
     const manutencoesProximas = manutencoes.previsoes.filter(p => 
+=======
+    const manutencoesProximas = manutencoes.previsoes.filter((p: any) => 
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       p.previsao[0]?.diasAteProxima <= 30
     )
     if (manutencoesProximas.length > 0) {
@@ -690,7 +714,11 @@ export class PrevisaoService {
     if (previsoes.length === 0) return {}
 
     const totalHorasProjetadas = previsoes.reduce((sum, p) => {
+<<<<<<< HEAD
       const total = p.previsao.reduce((s, m) => s + m.horas, 0)
+=======
+      const total = p.previsao.reduce((s: number, m: any) => s + m.horas, 0)
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       return sum + total
     }, 0)
 
@@ -707,7 +735,11 @@ export class PrevisaoService {
   private calcularResumoManutencoes(previsoes: any[]): any {
     if (previsoes.length === 0) return {}
 
+<<<<<<< HEAD
     const manutencoesProximas = previsoes.filter(p => p.previsao[0]?.diasAteProxima <= 30)
+=======
+    const manutencoesProximas = previsoes.filter((p: any) => p.previsao[0]?.diasAteProxima <= 30)
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
     return {
       totalEquipamentosAnalisados: previsoes.length,
@@ -722,8 +754,13 @@ export class PrevisaoService {
   private calcularTendenciaGeralUso(uso: any): string {
     if (!uso.previsoes || uso.previsoes.length === 0) return 'estável'
     
+<<<<<<< HEAD
     const tendencias = uso.previsoes.map(p => p.tendencia)
     const mediaTendencia = tendencias.reduce((a, b) => a + b, 0) / tendencias.length
+=======
+    const tendencias = uso.previsoes.map((p: any) => p.tendencia)
+    const mediaTendencia = tendencias.reduce((a: any, b: any) => a + b, 0) / tendencias.length
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     
     if (mediaTendencia > 0.05) return 'crescente'
     if (mediaTendencia < -0.05) return 'decrescente'
@@ -737,8 +774,13 @@ export class PrevisaoService {
     if (!uso.previsoes) return []
     
     return uso.previsoes
+<<<<<<< HEAD
       .filter(p => p.tendencia > 0.1)
       .map(p => ({
+=======
+      .filter((p: any) => p.tendencia > 0.1)
+      .map((p: any) => ({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         id: p.equipamentoId,
         tag: p.equipamentoTag,
         nome: p.equipamentoNome,
@@ -750,7 +792,11 @@ export class PrevisaoService {
    * Gerar recomendações de uso
    */
   private gerarRecomendacoesUso(uso: any): string[] {
+<<<<<<< HEAD
     const recomendacoes = []
+=======
+    const recomendacoes: any[] = []
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     const criticos = this.identificarEquipamentosCriticos(uso)
     
     if (criticos.length > 0) {
@@ -774,8 +820,13 @@ export class PrevisaoService {
     if (!manutencoes.previsoes) return []
     
     return manutencoes.previsoes
+<<<<<<< HEAD
       .filter(p => p.previsao[0]?.diasAteProxima <= 15)
       .map(p => ({
+=======
+      .filter((p: any) => p.previsao[0]?.diasAteProxima <= 15)
+      .map((p: any) => ({
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         id: p.equipamentoId,
         tag: p.equipamentoTag,
         dias: p.previsao[0]?.diasAteProxima
@@ -785,8 +836,13 @@ export class PrevisaoService {
   /**
    * Gerar recomendações de manutenção
    */
+<<<<<<< HEAD
   private gerarRecomendacoesManutencao(manutencoes: any): string[] {
     const recomendacoes = []
+=======
+  public gerarRecomendacoesManutencao(manutencoes: any): string[] {
+    const recomendacoes: any[] = []
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     const atencao = this.identificarEquipamentosAtencao(manutencoes)
     
     if (atencao.length > 0) {
@@ -800,7 +856,11 @@ export class PrevisaoService {
    * Gerar recomendações de custos
    */
   private gerarRecomendacoesCustos(custos: any): string[] {
+<<<<<<< HEAD
     const recomendacoes = []
+=======
+    const recomendacoes: any[] = []
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     
     if (custos.estatisticas.tendencia > 0.05) {
       recomendacoes.push('Revisar orçamento devido à tendência de aumento de custos')

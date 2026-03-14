@@ -208,7 +208,10 @@ export function LineChartComponent({
               yAxisId={s.yAxisId || 0}
               fill={area ? (s.color || colors[index % colors.length]) : undefined}
               fillOpacity={area ? fillOpacity : undefined}
+<<<<<<< HEAD
               stackId={stacked ? 'stack' : undefined}
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
             />
           ))}
 

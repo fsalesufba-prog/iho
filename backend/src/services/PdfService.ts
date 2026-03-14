@@ -162,6 +162,41 @@ export class PdfService {
       resolve(Buffer.concat(chunks))
     })
   }
+<<<<<<< HEAD
+=======
+
+  async gerarRelatorio(relatorio: any, tipo: string): Promise<Buffer> {
+    return new Promise((resolve) => {
+      const doc = new PDFDocument({ margin: 50 })
+      const chunks: Buffer[] = []
+
+      doc.on('data', (chunk: Buffer) => chunks.push(chunk))
+      doc.on('end', () => resolve(Buffer.concat(chunks)))
+
+      doc.fontSize(18).text(`Relatório IHO - ${tipo}`, { align: 'center' })
+      doc.moveDown()
+      doc.fontSize(10).text(`Gerado em: ${new Date().toLocaleString('pt-BR')}`)
+      doc.moveDown()
+
+      if (relatorio && typeof relatorio === 'object') {
+        const renderObj = (obj: any, depth = 0) => {
+          Object.entries(obj).forEach(([key, value]) => {
+            const indent = '  '.repeat(depth)
+            if (value && typeof value === 'object' && !Array.isArray(value) && !(value instanceof Date)) {
+              doc.fontSize(10).text(`${indent}${key}:`)
+              renderObj(value, depth + 1)
+            } else {
+              doc.fontSize(10).text(`${indent}${key}: ${String(value ?? '')}`)
+            }
+          })
+        }
+        renderObj(relatorio)
+      }
+
+      doc.end()
+    })
+  }
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 }
 
 export const pdfService = new PdfService()

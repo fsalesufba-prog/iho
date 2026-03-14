@@ -784,7 +784,11 @@ export class IndicadorService {
       // Alertas de manutenção atrasada
       for (const m of eq.manutencoes) {
         const diasAtraso = Math.floor(
+<<<<<<< HEAD
           (Date.now() - m.dataProgramada.getTime()) / (1000 * 60 * 60 * 24)
+=======
+          (Date.now() - m.dataProgramada!.getTime()) / (1000 * 60 * 60 * 24)
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         )
 
         alertas.push({

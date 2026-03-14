@@ -124,7 +124,11 @@ export default function PlanosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os planos',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -163,7 +167,11 @@ export default function PlanosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o plano',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -186,7 +194,11 @@ export default function PlanosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível duplicar o plano',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

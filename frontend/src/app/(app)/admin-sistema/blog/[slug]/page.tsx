@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
+<<<<<<< HEAD
 import Link from 'next/link'
+=======
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import Image from 'next/image'
 import {
   ArrowLeft,
@@ -21,6 +24,10 @@ import {
   Star,
   MoreVertical,
   Link2,
+<<<<<<< HEAD
+=======
+  TrendingUp
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
@@ -100,7 +107,11 @@ export default function PostDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o post',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -122,7 +133,11 @@ export default function PostDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o post',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -142,7 +157,11 @@ export default function PostDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar a publicação',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -162,7 +181,11 @@ export default function PostDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o destaque',
+<<<<<<< HEAD
         variant: 'destructive'
+=======
+        variant: 'error'
+>>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
