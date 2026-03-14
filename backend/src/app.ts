@@ -33,9 +33,19 @@ app.use(morgan('combined', {
   stream: { write: (message) => logger.info(message.trim()) }
 }))
 
-// CORS
+// CORS — em produção permite a origem configurada; em dev aceita qualquer
+const corsOrigin = process.env.FRONTEND_URL || 'http://localhost:3000'
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    // Sem origin = requisição server-side ou mesma origem → ok
+    if (!origin) return callback(null, true)
+    // Em produção, verifica a lista de origens permitidas
+    const allowed = [corsOrigin, 'http://localhost:3000', 'http://localhost:5000']
+    if (allowed.includes(origin) || process.env.NODE_ENV !== 'production') {
+      return callback(null, true)
+    }
+    callback(new Error('Not allowed by CORS'))
+  },
   credentials: true,
   optionsSuccessStatus: 200
 }))

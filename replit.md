@@ -37,6 +37,46 @@ All environment variables are set in Replit's secrets/env panel:
 - `PORT=3001` — Backend port
 - See `backend/.env.example` for full list
 
+## Hostinger Deployment (Servidor Unificado)
+
+A pasta raiz contém um servidor unificado que serve frontend e backend na mesma porta:
+
+- **`server.js`** — Entry point para produção: combina Next.js + Express numa única porta
+- **`package.json`** — Scripts de build/start para o Hostinger
+
+### Como fazer o deploy no Hostinger
+
+1. **Enviar código** (git push ou upload direto)
+2. **Variáveis de ambiente** no painel Hostinger:
+   - `DATABASE_URL` — PostgreSQL da produção (MySQL/PG Hostinger ou externo)
+   - `JWT_SECRET`, `JWT_REFRESH_SECRET` — Copiar do `backend/.env`
+   - `NODE_ENV=production`
+   - `PORT` — normalmente definido automaticamente pelo Hostinger
+   - `FRONTEND_URL=https://SEU_DOMINIO.com` — para CORS
+   - As demais vars do `backend/.env` (SMTP, InfinitePay, etc.)
+3. **Instalar dependências** (painel ou SSH):
+   ```
+   npm run install:all
+   ```
+4. **Buildar** (painel ou SSH):
+   ```
+   npm run build
+   ```
+5. **Startup command** no painel Hostinger:
+   ```
+   npm start
+   ```
+   ou `node server.js`
+
+### Como funciona
+
+- Requisições `/api/*` → Express backend  
+- Requisições `/health` → Express health check  
+- Tudo o mais → Next.js (SSR + páginas estáticas)
+- Não precisa configurar `NEXT_PUBLIC_API_URL` — o sistema detecta automaticamente
+
+---
+
 ## Migration Notes (Replit Import - Session 3)
 
 - Backend `.env` updated: removed MySQL `DATABASE_URL` override so Replit's PostgreSQL env var takes precedence
