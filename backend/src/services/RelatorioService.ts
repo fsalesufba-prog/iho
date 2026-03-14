@@ -1,5 +1,5 @@
 import prisma from '../config/database'
-import { format, subDays, startOfMonth, endOfMonth } from 'date-fns'
+import { subDays, startOfMonth } from 'date-fns'
 
 export interface RelatorioParams {
   tipo: string
@@ -17,11 +17,7 @@ export class RelatorioService {
    * Listar relatórios recentes
    */
   async listarRecentes(empresaId: number) {
-<<<<<<< HEAD
-    return prisma.relatorioLog.findMany({
-=======
     return (prisma as any).relatorioLog.findMany({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       where: { empresaId },
       include: {
         usuario: {
@@ -37,11 +33,7 @@ export class RelatorioService {
    * Listar relatórios agendados
    */
   async listarAgendados(empresaId: number) {
-<<<<<<< HEAD
-    return prisma.relatorioPersonalizado.findMany({
-=======
     return (prisma as any).relatorioPersonalizado.findMany({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       where: { 
         empresaId,
         agendado: true
@@ -54,19 +46,11 @@ export class RelatorioService {
    * Obter estatísticas de relatórios
    */
   async obterEstatisticas(empresaId: number) {
-<<<<<<< HEAD
-    const total = await prisma.relatorioLog.count({
-      where: { empresaId }
-    })
-
-    const ultimos7Dias = await prisma.relatorioLog.count({
-=======
     const total = await (prisma as any).relatorioLog.count({
       where: { empresaId }
     })
 
     const ultimos7Dias = await (prisma as any).relatorioLog.count({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       where: {
         empresaId,
         createdAt: {
@@ -75,11 +59,7 @@ export class RelatorioService {
       }
     })
 
-<<<<<<< HEAD
-    const porTipo = await prisma.relatorioLog.groupBy({
-=======
     const porTipo = await (prisma as any).relatorioLog.groupBy({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       by: ['tipo'],
       where: { empresaId },
       _count: true
@@ -88,14 +68,39 @@ export class RelatorioService {
     return {
       total,
       ultimos7Dias,
-<<<<<<< HEAD
-      porTipo: porTipo.map(t => ({
-=======
       porTipo: porTipo.map((t: any) => ({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         tipo: t.tipo,
         quantidade: t._count
       }))
+    }
+  }
+
+  /**
+   * Listar relatórios gerenciais (paginado)
+   */
+  async listarGerenciais(empresaId: number, params: { page: number; limit: number }) {
+    const { page, limit } = params
+    const skip = (page - 1) * limit
+
+    const [relatorios, total] = await Promise.all([
+      (prisma as any).relatorioLog.findMany({
+        where: { empresaId },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+        include: {
+          usuario: { select: { nome: true } }
+        }
+      }),
+      (prisma as any).relatorioLog.count({ where: { empresaId } })
+    ])
+
+    return {
+      relatorios,
+      total,
+      page,
+      limit,
+      pages: Math.ceil(total / limit)
     }
   }
 
@@ -296,11 +301,7 @@ export class RelatorioService {
         custoTotal: manutencoes.reduce((sum, m) => sum + (m.custo || 0), 0),
         custoMedio: custoMedio._avg.custo || 0
       },
-<<<<<<< HEAD
-      porTipo: porTipo.map(t => ({
-=======
       porTipo: porTipo.map((t: any) => ({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         tipo: t.tipo,
         quantidade: t._count,
         custo: t._sum.custo || 0
@@ -315,20 +316,16 @@ export class RelatorioService {
   async executarRelatorioPersonalizado(empresaId: number, config: any, params: RelatorioParams) {
     const dados = await this.coletarDadosRelatorio(empresaId, config.tipo, params)
     
-    // Aplicar filtros personalizados
     let resultado = this.aplicarFiltros(dados, config.configuracoes.filtros)
     
-    // Agrupar dados se necessário
     if (config.configuracoes.agrupamento) {
       resultado = this.agruparDados(resultado, config.configuracoes.agrupamento)
     }
 
-    // Ordenar
     if (config.configuracoes.ordenacao) {
       resultado = this.ordenarDados(resultado, config.configuracoes.ordenacao)
     }
 
-    // Selecionar colunas
     if (config.configuracoes.colunas) {
       resultado = this.selecionarColunas(resultado, config.configuracoes.colunas)
     }
@@ -345,14 +342,9 @@ export class RelatorioService {
    * Agendar relatório
    */
   async agendarRelatorio(relatorioId: number, config: any) {
-    // Implementar agendamento com cron jobs
     const proximaExecucao = this.calcularProximaExecucao(config.frequencia)
     
-<<<<<<< HEAD
-    await prisma.relatorioPersonalizado.update({
-=======
     await (prisma as any).relatorioPersonalizado.update({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       where: { id: relatorioId },
       data: { 
         agendado: true,
@@ -361,9 +353,6 @@ export class RelatorioService {
         destinatarios: config.destinatarios
       }
     })
-
-    // Registrar no sistema de jobs
-    // ...
   }
 
   /**
@@ -372,11 +361,7 @@ export class RelatorioService {
   async atualizarAgendamento(relatorioId: number, config: any) {
     const proximaExecucao = config.agendado ? this.calcularProximaExecucao(config.frequencia) : null
 
-<<<<<<< HEAD
-    await prisma.relatorioPersonalizado.update({
-=======
     await (prisma as any).relatorioPersonalizado.update({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       where: { id: relatorioId },
       data: {
         agendado: config.agendado,
@@ -391,11 +376,7 @@ export class RelatorioService {
    * Remover agendamento
    */
   async removerAgendamento(relatorioId: number) {
-<<<<<<< HEAD
-    await prisma.relatorioPersonalizado.update({
-=======
     await (prisma as any).relatorioPersonalizado.update({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       where: { id: relatorioId },
       data: {
         agendado: false,
@@ -408,7 +389,6 @@ export class RelatorioService {
    * Converter para CSV
    */
   async converterParaCSV(dados: any): Promise<string> {
-    // Implementar conversão para CSV
     return JSON.stringify(dados)
   }
 
@@ -441,16 +421,12 @@ export class RelatorioService {
   /**
    * Obter detalhes de obras
    */
-  private async getDetalhesObras(empresaId: number, inicio: Date, fim: Date) {
+  private async getDetalhesObras(empresaId: number, _inicio: Date, _fim: Date) {
     const obras = await prisma.obra.findMany({
       where: { empresaId },
       include: {
         equipamentos: true,
-<<<<<<< HEAD
-        frentesServico: true
-=======
         frenteServicos: true
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       }
     })
 
@@ -460,11 +436,7 @@ export class RelatorioService {
       codigo: obra.codigo,
       status: obra.status,
       totalEquipamentos: obra.equipamentos.length,
-<<<<<<< HEAD
-      totalFrentes: obra.frentesServico.length
-=======
       totalFrentes: obra.frenteServicos.length
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     }))
   }
 
@@ -623,72 +595,24 @@ export class RelatorioService {
     }
   }
 
-  /**
-   * Aplicar filtros aos dados
-   */
   private aplicarFiltros(dados: any, filtros?: Record<string, any>) {
     if (!filtros) return dados
-    // Implementar lógica de filtros
+    return dados
+  }
+
+  private agruparDados(dados: any, _agrupamento: string) {
+    return dados
+  }
+
+  private ordenarDados(dados: any, _ordenacao: string) {
+    return dados
+  }
+
+  private selecionarColunas(dados: any, _colunas: string[]) {
     return dados
   }
 
   /**
-   * Agrupar dados
-   */
-  private agruparDados(dados: any, agrupamento: string) {
-    // Implementar lógica de agrupamento
-    return dados
-  }
-
-  /**
-   * Ordenar dados
-   */
-  private ordenarDados(dados: any, ordenacao: string) {
-    // Implementar lógica de ordenação
-    return dados
-  }
-
-  /**
-   * Selecionar colunas
-   */
-  private selecionarColunas(dados: any, colunas: string[]) {
-    // Implementar seleção de colunas
-    return dados
-  }
-
-  /**
-<<<<<<< HEAD
-=======
-   * Listar relatórios gerenciais
-   */
-  async listarGerenciais(empresaId: number, params: { page: number; limit: number }) {
-    const { page, limit } = params
-    const skip = (page - 1) * limit
-
-    const [relatorios, total] = await Promise.all([
-      (prisma as any).relatorioLog.findMany({
-        where: { empresaId },
-        orderBy: { createdAt: 'desc' },
-        skip,
-        take: limit,
-        include: {
-          usuario: { select: { nome: true } }
-        }
-      }),
-      (prisma as any).relatorioLog.count({ where: { empresaId } })
-    ])
-
-    return {
-      relatorios,
-      total,
-      page,
-      limit,
-      pages: Math.ceil(total / limit)
-    }
-  }
-
-  /**
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
    * Calcular próxima execução
    */
   private calcularProximaExecucao(frequencia: string): Date {

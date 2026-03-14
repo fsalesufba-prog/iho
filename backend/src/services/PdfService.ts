@@ -162,8 +162,6 @@ export class PdfService {
       resolve(Buffer.concat(chunks))
     })
   }
-<<<<<<< HEAD
-=======
 
   async gerarRelatorio(relatorio: any, tipo: string): Promise<Buffer> {
     return new Promise((resolve) => {
@@ -196,7 +194,6 @@ export class PdfService {
       doc.end()
     })
   }
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 }
 
 export const pdfService = new PdfService()

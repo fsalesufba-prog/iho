@@ -34,24 +34,14 @@ export class AuthService {
   }
 
   generateToken(payload: TokenPayload): string {
-<<<<<<< HEAD
     return jwt.sign(payload, authConfig.jwt.secret, {
       expiresIn: authConfig.jwt.expiresIn
-=======
-    return jwt.sign(payload, authConfig.jwt.secret as string, {
-      expiresIn: authConfig.jwt.expiresIn as any
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     })
   }
 
   generateRefreshToken(payload: TokenPayload): string {
-<<<<<<< HEAD
     return jwt.sign(payload, authConfig.jwt.refreshSecret, {
       expiresIn: authConfig.jwt.refreshExpiresIn
-=======
-    return jwt.sign(payload, authConfig.jwt.refreshSecret as string, {
-      expiresIn: authConfig.jwt.refreshExpiresIn as any
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     })
   }
 

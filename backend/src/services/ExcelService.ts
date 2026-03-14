@@ -199,8 +199,6 @@ export class ExcelService {
     const buffer = await workbook.xlsx.writeBuffer()
     return Buffer.from(buffer)
   }
-<<<<<<< HEAD
-=======
 
   async gerarRelatorio(relatorio: any, tipo: string): Promise<Buffer> {
     const workbook = new ExcelJS.Workbook()
@@ -226,7 +224,6 @@ export class ExcelService {
     const buffer = await workbook.xlsx.writeBuffer()
     return Buffer.from(buffer)
   }
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 }
 
 export const excelService = new ExcelService()

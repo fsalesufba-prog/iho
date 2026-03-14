@@ -92,11 +92,7 @@ export class EmpresaController {
               codigo: true,
               status: true,
               progresso: true
-<<<<<<< HEAD
             }
-=======
-            } as any
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           },
           equipamentos: {
             select: {
@@ -140,11 +136,7 @@ export class EmpresaController {
         : 0
 
       // Formatar logs
-<<<<<<< HEAD
-      const logsFormatados = empresa.logs.map(log => ({
-=======
       const logsFormatados = (empresa as any).logs.map((log: any) => ({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         id: log.id,
         acao: log.acao,
         usuario: log.usuario?.nome || 'Sistema',
@@ -221,11 +213,7 @@ export class EmpresaController {
         await emailService.sendBoasVindas(usuario.email, usuario.nome, novaEmpresa.nome)
       } else {
         // Se não criou usuário, enviar e-mail para o contato da empresa
-<<<<<<< HEAD
         await emailService.sendEmpresaCriada(novaEmpresa.email, novaEmpresa.nome)
-=======
-        await emailService.sendEmpresaCriada(novaEmpresa.email, novaEmpresa.nome, '')
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       }
 
       // Registrar log

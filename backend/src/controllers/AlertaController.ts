@@ -28,11 +28,7 @@ export class AlertaController {
       if (status) where.status = status
 
       const [alertas, total] = await Promise.all([
-<<<<<<< HEAD
-        prisma.alerta.findMany({
-=======
         (prisma as any).alerta.findMany({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           where,
           include: {
             equipamento: {
@@ -57,11 +53,7 @@ export class AlertaController {
             { createdAt: 'desc' }
           ]
         }),
-<<<<<<< HEAD
-        prisma.alerta.count({ where })
-=======
         (prisma as any).alerta.count({ where })
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       ])
 
       res.json({
@@ -88,11 +80,7 @@ export class AlertaController {
       const { id } = req.params
       const { id: empresaId } = (req as any).empresa
 
-<<<<<<< HEAD
-      const alerta = await prisma.alerta.findFirst({
-=======
       const alerta = await (prisma as any).alerta.findFirst({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: {
           id: parseInt(id),
           empresaId
@@ -142,11 +130,7 @@ export class AlertaController {
       const { status, observacao } = req.body
       const { id: empresaId, usuario } = (req as any)
 
-<<<<<<< HEAD
-      const alerta = await prisma.alerta.findFirst({
-=======
       const alerta = await (prisma as any).alerta.findFirst({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: {
           id: parseInt(id),
           empresaId
@@ -157,11 +141,7 @@ export class AlertaController {
         return res.status(404).json({ error: 'Alerta não encontrado' })
       }
 
-<<<<<<< HEAD
-      const updated = await prisma.alerta.update({
-=======
       const updated = await (prisma as any).alerta.update({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { id: parseInt(id) },
         data: {
           status,
@@ -205,11 +185,7 @@ export class AlertaController {
       const { motivo } = req.body
       const { id: empresaId, usuario } = (req as any)
 
-<<<<<<< HEAD
-      const alerta = await prisma.alerta.findFirst({
-=======
       const alerta = await (prisma as any).alerta.findFirst({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: {
           id: parseInt(id),
           empresaId
@@ -220,11 +196,7 @@ export class AlertaController {
         return res.status(404).json({ error: 'Alerta não encontrado' })
       }
 
-<<<<<<< HEAD
-      const updated = await prisma.alerta.update({
-=======
       const updated = await (prisma as any).alerta.update({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { id: parseInt(id) },
         data: {
           status: 'ignorado',
@@ -258,20 +230,12 @@ export class AlertaController {
         porTipo,
         recentes
       ] = await Promise.all([
-<<<<<<< HEAD
-        prisma.alerta.groupBy({
-=======
         (prisma as any).alerta.groupBy({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           by: ['status'],
           where: { empresaId },
           _count: true
         }),
-<<<<<<< HEAD
-        prisma.alerta.groupBy({
-=======
         (prisma as any).alerta.groupBy({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           by: ['gravidade'],
           where: { 
             empresaId,
@@ -279,11 +243,7 @@ export class AlertaController {
           },
           _count: true
         }),
-<<<<<<< HEAD
-        prisma.alerta.groupBy({
-=======
         (prisma as any).alerta.groupBy({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           by: ['tipo'],
           where: { 
             empresaId,
@@ -291,11 +251,7 @@ export class AlertaController {
           },
           _count: true
         }),
-<<<<<<< HEAD
-        prisma.alerta.findMany({
-=======
         (prisma as any).alerta.findMany({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           where: { 
             empresaId,
             status: 'pendente'
@@ -336,11 +292,7 @@ export class AlertaController {
       const { id: empresaId } = (req as any).empresa
       const { page = 1, limit = 20 } = req.query
 
-<<<<<<< HEAD
-      const alertas = await prisma.alerta.findMany({
-=======
       const alertas = await (prisma as any).alerta.findMany({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: {
           empresaId,
           tipo: 'combustivel',
@@ -361,11 +313,7 @@ export class AlertaController {
         orderBy: { createdAt: 'desc' }
       })
 
-<<<<<<< HEAD
-      const total = await prisma.alerta.count({
-=======
       const total = await (prisma as any).alerta.count({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: {
           empresaId,
           tipo: 'combustivel',
@@ -397,11 +345,7 @@ export class AlertaController {
       const { id: empresaId } = (req as any).empresa
       const { page = 1, limit = 20 } = req.query
 
-<<<<<<< HEAD
-      const alertas = await prisma.alerta.findMany({
-=======
       const alertas = await (prisma as any).alerta.findMany({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: {
           empresaId,
           tipo: 'manutencao',
@@ -422,11 +366,7 @@ export class AlertaController {
         orderBy: { createdAt: 'desc' }
       })
 
-<<<<<<< HEAD
-      const total = await prisma.alerta.count({
-=======
       const total = await (prisma as any).alerta.count({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: {
           empresaId,
           tipo: 'manutencao',
@@ -458,11 +398,7 @@ export class AlertaController {
       const { id: empresaId } = (req as any).empresa
       const { page = 1, limit = 20 } = req.query
 
-<<<<<<< HEAD
-      const alertas = await prisma.alerta.findMany({
-=======
       const alertas = await (prisma as any).alerta.findMany({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: {
           empresaId,
           tipo: 'estoque',
@@ -483,11 +419,7 @@ export class AlertaController {
         orderBy: { createdAt: 'desc' }
       })
 
-<<<<<<< HEAD
-      const total = await prisma.alerta.count({
-=======
       const total = await (prisma as any).alerta.count({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: {
           empresaId,
           tipo: 'estoque',
@@ -518,11 +450,7 @@ export class AlertaController {
     try {
       const { id: empresaId } = (req as any).empresa
 
-<<<<<<< HEAD
-      const configuracoes = await prisma.configuracaoAlerta.findMany({
-=======
       const configuracoes = await (prisma as any).configuracaoAlerta.findMany({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { empresaId }
       })
 
@@ -544,11 +472,7 @@ export class AlertaController {
       const { id: empresaId } = (req as any).empresa
       const dados = configuracaoSchema.parse(req.body)
 
-<<<<<<< HEAD
-      const configuracao = await prisma.configuracaoAlerta.upsert({
-=======
       const configuracao = await (prisma as any).configuracaoAlerta.upsert({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: {
           empresaId_tipo: {
             empresaId,
@@ -587,11 +511,7 @@ export class AlertaController {
       const { id: empresaId } = (req as any).empresa
 
       const [pendentes, porDia] = await Promise.all([
-<<<<<<< HEAD
-        prisma.alerta.count({
-=======
         (prisma as any).alerta.count({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           where: {
             empresaId,
             status: 'pendente'
@@ -630,11 +550,7 @@ export class AlertaController {
       const { id } = req.params
       const { id: empresaId } = (req as any).empresa
 
-<<<<<<< HEAD
-      const alerta = await prisma.alerta.findFirst({
-=======
       const alerta = await (prisma as any).alerta.findFirst({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: {
           id: parseInt(id),
           empresaId
@@ -645,11 +561,7 @@ export class AlertaController {
         return res.status(404).json({ error: 'Alerta não encontrado' })
       }
 
-<<<<<<< HEAD
-      await prisma.alerta.delete({
-=======
       await (prisma as any).alerta.delete({
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         where: { id: parseInt(id) }
       })
 

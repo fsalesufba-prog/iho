@@ -33,7 +33,6 @@ export class EmailService {
     })
   }
 
-<<<<<<< HEAD
   async sendPagamentoConfirmado(to: string, plano: string, valor: number): Promise<boolean> {
     const template = emailTemplates.pagamentoConfirmado(plano, valor)
     return this.sendEmail({
@@ -43,8 +42,6 @@ export class EmailService {
     })
   }
 
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   async sendAssinaturaCancelada(to: string): Promise<boolean> {
     const template = emailTemplates.assinaturaCancelada()
     return this.sendEmail({
@@ -228,8 +225,6 @@ export class EmailService {
     })
   }
 
-<<<<<<< HEAD
-=======
   async sendNewsletterWelcome(to: string, nome?: string): Promise<boolean> {
     return this.sendEmail({
       to,
@@ -272,7 +267,6 @@ export class EmailService {
     })
   }
 
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 }
 
 export const emailService = new EmailService()
