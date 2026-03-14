@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import {
   ArrowLeft,
+  Minus,
   Truck,
   Calendar,
   Download,
@@ -22,7 +23,6 @@ import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 interface Equipamento {
@@ -64,7 +64,6 @@ interface PrevisaoData {
 
 export default function PrevisaoUsoEquipamentoPage() {
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<PrevisaoData | null>(null)

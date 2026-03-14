@@ -16,11 +16,13 @@ import {
   Star,
   TrendingUp,
   TrendingDown,
+  Minus,
   Award,
   CheckCircle,
   XCircle,
   Calendar,
   MoreVertical,
+  ArrowRight
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
@@ -51,7 +53,6 @@ import {
 
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
-import { useAuth } from '@/components/hooks/useAuth'
 import { api } from '@/lib/api'
 
 import { format } from 'date-fns'
@@ -111,12 +112,10 @@ export default function CentroCustoDetalhePage() {
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
-  const { user } = useAuth()
   const id = params.id as string
 
   const [centro, setCentro] = useState<CentroCusto | null>(null)
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState('visao-geral')
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   useEffect(() => {
@@ -133,7 +132,7 @@ export default function CentroCustoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes do centro de custo',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -155,7 +154,7 @@ export default function CentroCustoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o centro de custo',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

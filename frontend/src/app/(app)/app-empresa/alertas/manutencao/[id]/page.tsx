@@ -30,7 +30,6 @@ import {
 } from '@/components/ui/Dialog'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatDateTime, formatDate } from '@/lib/utils'
 
@@ -57,7 +56,6 @@ interface AlertaManutencao {
 
 export default function DetalheAlertaManutencaoPage() {
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [alerta, setAlerta] = useState<AlertaManutencao | null>(null)

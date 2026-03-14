@@ -16,6 +16,8 @@ import {
 
 
 import { Container } from '@/components/common/Container'
+import { Sidebar } from '@/components/app/Sidebar'
+import { Header } from '@/components/app/Header'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
@@ -29,7 +31,6 @@ import {
 } from '@/components/ui/Dialog'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatDateTime } from '@/lib/utils'
 
@@ -57,7 +58,6 @@ interface AlertaEstoque {
 
 export default function DetalheAlertaEstoquePage() {
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [alerta, setAlerta] = useState<AlertaEstoque | null>(null)

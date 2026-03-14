@@ -9,6 +9,7 @@ import {
   Download,
   RefreshCw,
   TrendingUp,
+  Minus
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -19,7 +20,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
 
@@ -45,7 +45,6 @@ interface CustosPrevisaoData {
 }
 
 export default function PrevisaoCustosPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<CustosPrevisaoData | null>(null)
@@ -198,14 +197,14 @@ export default function PrevisaoCustosPage() {
                   <div>
                     <p className="text-sm text-muted-foreground">Tendência de Custos</p>
                     <p className="text-lg font-bold">
-                      {data?.estatisticas.tendencia > 0 ? '+' : ''}
+                      {((data?.estatisticas.tendencia ?? 0) > 0 ? '+' : '')}
                       {((data?.estatisticas.tendencia || 0) * 100).toFixed(1)}%
                     </p>
                   </div>
                 </div>
                 <Badge variant="outline" className="text-sm">
-                  {data?.estatisticas.tendencia > 0.1 ? 'Alta' :
-                   data?.estatisticas.tendencia < -0.1 ? 'Queda' : 'Estável'}
+                  {(data?.estatisticas.tendencia ?? 0) > 0.1 ? 'Alta' :
+                   (data?.estatisticas.tendencia ?? 0) < -0.1 ? 'Queda' : 'Estável'}
                 </Badge>
               </div>
             </CardContent>

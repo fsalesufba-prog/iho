@@ -20,7 +20,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
 
@@ -47,7 +46,7 @@ interface CustosData {
 }
 
 export default function CustosPage() {
-  const { user } = useAuth()
+
   const { toast } = useToast()
 
   const [data, setData] = useState<CustosData | null>(null)

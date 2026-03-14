@@ -108,7 +108,7 @@ export default function PostPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o artigo',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -191,7 +191,7 @@ export default function PostPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível publicar o comentário',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -524,7 +524,6 @@ export default function PostPage() {
 // Componente de comentário
 function CommentItem({ comment, onReply }: { comment: any; onReply: (id: number) => void }) {
   const [liked, setLiked] = useState(false)
-  const [showReplyForm, setShowReplyForm] = useState(false)
 
   const getInitials = (name: string) => {
     return name

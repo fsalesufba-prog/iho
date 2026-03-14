@@ -26,7 +26,6 @@ import { Switch } from '@/components/ui/Switch'
 import { Badge } from '@/components/ui/Badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 interface ConfiguracaoAlerta {
@@ -41,12 +40,10 @@ interface ConfiguracaoAlerta {
 }
 
 export default function ConfiguracoesAlertasPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  const [configuracoes, setConfiguracoes] = useState<ConfiguracaoAlerta[]>([])
 
   // Estado para cada tipo de configuração
   const [combustivel, setCombustivel] = useState<Partial<ConfiguracaoAlerta>>({

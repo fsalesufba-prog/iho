@@ -27,7 +27,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/Textarea'
 import { Alert, AlertDescription } from '@/components/ui/Alert'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 const itemSchema = z.object({
@@ -61,7 +60,6 @@ interface Equipamento {
 
 export default function NovaManutencaoCorretivaPage() {
   const router = useRouter()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [saving, setSaving] = useState(false)
@@ -70,7 +68,7 @@ export default function NovaManutencaoCorretivaPage() {
   const [novoItem, setNovoItem] = useState<Partial<ItemFormData>>({
     tipo: 'servico'
   })
-  const [showAlert, setShowAlert] = useState(false)
+  const [showAlert] = useState(false)
 
   const {
     register,
@@ -287,7 +285,7 @@ export default function NovaManutencaoCorretivaPage() {
                         {...register('descricao')}
                         placeholder="Descreva o problema/falha observada..."
                         className="min-h-[100px]"
-                        error={!!errors.descricao}
+                        aria-invalid={!!errors.descricao}
                       />
                       {errors.descricao && (
                         <p className="text-sm text-destructive">{errors.descricao.message}</p>

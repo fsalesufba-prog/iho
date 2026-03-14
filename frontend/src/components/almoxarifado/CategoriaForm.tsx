@@ -77,7 +77,7 @@ export function CategoriaForm({ open, onOpenChange, categoria, onSuccess }: Cate
       toast({
         title: 'Erro',
         description: 'Não foi possível salvar a categoria',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)

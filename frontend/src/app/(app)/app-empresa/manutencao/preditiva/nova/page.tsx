@@ -25,7 +25,6 @@ import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 const itemSchema = z.object({
@@ -59,7 +58,6 @@ interface Equipamento {
 
 export default function NovaManutencaoPreditivaPage() {
   const router = useRouter()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [saving, setSaving] = useState(false)
@@ -274,7 +272,7 @@ export default function NovaManutencaoPreditivaPage() {
                         {...register('descricao')}
                         placeholder="Descreva a recomendação baseada na análise preditiva..."
                         className="min-h-[100px]"
-                        error={!!errors.descricao}
+                        aria-invalid={!!errors.descricao}
                       />
                       {errors.descricao && (
                         <p className="text-sm text-destructive">{errors.descricao.message}</p>

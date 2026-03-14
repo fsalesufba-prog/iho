@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
+
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -103,7 +103,7 @@ export default function EditarObraPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar a obra',
-        variant: 'destructive'
+        variant: 'error'
       })
       router.push('/app-empresa/obras')
     } finally {
@@ -131,7 +131,7 @@ export default function EditarObraPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível atualizar a obra',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setSaving(false)

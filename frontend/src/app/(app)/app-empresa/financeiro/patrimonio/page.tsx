@@ -21,7 +21,6 @@ import { Badge } from '@/components/ui/Badge'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
 
@@ -51,7 +50,6 @@ interface PatrimonioData {
 }
 
 export default function PatrimonioPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<PatrimonioData | null>(null)

@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -83,7 +82,7 @@ export default function NovoCentroCustoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as obras',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -112,7 +111,7 @@ export default function NovoCentroCustoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível criar o centro de custo',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setSaving(false)

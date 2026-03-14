@@ -10,7 +10,6 @@ import {
   ArrowLeft,
   Save,
   Package,
-  Tag,
   DollarSign,
   MapPin,
   Wrench,
@@ -27,7 +26,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/Switch'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 const equipamentoSchema = z.object({
@@ -79,7 +77,6 @@ interface CentroCusto {
 export default function EditarEquipamentoPage() {
   const router = useRouter()
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(false)

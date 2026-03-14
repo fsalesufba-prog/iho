@@ -13,7 +13,6 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
 
@@ -36,7 +35,6 @@ interface ClasseData {
 
 export default function DepreciacaoClassePage() {
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<ClasseData | null>(null)
@@ -50,7 +48,7 @@ export default function DepreciacaoClassePage() {
   const carregarDados = async () => {
     try {
       setLoading(true)
-      const response = await api.get(`/financeiro/depreciacao/classes/${encodeURIComponent(params.tipo)}`)
+      const response = await api.get(`/financeiro/depreciacao/classes/${encodeURIComponent(String(params.tipo))}`)
       setData(response.data.data)
     } catch (error) {
       toast({

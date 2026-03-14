@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from 'next'
+import type { Metadata } from "next"
 import { Inter, Poppins } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
@@ -18,7 +18,7 @@ const poppins = Poppins({
   display: 'swap',
 })
 
-export const viewport: Viewport = {
+export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,

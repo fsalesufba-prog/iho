@@ -254,7 +254,6 @@ export default function PrivacidadePage() {
                               <div className="bg-muted p-4 rounded-lg space-y-2">
                                 <p><strong>Nome:</strong> {secao.contato.nome}</p>
                                 <p><strong>E-mail:</strong> {secao.contato.email}</p>
-                                <p><strong>Telefone:</strong> {secao.contato.telefone}</p>
                                 <p><strong>Endereço:</strong> {secao.contato.endereco}</p>
                               </div>
                             )}

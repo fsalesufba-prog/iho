@@ -16,6 +16,7 @@ import {
   Calendar,
   TrendingUp,
   TrendingDown,
+  Minus,
   MoreVertical,
   ChevronLeft,
   ChevronRight,
@@ -138,7 +139,7 @@ export default function AvaliacoesPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as avaliações',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -177,7 +178,7 @@ export default function AvaliacoesPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a avaliação',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

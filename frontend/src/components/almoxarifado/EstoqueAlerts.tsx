@@ -52,7 +52,7 @@ export function EstoqueAlerts() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os alertas',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)

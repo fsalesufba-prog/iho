@@ -22,12 +22,12 @@ import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
+import { Skeleton } from '@/components/ui/Skeleton'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency, formatDate } from '@/lib/utils'
 
@@ -53,7 +53,6 @@ interface Medicao {
 }
 
 export default function HistoricoMedicoesPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [medicoes, setMedicoes] = useState<Medicao[]>([])

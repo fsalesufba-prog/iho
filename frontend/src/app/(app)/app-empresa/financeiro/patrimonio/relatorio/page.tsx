@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency, formatDate } from '@/lib/utils'
 
@@ -47,7 +46,6 @@ interface RelatorioData {
 }
 
 export default function RelatorioPatrimonioPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
   const printRef = useRef<HTMLDivElement>(null)
 

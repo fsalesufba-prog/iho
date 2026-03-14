@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import {
   CheckCircle,
@@ -16,7 +16,6 @@ import {
   Calendar,
   CreditCard,
   QrCode,
-  Barcode,
   FileText,
   Sparkles,
 } from 'lucide-react'
@@ -24,6 +23,7 @@ import {
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/common/Container'
 import { Card, CardContent } from '@/components/ui/Card'
+import { Label } from '@/components/ui/Label'
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
 
@@ -46,24 +46,15 @@ interface Pagamento {
 }
 
 export default function PagamentoDetalhePage() {
-  const params = useParams()
   const searchParams = useSearchParams()
   const { toast } = useToast()
 
   const [pagamento, setPagamento] = useState<Pagamento | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading] = useState(true)
   const [copied, setCopied] = useState(false)
   const [tempoRestante, setTempoRestante] = useState<string>('')
 
-  const tipo = searchParams.get('tipo') || 'pix'
   const statusParam = searchParams.get('status')
-
-  useEffect(() => {
-    const id = params.id as string
-    if (id) {
-      carregarPagamento(parseInt(id))
-    }
-  }, [params.id])
 
   useEffect(() => {
     if (pagamento?.status === 'pendente' && pagamento.metodo === 'pix') {
@@ -73,6 +64,8 @@ export default function PagamentoDetalhePage() {
 
       return () => clearInterval(intervalo)
     }
+
+    return // return vazio para ser explícito
   }, [pagamento?.id, pagamento?.status])
 
   useEffect(() => {
@@ -96,24 +89,10 @@ export default function PagamentoDetalhePage() {
       const timer = setInterval(atualizarTimer, 1000)
       return () => clearInterval(timer)
     }
+
+    return // return vazio para ser explícito
   }, [pagamento?.dataVencimento, pagamento?.metodo])
 
-  const carregarPagamento = async (id: number) => {
-    try {
-      setLoading(true)
-      const response = await api.get(`/pagamentos/${id}`)
-      setPagamento(response.data)
-    } catch (error) {
-      console.error('Erro ao carregar pagamento:', error)
-      toast({
-        title: 'Erro',
-        description: 'Não foi possível carregar as informações do pagamento',
-        variant: 'destructive'
-      })
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const verificarStatusPagamento = async () => {
     if (!pagamento?.id) return
@@ -289,18 +268,18 @@ export default function PagamentoDetalhePage() {
           <div className="text-center">
             <Badge className="mb-4 px-4 py-2">
               {pagamento.metodo === 'pix' && <QrCode className="h-4 w-4 mr-2" />}
-              {pagamento.metodo === 'boleto' && <Barcode className="h-4 w-4 mr-2" />}
+              {pagamento.metodo === 'boleto' && <FileText className="h-4 w-4 mr-2" />}
               {pagamento.metodo === 'cartao' && <CreditCard className="h-4 w-4 mr-2" />}
-              Pagamento via {pagamento.metodo === 'pix' ? 'PIX' : 
-                             pagamento.metodo === 'boleto' ? 'Boleto' : 'Cartão'}
+              Pagamento via {pagamento.metodo === 'pix' ? 'PIX' :
+                pagamento.metodo === 'boleto' ? 'Boleto' : 'Cartão'}
             </Badge>
-            
+
             <h1 className="text-3xl font-bold mb-2">
               {pagamento.metodo === 'pix' && 'Pague com PIX'}
               {pagamento.metodo === 'boleto' && 'Boleto Bancário'}
               {pagamento.metodo === 'cartao' && 'Pagamento com Cartão'}
             </h1>
-            
+
             <p className="text-muted-foreground">
               {pagamento.metodo === 'pix' && 'Escaneie o QR Code ou copie o código para pagar'}
               {pagamento.metodo === 'boleto' && 'Pague o boleto em qualquer banco ou app'}
@@ -325,9 +304,9 @@ export default function PagamentoDetalhePage() {
                 {/* QR Code */}
                 {pagamento.qrCode ? (
                   <div className="flex justify-center">
-                    <img 
-                      src={pagamento.qrCode} 
-                      alt="QR Code PIX" 
+                    <img
+                      src={pagamento.qrCode}
+                      alt="QR Code PIX"
                       className="w-48 h-48"
                     />
                   </div>
@@ -342,9 +321,9 @@ export default function PagamentoDetalhePage() {
                   <div className="space-y-2">
                     <Label>Código PIX Copia e Cola</Label>
                     <div className="flex gap-2">
-                      <Input 
-                        value={pagamento.linkPagamento} 
-                        readOnly 
+                      <Input
+                        value={pagamento.linkPagamento}
+                        readOnly
                         className="font-mono text-sm"
                       />
                       <Button
@@ -386,7 +365,7 @@ export default function PagamentoDetalhePage() {
                   </ol>
                 </div>
 
-                <Button 
+                <Button
                   className="w-full"
                   onClick={() => verificarStatusPagamento()}
                 >
@@ -403,15 +382,15 @@ export default function PagamentoDetalhePage() {
               <CardContent className="p-6 space-y-6">
                 {/* Código de Barras */}
                 <div className="text-center p-6 bg-muted rounded-lg">
-                  <Barcode className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-                  
+                  <FileText className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+
                   {pagamento.linhaDigitavel && (
                     <div className="space-y-2">
                       <p className="text-sm font-medium">Linha digitável</p>
                       <div className="flex gap-2">
-                        <Input 
-                          value={pagamento.linhaDigitavel} 
-                          readOnly 
+                        <Input
+                          value={pagamento.linhaDigitavel}
+                          readOnly
                           className="font-mono text-center"
                         />
                         <Button
@@ -442,8 +421,8 @@ export default function PagamentoDetalhePage() {
                 {/* Ações */}
                 <div className="grid grid-cols-2 gap-4">
                   {pagamento.urlBoleto && (
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       className="w-full"
                       onClick={() => window.open(pagamento.urlBoleto, '_blank')}
                     >
@@ -451,8 +430,8 @@ export default function PagamentoDetalhePage() {
                       Baixar Boleto
                     </Button>
                   )}
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     className="w-full"
                     onClick={() => window.print()}
                   >
@@ -471,7 +450,7 @@ export default function PagamentoDetalhePage() {
                   </ul>
                 </div>
 
-                <Button 
+                <Button
                   className="w-full"
                   onClick={() => verificarStatusPagamento()}
                 >

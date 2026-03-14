@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Save, Wrench } from 'lucide-react'
-
+import Link from 'next/link'
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
@@ -18,7 +18,6 @@ import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 const manutencaoSchema = z.object({
@@ -55,7 +54,6 @@ interface Manutencao {
 export default function EditarManutencaoPage() {
   const router = useRouter()
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(true)
@@ -294,7 +292,7 @@ export default function EditarManutencaoPage() {
                         id="descricao"
                         {...register('descricao')}
                         className="min-h-[100px]"
-                        error={!!errors.descricao}
+                        aria-invalid={!!errors.descricao}
                       />
                       {errors.descricao && (
                         <p className="text-sm text-destructive">{errors.descricao.message}</p>

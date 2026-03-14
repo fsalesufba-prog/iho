@@ -52,7 +52,7 @@ export function CategoriaList() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as categorias',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -74,7 +74,7 @@ export function CategoriaList() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a categoria',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

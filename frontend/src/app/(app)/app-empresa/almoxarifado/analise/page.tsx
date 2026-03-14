@@ -19,7 +19,6 @@ import { Container } from '@/components/common/Container'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
 
@@ -45,7 +44,6 @@ interface AnaliseData {
 }
 
 export default function AnalisePage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<AnaliseData | null>(null)
@@ -165,7 +163,7 @@ export default function AnalisePage() {
                       <div>
                         <p className="text-sm text-muted-foreground mb-2">Top itens consumidos</p>
                         <div className="space-y-2">
-                          {data?.consumo.topItems.slice(0, 3).map((item, index) => (
+                          {data?.consumo.topItems.slice(0, 3).map((item) => (
                             <div key={item.id} className="flex justify-between text-sm">
                               <span className="truncate max-w-[150px]">{item.nome}</span>
                               <span className="font-medium">{item.quantidade} un</span>
@@ -253,7 +251,7 @@ export default function AnalisePage() {
                             Object.entries(data.custos.porCategoria)
                               .sort(([, a], [, b]) => b - a)
                               .slice(0, 3)
-                              .map(([categoria, valor], index) => (
+                              .map(([categoria, valor]) => (
                                 <div key={categoria} className="flex justify-between text-sm">
                                   <span className="truncate max-w-[150px]">{categoria}</span>
                                   <span className="font-medium">{formatCurrency(valor)}</span>

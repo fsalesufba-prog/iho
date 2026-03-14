@@ -115,7 +115,7 @@ export function EstoqueForm({ open, onOpenChange, item, onSuccess }: EstoqueForm
       toast({
         title: 'Erro',
         description: 'Não foi possível salvar o item',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)

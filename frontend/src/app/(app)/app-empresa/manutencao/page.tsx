@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   Wrench,
+  Play,
   Search,
   Filter,
   Plus,
@@ -83,7 +84,7 @@ export default function ManutencaoPage() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [tipoFiltro, setTipoFiltro] = useState<string>('todos')
-  const [statusFiltro, setStatusFiltro] = useState<string>('todos')
+  const [statusFiltro] = useState<string>('todos')
   const [prioridadeFiltro, setPrioridadeFiltro] = useState<string>('todos')
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)

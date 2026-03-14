@@ -142,7 +142,7 @@ export default function FrentesServicoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as frentes de serviço',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -183,7 +183,7 @@ export default function FrentesServicoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a frente de serviço',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

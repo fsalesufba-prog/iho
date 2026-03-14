@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   TrendingUp,
+  Minus,
   Calendar,
   Download,
   RefreshCw,
@@ -26,8 +27,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency, formatDate } from '@/lib/utils'
 
@@ -43,6 +44,20 @@ interface DashboardData {
   previsaoManutencao: {
     totalEquipamentos: number
     equipamentosAnalisados: number
+    previsoes?: Array<{
+      equipamentoId: number
+      equipamentoTag: string
+      equipamentoNome: string
+      mediaIntervalo: number
+      diasDesdeUltima: number
+      ultimaManutencao: string
+      previsao: Array<{
+        mes: number
+        data: string
+        diasAteProxima: number
+        confiabilidade: number
+      }>
+    }>
     resumo: {
       manutencoesProximas: number
       mediaIntervalo: number
@@ -84,7 +99,6 @@ interface DashboardData {
 }
 
 export default function PrevisaoPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<DashboardData | null>(null)
@@ -129,7 +143,9 @@ export default function PrevisaoPage() {
     return variants[gravidade as keyof typeof variants] || ''
   }
 
-  const getTendenciaIcon = (tendencia: string | number) => {
+  const getTendenciaIcon = (tendencia: string | number | undefined) => {
+    if (tendencia === undefined) return <Minus className="h-4 w-4 text-gray-600" />
+    
     if (typeof tendencia === 'number') {
       if (tendencia > 0.05) return <TrendingUp className="h-4 w-4 text-red-600" />
       if (tendencia < -0.05) return <TrendingUp className="h-4 w-4 text-green-600 transform rotate-180" />
@@ -154,13 +170,37 @@ export default function PrevisaoPage() {
           <Header title="Previsão" />
           <Container size="xl" className="py-8">
             <div className="space-y-6">
-              <div className="h-8 w-48 bg-muted rounded animate-pulse" />
+              <Skeleton className="h-8 w-48" />
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="h-32 bg-muted rounded animate-pulse" />
+                  <Skeleton key={i} className="h-32 w-full" />
                 ))}
               </div>
-              <div className="h-64 bg-muted rounded animate-pulse" />
+              <Skeleton className="h-64 w-full" />
+            </div>
+          </Container>
+        </main>
+      </>
+    )
+  }
+
+  if (!data) {
+    return (
+      <>
+        <Sidebar />
+        <main className="flex-1 overflow-y-auto bg-background">
+          <Header title="Previsão" />
+          <Container size="xl" className="py-8">
+            <div className="text-center py-12">
+              <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
+              <h2 className="text-2xl font-bold mb-2">Dados não encontrados</h2>
+              <p className="text-muted-foreground mb-6">
+                Não foi possível carregar os dados de previsão.
+              </p>
+              <Button onClick={carregarDados}>
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Tentar novamente
+              </Button>
             </div>
           </Container>
         </main>
@@ -219,7 +259,7 @@ export default function PrevisaoPage() {
                   <Zap className="h-8 w-8 text-primary" />
                   <div>
                     <p className="text-sm text-muted-foreground">Confiabilidade das Previsões</p>
-                    <p className="text-2xl font-bold">{data?.confiabilidade}%</p>
+                    <p className="text-2xl font-bold">{data.confiabilidade}%</p>
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground">
@@ -242,10 +282,10 @@ export default function PrevisaoPage() {
                   </div>
                   <p className="text-sm text-muted-foreground">Uso de Equipamentos</p>
                   <p className="text-2xl font-bold mt-1">
-                    {data?.previsaoUso.resumo.totalHorasProjetadas.toFixed(0)}h
+                    {data.previsaoUso.resumo.totalHorasProjetadas.toFixed(0)}h
                   </p>
                   <p className="text-xs text-muted-foreground mt-2">
-                    {data?.previsaoUso.equipamentosAnalisados} equipamentos analisados
+                    {data.previsaoUso.equipamentosAnalisados} equipamentos analisados
                   </p>
                 </CardContent>
               </Card>
@@ -262,7 +302,7 @@ export default function PrevisaoPage() {
                   </div>
                   <p className="text-sm text-muted-foreground">Manutenções</p>
                   <p className="text-2xl font-bold mt-1">
-                    {data?.previsaoManutencao.resumo.manutencoesProximas}
+                    {data.previsaoManutencao.resumo.manutencoesProximas}
                   </p>
                   <p className="text-xs text-muted-foreground mt-2">
                     Manutenções nos próximos 30 dias
@@ -282,7 +322,7 @@ export default function PrevisaoPage() {
                   </div>
                   <p className="text-sm text-muted-foreground">Custos Projetados</p>
                   <p className="text-2xl font-bold mt-1">
-                    {formatCurrency(data?.previsaoCustos.previsao[data?.previsaoCustos.previsao.length - 1]?.valor || 0)}
+                    {formatCurrency(data.previsaoCustos.previsao[data.previsaoCustos.previsao.length - 1]?.valor || 0)}
                   </p>
                   <p className="text-xs text-muted-foreground mt-2">
                     Último mês da projeção
@@ -311,7 +351,7 @@ export default function PrevisaoPage() {
                       <p className="text-muted-foreground">Gráfico de projeção de custos</p>
                     </div>
                     <div className="mt-4 space-y-2">
-                      {data?.previsaoCustos.previsao.slice(0, 6).map((item, index) => (
+                      {data.previsaoCustos.previsao.slice(0, 6).map((item, index) => (
                         <div key={index} className="flex justify-between text-sm">
                           <span>Mês {item.mes}</span>
                           <span className="font-bold">{formatCurrency(item.valor)}</span>
@@ -327,17 +367,22 @@ export default function PrevisaoPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {data?.previsaoManutencao.previsoes?.slice(0, 5).map((item, index) => (
+                      {data.previsaoManutencao.previsoes?.slice(0, 5).map((item, index) => (
                         <div key={index} className="p-3 rounded-lg border">
                           <div className="flex items-center justify-between mb-2">
                             <span className="font-mono text-sm">{item.equipamentoTag}</span>
                             <Badge variant="outline">{item.previsao[0]?.diasAteProxima} dias</Badge>
                           </div>
                           <p className="text-sm text-muted-foreground">
-                            Próxima: {formatDate(item.previsao[0]?.data, 'dd/MM/yyyy')}
+                            Próxima: {item.previsao[0]?.data ? formatDate(item.previsao[0].data, 'dd/MM/yyyy') : '-'}
                           </p>
                         </div>
                       ))}
+                      {!data.previsaoManutencao.previsoes?.length && (
+                        <p className="text-center text-muted-foreground py-4">
+                          Nenhuma manutenção prevista
+                        </p>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -355,12 +400,12 @@ export default function PrevisaoPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center gap-2 mb-4">
-                      {getTendenciaIcon(data?.tendencias.uso.tendenciaGeral || 'estavel')}
+                      {getTendenciaIcon(data.tendencias.uso.tendenciaGeral)}
                       <span className="font-medium">
-                        Tendência: {data?.tendencias.uso.tendenciaGeral}
+                        Tendência: {data.tendencias.uso.tendenciaGeral}
                       </span>
                     </div>
-                    {data?.tendencias.uso.equipamentosCriticos.length > 0 && (
+                    {data.tendencias.uso.equipamentosCriticos.length > 0 && (
                       <div>
                         <p className="text-sm font-medium mb-2">Equipamentos críticos:</p>
                         <div className="space-y-2">
@@ -385,12 +430,12 @@ export default function PrevisaoPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center gap-2 mb-4">
-                      {getTendenciaIcon(data?.tendencias.manutencoes.tendenciaGeral || 'estavel')}
+                      {getTendenciaIcon(data.tendencias.manutencoes.tendenciaGeral)}
                       <span className="font-medium">
-                        Tendência: {data?.tendencias.manutencoes.tendenciaGeral}
+                        Tendência: {data.tendencias.manutencoes.tendenciaGeral}
                       </span>
                     </div>
-                    {data?.tendencias.manutencoes.equipamentosAtencao.length > 0 && (
+                    {data.tendencias.manutencoes.equipamentosAtencao.length > 0 && (
                       <div>
                         <p className="text-sm font-medium mb-2">Equipamentos em atenção:</p>
                         <div className="space-y-2">
@@ -415,17 +460,16 @@ export default function PrevisaoPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center gap-2 mb-4">
-                      {getTendenciaIcon(data?.tendencias.custos.tendenciaGeral || 0)}
+                      {getTendenciaIcon(data.tendencias.custos.tendenciaGeral)}
                       <span className="font-medium">
-                        Tendência: {data?.tendencias.custos.tendenciaGeral > 0 ? '+'
-                          : data?.tendencias.custos.tendenciaGeral < 0 ? '-' : ''}
-                        {((data?.tendencias.custos.tendenciaGeral || 0) * 100).toFixed(1)}%
+                        Tendência: {data.tendencias.custos.tendenciaGeral > 0 ? '+' : ''}
+                        {(data.tendencias.custos.tendenciaGeral * 100).toFixed(1)}%
                       </span>
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>Projeção mensal:</span>
-                        <span className="font-bold">{formatCurrency(data?.tendencias.custos.projecao || 0)}</span>
+                        <span className="font-bold">{formatCurrency(data.tendencias.custos.projecao)}</span>
                       </div>
                     </div>
                   </CardContent>
@@ -440,12 +484,12 @@ export default function PrevisaoPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {data?.alertas.length === 0 ? (
+                    {data.alertas.length === 0 ? (
                       <p className="text-center text-muted-foreground py-4">
                         Nenhum alerta preditivo no momento
                       </p>
                     ) : (
-                      data?.alertas.map((alerta, index) => (
+                      data.alertas.map((alerta, index) => (
                         <motion.div
                           key={index}
                           initial={{ opacity: 0, y: 20 }}
@@ -474,7 +518,7 @@ export default function PrevisaoPage() {
                                   <span className="text-sm font-medium">{alerta.equipamento}</span>
                                 </div>
                                 <p className="text-sm">{alerta.descricao}</p>
-                                {alerta.diasAte && (
+                                {alerta.diasAte !== undefined && (
                                   <p className="text-xs text-muted-foreground mt-1">
                                     {alerta.diasAte <= 0 ? 'Atrasado' : `${alerta.diasAte} dias`}
                                   </p>

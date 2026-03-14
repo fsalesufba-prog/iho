@@ -21,7 +21,6 @@ import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 interface IHOData {
@@ -65,7 +64,6 @@ interface IHOData {
 }
 
 export default function IhoPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<IHOData | null>(null)

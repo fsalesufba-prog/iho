@@ -22,7 +22,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/Textarea'
 import { Alert, AlertDescription } from '@/components/ui/Alert'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
+
 import { api } from '@/lib/api'
 
 interface ItemEstoque {
@@ -31,6 +31,7 @@ interface ItemEstoque {
   codigo: string
   unidade: string
   estoqueAtual: number
+  estoqueMinimo: number
   valorUnitario?: number
 }
 
@@ -42,7 +43,6 @@ interface Equipamento {
 
 export default function SaidaPage() {
   const router = useRouter()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [items, setItems] = useState<ItemEstoque[]>([])

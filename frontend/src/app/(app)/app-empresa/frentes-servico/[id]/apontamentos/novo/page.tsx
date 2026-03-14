@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -97,7 +96,7 @@ export default function NovoApontamentoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os dados',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -127,7 +126,7 @@ export default function NovoApontamentoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível registrar o apontamento',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setSaving(false)

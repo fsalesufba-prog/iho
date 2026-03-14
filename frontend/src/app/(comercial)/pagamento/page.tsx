@@ -7,7 +7,7 @@ import Link from 'next/link'
 import {
   CreditCard,
   QrCode,
-  Barcode,
+  FileText,
   ArrowRight,
   Lock,
   Shield,
@@ -97,7 +97,7 @@ export default function PagamentoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as informações do plano',
-        variant: 'destructive'
+        variant: 'error'
       })
       router.push('/planos')
     } finally {
@@ -141,7 +141,7 @@ export default function PagamentoPage() {
         toast({
           title: 'Atenção',
           description: 'Selecione um método de pagamento',
-          variant: 'destructive'
+          variant: 'error'
         })
       }
     }
@@ -156,7 +156,7 @@ export default function PagamentoPage() {
       toast({
         title: 'Atenção',
         description: 'Você precisa aceitar os termos de uso',
-        variant: 'destructive'
+        variant: 'error'
       })
       return
     }
@@ -186,7 +186,7 @@ export default function PagamentoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível processar o pagamento',
-        variant: 'destructive'
+        variant: 'error'
       })
       setProcessing(false)
     }
@@ -386,7 +386,7 @@ export default function PagamentoPage() {
                           htmlFor="boleto"
                           className="flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer hover:bg-accent peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                         >
-                          <Barcode className="h-6 w-6" />
+                          <FileText className="h-6 w-6" />
                           <div className="flex-1">
                             <p className="font-medium">Boleto Bancário</p>
                             <p className="text-sm text-muted-foreground">

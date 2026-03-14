@@ -11,7 +11,7 @@ import {
   Settings,
   Info,
 } from 'lucide-react'
-
+import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/common/Container'
 import { Card, CardContent } from '@/components/ui/Card'

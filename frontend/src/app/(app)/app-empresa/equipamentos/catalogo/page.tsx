@@ -14,15 +14,16 @@ import {
   Fuel,
   DollarSign,
   Star,
+  Grid,
   ChevronLeft,
   ChevronRight,
   RefreshCw,
-  Grid3x3,
   List,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
+import { Skeleton } from '@/components/ui/Skeleton'
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
@@ -178,7 +179,7 @@ export default function CatalogoEquipamentosPage() {
     }
   }
 
-  const tiposUnicos = [...new Set(catalogo.map(e => e.tipo))]
+  const tiposUnicos = Array.from(new Set(catalogo.map(e => e.tipo)))
 
   return (
     <>
@@ -311,7 +312,7 @@ export default function CatalogoEquipamentosPage() {
                       onClick={() => setViewMode('grid')}
                       className="h-8 w-8"
                     >
-                      <Grid3x3 className="h-4 w-4" />
+                      <Grid className="h-4 w-4" />
                     </Button>
                     <Button
                       variant={viewMode === 'list' ? 'default' : 'ghost'}

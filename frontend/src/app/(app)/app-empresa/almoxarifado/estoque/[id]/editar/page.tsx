@@ -18,7 +18,6 @@ import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 const itemSchema = z.object({
@@ -38,7 +37,6 @@ type ItemFormData = z.infer<typeof itemSchema>
 export default function EditarItemPage() {
   const router = useRouter()
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(true)

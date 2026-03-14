@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   TrendingUp,
+  Minus,
   ArrowLeft,
   Download,
   RefreshCw,
@@ -20,7 +21,6 @@ import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 interface MTBFMTTRData {
@@ -64,14 +64,12 @@ interface MTBFMTTRData {
 }
 
 export default function MtbfMttrPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<MTBFMTTRData | null>(null)
   const [loading, setLoading] = useState(true)
   const [periodo, setPeriodo] = useState('30')
   const [refreshing, setRefreshing] = useState(false)
-  const [selectedTab, setSelectedTab] = useState('geral')
 
   useEffect(() => {
     carregarDados()

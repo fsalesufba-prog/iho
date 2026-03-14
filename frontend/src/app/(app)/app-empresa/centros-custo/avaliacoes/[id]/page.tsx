@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
 import {
   Star,
   ArrowLeft,
@@ -58,14 +57,6 @@ interface Avaliacao {
   updatedAt: string
 }
 
-const pesos = {
-  precoCondicoes: 0.20,
-  qualidadeServico: 0.25,
-  qualidadeEntrega: 0.15,
-  segurancaSaude: 0.25,
-  estoque: 0.10,
-  administracao: 0.05,
-}
 
 export default function AvaliacaoDetalhePage() {
   const params = useParams()
@@ -91,7 +82,7 @@ export default function AvaliacaoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes da avaliação',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -113,7 +104,7 @@ export default function AvaliacaoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a avaliação',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

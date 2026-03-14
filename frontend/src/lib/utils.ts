@@ -619,3 +619,76 @@ export function numberToWords(value: number): string {
   
   return result.trim()
 }
+
+/**
+ * Formata um CNPJ
+ * @param value - Valor a ser formatado (string ou number)
+ * @returns CNPJ formatado (XX.XXX.XXX/XXXX-XX)
+ */
+export function formatCNPJ(value: string | number): string {
+  // Remove tudo que não é número
+  const cnpj = String(value).replace(/\D/g, '')
+  
+  // Aplica a máscara
+  return cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5')
+}
+
+/**
+ * Formata um telefone/celular
+ * @param value - Valor a ser formatado (string ou number)
+ * @returns Telefone formatado ((XX) XXXX-XXXX ou (XX) XXXXX-XXXX)
+ */
+export function formatPhone(value: string | number): string {
+  // Remove tudo que não é número
+  const phone = String(value).replace(/\D/g, '')
+  
+  // Verifica se é celular (11 dígitos) ou fixo (10 dígitos)
+  if (phone.length === 11) {
+    return phone.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3')
+  } else if (phone.length === 10) {
+    return phone.replace(/^(\d{2})(\d{4})(\d{4})$/, '($1) $2-$3')
+  }
+  
+  // Retorna o valor original se não conseguir formatar
+  return String(value)
+}
+
+/**
+ * Formata um CEP
+ * @param value - Valor a ser formatado (string ou number)
+ * @returns CEP formatado (XXXXX-XXX)
+ */
+export function formatCEP(value: string | number): string {
+  // Remove tudo que não é número
+  const cep = String(value).replace(/\D/g, '')
+  
+  // Aplica a máscara
+  return cep.replace(/^(\d{5})(\d{3})$/, '$1-$2')
+}
+
+/**
+ * Remove a formatação de um CNPJ
+ * @param cnpj - CNPJ formatado
+ * @returns Apenas números
+ */
+export function unformatCNPJ(cnpj: string): string {
+  return cnpj.replace(/\D/g, '')
+}
+
+/**
+ * Remove a formatação de um telefone
+ * @param phone - Telefone formatado
+ * @returns Apenas números
+ */
+export function unformatPhone(phone: string): string {
+  return phone.replace(/\D/g, '')
+}
+
+/**
+ * Remove a formatação de um CEP
+ * @param cep - CEP formatado
+ * @returns Apenas números
+ */
+export function unformatCEP(cep: string): string {
+  return cep.replace(/\D/g, '')
+}
