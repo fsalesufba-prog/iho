@@ -213,9 +213,11 @@ export default function ResetarSenhaPage() {
                 <div className="space-y-1 mt-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs">Força da senha:</span>
-                    <span className={cn('text-xs font-medium', forcaTexto.cor)}>
-                      {forcaTexto.texto}
-                    </span>
+                    {forcaTexto && typeof forcaTexto !== 'string' && (
+                      <span className={cn('text-xs font-medium', forcaTexto.cor)}>
+                        {forcaTexto.texto}
+                      </span>
+                    )}
                   </div>
                   <Progress value={percentualForca} className="h-1" />
                 </div>
