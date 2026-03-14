@@ -69,7 +69,7 @@ export class FinanceiroController {
         success: true,
         data: {
           equipamento,
-          ...depreciacao
+          ...(depreciacao as any)
         }
       })
     } catch (error) {
@@ -103,8 +103,8 @@ export class FinanceiroController {
         success: true,
         data: {
           classe: tipo,
-          totalEquipamentos: equipamentos.length,
-          ...depreciacao
+          ...(depreciacao as any),
+          totalEquipamentos: equipamentos.length
         }
       })
     } catch (error) {

@@ -23,7 +23,7 @@ export class AlertaService {
       }
     })
 
-    const configuracoes = await prisma.configuracaoAlerta.findUnique({
+    const configuracoes = await (prisma as any).configuracaoAlerta.findUnique({
       where: {
         empresaId_tipo: {
           empresaId,
@@ -64,7 +64,7 @@ export class AlertaService {
     const dataLimite = new Date()
     dataLimite.setDate(dataLimite.getDate() + 7)
 
-    const configuracoes = await prisma.configuracaoAlerta.findUnique({
+    const configuracoes = await (prisma as any).configuracaoAlerta.findUnique({
       where: {
         empresaId_tipo: {
           empresaId,
@@ -149,7 +149,7 @@ export class AlertaService {
    * Verificar alertas de estoque
    */
   async verificarEstoque(empresaId: number) {
-    const configuracoes = await prisma.configuracaoAlerta.findUnique({
+    const configuracoes = await (prisma as any).configuracaoAlerta.findUnique({
       where: {
         empresaId_tipo: {
           empresaId,
@@ -200,7 +200,7 @@ export class AlertaService {
    */
   async criarAlerta(dados: any) {
     // Verificar se já existe alerta pendente similar
-    const existente = await prisma.alerta.findFirst({
+    const existente = await (prisma as any).alerta.findFirst({
       where: {
         empresaId: dados.empresaId,
         tipo: dados.tipo,
@@ -212,7 +212,7 @@ export class AlertaService {
 
     if (existente) return existente
 
-    const alerta = await prisma.alerta.create({
+    const alerta = await (prisma as any).alerta.create({
       data: {
         empresaId: dados.empresaId,
         tipo: dados.tipo,
@@ -231,7 +231,7 @@ export class AlertaService {
     })
 
     // Buscar configurações para notificação
-    const config = await prisma.configuracaoAlerta.findUnique({
+    const config = await (prisma as any).configuracaoAlerta.findUnique({
       where: {
         empresaId_tipo: {
           empresaId: dados.empresaId,
@@ -242,7 +242,9 @@ export class AlertaService {
 
     // Notificar por email se configurado
     if (config?.notificarEmail && config.destinatarios?.length) {
-      await emailService.enviarAlerta(alerta, config.destinatarios)
+      for (const destinatario of config.destinatarios) {
+        await emailService.enviarAlerta(destinatario, alerta.titulo, alerta.descricao, alerta.nivel)
+      }
     }
 
     return alerta
@@ -266,7 +268,7 @@ export class AlertaService {
     const dataLimite = new Date()
     dataLimite.setDate(dataLimite.getDate() - 30)
 
-    await prisma.alerta.updateMany({
+    await (prisma as any).alerta.updateMany({
       where: {
         empresaId,
         status: 'pendente',
@@ -289,13 +291,13 @@ export class AlertaService {
 
     for (const tipo of tipos) {
       const [pendentes, resolvidos, totais] = await Promise.all([
-        prisma.alerta.count({
+        (prisma as any).alerta.count({
           where: { empresaId, tipo, status: 'pendente' }
         }),
-        prisma.alerta.count({
+        (prisma as any).alerta.count({
           where: { empresaId, tipo, status: 'resolvido' }
         }),
-        prisma.alerta.count({
+        (prisma as any).alerta.count({
           where: { empresaId, tipo }
         })
       ])
@@ -316,7 +318,7 @@ export class AlertaService {
    * Obter equipamentos com mais alertas
    */
   async topEquipamentosAlertas(empresaId: number, limite: number = 10) {
-    const result = await prisma.alerta.groupBy({
+    const result = await (prisma as any).alerta.groupBy({
       by: ['equipamentoId'],
       where: {
         empresaId,
@@ -332,7 +334,7 @@ export class AlertaService {
     })
 
     const equipamentos = await Promise.all(
-      result.map(async (item) => {
+      result.map(async (item: any) => {
         const equipamento = await prisma.equipamento.findUnique({
           where: { id: item.equipamentoId! },
           select: { tag: true, nome: true }
@@ -352,7 +354,7 @@ export class AlertaService {
    * Obter itens de estoque com mais alertas
    */
   async topItensEstoqueAlertas(empresaId: number, limite: number = 10) {
-    const result = await prisma.alerta.groupBy({
+    const result = await (prisma as any).alerta.groupBy({
       by: ['itemEstoqueId'],
       where: {
         empresaId,
@@ -368,7 +370,7 @@ export class AlertaService {
     })
 
     const itens = await Promise.all(
-      result.map(async (item) => {
+      result.map(async (item: any) => {
         const estoque = await prisma.estoque.findUnique({
           where: { id: item.itemEstoqueId! },
           select: { nome: true, codigo: true }

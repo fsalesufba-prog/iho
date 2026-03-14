@@ -317,7 +317,7 @@ export class ConfiguracaoController {
           status: 'cancelado',
           motivoCancelamento: motivo,
           dataCancelamento: new Date()
-        }
+        } as any
       })
 
       // Desativar usuários

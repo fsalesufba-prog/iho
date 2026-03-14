@@ -28,7 +28,7 @@ export class AlertaController {
       if (status) where.status = status
 
       const [alertas, total] = await Promise.all([
-        prisma.alerta.findMany({
+        (prisma as any).alerta.findMany({
           where,
           include: {
             equipamento: {
@@ -53,7 +53,7 @@ export class AlertaController {
             { createdAt: 'desc' }
           ]
         }),
-        prisma.alerta.count({ where })
+        (prisma as any).alerta.count({ where })
       ])
 
       res.json({
@@ -80,7 +80,7 @@ export class AlertaController {
       const { id } = req.params
       const { id: empresaId } = (req as any).empresa
 
-      const alerta = await prisma.alerta.findFirst({
+      const alerta = await (prisma as any).alerta.findFirst({
         where: {
           id: parseInt(id),
           empresaId
@@ -130,7 +130,7 @@ export class AlertaController {
       const { status, observacao } = req.body
       const { id: empresaId, usuario } = (req as any)
 
-      const alerta = await prisma.alerta.findFirst({
+      const alerta = await (prisma as any).alerta.findFirst({
         where: {
           id: parseInt(id),
           empresaId
@@ -141,7 +141,7 @@ export class AlertaController {
         return res.status(404).json({ error: 'Alerta não encontrado' })
       }
 
-      const updated = await prisma.alerta.update({
+      const updated = await (prisma as any).alerta.update({
         where: { id: parseInt(id) },
         data: {
           status,
@@ -185,7 +185,7 @@ export class AlertaController {
       const { motivo } = req.body
       const { id: empresaId, usuario } = (req as any)
 
-      const alerta = await prisma.alerta.findFirst({
+      const alerta = await (prisma as any).alerta.findFirst({
         where: {
           id: parseInt(id),
           empresaId
@@ -196,7 +196,7 @@ export class AlertaController {
         return res.status(404).json({ error: 'Alerta não encontrado' })
       }
 
-      const updated = await prisma.alerta.update({
+      const updated = await (prisma as any).alerta.update({
         where: { id: parseInt(id) },
         data: {
           status: 'ignorado',
@@ -230,12 +230,12 @@ export class AlertaController {
         porTipo,
         recentes
       ] = await Promise.all([
-        prisma.alerta.groupBy({
+        (prisma as any).alerta.groupBy({
           by: ['status'],
           where: { empresaId },
           _count: true
         }),
-        prisma.alerta.groupBy({
+        (prisma as any).alerta.groupBy({
           by: ['gravidade'],
           where: { 
             empresaId,
@@ -243,7 +243,7 @@ export class AlertaController {
           },
           _count: true
         }),
-        prisma.alerta.groupBy({
+        (prisma as any).alerta.groupBy({
           by: ['tipo'],
           where: { 
             empresaId,
@@ -251,7 +251,7 @@ export class AlertaController {
           },
           _count: true
         }),
-        prisma.alerta.findMany({
+        (prisma as any).alerta.findMany({
           where: { 
             empresaId,
             status: 'pendente'
@@ -292,7 +292,7 @@ export class AlertaController {
       const { id: empresaId } = (req as any).empresa
       const { page = 1, limit = 20 } = req.query
 
-      const alertas = await prisma.alerta.findMany({
+      const alertas = await (prisma as any).alerta.findMany({
         where: {
           empresaId,
           tipo: 'combustivel',
@@ -313,7 +313,7 @@ export class AlertaController {
         orderBy: { createdAt: 'desc' }
       })
 
-      const total = await prisma.alerta.count({
+      const total = await (prisma as any).alerta.count({
         where: {
           empresaId,
           tipo: 'combustivel',
@@ -345,7 +345,7 @@ export class AlertaController {
       const { id: empresaId } = (req as any).empresa
       const { page = 1, limit = 20 } = req.query
 
-      const alertas = await prisma.alerta.findMany({
+      const alertas = await (prisma as any).alerta.findMany({
         where: {
           empresaId,
           tipo: 'manutencao',
@@ -366,7 +366,7 @@ export class AlertaController {
         orderBy: { createdAt: 'desc' }
       })
 
-      const total = await prisma.alerta.count({
+      const total = await (prisma as any).alerta.count({
         where: {
           empresaId,
           tipo: 'manutencao',
@@ -398,7 +398,7 @@ export class AlertaController {
       const { id: empresaId } = (req as any).empresa
       const { page = 1, limit = 20 } = req.query
 
-      const alertas = await prisma.alerta.findMany({
+      const alertas = await (prisma as any).alerta.findMany({
         where: {
           empresaId,
           tipo: 'estoque',
@@ -419,7 +419,7 @@ export class AlertaController {
         orderBy: { createdAt: 'desc' }
       })
 
-      const total = await prisma.alerta.count({
+      const total = await (prisma as any).alerta.count({
         where: {
           empresaId,
           tipo: 'estoque',
@@ -450,7 +450,7 @@ export class AlertaController {
     try {
       const { id: empresaId } = (req as any).empresa
 
-      const configuracoes = await prisma.configuracaoAlerta.findMany({
+      const configuracoes = await (prisma as any).configuracaoAlerta.findMany({
         where: { empresaId }
       })
 
@@ -472,7 +472,7 @@ export class AlertaController {
       const { id: empresaId } = (req as any).empresa
       const dados = configuracaoSchema.parse(req.body)
 
-      const configuracao = await prisma.configuracaoAlerta.upsert({
+      const configuracao = await (prisma as any).configuracaoAlerta.upsert({
         where: {
           empresaId_tipo: {
             empresaId,
@@ -511,7 +511,7 @@ export class AlertaController {
       const { id: empresaId } = (req as any).empresa
 
       const [pendentes, porDia] = await Promise.all([
-        prisma.alerta.count({
+        (prisma as any).alerta.count({
           where: {
             empresaId,
             status: 'pendente'
@@ -550,7 +550,7 @@ export class AlertaController {
       const { id } = req.params
       const { id: empresaId } = (req as any).empresa
 
-      const alerta = await prisma.alerta.findFirst({
+      const alerta = await (prisma as any).alerta.findFirst({
         where: {
           id: parseInt(id),
           empresaId
@@ -561,7 +561,7 @@ export class AlertaController {
         return res.status(404).json({ error: 'Alerta não encontrado' })
       }
 
-      await prisma.alerta.delete({
+      await (prisma as any).alerta.delete({
         where: { id: parseInt(id) }
       })
 

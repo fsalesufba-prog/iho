@@ -186,7 +186,7 @@ export class AuthController {
           empresaId: tokenRecord.usuario.empresaId 
         },
         authConfig.jwt.secret,
-        { expiresIn: authConfig.jwt.expiresIn }
+        { expiresIn: authConfig.jwt.expiresIn as any }
       )
 
       // Marcar token como usado

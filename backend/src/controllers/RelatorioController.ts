@@ -100,7 +100,7 @@ export class RelatorioController {
       }
 
       // Registrar geração do relatório
-      await prisma.relatorioLog.create({
+      await (prisma as any).relatorioLog.create({
         data: {
           empresaId,
           tipo: dados.tipo,
@@ -264,7 +264,7 @@ export class RelatorioController {
     try {
       const { id: empresaId } = (req as any).empresa
 
-      const relatorios = await prisma.relatorioPersonalizado.findMany({
+      const relatorios = await (prisma as any).relatorioPersonalizado.findMany({
         where: { 
           OR: [
             { empresaId },
@@ -292,7 +292,7 @@ export class RelatorioController {
       const { id: empresaId } = (req as any).empresa
       const dados = criarRelatorioPersonalizadoSchema.parse(req.body)
 
-      const relatorio = await prisma.relatorioPersonalizado.create({
+      const relatorio = await (prisma as any).relatorioPersonalizado.create({
         data: {
           ...dados,
           empresaId,
@@ -330,7 +330,7 @@ export class RelatorioController {
       const { id } = req.params
       const { id: empresaId } = (req as any).empresa
 
-      const relatorio = await prisma.relatorioPersonalizado.findFirst({
+      const relatorio = await (prisma as any).relatorioPersonalizado.findFirst({
         where: { 
           id: parseInt(id),
           OR: [
@@ -368,7 +368,7 @@ export class RelatorioController {
       const { id: empresaId } = (req as any).empresa
       const dados = atualizarRelatorioPersonalizadoSchema.parse(req.body)
 
-      const relatorio = await prisma.relatorioPersonalizado.findFirst({
+      const relatorio = await (prisma as any).relatorioPersonalizado.findFirst({
         where: { 
           id: parseInt(id),
           empresaId 
@@ -379,7 +379,7 @@ export class RelatorioController {
         return res.status(404).json({ error: 'Relatório não encontrado' })
       }
 
-      const updated = await prisma.relatorioPersonalizado.update({
+      const updated = await (prisma as any).relatorioPersonalizado.update({
         where: { id: parseInt(id) },
         data: dados
       })
@@ -415,7 +415,7 @@ export class RelatorioController {
       const { id: empresaId } = (req as any).empresa
       const { formato = 'pdf', periodo } = req.query
 
-      const relatorio = await prisma.relatorioPersonalizado.findFirst({
+      const relatorio = await (prisma as any).relatorioPersonalizado.findFirst({
         where: { 
           id: parseInt(id),
           OR: [
@@ -470,7 +470,7 @@ export class RelatorioController {
       const { id } = req.params
       const { id: empresaId } = (req as any).empresa
 
-      const relatorio = await prisma.relatorioPersonalizado.findFirst({
+      const relatorio = await (prisma as any).relatorioPersonalizado.findFirst({
         where: { 
           id: parseInt(id),
           empresaId 
@@ -486,7 +486,7 @@ export class RelatorioController {
         await relatorioService.removerAgendamento(relatorio.id)
       }
 
-      await prisma.relatorioPersonalizado.delete({
+      await (prisma as any).relatorioPersonalizado.delete({
         where: { id: parseInt(id) }
       })
 
@@ -507,7 +507,7 @@ export class RelatorioController {
     try {
       const { id: empresaId } = (req as any).empresa
 
-      const agendados = await prisma.relatorioPersonalizado.findMany({
+      const agendados = await (prisma as any).relatorioPersonalizado.findMany({
         where: { 
           empresaId,
           agendado: true
@@ -533,7 +533,7 @@ export class RelatorioController {
       const { id } = req.params
       const { id: empresaId } = (req as any).empresa
 
-      const agendado = await prisma.relatorioPersonalizado.findFirst({
+      const agendado = await (prisma as any).relatorioPersonalizado.findFirst({
         where: { 
           id: parseInt(id),
           empresaId,
@@ -564,7 +564,7 @@ export class RelatorioController {
       const { id: empresaId } = (req as any).empresa
       const { ativo } = req.body
 
-      const relatorio = await prisma.relatorioPersonalizado.findFirst({
+      const relatorio = await (prisma as any).relatorioPersonalizado.findFirst({
         where: { 
           id: parseInt(id),
           empresaId 
@@ -575,7 +575,7 @@ export class RelatorioController {
         return res.status(404).json({ error: 'Relatório não encontrado' })
       }
 
-      const updated = await prisma.relatorioPersonalizado.update({
+      const updated = await (prisma as any).relatorioPersonalizado.update({
         where: { id: parseInt(id) },
         data: { agendado: ativo }
       })
@@ -605,7 +605,7 @@ export class RelatorioController {
       const { id: empresaId } = (req as any).empresa
       const { page = 1, limit = 20 } = req.query
 
-      const historico = await prisma.relatorioLog.findMany({
+      const historico = await (prisma as any).relatorioLog.findMany({
         where: { empresaId },
         include: {
           usuario: {
@@ -617,7 +617,7 @@ export class RelatorioController {
         orderBy: { createdAt: 'desc' }
       })
 
-      const total = await prisma.relatorioLog.count({
+      const total = await (prisma as any).relatorioLog.count({
         where: { empresaId }
       })
 

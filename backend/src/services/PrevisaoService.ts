@@ -472,7 +472,7 @@ export class PrevisaoService {
     const cenarios = {
       otimista: {
         ...base,
-        previsao: base.previsao.map(p => ({
+        previsao: base.previsao.map((p: any) => ({
           ...p,
           valor: p.valor * 0.9,
           intervaloMin: p.intervaloMin * 0.85,
@@ -482,7 +482,7 @@ export class PrevisaoService {
       realista: base,
       pessimista: {
         ...base,
-        previsao: base.previsao.map(p => ({
+        previsao: base.previsao.map((p: any) => ({
           ...p,
           valor: p.valor * 1.2,
           intervaloMin: p.intervaloMin * 1.15,
@@ -504,7 +504,7 @@ export class PrevisaoService {
       this.preverCustos(empresaId, 6)
     ])
 
-    const recomendacoes = []
+    const recomendacoes: any[] = []
 
     // Recomendações de uso
     const equipamentosCriticos = this.identificarEquipamentosCriticos(uso)
@@ -519,7 +519,7 @@ export class PrevisaoService {
     }
 
     // Recomendações de manutenção
-    const manutencoesProximas = manutencoes.previsoes.filter(p => 
+    const manutencoesProximas = manutencoes.previsoes.filter((p: any) => 
       p.previsao[0]?.diasAteProxima <= 30
     )
     if (manutencoesProximas.length > 0) {
@@ -690,7 +690,7 @@ export class PrevisaoService {
     if (previsoes.length === 0) return {}
 
     const totalHorasProjetadas = previsoes.reduce((sum, p) => {
-      const total = p.previsao.reduce((s, m) => s + m.horas, 0)
+      const total = p.previsao.reduce((s: number, m: any) => s + m.horas, 0)
       return sum + total
     }, 0)
 
@@ -707,7 +707,7 @@ export class PrevisaoService {
   private calcularResumoManutencoes(previsoes: any[]): any {
     if (previsoes.length === 0) return {}
 
-    const manutencoesProximas = previsoes.filter(p => p.previsao[0]?.diasAteProxima <= 30)
+    const manutencoesProximas = previsoes.filter((p: any) => p.previsao[0]?.diasAteProxima <= 30)
 
     return {
       totalEquipamentosAnalisados: previsoes.length,
@@ -722,8 +722,8 @@ export class PrevisaoService {
   private calcularTendenciaGeralUso(uso: any): string {
     if (!uso.previsoes || uso.previsoes.length === 0) return 'estável'
     
-    const tendencias = uso.previsoes.map(p => p.tendencia)
-    const mediaTendencia = tendencias.reduce((a, b) => a + b, 0) / tendencias.length
+    const tendencias = uso.previsoes.map((p: any) => p.tendencia)
+    const mediaTendencia = tendencias.reduce((a: any, b: any) => a + b, 0) / tendencias.length
     
     if (mediaTendencia > 0.05) return 'crescente'
     if (mediaTendencia < -0.05) return 'decrescente'
@@ -737,8 +737,8 @@ export class PrevisaoService {
     if (!uso.previsoes) return []
     
     return uso.previsoes
-      .filter(p => p.tendencia > 0.1)
-      .map(p => ({
+      .filter((p: any) => p.tendencia > 0.1)
+      .map((p: any) => ({
         id: p.equipamentoId,
         tag: p.equipamentoTag,
         nome: p.equipamentoNome,
@@ -750,7 +750,7 @@ export class PrevisaoService {
    * Gerar recomendações de uso
    */
   private gerarRecomendacoesUso(uso: any): string[] {
-    const recomendacoes = []
+    const recomendacoes: any[] = []
     const criticos = this.identificarEquipamentosCriticos(uso)
     
     if (criticos.length > 0) {
@@ -774,8 +774,8 @@ export class PrevisaoService {
     if (!manutencoes.previsoes) return []
     
     return manutencoes.previsoes
-      .filter(p => p.previsao[0]?.diasAteProxima <= 15)
-      .map(p => ({
+      .filter((p: any) => p.previsao[0]?.diasAteProxima <= 15)
+      .map((p: any) => ({
         id: p.equipamentoId,
         tag: p.equipamentoTag,
         dias: p.previsao[0]?.diasAteProxima
@@ -786,7 +786,7 @@ export class PrevisaoService {
    * Gerar recomendações de manutenção
    */
   public gerarRecomendacoesManutencao(manutencoes: any): string[] {
-    const recomendacoes = []
+    const recomendacoes: any[] = []
     const atencao = this.identificarEquipamentosAtencao(manutencoes)
     
     if (atencao.length > 0) {
@@ -800,7 +800,7 @@ export class PrevisaoService {
    * Gerar recomendações de custos
    */
   private gerarRecomendacoesCustos(custos: any): string[] {
-    const recomendacoes = []
+    const recomendacoes: any[] = []
     
     if (custos.estatisticas.tendencia > 0.05) {
       recomendacoes.push('Revisar orçamento devido à tendência de aumento de custos')

@@ -17,7 +17,7 @@ export class RelatorioService {
    * Listar relatórios recentes
    */
   async listarRecentes(empresaId: number) {
-    return prisma.relatorioLog.findMany({
+    return (prisma as any).relatorioLog.findMany({
       where: { empresaId },
       include: {
         usuario: {
@@ -33,7 +33,7 @@ export class RelatorioService {
    * Listar relatórios agendados
    */
   async listarAgendados(empresaId: number) {
-    return prisma.relatorioPersonalizado.findMany({
+    return (prisma as any).relatorioPersonalizado.findMany({
       where: { 
         empresaId,
         agendado: true
@@ -46,11 +46,11 @@ export class RelatorioService {
    * Obter estatísticas de relatórios
    */
   async obterEstatisticas(empresaId: number) {
-    const total = await prisma.relatorioLog.count({
+    const total = await (prisma as any).relatorioLog.count({
       where: { empresaId }
     })
 
-    const ultimos7Dias = await prisma.relatorioLog.count({
+    const ultimos7Dias = await (prisma as any).relatorioLog.count({
       where: {
         empresaId,
         createdAt: {
@@ -59,7 +59,7 @@ export class RelatorioService {
       }
     })
 
-    const porTipo = await prisma.relatorioLog.groupBy({
+    const porTipo = await (prisma as any).relatorioLog.groupBy({
       by: ['tipo'],
       where: { empresaId },
       _count: true
@@ -68,7 +68,7 @@ export class RelatorioService {
     return {
       total,
       ultimos7Dias,
-      porTipo: porTipo.map(t => ({
+      porTipo: porTipo.map((t: any) => ({
         tipo: t.tipo,
         quantidade: t._count
       }))
@@ -272,7 +272,7 @@ export class RelatorioService {
         custoTotal: manutencoes.reduce((sum, m) => sum + (m.custo || 0), 0),
         custoMedio: custoMedio._avg.custo || 0
       },
-      porTipo: porTipo.map(t => ({
+      porTipo: porTipo.map((t: any) => ({
         tipo: t.tipo,
         quantidade: t._count,
         custo: t._sum.custo || 0
@@ -320,7 +320,7 @@ export class RelatorioService {
     // Implementar agendamento com cron jobs
     const proximaExecucao = this.calcularProximaExecucao(config.frequencia)
     
-    await prisma.relatorioPersonalizado.update({
+    await (prisma as any).relatorioPersonalizado.update({
       where: { id: relatorioId },
       data: { 
         agendado: true,
@@ -340,7 +340,7 @@ export class RelatorioService {
   async atualizarAgendamento(relatorioId: number, config: any) {
     const proximaExecucao = config.agendado ? this.calcularProximaExecucao(config.frequencia) : null
 
-    await prisma.relatorioPersonalizado.update({
+    await (prisma as any).relatorioPersonalizado.update({
       where: { id: relatorioId },
       data: {
         agendado: config.agendado,
@@ -355,7 +355,7 @@ export class RelatorioService {
    * Remover agendamento
    */
   async removerAgendamento(relatorioId: number) {
-    await prisma.relatorioPersonalizado.update({
+    await (prisma as any).relatorioPersonalizado.update({
       where: { id: relatorioId },
       data: {
         agendado: false,
@@ -616,7 +616,7 @@ export class RelatorioService {
     const skip = (page - 1) * limit
 
     const [relatorios, total] = await Promise.all([
-      prisma.relatorioLog.findMany({
+      (prisma as any).relatorioLog.findMany({
         where: { empresaId },
         orderBy: { createdAt: 'desc' },
         skip,
@@ -625,7 +625,7 @@ export class RelatorioService {
           usuario: { select: { nome: true } }
         }
       }),
-      prisma.relatorioLog.count({ where: { empresaId } })
+      (prisma as any).relatorioLog.count({ where: { empresaId } })
     ])
 
     return {

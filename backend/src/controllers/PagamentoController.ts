@@ -160,8 +160,12 @@ export class PagamentoController {
         // Enviar email de confirmação
         await emailService.sendPagamentoConfirmado(
           pagamento.empresa.email,
-          pagamento.empresa.plano.nome,
-          pagamento.valor
+          pagamento.empresa.nome,
+          {
+            plano: pagamento.empresa.plano.nome,
+            valor: pagamento.valor,
+            dataPagamento: new Date()
+          }
         )
       }
 
@@ -222,7 +226,7 @@ export class PagamentoController {
         data: {
           status: 'cancelado',
           canceledAt: new Date()
-        }
+        } as any
       })
 
       const empresa = await prisma.empresa.findUnique({
@@ -571,7 +575,7 @@ export class PagamentoController {
       }
 
       // Reutilizar lógica do webhook existente
-      const result = infinitePayService.processWebhook(payload)
+      const result = infinitePayService.processWebhook(payload as any)
 
       if (result.status === 'paid') {
         // Atualizar pagamento
@@ -619,8 +623,12 @@ export class PagamentoController {
         // Enviar email de confirmação
         await emailService.sendPagamentoConfirmado(
           pagamento.empresa.email,
-          pagamento.empresa.plano.nome,
-          pagamento.valor
+          pagamento.empresa.nome,
+          {
+            plano: pagamento.empresa.plano.nome,
+            valor: pagamento.valor,
+            dataPagamento: new Date()
+          }
         )
       }
 
@@ -672,10 +680,10 @@ export class PagamentoController {
           valor: pagamento.valor,
           metodo: pagamento.formaPagamento!,
           dataVencimento: pagamento.dataVencimento,
-          qrCode: pagamento.qrCode,
-          codigoPix: pagamento.linkPagamento,
-          linhaDigitavel: pagamento.linhaDigitavel,
-          urlBoleto: pagamento.urlBoleto
+          qrCode: pagamento.qrCode ?? undefined,
+          codigoPix: pagamento.linkPagamento ?? undefined,
+          linhaDigitavel: pagamento.linhaDigitavel ?? undefined,
+          urlBoleto: pagamento.urlBoleto ?? undefined
         }
       )
 
