@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
   DollarSign,
@@ -18,7 +17,6 @@ import {
   AlertTriangle,
   CreditCard,
   QrCode,
-  Barcode,
   FileText,
   Mail,
   TrendingUp,
@@ -150,7 +148,7 @@ export default function PagamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os pagamentos',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -189,7 +187,7 @@ export default function PagamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o pagamento',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -208,7 +206,7 @@ export default function PagamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -225,7 +223,7 @@ export default function PagamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível reenviar o e-mail',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -284,7 +282,7 @@ export default function PagamentosPage() {
       case 'pix':
         return <QrCode className="h-4 w-4" />
       case 'boleto':
-        return <Barcode className="h-4 w-4" />
+        return <FileText className="h-4 w-4" />
       default:
         return <DollarSign className="h-4 w-4" />
     }
