@@ -653,7 +653,7 @@ export class ManutencaoController {
       const calendario: Record<string, any[]> = {}
       
       manutencoes.forEach(m => {
-        const dia = m.dataProgramada.toISOString().split('T')[0]
+        const dia = m.dataProgramada!.toISOString().split('T')[0]
         if (!calendario[dia]) {
           calendario[dia] = []
         }

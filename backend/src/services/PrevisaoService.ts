@@ -402,7 +402,7 @@ export class PrevisaoService {
     })
 
     for (const m of manutencoesProgramadas) {
-      const diasAte = Math.round((m.dataProgramada.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24))
+      const diasAte = Math.round((m.dataProgramada!.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24))
       
       if (diasAte <= 7) {
         alertas.push({
@@ -410,7 +410,7 @@ export class PrevisaoService {
           gravidade: diasAte <= 3 ? 'alta' : 'media',
           equipamento: m.equipamento.tag,
           descricao: `Manutenção preventiva programada para daqui a ${diasAte} dias`,
-          data: m.dataProgramada.toISOString().split('T')[0],
+          data: m.dataProgramada!.toISOString().split('T')[0],
           diasAte
         })
       }
@@ -785,7 +785,7 @@ export class PrevisaoService {
   /**
    * Gerar recomendações de manutenção
    */
-  private gerarRecomendacoesManutencao(manutencoes: any): string[] {
+  public gerarRecomendacoesManutencao(manutencoes: any): string[] {
     const recomendacoes = []
     const atencao = this.identificarEquipamentosAtencao(manutencoes)
     

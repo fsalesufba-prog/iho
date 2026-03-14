@@ -406,7 +406,7 @@ export class RelatorioService {
       where: { empresaId },
       include: {
         equipamentos: true,
-        frentesServico: true
+        frenteServicos: true
       }
     })
 
@@ -416,7 +416,7 @@ export class RelatorioService {
       codigo: obra.codigo,
       status: obra.status,
       totalEquipamentos: obra.equipamentos.length,
-      totalFrentes: obra.frentesServico.length
+      totalFrentes: obra.frenteServicos.length
     }))
   }
 
@@ -606,6 +606,35 @@ export class RelatorioService {
   private selecionarColunas(dados: any, colunas: string[]) {
     // Implementar seleção de colunas
     return dados
+  }
+
+  /**
+   * Listar relatórios gerenciais
+   */
+  async listarGerenciais(empresaId: number, params: { page: number; limit: number }) {
+    const { page, limit } = params
+    const skip = (page - 1) * limit
+
+    const [relatorios, total] = await Promise.all([
+      prisma.relatorioLog.findMany({
+        where: { empresaId },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+        include: {
+          usuario: { select: { nome: true } }
+        }
+      }),
+      prisma.relatorioLog.count({ where: { empresaId } })
+    ])
+
+    return {
+      relatorios,
+      total,
+      page,
+      limit,
+      pages: Math.ceil(total / limit)
+    }
   }
 
   /**
