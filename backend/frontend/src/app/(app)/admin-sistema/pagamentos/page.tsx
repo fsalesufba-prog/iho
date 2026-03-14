@@ -18,7 +18,7 @@ import {
   AlertTriangle,
   CreditCard,
   QrCode,
-  Barcode,
+  Scan,
   FileText,
   Mail,
   TrendingUp,
@@ -284,7 +284,7 @@ export default function PagamentosPage() {
       case 'pix':
         return <QrCode className="h-4 w-4" />
       case 'boleto':
-        return <Barcode className="h-4 w-4" />
+        return <Scan className="h-4 w-4" />
       default:
         return <DollarSign className="h-4 w-4" />
     }

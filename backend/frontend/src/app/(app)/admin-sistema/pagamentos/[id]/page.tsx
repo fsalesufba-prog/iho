@@ -15,7 +15,7 @@ import {
   Calendar,
   CreditCard,
   QrCode,
-  Barcode,
+  Scan,
   FileText,
   Printer,
   Mail,
@@ -259,7 +259,7 @@ export default function PagamentoDetalhePage() {
       case 'pix':
         return <QrCode className="h-5 w-5" />
       case 'boleto':
-        return <Barcode className="h-5 w-5" />
+        return <Scan className="h-5 w-5" />
       default:
         return <DollarSign className="h-5 w-5" />
     }
@@ -438,7 +438,7 @@ export default function PagamentoDetalhePage() {
               </div>
               {pagamento.formaPagamento === 'cartao' && <CreditCard className="h-8 w-8 text-blue-600" />}
               {pagamento.formaPagamento === 'pix' && <QrCode className="h-8 w-8 text-green-600" />}
-              {pagamento.formaPagamento === 'boleto' && <Barcode className="h-8 w-8 text-orange-600" />}
+              {pagamento.formaPagamento === 'boleto' && <Scan className="h-8 w-8 text-orange-600" />}
             </div>
           </CardContent>
         </Card>

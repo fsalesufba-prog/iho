@@ -4,7 +4,7 @@ import React from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/Dialog'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { Copy, Check, Barcode, Download, X } from 'lucide-react'
+import { Copy, Check, Scan, Download, X } from 'lucide-react'
 import { useToast } from '@/components/hooks/useToast'
 import { format } from 'date-fns'
 
@@ -77,7 +77,7 @@ export function PagamentoBoleto({
           {/* Código de Barras */}
           <div className="bg-muted p-4 rounded-lg">
             <div className="flex justify-center mb-4">
-              <Barcode className="h-12 w-12 text-muted-foreground" />
+              <Scan className="h-12 w-12 text-muted-foreground" />
             </div>
 
             {/* Linha Digitável */}

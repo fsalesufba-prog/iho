@@ -7,7 +7,7 @@ import Link from 'next/link'
 import {
   CreditCard,
   QrCode,
-  Barcode,
+  Scan,
   ArrowRight,
   Lock,
   Shield,
@@ -386,7 +386,7 @@ export default function PagamentoPage() {
                           htmlFor="boleto"
                           className="flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer hover:bg-accent peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                         >
-                          <Barcode className="h-6 w-6" />
+                          <Scan className="h-6 w-6" />
                           <div className="flex-1">
                             <p className="font-medium">Boleto Bancário</p>
                             <p className="text-sm text-muted-foreground">

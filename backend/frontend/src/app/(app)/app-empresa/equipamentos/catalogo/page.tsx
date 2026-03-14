@@ -17,7 +17,7 @@ import {
   ChevronLeft,
   ChevronRight,
   RefreshCw,
-  Grid3x3,
+  LayoutGrid,
   List,
 } from 'lucide-react'
 
@@ -311,7 +311,7 @@ export default function CatalogoEquipamentosPage() {
                       onClick={() => setViewMode('grid')}
                       className="h-8 w-8"
                     >
-                      <Grid3x3 className="h-4 w-4" />
+                      <LayoutGrid className="h-4 w-4" />
                     </Button>
                     <Button
                       variant={viewMode === 'list' ? 'default' : 'ghost'}
