@@ -50,14 +50,14 @@ export class AuthController {
 
       const token = jwt.sign(
         { id: user.id, email: user.email, tipo: user.tipo, empresaId: user.empresaId },
-        authConfig.jwt.secret,
-        { expiresIn: authConfig.jwt.expiresIn }
+        authConfig.jwt.secret as string,
+        { expiresIn: authConfig.jwt.expiresIn as any }
       )
 
       const refreshToken = jwt.sign(
         { id: user.id },
-        authConfig.jwt.refreshSecret,
-        { expiresIn: authConfig.jwt.refreshExpiresIn }
+        authConfig.jwt.refreshSecret as string,
+        { expiresIn: authConfig.jwt.refreshExpiresIn as any }
       )
 
       // Salvar refresh token

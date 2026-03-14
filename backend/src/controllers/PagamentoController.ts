@@ -1017,15 +1017,6 @@ export class PagamentoController {
                 select: { id: true, nome: true }
               }
             }
-          },
-          logs: {
-            take: 20,
-            orderBy: { createdAt: 'desc' },
-            include: {
-              usuario: {
-                select: { nome: true }
-              }
-            }
           }
         }
       })
@@ -1034,19 +1025,7 @@ export class PagamentoController {
         return res.status(404).json({ error: 'Pagamento não encontrado' })
       }
 
-      // Formatar logs
-      const logsFormatados = pagamento.logs.map(log => ({
-        id: log.id,
-        acao: log.acao,
-        usuario: log.usuario?.nome || 'Sistema',
-        data: log.createdAt.toLocaleString('pt-BR'),
-        ip: log.ip
-      }))
-
-      res.json({
-        ...pagamento,
-        logs: logsFormatados
-      })
+      res.json(pagamento)
     } catch (error) {
       console.error('Erro ao buscar pagamento:', error)
       res.status(500).json({ error: 'Erro interno do servidor' })

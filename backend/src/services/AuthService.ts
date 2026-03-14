@@ -34,14 +34,14 @@ export class AuthService {
   }
 
   generateToken(payload: TokenPayload): string {
-    return jwt.sign(payload, authConfig.jwt.secret, {
-      expiresIn: authConfig.jwt.expiresIn
+    return jwt.sign(payload, authConfig.jwt.secret as string, {
+      expiresIn: authConfig.jwt.expiresIn as any
     })
   }
 
   generateRefreshToken(payload: TokenPayload): string {
-    return jwt.sign(payload, authConfig.jwt.refreshSecret, {
-      expiresIn: authConfig.jwt.refreshExpiresIn
+    return jwt.sign(payload, authConfig.jwt.refreshSecret as string, {
+      expiresIn: authConfig.jwt.refreshExpiresIn as any
     })
   }
 

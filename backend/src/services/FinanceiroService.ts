@@ -34,12 +34,12 @@ export class FinanceiroService {
 
     // Calcular patrimônio total
     const patrimonioTotal = equipamentos.reduce((sum, eq) => sum + (eq.valorAquisicao || 0), 0)
-    const depreciacaoTotal = equipamentos.reduce((sum, eq) => {
+    let depreciacaoTotal = 0
+    for (const eq of equipamentos) {
       if (eq.valorAquisicao && eq.dataAquisicao) {
-        return sum + this.calcularDepreciacaoEquipamento(eq.id)
+        depreciacaoTotal += await this.calcularDepreciacaoEquipamento(eq.id)
       }
-      return sum
-    }, 0)
+    }
 
     // Calcular custos
     const custoManutencao = manutencoes.reduce((sum, m) => sum + (m.custo || 0), 0)
@@ -222,14 +222,14 @@ export class FinanceiroService {
       },
       porStatus,
       porObra,
-      equipamentos: equipamentos.map(eq => ({
+      equipamentos: await Promise.all(equipamentos.map(async eq => ({
         id: eq.id,
         tag: eq.tag,
         nome: eq.nome,
         valorAquisicao: eq.valorAquisicao,
-        valorAtual: (eq.valorAquisicao || 0) - (this.calcularDepreciacaoEquipamento(eq.id) || 0),
+        valorAtual: (eq.valorAquisicao || 0) - (await this.calcularDepreciacaoEquipamento(eq.id) || 0),
         obra: eq.obra?.nome
-      }))
+      })))
     }
   }
 

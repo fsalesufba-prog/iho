@@ -93,7 +93,7 @@ export class AlertaService {
 
     for (const manutencao of manutencoes) {
       const diasRestantes = Math.ceil(
-        (manutencao.dataProgramada.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24)
+        (manutencao.dataProgramada!.getTime() - hoje.getTime()) / (1000 * 60 * 60 * 24)
       )
 
       let gravidade = 'baixa'
@@ -130,7 +130,7 @@ export class AlertaService {
 
     for (const manutencao of manutencoesAtrasadas) {
       const diasAtraso = Math.ceil(
-        (hoje.getTime() - manutencao.dataProgramada.getTime()) / (1000 * 60 * 60 * 24)
+        (hoje.getTime() - manutencao.dataProgramada!.getTime()) / (1000 * 60 * 60 * 24)
       )
 
       await this.criarAlerta({

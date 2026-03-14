@@ -278,7 +278,7 @@ export class ManutencaoService {
     const alertas = []
 
     for (const manutencao of manutencoesAtrasadas) {
-      const diasAtraso = Math.floor((hoje.getTime() - manutencao.dataProgramada.getTime()) / (1000 * 60 * 60 * 24))
+      const diasAtraso = Math.floor((hoje.getTime() - manutencao.dataProgramada!.getTime()) / (1000 * 60 * 60 * 24))
 
       // Atualizar prioridade baseada no atraso
       let novaPrioridade = manutencao.prioridade
