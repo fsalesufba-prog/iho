@@ -25,7 +25,6 @@ import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
@@ -34,11 +33,6 @@ const equipamentoSchema = z.object({
   equipamentoId: z.number().int().positive(),
   horasTrabalhadas: z.number().positive('Horas deve ser maior que zero')
 })
-=======
-import { api } from '@/lib/api'
-import { formatCurrency } from '@/lib/utils'
-
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 const medicaoSchema = z.object({
   titulo: z.string().min(1, 'Título é obrigatório'),
@@ -83,15 +77,10 @@ export default function EmitirMedicaoPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const medicaoId = searchParams.get('id')
-<<<<<<< HEAD
   const { user } = useAuth()
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(false)
-=======
-  const { toast } = useToast()
-
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const [saving, setSaving] = useState(false)
   const [obras, setObras] = useState<Obra[]>([])
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([])
@@ -128,11 +117,7 @@ export default function EmitirMedicaoPage() {
 
   const carregarDados = async () => {
     try {
-<<<<<<< HEAD
       setLoading(true)
-=======
-      //setLoading(true)
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       const [obrasRes, modelosRes] = await Promise.all([
         api.get('/obras', { params: { limit: 100, status: 'ativa' } }),
         api.get('/medicao/modelos')
@@ -142,11 +127,7 @@ export default function EmitirMedicaoPage() {
     } catch (error) {
       console.error('Erro ao carregar dados:', error)
     } finally {
-<<<<<<< HEAD
       setLoading(false)
-=======
-      //setLoading(false)
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     }
   }
 

@@ -1,10 +1,6 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-<<<<<<< HEAD
-=======
-import { api } from '@/lib/api'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 interface UseMutationOptions<TData, TVariables> {
   onSuccess?: (data: TData, variables: TVariables) => void

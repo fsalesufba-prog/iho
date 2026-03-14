@@ -10,10 +10,7 @@ import {
   ArrowLeft,
   Save,
   Package,
-<<<<<<< HEAD
   Tag,
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   DollarSign,
   MapPin,
   Wrench,
@@ -30,10 +27,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/Switch'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 const equipamentoSchema = z.object({
@@ -85,10 +79,7 @@ interface CentroCusto {
 export default function EditarEquipamentoPage() {
   const router = useRouter()
   const params = useParams()
-<<<<<<< HEAD
   const { user } = useAuth()
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(false)

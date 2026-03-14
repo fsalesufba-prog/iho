@@ -34,11 +34,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { RefreshCw, UserPlus } from 'lucide-react'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
-<<<<<<< HEAD
 import { Masks } from '@/lib/masks'
-=======
-import { masks } from '@/lib/masks'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 const empresaSchema = z.object({
   // Dados da Empresa
@@ -172,11 +168,7 @@ export function EmpresaForm({ open, onOpenChange, empresa, onSuccess }: EmpresaF
       toast({
         title: 'Erro',
         description: 'Não foi possível salvar a empresa',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -234,11 +226,7 @@ export function EmpresaForm({ open, onOpenChange, empresa, onSuccess }: EmpresaF
                           <Input
                             placeholder="00.000.000/0000-00"
                             {...field}
-<<<<<<< HEAD
                             onChange={(e) => field.onChange(Masks.cnpj(e.target.value))}
-=======
-                            onChange={(e) => field.onChange(masks.cnpj(e.target.value))}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                           />
                         </FormControl>
                         <FormMessage />
@@ -300,11 +288,7 @@ export function EmpresaForm({ open, onOpenChange, empresa, onSuccess }: EmpresaF
                           <Input
                             placeholder="(00) 00000-0000"
                             {...field}
-<<<<<<< HEAD
                             onChange={(e) => field.onChange(Masks.phone(e.target.value))}
-=======
-                            onChange={(e) => field.onChange(masks.phone(e.target.value))}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                           />
                         </FormControl>
                         <FormMessage />
@@ -372,11 +356,7 @@ export function EmpresaForm({ open, onOpenChange, empresa, onSuccess }: EmpresaF
                           <Input
                             placeholder="00000-000"
                             {...field}
-<<<<<<< HEAD
                             onChange={(e) => field.onChange(Masks.cep(e.target.value))}
-=======
-                            onChange={(e) => field.onChange(masks.cep(e.target.value))}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                           />
                         </FormControl>
                         <FormMessage />
@@ -480,11 +460,7 @@ export function EmpresaForm({ open, onOpenChange, empresa, onSuccess }: EmpresaF
                             <Input
                               placeholder="(00) 00000-0000"
                               {...field}
-<<<<<<< HEAD
                               onChange={(e) => field.onChange(Masks.phone(e.target.value))}
-=======
-                              onChange={(e) => field.onChange(masks.phone(e.target.value))}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                             />
                           </FormControl>
                           <FormMessage />

@@ -6,10 +6,6 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   ArrowLeft,
-<<<<<<< HEAD
-=======
-  Plus,
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   Edit,
   Trash2,
   DollarSign,
@@ -53,10 +49,7 @@ import {
 
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
-<<<<<<< HEAD
 import { useAuth } from '@/components/hooks/useAuth'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
@@ -111,10 +104,7 @@ export default function ObraDetalhePage() {
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
-<<<<<<< HEAD
   const { user } = useAuth()
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const id = params.id as string
 
   const [obra, setObra] = useState<Obra | null>(null)
@@ -136,11 +126,7 @@ export default function ObraDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes da obra',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -162,11 +148,7 @@ export default function ObraDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a obra',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

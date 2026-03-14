@@ -26,11 +26,7 @@ export function FormWizard({
   className
 }: FormWizardProps) {
   const [currentStep, setCurrentStep] = useState(0)
-<<<<<<< HEAD
   const { trigger, formState } = useFormContext()
-=======
-  const { trigger } = useFormContext()
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const handleNext = async () => {
     const fieldsToValidate = steps[currentStep].fields

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 'use strict'
 
 // Carregar variáveis de ambiente do backend
@@ -47,27 +46,3 @@ nextApp.prepare().then(async () => {
   process.on('SIGTERM', () => { server.close(() => process.exit(0)) })
   process.on('SIGINT',  () => { server.close(() => process.exit(0)) })
 })
-=======
-const express = require("express");
-const next = require("next");
-
-const dev = false;
-const app = next({ dev, dir: "./frontend" });
-const handle = app.getRequestHandler();
-
-app.prepare().then(() => {
-  const server = express();
-
-  // rotas da API
-  server.use("/api", require("./backend/dist/server"));
-
-  // Next.js
-  server.all("*", (req, res) => {
-    return handle(req, res);
-  });
-
-  server.listen(3000, () => {
-    console.log("Servidor rodando na porta 3000");
-  });
-});
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be

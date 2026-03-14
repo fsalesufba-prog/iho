@@ -13,10 +13,7 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 import { useToast } from '@/components/ui/use-toast'
-<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { formatCurrency, formatDate } from '@/lib/utils'
 
@@ -52,10 +49,7 @@ interface DepreciacaoData {
 
 export default function DepreciacaoEquipamentoPage() {
   const params = useParams()
-<<<<<<< HEAD
   const { user } = useAuth()
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [data, setData] = useState<DepreciacaoData | null>(null)

@@ -108,11 +108,7 @@ export default function PostPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o artigo',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -195,11 +191,7 @@ export default function PostPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível publicar o comentário',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -532,10 +524,7 @@ export default function PostPage() {
 // Componente de comentário
 function CommentItem({ comment, onReply }: { comment: any; onReply: (id: number) => void }) {
   const [liked, setLiked] = useState(false)
-<<<<<<< HEAD
   const [showReplyForm, setShowReplyForm] = useState(false)
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const getInitials = (name: string) => {
     return name

@@ -40,11 +40,7 @@ export function FormField<TFieldValues extends FieldValues>({
             </FormLabel>
           )}
           <FormControl>
-<<<<<<< HEAD
             {children(field)}
-=======
-            {children(field as ControllerRenderProps<TFieldValues, Path<TFieldValues>>)}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />

@@ -5,10 +5,6 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
   Wrench,
-<<<<<<< HEAD
-=======
-  Play,
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   Search,
   Filter,
   Plus,

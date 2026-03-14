@@ -15,10 +15,7 @@ import {
   Calendar,
   CreditCard,
   QrCode,
-<<<<<<< HEAD
   Barcode,
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   FileText,
   Printer,
   Mail,
@@ -34,10 +31,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Separator } from '@/components/ui/Separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
-<<<<<<< HEAD
-=======
-import { Input } from '@/components/ui/Input'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import {
   AlertDialog,
   AlertDialogAction,
@@ -132,11 +125,7 @@ export default function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes do pagamento',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -158,11 +147,7 @@ export default function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -182,11 +167,7 @@ export default function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o pagamento',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -205,11 +186,7 @@ export default function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível reenviar o e-mail',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -282,11 +259,7 @@ export default function PagamentoDetalhePage() {
       case 'pix':
         return <QrCode className="h-5 w-5" />
       case 'boleto':
-<<<<<<< HEAD
         return <Barcode className="h-5 w-5" />
-=======
-        return <FileText  className="h-5 w-5" />
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       default:
         return <DollarSign className="h-5 w-5" />
     }
@@ -465,11 +438,7 @@ export default function PagamentoDetalhePage() {
               </div>
               {pagamento.formaPagamento === 'cartao' && <CreditCard className="h-8 w-8 text-blue-600" />}
               {pagamento.formaPagamento === 'pix' && <QrCode className="h-8 w-8 text-green-600" />}
-<<<<<<< HEAD
               {pagamento.formaPagamento === 'boleto' && <Barcode className="h-8 w-8 text-orange-600" />}
-=======
-              {pagamento.formaPagamento === 'boleto' && <FileText  className="h-8 w-8 text-orange-600" />}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
             </div>
           </CardContent>
         </Card>

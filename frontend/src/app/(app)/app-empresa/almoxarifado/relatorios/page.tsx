@@ -24,10 +24,7 @@ import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 interface RelatorioConfig {
@@ -38,10 +35,7 @@ interface RelatorioConfig {
 }
 
 export default function RelatoriosPage() {
-<<<<<<< HEAD
   const { user } = useAuth()
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(false)

@@ -30,10 +30,6 @@ import {
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
-<<<<<<< HEAD
-=======
-import { Separator } from '../ui/Separator'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { RefreshCw } from 'lucide-react'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
@@ -99,11 +95,7 @@ export function EstoqueMovimentoForm({
       toast({
         title: 'Erro',
         description: 'Não foi possível registrar a movimentação',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)

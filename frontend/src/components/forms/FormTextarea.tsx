@@ -30,11 +30,7 @@ export function FormTextarea({
   maxLength,
   showCount = false
 }: FormTextareaProps) {
-<<<<<<< HEAD
   const { control, watch } = useFormContext()
-=======
-  const { watch } = useFormContext()
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const value = watch(name) || ''
 
   return (

@@ -33,11 +33,7 @@ export function OnlineStatus({ showToast = true, className }: OnlineStatusProps)
         toast({
           title: 'Sem conexão',
           description: 'Você está offline. Algumas funcionalidades podem estar limitadas',
-<<<<<<< HEAD
           variant: 'destructive'
-=======
-          variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         })
       }
     }

@@ -7,11 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Save, Wrench } from 'lucide-react'
-<<<<<<< HEAD
 
-=======
-import Link from 'next/link'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
@@ -22,10 +18,7 @@ import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 const manutencaoSchema = z.object({
@@ -62,10 +55,7 @@ interface Manutencao {
 export default function EditarManutencaoPage() {
   const router = useRouter()
   const params = useParams()
-<<<<<<< HEAD
   const { user } = useAuth()
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(true)
@@ -304,11 +294,7 @@ export default function EditarManutencaoPage() {
                         id="descricao"
                         {...register('descricao')}
                         className="min-h-[100px]"
-<<<<<<< HEAD
                         error={!!errors.descricao}
-=======
-                        aria-invalid={!!errors.descricao}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                       />
                       {errors.descricao && (
                         <p className="text-sm text-destructive">{errors.descricao.message}</p>

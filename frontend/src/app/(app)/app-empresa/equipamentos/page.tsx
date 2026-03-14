@@ -89,11 +89,7 @@ interface Equipamento {
 
 export default function EquipamentosPage() {
   const { user } = useAuth()
-<<<<<<< HEAD
   const { empresa, plano } = useEmpresa()
-=======
-  const { plano } = useEmpresa()
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([])
@@ -242,11 +238,7 @@ export default function EquipamentosPage() {
     return stats.total < plano.limiteEquipamentos
   }
 
-<<<<<<< HEAD
   const tiposUnicos = [...new Set(equipamentos.map(e => e.tipo))]
-=======
-  const tiposUnicos = Array.from(new Set(equipamentos.map(e => e.tipo)))
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   return (
     <>

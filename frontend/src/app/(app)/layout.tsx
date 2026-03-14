@@ -11,11 +11,7 @@ export default function AppRootLayout({
 }: {
   children: React.ReactNode
 }) {
-<<<<<<< HEAD
   const { user, isLoading, isAuthenticated } = useAuth()
-=======
-  const { isLoading, isAuthenticated } = useAuth()
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const router = useRouter()
 
   useEffect(() => {

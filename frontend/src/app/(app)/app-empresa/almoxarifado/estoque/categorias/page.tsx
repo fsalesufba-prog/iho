@@ -16,10 +16,6 @@ import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
-<<<<<<< HEAD
-=======
-import { Skeleton } from '@/components/ui/Skeleton'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Input } from '@/components/ui/Input'
 import {
   Dialog,

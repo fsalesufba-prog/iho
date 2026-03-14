@@ -21,10 +21,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 interface ClasseData {
@@ -47,10 +44,7 @@ interface ClasseData {
 
 export default function IhoClassePage() {
   const params = useParams()
-<<<<<<< HEAD
   const { user } = useAuth()
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [data, setData] = useState<ClasseData | null>(null)
@@ -65,11 +59,7 @@ export default function IhoClassePage() {
   const carregarDados = async () => {
     try {
       setLoading(true)
-<<<<<<< HEAD
       const response = await api.get(`/indicadores/iho/classes/${encodeURIComponent(params.tipo)}`, {
-=======
-      const response = await api.get(`/indicadores/iho/classes/${encodeURIComponent(String(params.tipo))}`, {
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         params: { periodo }
       })
       setData(response.data.data)

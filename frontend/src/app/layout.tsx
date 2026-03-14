@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import type { Metadata, Viewport } from 'next'
-=======
-import type { Metadata } from "next"
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Inter, Poppins } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
@@ -22,12 +18,7 @@ const poppins = Poppins({
   display: 'swap',
 })
 
-<<<<<<< HEAD
 export const viewport: Viewport = {
-=======
-// @ts-ignore - viewport is a Next.js 14 export; in 13 this is safely ignored
-export const viewport = {
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,

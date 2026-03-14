@@ -11,15 +11,12 @@ interface MoneyProps {
   variant?: 'default' | 'positive' | 'negative' | 'neutral'
 }
 
-<<<<<<< HEAD
 const currencySymbols = {
   BRL: 'R$',
   USD: '$',
   EUR: '€'
 }
 
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 const variants = {
   default: '',
   positive: 'text-green-600',

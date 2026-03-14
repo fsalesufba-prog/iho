@@ -3,10 +3,7 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { DashboardKPI } from './DashboardKPI'
-<<<<<<< HEAD
 import { DashboardMetric } from './DashboardMetric'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { DashboardTrend } from './DashboardTrend'
 import { Skeleton } from '@/components/ui/Skeleton'
 
@@ -62,7 +59,6 @@ export function DashboardStats({
     )
   }
 
-<<<<<<< HEAD
   if (variant === 'compact') {
     return (
       <div className={cn('grid gap-4', gridCols[columns], className)}>
@@ -79,8 +75,6 @@ export function DashboardStats({
       </div>
     )
   }
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   if (variant === 'detailed') {
     return (

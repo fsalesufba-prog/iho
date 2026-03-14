@@ -1,10 +1,6 @@
 'use client'
 
-<<<<<<< HEAD
 import { useState, useEffect } from 'react'
-=======
-import { useState, useEffect, useCallback } from 'react'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 export function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value)

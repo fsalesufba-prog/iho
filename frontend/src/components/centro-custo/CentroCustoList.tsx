@@ -42,10 +42,7 @@ import {
   SelectValue,
 } from '@/components/ui/Select'
 import { CentroCustoForm } from './CentroCustoForm'
-<<<<<<< HEAD
 import { CentroCustoDetails } from './CentroCustoDetails'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { AvaliacaoForm } from './AvaliacaoForm'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
@@ -83,14 +80,9 @@ export function CentroCustoList({ obraId }: CentroCustoListProps) {
   const [totalPages, setTotalPages] = useState(1)
   const [selectedCentro, setSelectedCentro] = useState<CentroCusto | null>(null)
   const [showForm, setShowForm] = useState(false)
-<<<<<<< HEAD
   const [showDetails, setShowDetails] = useState(false)
   const [showAvaliacao, setShowAvaliacao] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-=======
-  const [showAvaliacao, setShowAvaliacao] = useState(false)
-
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const { toast } = useToast()
 
@@ -130,11 +122,7 @@ export function CentroCustoList({ obraId }: CentroCustoListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os centros de custo',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -159,11 +147,7 @@ export function CentroCustoList({ obraId }: CentroCustoListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o centro de custo',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -313,10 +297,7 @@ export function CentroCustoList({ obraId }: CentroCustoListProps) {
                             <DropdownMenuLabel>Ações</DropdownMenuLabel>
                             <DropdownMenuItem onClick={() => {
                               setSelectedCentro(centro)
-<<<<<<< HEAD
                               setShowDetails(true)
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                             }}>
                               <Eye className="h-4 w-4 mr-2" />
                               Detalhes
@@ -396,7 +377,6 @@ export function CentroCustoList({ obraId }: CentroCustoListProps) {
         />
       )}
 
-<<<<<<< HEAD
       {showDetails && selectedCentro && (
         <CentroCustoDetails
           open={showDetails}
@@ -405,8 +385,6 @@ export function CentroCustoList({ obraId }: CentroCustoListProps) {
         />
       )}
 
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       {showAvaliacao && selectedCentro && (
         <AvaliacaoForm
           open={showAvaliacao}

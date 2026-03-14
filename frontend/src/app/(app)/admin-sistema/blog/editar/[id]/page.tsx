@@ -3,10 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
-<<<<<<< HEAD
 import Link from 'next/link'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -42,10 +39,7 @@ import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
 
 import { BlogEditor } from '@/components/blog/BlogEditor'
-<<<<<<< HEAD
 import Image from 'next/image'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
 const postSchema = z.object({
   titulo: z.string().min(1, 'Título é obrigatório'),
@@ -107,11 +101,7 @@ export default function EditarPostPage() {
         conteudo: post.conteudo,
         categoria: post.categoria,
         autor: post.autor,
-<<<<<<< HEAD
                 imagem: post.imagem || '',
-=======
-        imagem: post.imagem || '',
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         destaque: post.destaque,
         publicado: post.publicado,
         dataPublicacao: post.dataPublicacao?.split('T')[0] || '',
@@ -123,11 +113,7 @@ export default function EditarPostPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o post',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
       router.push('/admin-sistema/blog')
     } finally {
@@ -180,11 +166,7 @@ export default function EditarPostPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível atualizar o post',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setSaving(false)
@@ -428,16 +410,7 @@ export default function EditarPostPage() {
                   <Alert>
                     <Info className="h-4 w-4" />
                     <AlertDescription>
-<<<<<<< HEAD
                       O post será agendado para {new Date(form.watch('dataPublicacao')).toLocaleDateString('pt-BR')}
-=======
-                      O post será agendado para {
-                        (() => {
-                          const data = form.watch('dataPublicacao')
-                          return data ? new Date(data).toLocaleDateString('pt-BR') : ''
-                        })()
-                      }
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                     </AlertDescription>
                   </Alert>
                 )}

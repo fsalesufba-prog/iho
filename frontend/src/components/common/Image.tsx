@@ -10,10 +10,6 @@ interface ImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'sr
   alt: string
   width?: number
   height?: number
-<<<<<<< HEAD
-=======
-  size?: number
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   fill?: boolean
   sizes?: string
   quality?: number

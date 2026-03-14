@@ -38,11 +38,7 @@ export function FormSelect({
   disabled,
   className
 }: FormSelectProps) {
-<<<<<<< HEAD
   const { control } = useFormContext()
-=======
-  useFormContext()
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   return (
     <FormField

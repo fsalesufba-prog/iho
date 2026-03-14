@@ -1,10 +1,7 @@
 'use client'
 
 import React from 'react'
-<<<<<<< HEAD
 import { useFormContext } from 'react-hook-form'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Input } from '@/components/ui/Input'
 import { FormField } from './FormField'
 
@@ -16,12 +13,9 @@ interface FormCurrencyInputProps {
   required?: boolean
   disabled?: boolean
   className?: string
-<<<<<<< HEAD
   min?: number
   max?: number
   step?: number
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 }
 
 export function FormCurrencyInput({
@@ -32,16 +26,12 @@ export function FormCurrencyInput({
   required,
   disabled,
   className,
-<<<<<<< HEAD
   min,
   max,
   step = 0.01
 }: FormCurrencyInputProps) {
   const { control } = useFormContext()
 
-=======
-}: FormCurrencyInputProps) {
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const formatValue = (value: number | string) => {
     if (!value) return ''
     

@@ -16,17 +16,10 @@ import { Sidebar } from '@/components/app/Sidebar'
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
-<<<<<<< HEAD
 import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
-=======
-import { Input } from '@/components/ui/Input'
-import { Badge } from '@/components/ui/Badge'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
-import { useToast } from '@/components/ui/use-toast'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { formatDate, formatCurrency } from '@/lib/utils'
 
@@ -61,10 +54,7 @@ interface ManutencaoData {
 }
 
 export default function RelatorioManutencaoPage() {
-<<<<<<< HEAD
   const { user } = useAuth()
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [data, setData] = useState<ManutencaoData | null>(null)
@@ -270,11 +260,7 @@ export default function RelatorioManutencaoPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-<<<<<<< HEAD
                   {data?.porTipo.map((item, index) => (
-=======
-                  {data?.porTipo.map((item) => (
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                     <div key={item.tipo} className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <Badge className={getTipoBadge(item.tipo)}>
@@ -300,11 +286,7 @@ export default function RelatorioManutencaoPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-<<<<<<< HEAD
                   {data?.porTipo.map((item, index) => (
-=======
-                  {data?.porTipo.map((item) => (
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                     <div key={item.tipo} className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>{item.tipo}</span>

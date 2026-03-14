@@ -112,11 +112,7 @@ export function EmpresaSelector({
           <CommandInput 
             placeholder="Buscar empresa..." 
             value={search}
-<<<<<<< HEAD
             onValueChange={setSearch}
-=======
-            onChange={(e) => setSearch(e.target.value)}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           />
           <CommandEmpty>
             {loading ? 'Carregando...' : 'Nenhuma empresa encontrada.'}

@@ -5,10 +5,7 @@ import {
   Search,
   Download,
   RefreshCw,
-<<<<<<< HEAD
   Eye,
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   Edit,
   Trash2,
   Star,
@@ -35,10 +32,7 @@ import {
   SelectValue,
 } from '@/components/ui/Select'
 import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
-<<<<<<< HEAD
 import { AvaliacaoDetails } from './AvaliacaoDetails'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { AvaliacaoForm } from './AvaliacaoForm'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
@@ -76,13 +70,9 @@ export function AvaliacaoList({ centroId, obraId }: AvaliacaoListProps) {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [selectedAvaliacao, setSelectedAvaliacao] = useState<Avaliacao | null>(null)
-<<<<<<< HEAD
   const [showDetails, setShowDetails] = useState(false)
   const [showForm, setShowForm] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-=======
-  const [showForm, setShowForm] = useState(false)
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const { toast } = useToast()
 
@@ -110,11 +100,7 @@ export function AvaliacaoList({ centroId, obraId }: AvaliacaoListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as avaliações',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -139,11 +125,7 @@ export function AvaliacaoList({ centroId, obraId }: AvaliacaoListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a avaliação',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -300,7 +282,6 @@ export function AvaliacaoList({ centroId, obraId }: AvaliacaoListProps) {
                             variant="ghost"
                             onClick={() => {
                               setSelectedAvaliacao(avaliacao)
-<<<<<<< HEAD
                               setShowDetails(true)
                             }}
                           >
@@ -311,8 +292,6 @@ export function AvaliacaoList({ centroId, obraId }: AvaliacaoListProps) {
                             variant="ghost"
                             onClick={() => {
                               setSelectedAvaliacao(avaliacao)
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                               setShowForm(true)
                             }}
                           >
@@ -363,7 +342,6 @@ export function AvaliacaoList({ centroId, obraId }: AvaliacaoListProps) {
         </CardContent>
       </Card>
 
-<<<<<<< HEAD
       {/* Modais */}
       {showDetails && selectedAvaliacao && (
         <AvaliacaoDetails
@@ -372,8 +350,6 @@ export function AvaliacaoList({ centroId, obraId }: AvaliacaoListProps) {
           avaliacaoId={selectedAvaliacao.id}
         />
       )}
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
       {showForm && selectedAvaliacao && (
         <AvaliacaoForm

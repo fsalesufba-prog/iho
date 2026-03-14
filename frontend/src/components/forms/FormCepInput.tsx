@@ -2,10 +2,7 @@
 
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
-<<<<<<< HEAD
 import InputMask from 'react-input-mask'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { Search } from 'lucide-react'
@@ -34,19 +31,7 @@ export function FormCepInput({
   onCepFound
 }: FormCepInputProps) {
   const [loading, setLoading] = React.useState(false)
-<<<<<<< HEAD
   const { control, setValue } = useFormContext()
-=======
-  const { setValue } = useFormContext()
-
-  const formatCep = (value: string) => {
-    const digits = value.replace(/\D/g, '').slice(0, 8)
-    if (digits.length > 5) {
-      return `${digits.slice(0, 5)}-${digits.slice(5)}`
-    }
-    return digits
-  }
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const buscarCep = async (cep: string) => {
     const cepLimpo = cep.replace(/\D/g, '')
@@ -59,11 +44,8 @@ export function FormCepInput({
       
       if (!response.data.erro) {
         onCepFound?.(response.data)
-<<<<<<< HEAD
         
         // Preencher campos comuns
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         setValue('endereco', response.data.logradouro)
         setValue('bairro', response.data.bairro)
         setValue('cidade', response.data.localidade)
@@ -85,7 +67,6 @@ export function FormCepInput({
     >
       {(field) => (
         <div className="flex gap-2">
-<<<<<<< HEAD
           <InputMask
             mask="99999-999"
             value={field.value || ''}
@@ -101,16 +82,6 @@ export function FormCepInput({
               />
             )}
           </InputMask>
-=======
-          <Input
-            {...field}
-            value={formatCep(field.value || '')}
-            onChange={(e) => field.onChange(formatCep(e.target.value))}
-            placeholder={placeholder}
-            className={className}
-            disabled={disabled || loading}
-          />
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           <Button
             type="button"
             variant="outline"
@@ -124,8 +95,4 @@ export function FormCepInput({
       )}
     </FormField>
   )
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be

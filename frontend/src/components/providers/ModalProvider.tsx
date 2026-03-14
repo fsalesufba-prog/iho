@@ -45,13 +45,8 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
       {modals.map(({ id, component, options }) => (
         <Modal
           key={id}
-<<<<<<< HEAD
           open={true}
           onOpenChange={() => closeModal(id)}
-=======
-          isOpen={true}
-          onClose={() => closeModal(id)}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
           size={options?.size}
         >
           {component}

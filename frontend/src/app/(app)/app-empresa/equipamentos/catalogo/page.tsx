@@ -14,26 +14,15 @@ import {
   Fuel,
   DollarSign,
   Star,
-<<<<<<< HEAD
   ChevronLeft,
   ChevronRight,
   RefreshCw,
   Grid3x3,
-=======
-  Grid,
-  ChevronLeft,
-  ChevronRight,
-  RefreshCw,
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   List,
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
-<<<<<<< HEAD
-=======
-import { Skeleton } from '@/components/ui/Skeleton'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
@@ -189,11 +178,7 @@ export default function CatalogoEquipamentosPage() {
     }
   }
 
-<<<<<<< HEAD
   const tiposUnicos = [...new Set(catalogo.map(e => e.tipo))]
-=======
-  const tiposUnicos = Array.from(new Set(catalogo.map(e => e.tipo)))
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   return (
     <>
@@ -326,11 +311,7 @@ export default function CatalogoEquipamentosPage() {
                       onClick={() => setViewMode('grid')}
                       className="h-8 w-8"
                     >
-<<<<<<< HEAD
                       <Grid3x3 className="h-4 w-4" />
-=======
-                      <Grid className="h-4 w-4" />
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                     </Button>
                     <Button
                       variant={viewMode === 'list' ? 'default' : 'ghost'}

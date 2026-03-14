@@ -99,11 +99,7 @@ export function CentroCustoDashboard() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o dashboard',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)

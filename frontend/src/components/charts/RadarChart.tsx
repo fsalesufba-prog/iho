@@ -71,10 +71,7 @@ export function RadarChartComponent({
   showLegend = true,
   showTooltip = true,
   showAxis = true,
-<<<<<<< HEAD
   showLabels = true,
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   domain = [0, 5],
   className = '',
   colors = DEFAULT_COLORS,

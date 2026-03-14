@@ -49,11 +49,7 @@ export function DownloadButton({
       toast({
         title: 'Erro',
         description: 'Não foi possível fazer o download',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setIsDownloading(false)

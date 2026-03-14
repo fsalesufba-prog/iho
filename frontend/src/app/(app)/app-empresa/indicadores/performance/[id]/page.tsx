@@ -7,10 +7,6 @@ import { useParams } from 'next/navigation'
 import {
   ArrowLeft,
   TrendingUp,
-<<<<<<< HEAD
-=======
-  Minus,
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   Calendar,
   Download,
   RefreshCw,
@@ -25,10 +21,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 interface Equipamento {
@@ -60,10 +53,7 @@ interface PerformanceData {
 
 export default function PerformanceEquipamentoPage() {
   const params = useParams()
-<<<<<<< HEAD
   const { user } = useAuth()
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [data, setData] = useState<PerformanceData | null>(null)

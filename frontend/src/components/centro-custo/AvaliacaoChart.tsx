@@ -41,21 +41,8 @@ const COLORS = [
   '#14b8a6', // teal
 ]
 
-<<<<<<< HEAD
 export function AvaliacaoChart({ data, type, categories }: ChartProps) {
   const renderChart = () => {
-=======
-export function AvaliacaoChart({ data, type }: ChartProps) {
-  const renderChart = (): JSX.Element => {
-    if (!data || data.length === 0) {
-      return (
-        <div className="flex items-center justify-center h-full">
-          <p className="text-muted-foreground">Nenhum dado disponível</p>
-        </div>
-      )
-    }
-
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     switch (type) {
       case 'radar':
         return (
@@ -104,11 +91,7 @@ export function AvaliacaoChart({ data, type }: ChartProps) {
           </BarChart>
         )
 
-<<<<<<< HEAD
       case 'pie':
-=======
-      case 'pie': {
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         const pieData = data.reduce((acc: any[], curr) => {
           const status = curr.status
           const existing = acc.find(item => item.name === status)
@@ -132,21 +115,13 @@ export function AvaliacaoChart({ data, type }: ChartProps) {
               fill="#8884d8"
               dataKey="value"
             >
-<<<<<<< HEAD
               {pieData.map((entry, index) => (
-=======
-              {pieData.map((_, index) => (
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
             <Tooltip />
           </PieChart>
         )
-<<<<<<< HEAD
-=======
-      }
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
       case 'composed':
         return (
@@ -175,15 +150,7 @@ export function AvaliacaoChart({ data, type }: ChartProps) {
         )
 
       default:
-<<<<<<< HEAD
         return null
-=======
-        return (
-          <div className="flex items-center justify-center h-full">
-            <p className="text-muted-foreground">Tipo de gráfico não suportado</p>
-          </div>
-        )
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
     }
   }
 

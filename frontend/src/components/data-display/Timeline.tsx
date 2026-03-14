@@ -38,11 +38,7 @@ export function Timeline({
 }: TimelineProps) {
   if (orientation === 'horizontal') {
     return (
-<<<<<<< HEAD
       <div className={cn('flex overflow-x-auto pb-4', className)}>
-=======
-      <div className={cn('flex overflow-x-auto pb-4 space-x-4', className)}>
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         {items.map((item, index) => (
           <HorizontalTimelineItem
             key={item.id}
@@ -79,35 +75,13 @@ function VerticalTimelineItem({
   variant: string
 }) {
   const config = typeConfig[item.type || 'default']
-<<<<<<< HEAD
   const Icon = item.icon || config.icon
-=======
-  const IconComponent = config.icon
-  const CustomIcon = item.icon
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const formatDate = (date: Date | string) => {
     const d = new Date(date)
     return format(d, "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })
   }
 
-<<<<<<< HEAD
-=======
-  const renderIcon = () => {
-    if (CustomIcon) {
-      return <>{CustomIcon}</>
-    }
-    return <IconComponent className={cn('h-4 w-4', config.color)} />
-  }
-
-  const renderCompactIcon = () => {
-    if (CustomIcon) {
-      return <>{CustomIcon}</>
-    }
-    return <IconComponent className={cn('h-2.5 w-2.5', config.color)} />
-  }
-
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   if (variant === 'compact') {
     return (
       <div className="relative pl-6">
@@ -118,11 +92,7 @@ function VerticalTimelineItem({
 
         {/* Ponto */}
         <div className={cn('absolute left-0 top-1 h-4 w-4 rounded-full flex items-center justify-center', config.bg)}>
-<<<<<<< HEAD
           <Icon className={cn('h-2.5 w-2.5', config.color)} />
-=======
-          {renderCompactIcon()}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
         </div>
 
         {/* Conteúdo */}
@@ -150,11 +120,7 @@ function VerticalTimelineItem({
 
       {/* Ponto */}
       <div className={cn('absolute left-0 top-1 h-8 w-8 rounded-full flex items-center justify-center', config.bg)}>
-<<<<<<< HEAD
         <Icon className={cn('h-4 w-4', config.color)} />
-=======
-        {renderIcon()}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       </div>
 
       {/* Conteúdo */}
@@ -202,19 +168,13 @@ function HorizontalTimelineItem({
   variant: string
 }) {
   const config = typeConfig[item.type || 'default']
-<<<<<<< HEAD
   const Icon = item.icon || config.icon
-=======
-  const IconComponent = config.icon
-  const CustomIcon = item.icon
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const formatDate = (date: Date | string) => {
     const d = new Date(date)
     return format(d, "dd/MM", { locale: ptBR })
   }
 
-<<<<<<< HEAD
   return (
     <div className="flex-1 min-w-[200px]">
       <div className="relative">
@@ -238,36 +198,6 @@ function HorizontalTimelineItem({
             </p>
           )}
         </div>
-=======
-  const renderIcon = () => {
-    if (CustomIcon) {
-      return <>{CustomIcon}</>
-    }
-    return <IconComponent className={cn('h-4 w-4', config.color)} />
-  }
-
-  return (
-    <div className="flex-1 min-w-[200px] relative">
-      {/* Ponto */}
-      <div className={cn('mx-auto h-8 w-8 rounded-full flex items-center justify-center', config.bg)}>
-        {renderIcon()}
-      </div>
-
-      {/* Linha horizontal */}
-      {!isLast && (
-        <div className="absolute top-4 left-[calc(50%+2rem)] w-[calc(100%-4rem)] h-0.5 bg-border" />
-      )}
-
-      {/* Conteúdo */}
-      <div className="mt-2 text-center">
-        <p className="text-xs text-muted-foreground">{formatDate(item.date)}</p>
-        <p className="text-sm font-medium mt-1">{item.title}</p>
-        {variant === 'detailed' && item.description && (
-          <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-            {item.description}
-          </p>
-        )}
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       </div>
     </div>
   )

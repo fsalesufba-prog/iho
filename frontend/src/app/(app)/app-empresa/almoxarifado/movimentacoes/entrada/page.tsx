@@ -15,10 +15,7 @@ import { Label } from '@/components/ui/Label'
 
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 
 interface ItemEstoque {
@@ -31,10 +28,7 @@ interface ItemEstoque {
 
 export default function EntradaPage() {
   const router = useRouter()
-<<<<<<< HEAD
   const { user } = useAuth()
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [items, setItems] = useState<ItemEstoque[]>([])

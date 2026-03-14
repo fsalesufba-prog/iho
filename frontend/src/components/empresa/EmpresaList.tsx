@@ -13,10 +13,6 @@ import {
   Users,
   CheckCircle,
   XCircle,
-<<<<<<< HEAD
-=======
-  Truck
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -86,11 +82,7 @@ export function EmpresaList({ filtroStatus }: EmpresaListProps) {
   const [selectedEmpresa, setSelectedEmpresa] = useState<Empresa | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
-<<<<<<< HEAD
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-=======
-
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 
   const { toast } = useToast()
 
@@ -130,11 +122,7 @@ export function EmpresaList({ filtroStatus }: EmpresaListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as empresas',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     } finally {
       setLoading(false)
@@ -159,11 +147,7 @@ export function EmpresaList({ filtroStatus }: EmpresaListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a empresa',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -181,11 +165,7 @@ export function EmpresaList({ filtroStatus }: EmpresaListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }

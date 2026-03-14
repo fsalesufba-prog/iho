@@ -34,11 +34,7 @@ export function CopyButton({
       toast({
         title: 'Erro',
         description: 'Não foi possível copiar o texto',
-<<<<<<< HEAD
         variant: 'destructive'
-=======
-        variant: 'error'
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       })
     }
   }
@@ -67,7 +63,6 @@ export function CopyButton({
   )
 }
 
-<<<<<<< HEAD
 // CopyButton com texto
 CopyButton.WithText = function CopyButtonWithText({
   text,
@@ -76,35 +71,17 @@ CopyButton.WithText = function CopyButtonWithText({
 }: CopyButtonProps & { label?: string }) {
   return (
     <Button variant="outline" onClick={() => navigator.clipboard.writeText(text)} {...props}>
-=======
-// CopyButton com texto - Renomeado a prop 'text' para 'copyText'
-CopyButton.WithText = function CopyButtonWithText({
-  copyText,
-  label = 'Copiar',
-  ...props
-}: Omit<CopyButtonProps, 'text'> & { copyText: string; label?: string }) {
-  return (
-    <Button variant="outline" onClick={() => navigator.clipboard.writeText(copyText)} {...props}>
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
       <Copy className="h-4 w-4 mr-2" />
       {label}
     </Button>
   )
 }
 
-<<<<<<< HEAD
 // CopyButton para código
 CopyButton.Code = function CopyCodeButton({
   code,
   ...props
 }: CopyButtonProps & { code: string }) {
-=======
-// CopyButton para código - Renomeado a prop 'code' para evitar conflito
-CopyButton.Code = function CopyCodeButton({
-  code,
-  ...props
-}: Omit<CopyButtonProps, 'text'> & { code: string }) {
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   return (
     <CopyButton
       text={code}

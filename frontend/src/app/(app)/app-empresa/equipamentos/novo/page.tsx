@@ -10,10 +10,7 @@ import {
   ArrowLeft,
   Save,
   Package,
-<<<<<<< HEAD
   Tag,
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   DollarSign,
   MapPin,
   Wrench,
@@ -32,10 +29,7 @@ import { Switch } from '@/components/ui/Switch'
 import { Textarea } from '@/components/ui/Textarea'
 import { Alert, AlertDescription } from '@/components/ui/Alert'
 import { useToast } from '@/components/ui/use-toast'
-<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { useEmpresa } from '@/hooks/useEmpresa'
 import { api } from '@/lib/api'
 
@@ -87,12 +81,8 @@ interface CentroCusto {
 
 export default function NovoEquipamentoPage() {
   const router = useRouter()
-<<<<<<< HEAD
   const { user } = useAuth()
   const { empresa, plano } = useEmpresa()
-=======
-  const { empresa } = useEmpresa()
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [saving, setSaving] = useState(false)
@@ -106,12 +96,8 @@ export default function NovoEquipamentoPage() {
     handleSubmit,
     formState: { errors },
     setValue,
-<<<<<<< HEAD
     watch,
     reset
-=======
-    watch
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   } = useForm<EquipamentoFormData>({
     resolver: zodResolver(equipamentoSchema),
     defaultValues: {

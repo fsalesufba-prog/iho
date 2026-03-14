@@ -1,10 +1,7 @@
 'use client'
 
 import React from 'react'
-<<<<<<< HEAD
 import { useFormContext } from 'react-hook-form'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { Checkbox } from '@/components/ui/Checkbox'
 import { FormField } from './FormField'
 import { cn } from '@/lib/utils'
@@ -26,11 +23,8 @@ export function FormCheckbox({
   disabled,
   className
 }: FormCheckboxProps) {
-<<<<<<< HEAD
   const { control } = useFormContext()
 
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   return (
     <FormField
       name={name}

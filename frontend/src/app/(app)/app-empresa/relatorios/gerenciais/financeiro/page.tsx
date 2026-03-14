@@ -19,10 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-<<<<<<< HEAD
 import { useAuth } from '@/hooks/useAuth'
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
 import { api } from '@/lib/api'
 import { formatDate, formatCurrency } from '@/lib/utils'
 
@@ -51,10 +48,7 @@ interface FinanceiroData {
 }
 
 export default function RelatorioFinanceiroPage() {
-<<<<<<< HEAD
   const { user } = useAuth()
-=======
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
   const { toast } = useToast()
 
   const [data, setData] = useState<FinanceiroData | null>(null)
@@ -253,11 +247,7 @@ export default function RelatorioFinanceiroPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-<<<<<<< HEAD
                   {data?.detalhes.custosPorTipo.map((item, index) => (
-=======
-                  {data?.detalhes.custosPorTipo.map((item) => (
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                     <div key={item.tipo} className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>{item.tipo}</span>
@@ -281,11 +271,7 @@ export default function RelatorioFinanceiroPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-<<<<<<< HEAD
                   {data?.detalhes.receitasPorObra.map((item, index) => (
-=======
-                  {data?.detalhes.receitasPorObra.map((item) => (
->>>>>>> bdb1570aee94106fe89b815342989cef5cb183be
                     <div key={item.obra} className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>{item.obra}</span>
