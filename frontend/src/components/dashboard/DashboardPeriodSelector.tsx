@@ -55,13 +55,13 @@ export function DashboardPeriodSelector({
         <input
           type="date"
           className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-          onChange={(e) => {/* Implementar */}}
+
         />
         <span>até</span>
         <input
           type="date"
           className="h-9 rounded-md border border-input bg-background px-3 text-sm"
-          onChange={(e) => {/* Implementar */}}
+
         />
         <Button 
           variant="ghost" 

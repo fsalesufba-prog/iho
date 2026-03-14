@@ -102,7 +102,7 @@ export function EstoqueMinMax() {
       toast({
         title: 'Erro',
         description: 'Não foi possível salvar as alterações',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setSaving(false)

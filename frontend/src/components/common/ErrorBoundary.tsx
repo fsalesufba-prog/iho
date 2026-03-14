@@ -77,9 +77,9 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 }
 
-// ErrorBoundary para rotas
-ErrorBoundary.Route = function RouteErrorBoundary({ children }: { children: ReactNode }) {
-  return (
+// Namespace para agrupar os subcomponentes
+export namespace ErrorBoundary {
+  export const Route: React.FC<{ children: ReactNode }> = ({ children }) => (
     <ErrorBoundary
       fallback={
         <div className="min-h-[400px] flex flex-col items-center justify-center p-8 text-center">
@@ -95,17 +95,11 @@ ErrorBoundary.Route = function RouteErrorBoundary({ children }: { children: Reac
       {children}
     </ErrorBoundary>
   )
-}
 
-// ErrorBoundary para componentes
-ErrorBoundary.Component = function ComponentErrorBoundary({ 
-  children,
-  name 
-}: { 
-  children: ReactNode
-  name?: string 
-}) {
-  return (
+  export const Component: React.FC<{ children: ReactNode; name?: string }> = ({ 
+    children,
+    name 
+  }) => (
     <ErrorBoundary
       fallback={
         <div className="p-4 border border-destructive/50 rounded-md bg-destructive/5">
@@ -118,18 +112,15 @@ ErrorBoundary.Component = function ComponentErrorBoundary({
       {children}
     </ErrorBoundary>
   )
-}
 
-// ErrorBoundary para formulários
-ErrorBoundary.Form = function FormErrorBoundary({ children }: { children: ReactNode }) {
-  return (
+  export const Form: React.FC<{ children: ReactNode }> = ({ children }) => (
     <ErrorBoundary
       fallback={
         <div className="p-4 border border-destructive/50 rounded-md bg-destructive/5">
           <p className="text-sm text-destructive mb-2">
             Erro no formulário
           </p>
-          <Button size="sm" variant="outline">
+          <Button size="sm" variant="outline" onClick={() => window.location.reload()}>
             Recarregar formulário
           </Button>
         </div>

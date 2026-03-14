@@ -41,8 +41,16 @@ const COLORS = [
   '#14b8a6', // teal
 ]
 
-export function AvaliacaoChart({ data, type, categories }: ChartProps) {
-  const renderChart = () => {
+export function AvaliacaoChart({ data, type }: ChartProps) {
+  const renderChart = (): JSX.Element => {
+    if (!data || data.length === 0) {
+      return (
+        <div className="flex items-center justify-center h-full">
+          <p className="text-muted-foreground">Nenhum dado disponível</p>
+        </div>
+      )
+    }
+
     switch (type) {
       case 'radar':
         return (
@@ -91,7 +99,7 @@ export function AvaliacaoChart({ data, type, categories }: ChartProps) {
           </BarChart>
         )
 
-      case 'pie':
+      case 'pie': {
         const pieData = data.reduce((acc: any[], curr) => {
           const status = curr.status
           const existing = acc.find(item => item.name === status)
@@ -115,13 +123,14 @@ export function AvaliacaoChart({ data, type, categories }: ChartProps) {
               fill="#8884d8"
               dataKey="value"
             >
-              {pieData.map((entry, index) => (
+              {pieData.map((_, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
             <Tooltip />
           </PieChart>
         )
+      }
 
       case 'composed':
         return (
@@ -150,7 +159,11 @@ export function AvaliacaoChart({ data, type, categories }: ChartProps) {
         )
 
       default:
-        return null
+        return (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-muted-foreground">Tipo de gráfico não suportado</p>
+          </div>
+        )
     }
   }
 

@@ -61,7 +61,7 @@ export function ForgotPasswordForm() {
       toast({
         title: 'Erro',
         description: err.response?.data?.message || 'Tente novamente mais tarde',
-        variant: 'destructive',
+        variant: 'error',
       })
     } finally {
       setIsLoading(false)

@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { DashboardHeader } from './DashboardHeader'
 import { DashboardSidebar } from './DashboardSidebar'
-import { DashboardToolbar } from './DashboardToolbar'
 import { useMediaQuery } from '@/components/hooks/useMediaQuery'
 
 interface DashboardLayoutProps {
@@ -26,10 +25,8 @@ export function DashboardLayout({
   subtitle,
   showSidebar = true,
   showHeader = true,
-  showToolbar = true,
   sidebarCollapsed: externalCollapsed,
   onSidebarCollapse,
-  toolbarItems,
   className
 }: DashboardLayoutProps) {
   const [internalCollapsed, setInternalCollapsed] = useState(false)
@@ -70,12 +67,6 @@ export function DashboardLayout({
           showSidebar && !isMobile && (collapsed ? 'ml-20' : 'ml-64'),
           className
         )}>
-          {showToolbar && toolbarItems && (
-            <DashboardToolbar>
-              {toolbarItems}
-            </DashboardToolbar>
-          )}
-
           <div className="p-6">
             {children}
           </div>

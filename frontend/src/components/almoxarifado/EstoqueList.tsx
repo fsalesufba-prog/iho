@@ -45,7 +45,7 @@ import { EstoqueDetails } from './EstoqueDetails'
 import { EstoqueMovimentoForm } from './EstoqueMovimentoForm'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
-import { format } from 'date-fns'
+
 
 interface EstoqueItem {
   id: string
@@ -75,7 +75,6 @@ export function EstoqueList() {
   const [showForm, setShowForm] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
   const [showMovimento, setShowMovimento] = useState(false)
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { toast } = useToast()
 
   useEffect(() => {
@@ -101,7 +100,7 @@ export function EstoqueList() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os itens',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -126,7 +125,7 @@ export function EstoqueList() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o item',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

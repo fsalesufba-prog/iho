@@ -26,8 +26,6 @@ import {
   SelectValue,
 } from '@/components/ui/Select'
 import { EquipamentoList } from './EquipamentoList'
-import { EquipamentoMetrics } from './EquipamentoMetrics'
-import { EquipamentoAlerts } from './EquipamentoAlerts'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
 
@@ -80,7 +78,7 @@ export function EquipamentoDashboard() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o dashboard',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -377,13 +375,6 @@ export function EquipamentoDashboard() {
           <EquipamentoList />
         </TabsContent>
 
-        <TabsContent value="metricas" className="mt-4">
-          <EquipamentoMetrics />
-        </TabsContent>
-
-        <TabsContent value="alertas" className="mt-4">
-          <EquipamentoAlerts />
-        </TabsContent>
 
         <TabsContent value="custos" className="mt-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

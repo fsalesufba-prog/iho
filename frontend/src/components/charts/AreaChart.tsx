@@ -95,7 +95,6 @@ export function AreaChartComponent({
   xAxisLabel,
   yAxisDomain,
   syncId,
-  onPointClick,
   className = '',
   colors = DEFAULT_COLORS,
   stacked = false,

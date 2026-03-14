@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils'
 
 interface DateDisplayProps {
   date: Date | string | number
-  format?: string
+  dateFormat?: string  // Renomeado de 'format' para 'dateFormat'
   className?: string
   showIcon?: boolean
   iconPosition?: 'left' | 'right'
@@ -21,7 +21,7 @@ interface DateDisplayProps {
 
 export function DateDisplay({
   date,
-  format: formatStr = 'dd/MM/yyyy',
+  dateFormat = 'dd/MM/yyyy',  // Nome alterado
   className,
   showIcon = false,
   iconPosition = 'left',
@@ -37,7 +37,7 @@ export function DateDisplay({
       {showIcon && iconPosition === 'left' && (
         <Calendar className="h-4 w-4 text-muted-foreground" />
       )}
-      {format(dateObj, formatStr, { locale })}
+      {format(dateObj, dateFormat, { locale })}  {/* Agora funciona */}
       {showIcon && iconPosition === 'right' && (
         <Calendar className="h-4 w-4 text-muted-foreground" />
       )}
@@ -48,10 +48,10 @@ export function DateDisplay({
 // Data e hora
 DateDisplay.DateTime = function DateTimeDisplay({
   date,
-  format = 'dd/MM/yyyy HH:mm',
+  dateFormat = 'dd/MM/yyyy HH:mm',  // Nome alterado
   ...props
 }: DateDisplayProps) {
-  return <DateDisplay date={date} format={format} {...props} />
+  return <DateDisplay date={date} dateFormat={dateFormat} {...props} />
 }
 
 // Data relativa (ex: "há 2 dias")
@@ -104,14 +104,14 @@ DateDisplay.Range = function DateRange({
   startDate,
   endDate,
   separator = 'até',
-  format = 'dd/MM/yyyy',
+  dateFormat = 'dd/MM/yyyy',  // Nome alterado
   className,
   locale = ptBR
 }: {
   startDate: Date | string | number
   endDate: Date | string | number
   separator?: string
-  format?: string
+  dateFormat?: string
   className?: string
   locale?: Locale
 }) {
@@ -120,7 +120,7 @@ DateDisplay.Range = function DateRange({
 
   return (
     <span className={className}>
-      {format(start, format, { locale })} {separator} {format(end, format, { locale })}
+      {format(start, dateFormat, { locale })} {separator} {format(end, dateFormat, { locale })}
     </span>
   )
 }

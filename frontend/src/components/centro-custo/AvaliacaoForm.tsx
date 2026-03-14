@@ -160,7 +160,7 @@ export function AvaliacaoForm({
       toast({
         title: 'Erro',
         description: 'Não foi possível salvar a avaliação',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)

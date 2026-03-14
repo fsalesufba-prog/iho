@@ -82,7 +82,7 @@ export default function AlertasCombustivelPage() {
       toast({
         title: 'Erro ao carregar alertas',
         description: 'Não foi possível carregar os alertas de combustível.',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -112,7 +112,7 @@ export default function AlertasCombustivelPage() {
       toast({
         title: 'Erro ao resolver',
         description: 'Não foi possível resolver o alerta.',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setProcessing(false)
@@ -141,7 +141,7 @@ export default function AlertasCombustivelPage() {
       toast({
         title: 'Erro ao ignorar',
         description: 'Não foi possível ignorar o alerta.',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setProcessing(false)

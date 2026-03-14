@@ -242,7 +242,7 @@ export function EquipamentoForm({ open, onOpenChange, equipamento, onSuccess }: 
       toast({
         title: 'Erro',
         description: 'Não foi possível salvar o equipamento',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)

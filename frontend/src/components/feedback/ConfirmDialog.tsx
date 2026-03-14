@@ -78,7 +78,7 @@ export function ConfirmDialog({
 export function useConfirmDialog() {
   const [open, setOpen] = useState(false)
   const [config, setConfig] = useState<Omit<ConfirmDialogProps, 'open' | 'onOpenChange'>>({
-    onConfirm: async () => {},
+    onConfirm: async () => { },
   })
 
   const confirm = (props: Omit<ConfirmDialogProps, 'open' | 'onOpenChange'>) => {
@@ -98,7 +98,9 @@ export function useConfirmDialog() {
 }
 
 // ConfirmDialog para deletar
-ConfirmDialog.Delete = function DeleteConfirmDialog(props: Partial<ConfirmDialogProps>) {
+ConfirmDialog.Delete = function DeleteConfirmDialog(
+  props: ConfirmDialogProps
+) {
   return (
     <ConfirmDialog
       title="Confirmar exclusão"

@@ -22,7 +22,7 @@ import { Alert, AlertDescription } from '@/components/ui/Alert'
 import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'
 import { api } from '@/lib/api'
-import { Masks } from '@/lib/masks'
+import { masks } from '@/lib/masks'
 
 const formSchema = z.object({
   nome: z.string().min(1, 'Nome é obrigatório'),
@@ -103,7 +103,7 @@ export function ProfileForm() {
       toast({
         title: 'Erro',
         description: err.response?.data?.message || 'Tente novamente mais tarde',
-        variant: 'destructive',
+        variant: 'error',
       })
     } finally {
       setIsLoading(false)
@@ -222,7 +222,7 @@ export function ProfileForm() {
                         className="pl-10"
                         disabled={isLoading}
                         {...field}
-                        onChange={(e) => field.onChange(Masks.phone(e.target.value))}
+                        onChange={(e) => field.onChange(masks.phone(e.target.value))}
                       />
                     </div>
                   </FormControl>

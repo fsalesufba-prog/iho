@@ -26,7 +26,11 @@ export function Portal({
   let targetContainer = container
 
   if (selector && !targetContainer) {
-    targetContainer = document.querySelector(selector)
+    const element = document.querySelector(selector)
+    // Verifica se é um HTMLElement
+    if (element instanceof HTMLElement) {
+      targetContainer = element
+    }
   }
 
   if (!targetContainer) {

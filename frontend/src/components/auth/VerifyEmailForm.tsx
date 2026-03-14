@@ -59,7 +59,7 @@ export function VerifyEmailForm({ token }: VerifyEmailFormProps) {
       toast({
         title: 'Erro',
         description: err.response?.data?.message || 'Erro ao reenviar e-mail',
-        variant: 'destructive',
+        variant: 'error',
       })
     } finally {
       setResendLoading(false)

@@ -12,6 +12,7 @@ interface StatusBadgeProps {
   label?: string
   size?: 'sm' | 'md' | 'lg'
   className?: string
+  children?: React.ReactNode
 }
 
 const statusConfig: Record<StatusType, { color: string; label: string }> = {

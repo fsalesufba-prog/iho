@@ -15,7 +15,7 @@ import {
   Phone,
   Building2,
   MapPin,
-  Loader2,
+  Loader2
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
@@ -30,11 +30,12 @@ import {
   FormDescription,
 } from '@/components/ui/Form'
 import { Alert, AlertDescription } from '@/components/ui/Alert'
+import { Checkbox } from '../ui/Checkbox'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
 import { cn } from '@/lib/utils'
-import { Masks } from '@/lib/masks'
+import { masks } from '@/lib/masks'
 
 const formSchema = z.object({
   // Dados da Empresa
@@ -151,7 +152,7 @@ export function RegisterForm({ planos, onSuccess }: RegisterFormProps) {
       toast({
         title: 'Erro no cadastro',
         description: err.response?.data?.message || 'Tente novamente mais tarde',
-        variant: 'destructive',
+        variant: 'error',
       })
     } finally {
       setIsLoading(false)
@@ -238,7 +239,7 @@ export function RegisterForm({ planos, onSuccess }: RegisterFormProps) {
                           <Input
                             placeholder="00.000.000/0000-00"
                             {...field}
-                            onChange={(e) => field.onChange(Masks.cnpj(e.target.value))}
+                            onChange={(e) => field.onChange(masks.cnpj(e.target.value))}
                           />
                         </FormControl>
                         <FormMessage />
@@ -282,7 +283,7 @@ export function RegisterForm({ planos, onSuccess }: RegisterFormProps) {
                               placeholder="(00) 00000-0000"
                               className="pl-10"
                               {...field}
-                              onChange={(e) => field.onChange(Masks.phone(e.target.value))}
+                              onChange={(e) => field.onChange(masks.phone(e.target.value))}
                             />
                           </div>
                         </FormControl>
@@ -301,7 +302,7 @@ export function RegisterForm({ planos, onSuccess }: RegisterFormProps) {
                           <Input
                             placeholder="00000-000"
                             {...field}
-                            onChange={(e) => field.onChange(Masks.cep(e.target.value))}
+                            onChange={(e) => field.onChange(masks.cep(e.target.value))}
                           />
                         </FormControl>
                         <FormMessage />
@@ -428,7 +429,7 @@ export function RegisterForm({ planos, onSuccess }: RegisterFormProps) {
                               placeholder="(00) 00000-0000"
                               className="pl-10"
                               {...field}
-                              onChange={(e) => field.onChange(Masks.phone(e.target.value))}
+                              onChange={(e) => field.onChange(masks.phone(e.target.value))}
                             />
                           </div>
                         </FormControl>

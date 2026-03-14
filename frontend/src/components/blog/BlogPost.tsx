@@ -25,6 +25,7 @@ import { BlogComments } from './BlogComments'
 import { BlogShare } from './BlogShare'
 import { BlogRelated } from './BlogRelated'
 import { BlogTags } from './BlogTags'
+import { BlogNewsletter } from './BlogNewsletter'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
 
@@ -54,7 +55,7 @@ export function BlogPost({ slug }: BlogPostProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o artigo',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)

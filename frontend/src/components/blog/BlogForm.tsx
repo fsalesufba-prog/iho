@@ -112,7 +112,7 @@ export function BlogForm({ postId, onSuccess }: BlogFormProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o post',
-        variant: 'destructive',
+        variant: 'error',
       })
     } finally {
       setLoading(false)
@@ -165,7 +165,7 @@ export function BlogForm({ postId, onSuccess }: BlogFormProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível salvar o post',
-        variant: 'destructive',
+        variant: 'error',
       })
     } finally {
       setSaving(false)

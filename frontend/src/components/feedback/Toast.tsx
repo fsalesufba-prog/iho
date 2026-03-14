@@ -42,7 +42,17 @@ const toastVariants = cva(
   }
 )
 
-const Toast = React.forwardRef<
+// Definir o tipo do componente com as propriedades estáticas
+type ToastComponent = React.ForwardRefExoticComponent<
+  Omit<ToastProps & React.RefAttributes<HTMLLIElement>, "ref"> &
+  VariantProps<typeof toastVariants> &
+  React.RefAttributes<HTMLLIElement>
+> & {
+  WithIcon: React.FC<ToastProps & { title?: string; description?: string }>
+}
+
+// Criar o componente base
+const ToastBase = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> &
     VariantProps<typeof toastVariants>
@@ -55,7 +65,10 @@ const Toast = React.forwardRef<
     />
   )
 })
-Toast.displayName = ToastPrimitives.Root.displayName
+ToastBase.displayName = ToastPrimitives.Root.displayName
+
+// Atribuir o componente base ao tipo ToastComponent
+export const Toast = ToastBase as ToastComponent
 
 const ToastAction = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Action>,
@@ -114,21 +127,8 @@ const ToastDescription = React.forwardRef<
 ))
 ToastDescription.displayName = ToastPrimitives.Description.displayName
 
-type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>
-
-type ToastActionElement = React.ReactElement<typeof ToastAction>
-
-export {
-  type ToastProps,
-  type ToastActionElement,
-  ToastProvider,
-  ToastViewport,
-  Toast,
-  ToastTitle,
-  ToastDescription,
-  ToastClose,
-  ToastAction,
-}
+export type ToastProps = React.ComponentPropsWithoutRef<typeof ToastBase>
+export type ToastActionElement = React.ReactElement<typeof ToastAction>
 
 // Toast com ícone
 Toast.WithIcon = function ToastWithIcon({
@@ -138,25 +138,35 @@ Toast.WithIcon = function ToastWithIcon({
   ...props
 }: ToastProps & { title?: string; description?: string }) {
   const icons = {
-    success: <CheckCircle className="h-5 w-5" />,
-    error: <AlertCircle className="h-5 w-5" />,
-    warning: <AlertTriangle className="h-5 w-5" />,
-    info: <Info className="h-5 w-5" />,
+    success: <CheckCircle className="h-5 w-5 text-green-500" />,
+    error: <AlertCircle className="h-5 w-5 text-red-500" />,
+    warning: <AlertTriangle className="h-5 w-5 text-yellow-500" />,
+    info: <Info className="h-5 w-5 text-blue-500" />,
     default: null,
   }
 
+  const icon = icons[variant as keyof typeof icons] || icons.default
+
   return (
     <Toast variant={variant} {...props}>
-      <div className="flex gap-3">
-        {icons[variant as keyof typeof icons] && (
-          <div className="flex-shrink-0">{icons[variant as keyof typeof icons]}</div>
-        )}
-        <div>
+      <div className="flex items-start gap-3">
+        {icon && <div className="flex-shrink-0 mt-0.5">{icon}</div>}
+        <div className="flex-1">
           {title && <ToastTitle>{title}</ToastTitle>}
           {description && <ToastDescription>{description}</ToastDescription>}
         </div>
+        <ToastClose />
       </div>
-      <ToastClose />
     </Toast>
   )
+}
+
+// Exportar todos os componentes
+export {
+  ToastProvider,
+  ToastViewport,
+  ToastAction,
+  ToastClose,
+  ToastTitle,
+  ToastDescription,
 }

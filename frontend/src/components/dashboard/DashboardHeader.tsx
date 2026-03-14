@@ -10,9 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DashboardMenuTrigger,
 } from '@/components/ui/DropdownMenu'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import { Badge } from '@/components/ui/Badge'
 import { ThemeToggle } from '@/components/common/ThemeToggle'
 import { useAuth } from '@/components/hooks/useAuth'
@@ -39,14 +37,7 @@ export function DashboardHeader({
 }: DashboardHeaderProps) {
   const { user, logout } = useAuth()
 
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2)
-  }
+
 
   return (
     <header className={cn(
@@ -108,14 +99,6 @@ export function DashboardHeader({
 
           {showUserMenu && user && (
             <DropdownMenu>
-              <DashboardMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.avatar} />
-                    <AvatarFallback>{getInitials(user.nome)}</AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DashboardMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>
                   <div className="flex flex-col">

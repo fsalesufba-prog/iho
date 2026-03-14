@@ -11,7 +11,6 @@ import { ChartCard } from './ChartCard'
 import { ChartSkeleton } from './ChartSkeleton'
 
 import { ChartError } from './ChartError'
-import { useTheme } from '@/components/theme/useTheme'
 
 interface GaugeChartProps {
   value: number
@@ -54,7 +53,6 @@ export function GaugeChart({
   loading = false,
   error,
   height = 300,
-  colors,
   segments = DEFAULT_SEGMENTS,
   formatValue = (v) => v.toString(),
   showValue = true,
@@ -64,7 +62,6 @@ export function GaugeChart({
   startAngle = 180,
   endAngle = 0
 }: GaugeChartProps) {
-  const { theme } = useTheme()
 
   const normalizedValue = Math.min(Math.max(value, min), max)
   const percentage = (normalizedValue - min) / (max - min)

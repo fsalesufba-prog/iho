@@ -44,7 +44,6 @@ import {
 } from '@/components/ui/Select'
 
 import { EquipamentoForm } from './EquipamentoForm'
-import { EquipamentoDetails } from './EquipamentoDetails'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
 
@@ -79,7 +78,7 @@ export function EquipamentoList({ obraId, empresaId }: EquipamentoListProps) {
   const [totalPages, setTotalPages] = useState(1)
   const [selectedEquipamento, setSelectedEquipamento] = useState<Equipamento | null>(null)
   const [showForm, setShowForm] = useState(false)
-  const [showDetails, setShowDetails] = useState(false)
+
 
   const { toast } = useToast()
 
@@ -121,7 +120,7 @@ export function EquipamentoList({ obraId, empresaId }: EquipamentoListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os equipamentos',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -146,7 +145,7 @@ export function EquipamentoList({ obraId, empresaId }: EquipamentoListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o equipamento',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -297,7 +296,6 @@ export function EquipamentoList({ obraId, empresaId }: EquipamentoListProps) {
                             <DropdownMenuLabel>Ações</DropdownMenuLabel>
                             <DropdownMenuItem onClick={() => {
                               setSelectedEquipamento(equip)
-                              setShowDetails(true)
                             }}>
                               <Eye className="h-4 w-4 mr-2" />
                               Detalhes
@@ -375,14 +373,6 @@ export function EquipamentoList({ obraId, empresaId }: EquipamentoListProps) {
             setSelectedEquipamento(null)
             carregarEquipamentos()
           }}
-        />
-      )}
-
-      {showDetails && selectedEquipamento && (
-        <EquipamentoDetails
-          open={showDetails}
-          onOpenChange={setShowDetails}
-          equipamentoId={selectedEquipamento.id}
         />
       )}
     </>

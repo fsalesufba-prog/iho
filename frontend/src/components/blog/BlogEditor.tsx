@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React, { useRef } from 'react'
 import {
   Bold,
   Italic,
@@ -27,7 +27,6 @@ interface BlogEditorProps {
 }
 
 export function BlogEditor({ value, onChange }: BlogEditorProps) {
-  const [mode, setMode] = useState<'write' | 'preview'>('write')
   const editorRef = useRef<HTMLDivElement>(null)
 
   const execCommand = (command: string, value?: string) => {

@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/Button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { Progress } from '@/components/ui/Progress'
 import { Badge } from '@/components/ui/Badge'
-
+import { cn } from '@/lib/utils'
 import {
   Select,
   SelectContent,
@@ -25,8 +25,6 @@ import {
   SelectValue,
 } from '@/components/ui/Select'
 import { EmpresaList } from './EmpresaList'
-import { EmpresaMetrics } from './EmpresaMetrics'
-import { EmpresaAlerts } from './EmpresaAlerts'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
 
@@ -84,7 +82,7 @@ export function EmpresaDashboard() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o dashboard',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -285,14 +283,6 @@ export function EmpresaDashboard() {
 
         <TabsContent value="empresas" className="mt-4">
           <EmpresaList />
-        </TabsContent>
-
-        <TabsContent value="metricas" className="mt-4">
-          <EmpresaMetrics />
-        </TabsContent>
-
-        <TabsContent value="alertas" className="mt-4">
-          <EmpresaAlerts />
         </TabsContent>
 
         <TabsContent value="financeiro" className="mt-4">

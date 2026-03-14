@@ -13,6 +13,7 @@ import {
   Users,
   CheckCircle,
   XCircle,
+  Truck
 } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -82,7 +83,7 @@ export function EmpresaList({ filtroStatus }: EmpresaListProps) {
   const [selectedEmpresa, setSelectedEmpresa] = useState<Empresa | null>(null)
   const [showForm, setShowForm] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+
 
   const { toast } = useToast()
 
@@ -122,7 +123,7 @@ export function EmpresaList({ filtroStatus }: EmpresaListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as empresas',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -147,7 +148,7 @@ export function EmpresaList({ filtroStatus }: EmpresaListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a empresa',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -165,7 +166,7 @@ export function EmpresaList({ filtroStatus }: EmpresaListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

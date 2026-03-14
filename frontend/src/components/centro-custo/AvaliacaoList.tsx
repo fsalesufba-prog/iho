@@ -5,7 +5,6 @@ import {
   Search,
   Download,
   RefreshCw,
-  Eye,
   Edit,
   Trash2,
   Star,
@@ -32,7 +31,6 @@ import {
   SelectValue,
 } from '@/components/ui/Select'
 import { Avatar, AvatarFallback } from '@/components/ui/Avatar'
-import { AvaliacaoDetails } from './AvaliacaoDetails'
 import { AvaliacaoForm } from './AvaliacaoForm'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
@@ -70,9 +68,7 @@ export function AvaliacaoList({ centroId, obraId }: AvaliacaoListProps) {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [selectedAvaliacao, setSelectedAvaliacao] = useState<Avaliacao | null>(null)
-  const [showDetails, setShowDetails] = useState(false)
   const [showForm, setShowForm] = useState(false)
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
   const { toast } = useToast()
 
@@ -100,7 +96,7 @@ export function AvaliacaoList({ centroId, obraId }: AvaliacaoListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as avaliações',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -125,7 +121,7 @@ export function AvaliacaoList({ centroId, obraId }: AvaliacaoListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a avaliação',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -282,16 +278,6 @@ export function AvaliacaoList({ centroId, obraId }: AvaliacaoListProps) {
                             variant="ghost"
                             onClick={() => {
                               setSelectedAvaliacao(avaliacao)
-                              setShowDetails(true)
-                            }}
-                          >
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => {
-                              setSelectedAvaliacao(avaliacao)
                               setShowForm(true)
                             }}
                           >
@@ -342,14 +328,6 @@ export function AvaliacaoList({ centroId, obraId }: AvaliacaoListProps) {
         </CardContent>
       </Card>
 
-      {/* Modais */}
-      {showDetails && selectedAvaliacao && (
-        <AvaliacaoDetails
-          open={showDetails}
-          onOpenChange={setShowDetails}
-          avaliacaoId={selectedAvaliacao.id}
-        />
-      )}
 
       {showForm && selectedAvaliacao && (
         <AvaliacaoForm

@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu'
+import { cn } from '@/lib/utils'
 
 interface ThemeToggleProps {
   variant?: 'icon' | 'full'

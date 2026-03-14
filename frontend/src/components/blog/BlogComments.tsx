@@ -116,7 +116,7 @@ export function BlogComments({ postId }: BlogCommentsProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível enviar o comentário',
-        variant: 'destructive',
+        variant: 'error',
       })
     }
   }

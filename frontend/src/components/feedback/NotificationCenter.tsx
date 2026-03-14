@@ -38,7 +38,7 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
   const [open, setOpen] = useState(false)
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [unreadCount, setUnreadCount] = useState(0)
-  const [loading, setLoading] = useState(false)
+  //const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     carregarNotificacoes()
@@ -57,14 +57,14 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
 
   const carregarNotificacoes = async () => {
     try {
-      setLoading(true)
+      //setLoading(true)
       const response = await api.get('/notificacoes')
       setNotifications(response.data)
       setUnreadCount(response.data.filter((n: Notification) => !n.read).length)
     } catch (error) {
       console.error('Erro ao carregar notificações:', error)
     } finally {
-      setLoading(false)
+      //setLoading(false)
     }
   }
 

@@ -69,7 +69,7 @@ export function AlertaCenter() {
         toast({
           title: '🔴 Alerta Crítico',
           description: novoAlerta.titulo,
-          variant: 'destructive'
+          variant: 'error'
         })
       }
     }
@@ -87,7 +87,7 @@ export function AlertaCenter() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os alertas',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)

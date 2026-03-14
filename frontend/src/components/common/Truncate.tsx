@@ -14,7 +14,6 @@ interface TruncateProps {
 export function Truncate({
   children,
   lines = 1,
-  ellipsis = '...',
   expandable = false,
   expanded = false,
   onExpand,
@@ -69,7 +68,7 @@ Truncate.WithTooltip = function TruncateWithTooltip({
   children,
   tooltipContent,
   ...props
-}: TruncateProps & { tooltipContent?: React.ReNode }) {
+}: TruncateProps & { tooltipContent?: React.ReactNode }) {
   const [showTooltip, setShowTooltip] = useState(false)
 
   return (

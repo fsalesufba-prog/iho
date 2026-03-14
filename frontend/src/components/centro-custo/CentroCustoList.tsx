@@ -42,7 +42,6 @@ import {
   SelectValue,
 } from '@/components/ui/Select'
 import { CentroCustoForm } from './CentroCustoForm'
-import { CentroCustoDetails } from './CentroCustoDetails'
 import { AvaliacaoForm } from './AvaliacaoForm'
 import { api } from '@/lib/api'
 import { useToast } from '@/components/hooks/useToast'
@@ -80,9 +79,8 @@ export function CentroCustoList({ obraId }: CentroCustoListProps) {
   const [totalPages, setTotalPages] = useState(1)
   const [selectedCentro, setSelectedCentro] = useState<CentroCusto | null>(null)
   const [showForm, setShowForm] = useState(false)
-  const [showDetails, setShowDetails] = useState(false)
   const [showAvaliacao, setShowAvaliacao] = useState(false)
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+
 
   const { toast } = useToast()
 
@@ -122,7 +120,7 @@ export function CentroCustoList({ obraId }: CentroCustoListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os centros de custo',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -147,7 +145,7 @@ export function CentroCustoList({ obraId }: CentroCustoListProps) {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o centro de custo',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -297,7 +295,6 @@ export function CentroCustoList({ obraId }: CentroCustoListProps) {
                             <DropdownMenuLabel>Ações</DropdownMenuLabel>
                             <DropdownMenuItem onClick={() => {
                               setSelectedCentro(centro)
-                              setShowDetails(true)
                             }}>
                               <Eye className="h-4 w-4 mr-2" />
                               Detalhes
@@ -374,14 +371,6 @@ export function CentroCustoList({ obraId }: CentroCustoListProps) {
             setSelectedCentro(null)
             carregarCentros()
           }}
-        />
-      )}
-
-      {showDetails && selectedCentro && (
-        <CentroCustoDetails
-          open={showDetails}
-          onOpenChange={setShowDetails}
-          centroId={selectedCentro.id}
         />
       )}
 
