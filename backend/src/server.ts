@@ -1,5 +1,10 @@
 import dotenv from 'dotenv'
+// Capture shell-level overrides before dotenv replaces them
+const _PORT = process.env.PORT
+const _DEV_MODE = process.env.DEV_MODE
 dotenv.config({ override: true })
+if (_PORT) process.env.PORT = _PORT
+if (_DEV_MODE) process.env.DEV_MODE = _DEV_MODE
 
 import express from 'express'
 import cors from 'cors'
@@ -11,20 +16,11 @@ import path from 'path'
 import http from 'http'
 import { parse } from 'url'
 
-import next from 'next'
-
 import { connectDB } from './config/database'
 import routes from './routes'
 
-const dev = process.env.NODE_ENV !== 'production'
+const devMode = process.env.DEV_MODE === 'true'
 const PORT = Number(process.env.PORT || 3000)
-
-const nextApp = next({
-  dev,
-  dir: path.join(process.cwd(), 'frontend')
-})
-
-const handle = nextApp.getRequestHandler()
 
 async function startServer() {
 
@@ -102,38 +98,64 @@ async function startServer() {
     })
   })
 
-  // Prepare Next
-  await nextApp.prepare()
+  if (devMode) {
+    // Development mode: serve API only, no Next.js embedding
+    app.get('/', (_req, res) => {
+      res.json({
+        message: 'IHO - Índice de Saúde Operacional',
+        mode: 'development',
+        api: '/api',
+        health: '/health',
+        docs: 'Access the full app on Hostinger (production)'
+      })
+    })
 
-  const server = http.createServer((req, res) => {
-    const parsedUrl = parse(req.url || '/', true)
-    const pathname = parsedUrl.pathname || '/'
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 IHO API rodando na porta ${PORT} (modo desenvolvimento)`)
+      console.log(`🌐 Ambiente: ${process.env.NODE_ENV}`)
+      console.log(`📡 API disponível em /api`)
+    })
+  } else {
+    // Production mode: embed Next.js frontend
+    const next = require('next')
+    const nextApp = next({
+      dev: false,
+      dir: path.join(process.cwd(), 'frontend')
+    })
+    const handle = nextApp.getRequestHandler()
 
-    // Se for API ou health → Express
-    if (pathname.startsWith('/api') || pathname === '/health') {
-      app(req as any, res as any)
-      return
-    }
+    await nextApp.prepare()
 
-    // Caso contrário → Next.js
-    handle(req, res, parsedUrl)
-  })
+    const server = http.createServer((req, res) => {
+      const parsedUrl = parse(req.url || '/', true)
+      const pathname = parsedUrl.pathname || '/'
 
-  server.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 IHO rodando na porta ${PORT}`)
-    console.log(`🌐 Ambiente: ${process.env.NODE_ENV}`)
-    console.log(`📡 API disponível em /api`)
-  })
+      // API and health → Express
+      if (pathname.startsWith('/api') || pathname === '/health') {
+        app(req as any, res as any)
+        return
+      }
 
-  process.on('SIGTERM', () => {
-    console.log('SIGTERM recebido, encerrando...')
-    server.close(() => process.exit(0))
-  })
+      // Everything else → Next.js
+      handle(req, res, parsedUrl)
+    })
 
-  process.on('SIGINT', () => {
-    console.log('SIGINT recebido, encerrando...')
-    server.close(() => process.exit(0))
-  })
+    server.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 IHO rodando na porta ${PORT}`)
+      console.log(`🌐 Ambiente: ${process.env.NODE_ENV}`)
+      console.log(`📡 API disponível em /api`)
+    })
+
+    process.on('SIGTERM', () => {
+      console.log('SIGTERM recebido, encerrando...')
+      server.close(() => process.exit(0))
+    })
+
+    process.on('SIGINT', () => {
+      console.log('SIGINT recebido, encerrando...')
+      server.close(() => process.exit(0))
+    })
+  }
 }
 
 startServer().catch((err) => {
