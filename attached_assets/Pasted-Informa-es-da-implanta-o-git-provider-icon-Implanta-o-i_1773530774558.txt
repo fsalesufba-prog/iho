@@ -1,0 +1,235 @@
+Informações da implantação
+git-provider-icon
+Implantação
+
+iho.sqtecnologiadainformacao.com
+
+Configurações e reimplantação
+
+Todas as implantações
+A implantação da compilação falhou
+
+Corrija os erros e tente novamente.
+
+
+Ver análise
+Estado:
+
+Falha na construção
+
+Repositório:
+
+iho
+
+Autor:
+
+Autor:
+selma18
+
+Desdobrado:
+
+2026-03-14 20:25
+
+•
+
+53s
+
+Filial:
+
+main
+
+Comprometer-se:
+
+f6d433a7 - Update build process and server configuration for improved deployment Modify backend build script to include frontend build, suppress build errors in Next.js config, and conditionally serve API or full stack based on DEV_MODE. Replit-Commit-Author: Agent Replit-Commit-Session-Id: 3a45453c-a06f-4769-8c4d-aeb8f2cff032 Replit-Commit-Checkpoint-Type: full_checkpoint Replit-Commit-Event-Id: 6f660bca-ff10-4d99-88c9-12f583e2562f Replit-Commit-Screenshot-Url: https://storage.googleapis.com/screenshot-production-us-central1/aeeef924-7752-4e12-8c4a-670cfe837867/3a45453c-a06f-4769-8c4d-aeb8f2cff032/DxtW0VQ Replit-Helium-Checkpoint-Created: true
+
+Diretório raiz:
+
+backend
+
+Framework:
+
+Express
+
+Configurações de compilação e saída:
+
+Personalizado
+
+Versão do Node:
+
+22.x
+
+Registros de compilação
+Linhas: 44
+
+Registros de pesquisa
+
+
+
+1
+
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+
+2
+
+npm warn deprecated rimraf@2.7.1: Rimraf versions prior to v4 are no longer supported
+
+3
+
+npm warn deprecated lodash.isequal@4.5.0: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
+
+4
+
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+
+5
+
+npm warn deprecated multer@1.4.5-lts.2: Multer 1.x is impacted by a number of vulnerabilities, which have been patched in 2.x. You should upgrade to the latest 2.x version.
+
+6
+
+npm warn deprecated fstream@1.0.12: This package is no longer supported.
+
+7
+
+
+8
+
+added 381 packages, and audited 382 packages in 28s
+
+9
+
+
+10
+
+66 packages are looking for funding
+
+11
+
+run `npm fund` for details
+
+12
+
+
+13
+
+2 high severity vulnerabilities
+
+14
+
+
+15
+
+To address all issues (including breaking changes), run:
+
+16
+
+npm audit fix --force
+
+17
+
+
+18
+
+Run `npm audit` for details.
+
+19
+
+
+20
+
+> iho-backend@1.0.0 build
+
+21
+
+> tsc && npm install --prefix frontend && npm run build --prefix frontend
+
+22
+
+
+23
+
+npm error code ERESOLVE
+
+24
+
+npm error ERESOLVE unable to resolve dependency tree
+
+25
+
+npm error
+
+26
+
+npm error While resolving: iho-frontend@1.0.0
+
+27
+
+npm error Found: apexcharts@3.54.1
+
+28
+
+npm error node_modules/apexcharts
+
+29
+
+npm error apexcharts@"^3.41.0" from the root project
+
+30
+
+npm error
+
+31
+
+npm error Could not resolve dependency:
+
+32
+
+npm error peer apexcharts@">=4.0.0" from react-apexcharts@1.9.0
+
+33
+
+npm error node_modules/react-apexcharts
+
+34
+
+npm error react-apexcharts@"^1.4.1" from the root project
+
+35
+
+npm error
+
+36
+
+npm error Fix the upstream dependency conflict, or retry
+
+37
+
+npm error this command with --force or --legacy-peer-deps
+
+38
+
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+
+39
+
+npm error
+
+40
+
+npm error
+
+41
+
+npm error For a full report see:
+
+42
+
+npm error /home/u898416663/.npm/_logs/2026-03-14T23_24_57_939Z-eresolve-report.txt
+
+43
+
+npm error A complete log of this run can be found in: /home/u898416663/.npm/_logs/2026-03-14T23_24_57_939Z-debug-0.log
+
+44
+
+ERROR: Failed to build the application
