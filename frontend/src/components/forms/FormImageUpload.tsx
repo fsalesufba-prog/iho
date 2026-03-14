@@ -40,7 +40,7 @@ export function FormImageUpload({
 }: FormImageUploadProps) {
   const [images, setImages] = useState<any[]>([])
   const [uploading, setUploading] = useState(false)
-  const { control, setValue } = useFormContext()
+  const { setValue } = useFormContext()
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const newImages = acceptedFiles.map(file => ({

@@ -53,6 +53,7 @@
     "react-apexcharts": "^1.4.1",
     "react-day-picker": "^8.7.1",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^15.0.0",
     "react-hook-form": "^7.45.1",
     "react-hot-toast": "^2.4.1",
     "react-select": "^5.7.3",
