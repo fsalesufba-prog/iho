@@ -18,6 +18,7 @@ const poppins = Poppins({
   display: 'swap',
 })
 
+// @ts-ignore - viewport is a Next.js 14 export; in 13 this is safely ignored
 export const viewport = {
   width: 'device-width',
   initialScale: 1,

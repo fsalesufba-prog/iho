@@ -1,8 +1,6 @@
 'use client'
 
 import React from 'react'
-import { useFormContext } from 'react-hook-form'
-import InputMask from 'react-input-mask'
 import { Input } from '@/components/ui/Input'
 import { FormField } from './FormField'
 
@@ -16,6 +14,14 @@ interface FormPhoneInputProps {
   className?: string
 }
 
+function formatPhone(value: string) {
+  const digits = value.replace(/\D/g, '').slice(0, 11)
+  if (digits.length <= 2) return digits.length ? `(${digits}` : ''
+  if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`
+  if (digits.length <= 10) return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`
+}
+
 export function FormPhoneInput({
   name,
   label,
@@ -25,8 +31,6 @@ export function FormPhoneInput({
   disabled,
   className
 }: FormPhoneInputProps) {
-  const { control } = useFormContext()
-
   return (
     <FormField
       name={name}
@@ -35,22 +39,15 @@ export function FormPhoneInput({
       required={required}
     >
       {(field) => (
-        <InputMask
-          mask="(99) 99999-9999"
-          value={field.value || ''}
-          onChange={field.onChange}
-          onBlur={field.onBlur}
+        <Input
+          {...field}
+          value={formatPhone(field.value || '')}
+          onChange={(e) => field.onChange(formatPhone(e.target.value))}
+          placeholder={placeholder}
+          className={className}
+          type="tel"
           disabled={disabled}
-        >
-          {(inputProps: any) => (
-            <Input
-              {...inputProps}
-              placeholder={placeholder}
-              className={className}
-              type="tel"
-            />
-          )}
-        </InputMask>
+        />
       )}
     </FormField>
   )

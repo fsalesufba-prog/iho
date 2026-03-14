@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
-import InputMask from 'react-input-mask'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { Search } from 'lucide-react'
@@ -31,7 +30,15 @@ export function FormCepInput({
   onCepFound
 }: FormCepInputProps) {
   const [loading, setLoading] = React.useState(false)
-  const { control, setValue } = useFormContext()
+  const { setValue } = useFormContext()
+
+  const formatCep = (value: string) => {
+    const digits = value.replace(/\D/g, '').slice(0, 8)
+    if (digits.length > 5) {
+      return `${digits.slice(0, 5)}-${digits.slice(5)}`
+    }
+    return digits
+  }
 
   const buscarCep = async (cep: string) => {
     const cepLimpo = cep.replace(/\D/g, '')
@@ -44,8 +51,6 @@ export function FormCepInput({
       
       if (!response.data.erro) {
         onCepFound?.(response.data)
-        
-        // Preencher campos comuns
         setValue('endereco', response.data.logradouro)
         setValue('bairro', response.data.bairro)
         setValue('cidade', response.data.localidade)
@@ -67,21 +72,14 @@ export function FormCepInput({
     >
       {(field) => (
         <div className="flex gap-2">
-          <InputMask
-            mask="99999-999"
-            value={field.value || ''}
-            onChange={field.onChange}
-            onBlur={field.onBlur}
+          <Input
+            {...field}
+            value={formatCep(field.value || '')}
+            onChange={(e) => field.onChange(formatCep(e.target.value))}
+            placeholder={placeholder}
+            className={className}
             disabled={disabled || loading}
-          >
-            {(inputProps: any) => (
-              <Input
-                {...inputProps}
-                placeholder={placeholder}
-                className={className}
-              />
-            )}
-          </InputMask>
+          />
           <Button
             type="button"
             variant="outline"

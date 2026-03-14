@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { cn } from '@/lib/utils'

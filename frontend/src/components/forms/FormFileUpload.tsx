@@ -1,8 +1,7 @@
 'use client'
 
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useRef } from 'react'
 import { useFormContext } from 'react-hook-form'
-import { useDropzone } from 'react-dropzone'
 import { Upload, X, File, CheckCircle, AlertCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
@@ -18,7 +17,7 @@ interface FormFileUploadProps {
   disabled?: boolean
   className?: string
   accept?: Record<string, string[]>
-  maxSize?: number // em bytes
+  maxSize?: number
   maxFiles?: number
   multiple?: boolean
   endpoint: string
@@ -39,37 +38,38 @@ export function FormFileUpload({
   required,
   disabled,
   className,
-  accept = {
-    'image/*': ['.png', '.jpg', '.jpeg', '.gif'],
-    'application/pdf': ['.pdf']
-  },
-  maxSize = 5 * 1024 * 1024, // 5MB
-  maxFiles = 1,
+  accept,
+  maxSize = 5 * 1024 * 1024,
   multiple = false,
   endpoint
 }: FormFileUploadProps) {
   const [files, setFiles] = useState<FileWithPreview[]>([])
   const [uploading, setUploading] = useState(false)
-  const { control, setValue } = useFormContext()
+  const [isDragActive, setIsDragActive] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const { setValue } = useFormContext()
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    const newFiles = acceptedFiles.map(file => Object.assign(file, {
+  const getAcceptString = () => {
+    if (!accept) return undefined
+    return Object.keys(accept).join(',')
+  }
+
+  const processFiles = useCallback(async (selectedFiles: File[]) => {
+    const newFiles = selectedFiles.map(file => Object.assign(file, {
       preview: file.type.startsWith('image/') ? URL.createObjectURL(file) : undefined,
       progress: 0
-    }))
+    })) as FileWithPreview[]
 
     const updatedFiles = multiple ? [...files, ...newFiles] : newFiles
     setFiles(updatedFiles)
 
-    // Upload dos arquivos
     setUploading(true)
     for (const file of newFiles) {
       await uploadFile(file)
     }
     setUploading(false)
 
-    // Atualizar o valor do campo com as URLs dos arquivos
-    const fileUrls = files.map(f => f.url).filter(Boolean)
+    const fileUrls = updatedFiles.map((f: FileWithPreview) => f.url).filter(Boolean)
     setValue(name, multiple ? fileUrls : fileUrls[0])
   }, [files, multiple, name, setValue])
 
@@ -83,25 +83,18 @@ export function FormFileUpload({
           const progress = progressEvent.total
             ? Math.round((progressEvent.loaded * 100) / progressEvent.total)
             : 0
-          
           setFiles(prev =>
-            prev.map(f =>
-              f === file ? { ...f, progress } : f
-            )
+            prev.map(f => f === file ? { ...f, progress } : f)
           )
         }
       })
 
       setFiles(prev =>
-        prev.map(f =>
-          f === file ? { ...f, uploaded: true, url: response.data.url } : f
-        )
+        prev.map(f => f === file ? { ...f, uploaded: true, url: response.data.url } : f)
       )
-    } catch (error) {
+    } catch {
       setFiles(prev =>
-        prev.map(f =>
-          f === file ? { ...f, error: 'Erro no upload' } : f
-        )
+        prev.map(f => f === file ? { ...f, error: 'Erro no upload' } : f)
       )
     }
   }
@@ -111,19 +104,25 @@ export function FormFileUpload({
     if (fileToRemove.preview) {
       URL.revokeObjectURL(fileToRemove.preview)
     }
-
     const fileUrls = files.filter(f => f !== fileToRemove).map(f => f.url).filter(Boolean)
     setValue(name, multiple ? fileUrls : fileUrls[0])
   }
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept,
-    maxSize,
-    maxFiles,
-    multiple,
-    disabled: disabled || uploading
-  })
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragActive(false)
+    if (disabled || uploading) return
+    const droppedFiles = Array.from(e.dataTransfer.files)
+    const validFiles = droppedFiles.filter(f => !maxSize || f.size <= maxSize)
+    processFiles(validFiles)
+  }, [disabled, uploading, maxSize, processFiles])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return
+    const selectedFiles = Array.from(e.target.files).filter(f => !maxSize || f.size <= maxSize)
+    processFiles(selectedFiles)
+    e.target.value = ''
+  }
 
   return (
     <FormField
@@ -135,14 +134,24 @@ export function FormFileUpload({
       {() => (
         <div className={cn('space-y-4', className)}>
           <div
-            {...getRootProps()}
+            onDrop={handleDrop}
+            onDragOver={(e) => { e.preventDefault(); setIsDragActive(true) }}
+            onDragLeave={() => setIsDragActive(false)}
+            onClick={() => !disabled && !uploading && inputRef.current?.click()}
             className={cn(
               'border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors',
               isDragActive ? 'border-primary bg-primary/5' : 'border-border',
               (disabled || uploading) && 'opacity-50 cursor-not-allowed'
             )}
           >
-            <input {...getInputProps()} />
+            <input
+              ref={inputRef}
+              type="file"
+              accept={getAcceptString()}
+              multiple={multiple}
+              onChange={handleChange}
+              className="hidden"
+            />
             <Upload className="mx-auto h-8 w-8 text-muted-foreground mb-2" />
             {isDragActive ? (
               <p>Solte os arquivos aqui...</p>
@@ -158,20 +167,12 @@ export function FormFileUpload({
             )}
           </div>
 
-          {/* Lista de arquivos */}
           {files.length > 0 && (
             <div className="space-y-2">
               {files.map((file, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-3 p-2 border rounded-lg"
-                >
+                <div key={index} className="flex items-center gap-3 p-2 border rounded-lg">
                   {file.preview ? (
-                    <img
-                      src={file.preview}
-                      alt={file.name}
-                      className="h-10 w-10 object-cover rounded"
-                    />
+                    <img src={file.preview} alt={file.name} className="h-10 w-10 object-cover rounded" />
                   ) : (
                     <File className="h-10 w-10 p-2 text-muted-foreground" />
                   )}
@@ -181,11 +182,9 @@ export function FormFileUpload({
                     <p className="text-xs text-muted-foreground">
                       {(file.size / 1024).toFixed(1)} KB
                     </p>
-                    
                     {file.progress !== undefined && file.progress < 100 && (
                       <Progress value={file.progress} className="h-1 mt-1" />
                     )}
-                    
                     {file.error && (
                       <p className="text-xs text-destructive mt-1">{file.error}</p>
                     )}

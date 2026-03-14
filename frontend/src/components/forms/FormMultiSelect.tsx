@@ -49,7 +49,7 @@ export function FormMultiSelect({
   maxItems
 }: FormMultiSelectProps) {
   const [open, setOpen] = useState(false)
-  const { control, setValue, watch } = useFormContext()
+  const { setValue, watch } = useFormContext()
   const selectedValues = watch(name) || []
 
   const handleSelect = (optionValue: string) => {

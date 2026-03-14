@@ -29,7 +29,7 @@ export function FormArray({
   maxItems,
   minItems = 0,
   addLabel = 'Adicionar',
-  removeLabel = 'Remover',
+  removeLabel: _removeLabel = 'Remover',
   className
 }: FormArrayProps) {
   const { control } = useFormContext()

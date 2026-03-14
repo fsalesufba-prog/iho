@@ -3,6 +3,7 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Card } from '@/components/ui/Card'
+import { cn } from '@/lib/utils'
 import { JsonViewer } from '@/components/data-display/JsonViewer'
 
 interface FormDebugProps {

@@ -61,7 +61,7 @@ export function Contato() {
       toast({
         title: 'Erro',
         description: 'Não foi possível enviar a mensagem. Tente novamente.',
-        variant: 'destructive',
+        variant: 'error',
       })
     } finally {
       setIsLoading(false)

@@ -34,7 +34,7 @@ export function FormInput({
   pattern,
   autoComplete
 }: FormInputProps) {
-  const { control } = useFormContext()
+  useFormContext()
 
   return (
     <FormField

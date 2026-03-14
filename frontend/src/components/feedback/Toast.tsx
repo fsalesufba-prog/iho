@@ -132,7 +132,7 @@ export {
 }
 
 // Toast com ícone
-Toast.WithIcon = function ToastWithIcon({
+;(Toast as any).WithIcon = function ToastWithIcon({
   variant = 'default',
   title,
   description,

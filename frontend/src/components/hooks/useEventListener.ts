@@ -87,5 +87,6 @@ export function useScrollLock(lock: boolean = true) {
         document.body.style.overflow = originalOverflow
       }
     }
+    return undefined
   }, [lock])
 }

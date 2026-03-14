@@ -21,7 +21,7 @@ interface UseQueryResult<T> {
 }
 
 export function useQuery<T = any>(
-  key: string | any[],
+  _key: string | any[],
   fetcher: () => Promise<T>,
   options: UseQueryOptions<T> = {}
 ): UseQueryResult<T> {
@@ -64,6 +64,7 @@ export function useQuery<T = any>(
       const intervalId = setInterval(fetchData, refetchInterval)
       return () => clearInterval(intervalId)
     }
+    return undefined
   }, [enabled, refetchInterval, fetchData])
 
   useEffect(() => {

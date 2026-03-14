@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import { useFormContext } from 'react-hook-form'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Calendar as CalendarIcon } from 'lucide-react'
@@ -38,8 +37,6 @@ export function FormDatePicker({
   fromDate,
   toDate
 }: FormDatePickerProps) {
-  const { control } = useFormContext()
-
   return (
     <FormField
       name={name}
@@ -73,8 +70,7 @@ export function FormDatePicker({
               selected={field.value ? new Date(field.value) : undefined}
               onSelect={field.onChange}
               disabled={(date) => 
-                (fromDate && date < fromDate) || 
-                (toDate && date > toDate)
+                Boolean((fromDate && date < fromDate) || (toDate && date > toDate))
               }
               initialFocus
               locale={ptBR}

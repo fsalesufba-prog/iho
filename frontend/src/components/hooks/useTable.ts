@@ -140,7 +140,7 @@ export function useTable<T extends Record<string, any>>({
   const clearFilter = useCallback((column: keyof T) => {
     setFilters(prev => {
       const newFilters = { ...prev }
-      delete newFilters[column]
+      delete (newFilters as any)[column as string]
       return newFilters
     })
     setCurrentPage(1)

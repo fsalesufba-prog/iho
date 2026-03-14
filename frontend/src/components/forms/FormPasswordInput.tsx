@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
+import { cn } from '@/lib/utils'
 import { Eye, EyeOff } from 'lucide-react'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
@@ -29,7 +30,7 @@ export function FormPasswordInput({
   showStrength = false
 }: FormPasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false)
-  const { control, watch } = useFormContext()
+  const { watch } = useFormContext()
   const password = watch(name) || ''
 
   const getStrengthScore = (pass: string): number => {

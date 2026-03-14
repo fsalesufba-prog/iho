@@ -96,7 +96,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       toast({
         title: 'Erro no login',
         description: error.response?.data?.message || 'Credenciais inválidas',
-        variant: 'destructive',
+        variant: 'error',
       })
       throw error
     } finally {

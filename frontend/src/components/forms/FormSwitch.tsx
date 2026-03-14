@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { useFormContext } from 'react-hook-form'
+import { Label } from '@/components/ui/Label'
 import { Switch } from '@/components/ui/Switch'
 import { FormField } from './FormField'
 import { cn } from '@/lib/utils'
@@ -23,8 +23,6 @@ export function FormSwitch({
   disabled,
   className
 }: FormSwitchProps) {
-  const { control } = useFormContext()
-
   return (
     <FormField
       name={name}

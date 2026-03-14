@@ -1,5 +1,7 @@
 'use client'
 
+import { useLocalStorage } from '@/components/hooks/useLocalStorage'
+
 import { useState, useEffect } from 'react'
 
 interface GeolocationState {

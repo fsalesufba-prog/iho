@@ -18,7 +18,7 @@ interface ApiContextData {
 const ApiContext = createContext<ApiContextData>({} as ApiContextData)
 
 export function ApiProvider({ children }: { children: React.ReactNode }) {
-  const { user } = useAuth()
+  useAuth()
   const { toast } = useToast()
   const { withLoading } = useLoading()
 

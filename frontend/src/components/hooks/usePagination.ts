@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useMemo, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 interface UsePaginationProps {
   totalItems: number
@@ -107,13 +109,13 @@ export function usePaginatedQueryWithUrl(baseUrl: string) {
   const pageSize = Number(searchParams.get('pageSize')) || 10
 
   const setPage = useCallback((newPage: number) => {
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParams.toString())
     params.set('page', newPage.toString())
     router.push(`${baseUrl}?${params.toString()}`)
   }, [baseUrl, router, searchParams])
 
   const setPageSize = useCallback((newPageSize: number) => {
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParams.toString())
     params.set('pageSize', newPageSize.toString())
     params.set('page', '1')
     router.push(`${baseUrl}?${params.toString()}`)

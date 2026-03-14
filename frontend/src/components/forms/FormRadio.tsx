@@ -34,7 +34,7 @@ export function FormRadio({
   className,
   orientation = 'vertical'
 }: FormRadioProps) {
-  const { control } = useFormContext()
+  useFormContext()
 
   return (
     <FormField

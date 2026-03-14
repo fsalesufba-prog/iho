@@ -35,7 +35,7 @@ export function FormNumberInput({
   step = 1,
   showControls = false
 }: FormNumberInputProps) {
-  const { control, setValue, watch } = useFormContext()
+  const { setValue, watch } = useFormContext()
   const value = watch(name) || 0
 
   const increment = () => {

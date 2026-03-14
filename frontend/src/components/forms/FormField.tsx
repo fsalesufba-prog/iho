@@ -40,7 +40,7 @@ export function FormField<TFieldValues extends FieldValues>({
             </FormLabel>
           )}
           <FormControl>
-            {children(field)}
+            {children(field as ControllerRenderProps<TFieldValues, Path<TFieldValues>>)}
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />

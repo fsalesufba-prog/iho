@@ -55,7 +55,7 @@ export function Newsletter() {
       toast({
         title: 'Erro',
         description: 'Não foi possível realizar a inscrição',
-        variant: 'destructive',
+        variant: 'error',
       })
     } finally {
       setIsLoading(false)

@@ -15,9 +15,9 @@ import {
 import { Loader2 } from 'lucide-react'
 
 interface ConfirmDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  onConfirm: () => Promise<void> | void
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  onConfirm?: () => Promise<void> | void
   title?: string
   description?: string
   confirmText?: string
@@ -27,7 +27,7 @@ interface ConfirmDialogProps {
 }
 
 export function ConfirmDialog({
-  open,
+  open = false,
   onOpenChange,
   onConfirm,
   title = 'Confirmar ação',
@@ -42,10 +42,10 @@ export function ConfirmDialog({
   const handleConfirm = async () => {
     setIsLoading(true)
     try {
-      await onConfirm()
+      await onConfirm?.()
     } finally {
       setIsLoading(false)
-      onOpenChange(false)
+      onOpenChange?.(false)
     }
   }
 

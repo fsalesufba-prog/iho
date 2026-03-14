@@ -60,7 +60,7 @@ export function FormCombobox({
   const [options, setOptions] = useState<Option[]>(staticOptions || [])
   const [loading, setLoading] = useState(false)
   
-  const { control, setValue } = useFormContext()
+  const { setValue } = useFormContext()
   const debouncedSearch = useDebounce(search, 300)
 
   // Buscar opções da API
@@ -128,7 +128,7 @@ export function FormCombobox({
               <CommandInput
                 placeholder={`Buscar...`}
                 value={search}
-                onValueChange={setSearch}
+                onChange={(e) => setSearch(e.target.value)}
               />
               <CommandEmpty>
                 {loading ? 'Carregando...' : 'Nenhum resultado encontrado.'}

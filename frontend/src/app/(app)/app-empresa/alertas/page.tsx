@@ -119,7 +119,7 @@ export default function AlertasPage() {
       toast({
         title: 'Erro ao carregar alertas',
         description: 'Não foi possível carregar a lista de alertas.',
-        variant: 'error'
+        variant: 'destructive'
       })
     } finally {
       setLoading(false)
@@ -150,7 +150,7 @@ export default function AlertasPage() {
       toast({
         title: 'Erro ao resolver',
         description: 'Não foi possível resolver o alerta.',
-        variant: 'error'
+        variant: 'destructive'
       })
     } finally {
       setProcessing(false)
@@ -180,7 +180,7 @@ export default function AlertasPage() {
       toast({
         title: 'Erro ao ignorar',
         description: 'Não foi possível ignorar o alerta.',
-        variant: 'error'
+        variant: 'destructive'
       })
     } finally {
       setProcessing(false)

@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   Building2,
@@ -125,7 +124,7 @@ export function Sidebar({ collapsed, onCollapse, mobile, onClose }: SidebarProps
       )}
     >
       <div className="flex h-16 items-center border-b px-4">
-        <Logo size={collapsed ? 'icon' : 'sm'} />
+        <Logo size={collapsed ? 'sm' : 'md'} />
         <Button
           variant="ghost"
           size="icon"
