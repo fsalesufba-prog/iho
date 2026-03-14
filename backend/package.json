@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon src/server.ts",
-    "build": "tsc && npm install --prefix frontend --legacy-peer-deps && npm run build --prefix frontend",
+    "build": "tsc && npm install --prefix frontend --legacy-peer-deps --include=dev && npm run build --prefix frontend",
     "start": "node dist/server.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
