@@ -78,6 +78,22 @@ app.get('/health', (_req, res) => {
   })
 })
 
+// Root route - redirect to frontend or return API info
+app.get('/', (_req, res) => {
+  const frontendUrl = process.env.FRONTEND_URL || process.env.APP_URL
+  if (frontendUrl && frontendUrl !== process.env.APP_URL) {
+    return res.redirect(frontendUrl)
+  }
+  res.json({
+    name: process.env.SYSTEM_NAME || 'IHO - Índice de Saúde Operacional',
+    version: process.env.SYSTEM_VERSION || '1.0.0',
+    status: 'online',
+    api: '/api',
+    health: '/health',
+    timestamp: new Date().toISOString()
+  })
+})
+
 // 404 handler
 app.use((_req, res) => {
   res.status(404).json({ error: 'Rota não encontrada' })
