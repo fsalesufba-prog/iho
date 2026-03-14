@@ -21,7 +21,7 @@ const PORT = Number(process.env.PORT || 3000)
 
 const nextApp = next({
   dev,
-  dir: path.join(__dirname, '../frontend')
+  dir: path.join(process.cwd(), 'frontend')
 })
 
 const handle = nextApp.getRequestHandler()
