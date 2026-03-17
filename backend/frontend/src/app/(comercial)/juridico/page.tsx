@@ -291,7 +291,9 @@ export default function JuridicoPage() {
                     </div>
                     <div className="flex items-center gap-3 text-sm">
                       <Phone className="h-4 w-4 text-primary" />
-                      <span>(11) 0000-0000</span>
+                      <a href="https://wa.me/5571982607352" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
+                        (71) 98260-7352
+                      </a>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
                       <Globe className="h-4 w-4 text-primary" />

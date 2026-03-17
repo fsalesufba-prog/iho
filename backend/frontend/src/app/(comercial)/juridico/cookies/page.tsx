@@ -301,7 +301,7 @@ export default function CookiesPage() {
                           </a>
                         </p>
                         <p className="text-sm">
-                          <strong>Telefone:</strong> (71) 9 98260-7352
+                          <strong>Telefone:</strong> (71) 98260-7352
                         </p>
                       </div>
                     </div>

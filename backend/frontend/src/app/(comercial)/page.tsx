@@ -298,7 +298,7 @@ export default function ComercialPage() {
                   </span>
                 </Button>
               </Link>
-              <Link href="https://wa.me/55719982607352?text=Oi,%20quero%20falar%20sobre%20o%20IHO.">
+              <Link href="https://wa.me/5571982607352?text=Oi,%20quero%20falar%20sobre%20o%20IHO.">
                 <Button size="lg" variant="outline" className="group">
                   Falar com especialista
                   <Zap className="ml-2 h-5 w-5 group-hover:scale-110 transition-transform" />
@@ -591,7 +591,7 @@ export default function ComercialPage() {
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Link href="https://wa.me/55719982607352?text=Oi,%20quero%20falar%20sobre%20o%20IHO.">
+              <Link href="https://wa.me/5571982607352?text=Oi,%20quero%20falar%20sobre%20o%20IHO.">
                 <Button size="lg" variant="outline" className="bg-transparent text-white border-white hover:bg-white/10">
                   Falar com consultor
                 </Button>

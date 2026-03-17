@@ -1,6 +1,6 @@
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
+import { Logo } from '@/components/common/Logo'
 
 interface AuthLayoutProps {
   children: React.ReactNode
@@ -16,24 +16,9 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
         <div className="mx-auto w-full max-w-md">
           {/* Logo */}
           <div className="text-center mb-8">
-            <Link href="/">
-              <Image
-                src="/logo-dark.svg"
-                alt="IHO"
-                width={180}
-                height={48}
-                className="mx-auto dark:hidden"
-                priority
-              />
-              <Image
-                src="/logo-light.svg"
-                alt="IHO"
-                width={180}
-                height={48}
-                className="mx-auto hidden dark:block"
-                priority
-              />
-            </Link>
+            <div className="flex justify-center mb-2">
+              <Logo href="/" size="lg" />
+            </div>
             {title && (
               <h2 className="mt-6 text-3xl font-bold text-gray-900 dark:text-white">
                 {title}
@@ -57,14 +42,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
         <div className="relative z-10 max-w-lg text-center text-white">
           {/* Logo no painel direito */}
           <div className="mb-8 flex justify-center">
-            <Image
-              src="/logo-light.svg"
-              alt="IHO"
-              width={160}
-              height={44}
-              className="opacity-90"
-              priority
-            />
+            <Logo variant="light" size="xl" href="/" />
           </div>
 
           <h1 className="text-4xl font-bold mb-4">

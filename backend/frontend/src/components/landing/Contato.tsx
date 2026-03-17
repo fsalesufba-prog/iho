@@ -106,12 +106,12 @@ export function Contato() {
                     <div>
                       <h3 className="font-medium">Telefone</h3>
                       <a
-                        href="https://wa.me/55719982607352"
+                        href="https://wa.me/5571982607352"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-sm text-muted-foreground hover:text-primary"
                       >
-                        (71) 9 98260-7352
+                        (71) 98260-7352
                       </a>
                       <p className="text-sm text-muted-foreground">
                         Segunda a Sexta, 9h às 18h

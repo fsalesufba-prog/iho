@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
+import { Logo } from '@/components/common/Logo'
 
 export const metadata: Metadata = {
   title: {
@@ -21,25 +21,8 @@ export default function AuthLayout({
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-background">
         <div className="mx-auto w-full max-w-md">
           {/* Logo */}
-          <div className="text-center mb-8">
-            <Link href="/">
-              <Image
-                src="/logo-dark.svg"
-                alt="IHO"
-                width={180}
-                height={48}
-                className="mx-auto dark:hidden"
-                priority
-              />
-              <Image
-                src="/logo-light.svg"
-                alt="IHO"
-                width={180}
-                height={48}
-                className="mx-auto hidden dark:block"
-                priority
-              />
-            </Link>
+          <div className="text-center mb-8 flex justify-center">
+            <Logo href="/" size="lg" />
           </div>
 
           {/* Conteúdo */}
@@ -57,9 +40,9 @@ export default function AuthLayout({
       </div>
 
       {/* Lado direito - Banner */}
-      <div className="hidden lg:block relative flex-1 bg-gradient-to-br from-primary-600 to-primary-800 overflow-hidden">
+      <div className="hidden lg:flex relative flex-1 bg-gradient-to-br from-primary-600 to-primary-800 overflow-hidden flex-col items-center justify-center">
         <div className="absolute inset-0 bg-black/20" />
-        
+
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <svg className="absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
@@ -73,32 +56,35 @@ export default function AuthLayout({
         </div>
 
         {/* Conteúdo do banner */}
-        <div className="absolute inset-0 flex items-center justify-center p-12">
-          <div className="max-w-lg text-center text-white">
-            <h1 className="text-4xl font-bold mb-4">
-              Índice de Saúde Operacional
-            </h1>
-            <p className="text-xl opacity-90 mb-8">
-              Gerencie seus equipamentos, obras e indicadores de performance em um só lugar
-            </p>
+        <div className="relative z-10 max-w-lg text-center text-white p-12">
+          {/* Logo no painel direito */}
+          <div className="mb-8 flex justify-center">
+            <Logo variant="light" size="xl" href="/" />
+          </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white/10 backdrop-blur rounded-lg p-4">
-                <div className="text-2xl font-bold">100%</div>
-                <div className="text-sm opacity-80">Controle total</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur rounded-lg p-4">
-                <div className="text-2xl font-bold">24/7</div>
-                <div className="text-sm opacity-80">Monitoramento</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur rounded-lg p-4">
-                <div className="text-2xl font-bold">+50</div>
-                <div className="text-sm opacity-80">Indicadores</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur rounded-lg p-4">
-                <div className="text-2xl font-bold">10x</div>
-                <div className="text-sm opacity-80">Mais eficiência</div>
-              </div>
+          <h1 className="text-4xl font-bold mb-4">
+            Índice de Saúde Operacional
+          </h1>
+          <p className="text-xl opacity-90 mb-8">
+            Gerencie seus equipamentos, obras e indicadores de performance em um só lugar
+          </p>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-white/10 backdrop-blur rounded-lg p-4">
+              <div className="text-2xl font-bold">100%</div>
+              <div className="text-sm opacity-80">Controle total</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur rounded-lg p-4">
+              <div className="text-2xl font-bold">24/7</div>
+              <div className="text-sm opacity-80">Monitoramento</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur rounded-lg p-4">
+              <div className="text-2xl font-bold">+50</div>
+              <div className="text-sm opacity-80">Indicadores</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur rounded-lg p-4">
+              <div className="text-2xl font-bold">10x</div>
+              <div className="text-sm opacity-80">Mais eficiência</div>
             </div>
           </div>
         </div>
