@@ -66,7 +66,9 @@ export class InfinitePayService {
 
   async createPaymentLink(params: CreatePaymentLinkParams): Promise<PaymentLinkResponse> {
     try {
-      const payload = {
+      const appUrl = process.env.APP_URL || 'https://iho.sqtecnologiadainformacao.com'
+
+      const payload: any = {
         handle: this.handle,
         order_nsu: params.orderId,
         items: [
@@ -76,31 +78,25 @@ export class InfinitePayService {
             description: params.description
           }
         ],
-        redirect_url: params.redirectUrl || `https://iho.sqtecnologiadainformacao.com/pagamento/${params.orderId}`,
-        webhook_url: `https://iho.sqtecnologiadainformacao.com/api/pagamentos/webhook`,
-        payment_types: params.paymentTypes || ['credit_card', 'pix'],
-        max_installments: params.installments || 10,
-        interest_type: 'interest-free',
-        customer: params.customerName || params.customerEmail ? {
-          name: params.customerName,
-          email: params.customerEmail,
-          phone: params.customerPhone
-        } : undefined
+        redirect_url: params.redirectUrl || `${appUrl}/pagamento/${params.orderId}`,
+        webhook_url: `${appUrl}/api/pagamentos/webhook`
       }
 
       const response = await axios.post(`${this.apiUrl}/invoices/public/checkout/links`, payload, {
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        timeout: 15000
       })
 
       return {
         url: response.data.url,
         id: response.data.id || params.orderId
       }
-    } catch (error) {
-      console.error('Erro ao criar link de pagamento:', error)
-      throw new Error('Falha ao gerar link de pagamento')
+    } catch (error: any) {
+      const detail = error?.response?.data ? JSON.stringify(error.response.data) : error?.message
+      console.error('Erro ao criar link de pagamento InfinitePay:', detail)
+      throw new Error(`Falha ao gerar link de pagamento: ${detail}`)
     }
   }
 

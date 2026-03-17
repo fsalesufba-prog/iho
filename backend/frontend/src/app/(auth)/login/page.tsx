@@ -68,21 +68,15 @@ export default function LoginPage() {
     setError(null)
 
     try {
-      const response = await login(email, password, rememberMe)
-
-      toast({
-        title: 'Login realizado!',
-        description: `Bem-vindo de volta, ${response.user.nome}!`,
-      })
-
-      // Redirecionar baseado no tipo de usuário
-      if (response.user.tipo === 'adm_sistema') {
-        router.push('/admin-sistema/dashboard')
-      } else {
-        router.push(from)
-      }
+      await login(email, password, rememberMe)
+      // AuthProvider handles toast notification and redirect internally
     } catch (err: any) {
-      setError(err.message || 'E-mail ou senha inválidos')
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        err?.message ||
+        'E-mail ou senha inválidos'
+      setError(msg)
     } finally {
       setIsLoading(false)
     }

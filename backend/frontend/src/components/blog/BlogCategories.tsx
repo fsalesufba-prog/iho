@@ -27,7 +27,7 @@ export function BlogCategories() {
 
   const carregarCategorias = async () => {
     try {
-      const response = await api.get('/blog/categories')
+      const response = await api.get('/blog/categorias')
       setCategories(response.data)
     } catch (error) {
       console.error('Erro ao carregar categorias:', error)

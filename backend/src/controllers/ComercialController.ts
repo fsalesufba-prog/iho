@@ -3,6 +3,61 @@ import prisma from '../config/database'
 import { emailService } from '../services/EmailService'
 import { infinitePayService } from '../services/InfinitePayService'
 
+const planosDefault = [
+  {
+    id: 1,
+    nome: 'Starter',
+    descricao: 'Ideal para pequenas empresas iniciando na gestão de equipamentos',
+    valorImplantacao: 3000,
+    valorMensal: 490,
+    limiteAdm: 1,
+    limiteControlador: 2,
+    limiteApontador: 5,
+    limiteEquipamentos: 20,
+    recursos: ['Dashboard completo', 'Gestão de obras', 'Gestão de equipamentos', 'Indicadores básicos', 'Alertas inteligentes', 'Relatórios simples'],
+    ativo: true,
+  },
+  {
+    id: 2,
+    nome: 'Growth',
+    descricao: 'Para empresas em crescimento que precisam de mais controle',
+    valorImplantacao: 3000,
+    valorMensal: 890,
+    limiteAdm: 2,
+    limiteControlador: 5,
+    limiteApontador: 15,
+    limiteEquipamentos: 60,
+    recursos: ['Dashboard completo', 'Gestão de obras', 'Gestão de equipamentos', 'Manutenção preventiva', 'Indicadores básicos', 'Indicadores avançados', 'Almoxarifado', 'Alertas inteligentes', 'Relatórios simples', 'Relatórios gerenciais'],
+    ativo: true,
+  },
+  {
+    id: 3,
+    nome: 'Pro',
+    descricao: 'Para operações robustas com necessidades avançadas de análise',
+    valorImplantacao: 3000,
+    valorMensal: 1490,
+    limiteAdm: 5,
+    limiteControlador: 10,
+    limiteApontador: 40,
+    limiteEquipamentos: 150,
+    recursos: ['Dashboard completo', 'Gestão de obras', 'Gestão de equipamentos', 'Manutenção preventiva', 'Manutenção preditiva', 'Indicadores básicos', 'Indicadores avançados', 'Análise financeira', 'Almoxarifado', 'Centros de custo', 'Alertas inteligentes', 'Relatórios simples', 'Relatórios gerenciais', 'API de integração', 'Múltiplas obras'],
+    ativo: true,
+  },
+  {
+    id: 4,
+    nome: 'Enterprise',
+    descricao: 'Solução completa para grandes operações e frotas',
+    valorImplantacao: 3000,
+    valorMensal: 2490,
+    limiteAdm: 10,
+    limiteControlador: 30,
+    limiteApontador: 100,
+    limiteEquipamentos: 500,
+    recursos: ['Dashboard completo', 'Gestão de obras', 'Gestão de equipamentos', 'Manutenção preventiva', 'Manutenção preditiva', 'Indicadores básicos', 'Indicadores avançados', 'Análise financeira', 'Almoxarifado', 'Centros de custo', 'Previsão de demanda', 'Alertas inteligentes', 'Relatórios simples', 'Relatórios gerenciais', 'API de integração', 'Suporte prioritário', 'Múltiplas obras', 'Business intelligence', 'Customização avançada', 'SLA garantido', 'Gerente de conta dedicado'],
+    ativo: true,
+  },
+]
+
 export class ComercialController {
   async getStats(req: Request, res: Response) {
     try {
@@ -209,21 +264,25 @@ export class ComercialController {
         orderBy: { valorMensal: 'asc' }
       })
 
-      const planosFormatados = planos.map(plano => ({
-        ...plano,
-        recursos: (() => {
-          try {
-            return typeof plano.recursos === 'string' ? JSON.parse(plano.recursos) : plano.recursos
-          } catch {
-            return []
-          }
-        })()
-      }))
+      if (planos.length > 0) {
+        const planosFormatados = planos.map(plano => ({
+          ...plano,
+          recursos: (() => {
+            try {
+              return typeof plano.recursos === 'string' ? JSON.parse(plano.recursos) : plano.recursos
+            } catch {
+              return []
+            }
+          })()
+        }))
+        return res.json({ data: planosFormatados })
+      }
 
-      res.json({ data: planosFormatados })
+      // Fallback: return default plans when database has none
+      return res.json({ data: planosDefault })
     } catch (error) {
       console.error('Erro ao listar planos públicos:', error)
-      res.status(500).json({ error: 'Erro interno do servidor' })
+      return res.json({ data: planosDefault })
     }
   }
 
@@ -238,7 +297,11 @@ export class ComercialController {
         return res.status(400).json({ error: 'Dados incompletos: planoId, nome, cnpj e email são obrigatórios' })
       }
 
-      const plano = await prisma.plano.findUnique({ where: { id: planoId } })
+      let plano: any = await prisma.plano.findUnique({ where: { id: planoId } })
+      if (!plano) {
+        // Fallback to default plans if not found in DB
+        plano = planosDefault.find(p => p.id === planoId) || null
+      }
       if (!plano) {
         return res.status(404).json({ error: 'Plano não encontrado' })
       }
