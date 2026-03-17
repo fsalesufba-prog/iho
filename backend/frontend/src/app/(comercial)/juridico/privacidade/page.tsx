@@ -165,11 +165,11 @@ export default function PrivacidadePage() {
                   <Separator className="my-4" />
 
                   <div className="flex flex-col gap-2">
-                    <Button variant="outline" size="sm" className="w-full">
+                    <Button variant="outline" size="sm" className="w-full" onClick={() => window.print()}>
                       <Download className="h-4 w-4 mr-2" />
                       Baixar PDF
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full">
+                    <Button variant="outline" size="sm" className="w-full" onClick={() => window.print()}>
                       <Printer className="h-4 w-4 mr-2" />
                       Imprimir
                     </Button>
@@ -188,7 +188,7 @@ export default function PrivacidadePage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <Phone className="h-4 w-4 text-primary" />
-                      <span className="text-sm">(11) 0000-0000</span>
+                      <span className="text-sm">(71) 9 98260-7352</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Globe className="h-4 w-4 text-primary" />

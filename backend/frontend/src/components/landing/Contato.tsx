@@ -49,7 +49,7 @@ export function Contato() {
   const onSubmit = async (data: FormData) => {
     try {
       setIsLoading(true)
-      await api.post('/contato', data)
+      await api.post('/comercial/contact', data)
       
       toast({
         title: 'Mensagem enviada!',
@@ -105,9 +105,14 @@ export function Contato() {
                     </div>
                     <div>
                       <h3 className="font-medium">Telefone</h3>
-                      <p className="text-sm text-muted-foreground">
-                        (11) 0000-0000
-                      </p>
+                      <a
+                        href="https://wa.me/55719982607352"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-muted-foreground hover:text-primary"
+                      >
+                        (71) 9 98260-7352
+                      </a>
                       <p className="text-sm text-muted-foreground">
                         Segunda a Sexta, 9h às 18h
                       </p>
@@ -121,7 +126,7 @@ export function Contato() {
                     <div>
                       <h3 className="font-medium">Endereço</h3>
                       <p className="text-sm text-muted-foreground">
-                        São Paulo, SP
+                        Salvador, BA
                       </p>
                     </div>
                   </div>

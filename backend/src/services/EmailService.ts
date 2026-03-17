@@ -226,7 +226,7 @@ export class EmailService {
 
   async sendContactEmail(dados: { nome: string; email: string; telefone?: string; empresa?: string; mensagem: string }): Promise<boolean> {
     return this.sendEmail({
-      to: process.env.EMAIL_FROM || 'contato@iho.com.br',
+      to: emailConfig.from || process.env.SMTP_FROM || 'contato@sqtecnologiadainformacao.com',
       subject: `Novo contato de ${dados.nome}`,
       html: `<h2>Novo contato recebido</h2><p><strong>Nome:</strong> ${dados.nome}</p><p><strong>E-mail:</strong> ${dados.email}</p>${dados.telefone ? `<p><strong>Telefone:</strong> ${dados.telefone}</p>` : ''}${dados.empresa ? `<p><strong>Empresa:</strong> ${dados.empresa}</p>` : ''}<p><strong>Mensagem:</strong></p><p>${dados.mensagem}</p>`
     })

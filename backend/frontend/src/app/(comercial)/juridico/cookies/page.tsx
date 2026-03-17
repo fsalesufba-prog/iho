@@ -158,11 +158,11 @@ export default function CookiesPage() {
                   <Separator className="my-4" />
 
                   <div className="flex flex-col gap-2">
-                    <Button variant="outline" size="sm" className="w-full">
+                    <Button variant="outline" size="sm" className="w-full" onClick={() => window.print()}>
                       <Download className="h-4 w-4 mr-2" />
                       Baixar PDF
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full">
+                    <Button variant="outline" size="sm" className="w-full" onClick={() => window.print()}>
                       <Printer className="h-4 w-4 mr-2" />
                       Imprimir
                     </Button>
@@ -301,7 +301,7 @@ export default function CookiesPage() {
                           </a>
                         </p>
                         <p className="text-sm">
-                          <strong>Telefone:</strong> (11) 0000-0000
+                          <strong>Telefone:</strong> (71) 9 98260-7352
                         </p>
                       </div>
                     </div>

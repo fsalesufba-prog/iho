@@ -1,34 +1,25 @@
 'use client'
 
-import { useContext, useState, useEffect } from 'react'
-import { ThemeContext } from '@/components/theme/ThemeProvider'
+import { useState, useEffect } from 'react'
+import { useTheme as useThemeFromProvider } from '@/components/providers/ThemeProvider'
 
 export function useTheme() {
-  const context = useContext(ThemeContext)
-  
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider')
-  }
-
-  const theme = context.mode
-  const setTheme = context.setMode
-  const resolvedTheme = context.resolvedMode
-  const toggleTheme = context.toggleMode
+  const context = useThemeFromProvider()
 
   return {
     ...context,
-    theme,
-    setTheme,
-    resolvedTheme,
-    toggleTheme,
-    isDark: context.isDark,
-    isLight: context.isLight,
+    theme: context.theme,
+    setTheme: context.setTheme,
+    resolvedTheme: context.resolvedTheme,
+    toggleTheme: context.toggleTheme,
+    isDark: context.resolvedTheme === 'dark',
+    isLight: context.resolvedTheme === 'light',
   }
 }
 
 export function useDarkMode() {
-  const { isDark } = useTheme()
-  return isDark
+  const { resolvedTheme } = useThemeFromProvider()
+  return resolvedTheme === 'dark'
 }
 
 export function useThemeTransition() {

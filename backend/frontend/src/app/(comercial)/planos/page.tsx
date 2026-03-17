@@ -54,6 +54,57 @@ export default function PlanosPage() {
     carregarDados()
   }, [])
 
+  const planosDefault: Plano[] = [
+    {
+      id: 1,
+      nome: 'Starter',
+      descricao: 'Ideal para pequenas empresas iniciando na gestão de equipamentos',
+      valorImplantacao: 3000,
+      valorMensal: 490,
+      limiteAdm: 1,
+      limiteControlador: 2,
+      limiteApontador: 5,
+      limiteEquipamentos: 20,
+      recursos: ['Dashboard completo', 'Gestão de obras', 'Gestão de equipamentos', 'Indicadores básicos', 'Alertas inteligentes', 'Relatórios simples'],
+    },
+    {
+      id: 2,
+      nome: 'Growth',
+      descricao: 'Para empresas em crescimento que precisam de mais controle',
+      valorImplantacao: 3000,
+      valorMensal: 890,
+      limiteAdm: 2,
+      limiteControlador: 5,
+      limiteApontador: 15,
+      limiteEquipamentos: 60,
+      recursos: ['Dashboard completo', 'Gestão de obras', 'Gestão de equipamentos', 'Manutenção preventiva', 'Indicadores básicos', 'Indicadores avançados', 'Almoxarifado', 'Alertas inteligentes', 'Relatórios simples', 'Relatórios gerenciais'],
+    },
+    {
+      id: 3,
+      nome: 'Pro',
+      descricao: 'Para operações robustas com necessidades avançadas de análise',
+      valorImplantacao: 3000,
+      valorMensal: 1490,
+      limiteAdm: 5,
+      limiteControlador: 10,
+      limiteApontador: 40,
+      limiteEquipamentos: 150,
+      recursos: ['Dashboard completo', 'Gestão de obras', 'Gestão de equipamentos', 'Manutenção preventiva', 'Manutenção preditiva', 'Indicadores básicos', 'Indicadores avançados', 'Análise financeira', 'Almoxarifado', 'Centros de custo', 'Alertas inteligentes', 'Relatórios simples', 'Relatórios gerenciais', 'API de integração', 'Múltiplas obras'],
+    },
+    {
+      id: 4,
+      nome: 'Enterprise',
+      descricao: 'Solução completa para grandes operações e frotas',
+      valorImplantacao: 3000,
+      valorMensal: 2490,
+      limiteAdm: 10,
+      limiteControlador: 30,
+      limiteApontador: 100,
+      limiteEquipamentos: 500,
+      recursos: ['Dashboard completo', 'Gestão de obras', 'Gestão de equipamentos', 'Manutenção preventiva', 'Manutenção preditiva', 'Indicadores básicos', 'Indicadores avançados', 'Análise financeira', 'Almoxarifado', 'Centros de custo', 'Previsão de demanda', 'Alertas inteligentes', 'Relatórios simples', 'Relatórios gerenciais', 'API de integração', 'Suporte prioritário', 'Múltiplas obras', 'Business intelligence', 'Customização avançada', 'SLA garantido', 'Gerente de conta dedicado'],
+    },
+  ]
+
   const carregarDados = async () => {
     try {
       setLoading(true)
@@ -62,10 +113,12 @@ export default function PlanosPage() {
         api.get('/comercial/faq')
       ])
       
-      setPlanos(planosRes.data.data)
+      const planosData = planosRes.data.data
+      setPlanos(planosData && planosData.length > 0 ? planosData : planosDefault)
       setFaq(faqRes.data)
     } catch (error) {
       console.error('Erro ao carregar dados:', error)
+      setPlanos(planosDefault)
     } finally {
       setLoading(false)
     }
@@ -108,9 +161,14 @@ export default function PlanosPage() {
     'Gerente de conta dedicado'
   ]
 
-  const getPlanoFeatures = (plano: Plano) => {
-    const recursos = JSON.parse(plano.recursos as any)
-    return recursos
+  const getPlanoFeatures = (plano: Plano): string[] => {
+    const recursos = plano.recursos
+    if (Array.isArray(recursos)) return recursos
+    try {
+      return JSON.parse(recursos as any)
+    } catch {
+      return []
+    }
   }
 
   return (

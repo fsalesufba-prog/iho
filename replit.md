@@ -53,6 +53,24 @@ The production server embeds Next.js: API routes go through Express, frontend pa
 - `backend/frontend/postcss.config.js` — Added explicit tailwind config path
 - `backend/postcss.config.js` — Created for Next.js PostCSS resolution from backend CWD
 
+## Bug Fixes Applied (March 2026)
+
+### Critical Frontend Fixes
+- **`components/hooks/useAuth.ts`** — Fixed login bug: was using `useSession` from `auth/SessionProvider` (context never provided). Now uses `useAuth` from `providers/AuthProvider` (the correct provider in the app tree).
+- **`components/hooks/useTheme.ts`** — Fixed theme toggle: was importing `ThemeContext` from `theme/ThemeProvider` (wrong context). Now uses `useTheme` from `providers/ThemeProvider` (the actual provider used by `AppProvider`).
+- **`components/common/ThemeToggle.tsx`** — Fixed missing `cn` import and aligned `useTheme` import with the corrected hook chain.
+- **`components/landing/Contato.tsx`** — Fixed API endpoint (`/contato` → `/comercial/contact`), updated phone to `(71) 9 98260-7352` with WhatsApp link, and address to "Salvador, BA".
+- **`app/(comercial)/page.tsx`** — Fixed feature card icons invisible in light mode: changed `text-white` to `text-primary` inside `bg-background` wrapper.
+- **`app/(comercial)/planos/page.tsx`** — Fixed `getPlanoFeatures` double-parsing bug (controller already parses JSON); added static fallback plans when DB returns empty.
+- **`app/(comercial)/contato/page.tsx`** — Created missing contact page at `/contato` route.
+- **`app/(comercial)/juridico/termos/page.tsx`** — Added `onClick={() => window.print()}` to PDF/Print buttons.
+- **`app/(comercial)/juridico/cookies/page.tsx`** — Added print/download handlers; updated phone number.
+- **`app/(comercial)/juridico/privacidade/page.tsx`** — Added print/download handlers; updated phone number.
+- **`components/auth/AuthLayout.tsx`** — Added IHO logo image to the right panel of the login page; fixed gradient (`from-primary to-accent`).
+
+### Backend Fixes
+- **`src/services/EmailService.ts`** — Fixed `sendContactEmail`: was using `process.env.EMAIL_FROM` (undefined). Now uses `emailConfig.from` (correct source).
+
 ## Environment Variables
 
 Set in Replit as env vars (non-sensitive) and secrets (sensitive).

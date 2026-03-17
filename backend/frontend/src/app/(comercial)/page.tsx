@@ -385,7 +385,7 @@ export default function ComercialPage() {
                   
                   <CardContent className="p-6">
                     <div className={`h-12 w-12 rounded-xl bg-gradient-to-r ${feature.gradient} p-0.5 mb-4`}>
-                      <div className="h-full w-full rounded-xl bg-background flex items-center justify-center text-white">
+                      <div className="h-full w-full rounded-xl bg-background flex items-center justify-center text-primary">
                         {feature.icon}
                       </div>
                     </div>
