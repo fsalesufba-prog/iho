@@ -83,6 +83,7 @@ export default function PostPage() {
   const [post, setPost] = useState<Post | null>(null)
   const [related, setRelated] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [postError, setPostError] = useState(false)
   const [liked, setLiked] = useState(false)
   const [saved, setSaved] = useState(false)
   const [comment, setComment] = useState('')
@@ -105,6 +106,7 @@ export default function PostPage() {
       await api.post(`/blog/${slug}/view`)
     } catch (error) {
       console.error('Erro ao carregar post:', error)
+      setPostError(true)
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o artigo',
@@ -231,8 +233,21 @@ export default function PostPage() {
       .slice(0, 2)
   }
 
-  if (loading || !post) {
+  if (loading) {
     return <PostSkeleton />
+  }
+
+  if (postError || !post) {
+    return (
+      <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4 text-center px-4">
+        <div className="text-6xl">📄</div>
+        <h1 className="text-2xl font-bold">Artigo não encontrado</h1>
+        <p className="text-muted-foreground max-w-md">Este artigo não existe ou foi removido. Confira outros artigos no nosso blog.</p>
+        <Link href="/blog" className="mt-2 inline-flex items-center gap-2 text-primary hover:underline">
+          ← Voltar ao blog
+        </Link>
+      </div>
+    )
   }
 
   return (

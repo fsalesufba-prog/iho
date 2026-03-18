@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
@@ -45,7 +45,7 @@ interface Pagamento {
   urlBoleto?: string
 }
 
-export default function PagamentoDetalhePage() {
+function PagamentoDetalhePage() {
   const params = useParams()
   const searchParams = useSearchParams()
   const { toast } = useToast()
@@ -499,5 +499,12 @@ export default function PagamentoDetalhePage() {
         </motion.div>
       </Container>
     </div>
+  )
+}
+export default function PagamentoDetalhePageWrapper() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" /></div>}>
+      <PagamentoDetalhePage />
+    </Suspense>
   )
 }

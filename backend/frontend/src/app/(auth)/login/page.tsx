@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -35,7 +35,7 @@ import { Badge } from '@/components/ui/Badge'
 import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'
 
-export default function LoginPage() {
+function LoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { toast } = useToast()
@@ -265,5 +265,12 @@ export default function LoginPage() {
         </CardFooter>
       </Card>
     </motion.div>
+  )
+}
+export default function LoginPageWrapper() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" /></div>}>
+      <LoginPage />
+    </Suspense>
   )
 }

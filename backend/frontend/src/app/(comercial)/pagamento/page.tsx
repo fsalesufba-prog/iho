@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -56,7 +56,7 @@ interface DadosEmpresa {
   telefone: string
 }
 
-export default function PagamentoPage() {
+function PagamentoPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const { toast } = useToast()
@@ -587,5 +587,12 @@ export default function PagamentoPage() {
         </div>
       </Container>
     </div>
+  )
+}
+export default function PagamentoPageWrapper() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" /></div>}>
+      <PagamentoPage />
+    </Suspense>
   )
 }

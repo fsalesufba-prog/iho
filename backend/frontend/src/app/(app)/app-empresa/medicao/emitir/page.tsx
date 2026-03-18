@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -73,7 +73,7 @@ interface Modelo {
   descricao?: string
 }
 
-export default function EmitirMedicaoPage() {
+function EmitirMedicaoPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const medicaoId = searchParams.get('id')
@@ -537,5 +537,12 @@ export default function EmitirMedicaoPage() {
         </Container>
       </main>
     </>
+  )
+}
+export default function EmitirMedicaoPageWrapper() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" /></div>}>
+      <EmitirMedicaoPage />
+    </Suspense>
   )
 }
