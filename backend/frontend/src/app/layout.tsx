@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
 import './globals.css'
-import './(comercial)/globals-comercial.css'
 import { Providers } from './providers'
 import { ThemeScript } from '@/components/theme/ThemeScript'
 import { cn } from '@/lib/utils'
