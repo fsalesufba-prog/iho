@@ -1,8 +1,11 @@
 import dotenv from 'dotenv'
-// Capture shell-level overrides before dotenv replaces them
+
+// Preserve variáveis do shell
 const _PORT = process.env.PORT
 const _DEV_MODE = process.env.DEV_MODE
+
 dotenv.config({ override: true })
+
 if (_PORT) process.env.PORT = _PORT
 if (_DEV_MODE) process.env.DEV_MODE = _DEV_MODE
 
@@ -22,12 +25,11 @@ const devMode = process.env.DEV_MODE === 'true'
 const PORT = Number(process.env.PORT || 3000)
 
 async function startServer() {
-
   await connectDB()
 
   const app = express()
 
-  // Security — disable headers that block Next.js assets in production
+  // 🔐 Segurança
   app.use(
     helmet({
       crossOriginResourcePolicy: { policy: 'cross-origin' },
@@ -36,7 +38,7 @@ async function startServer() {
     })
   )
 
-  // CORS
+  // 🌐 CORS
   const allowedOrigins = [
     process.env.CORS_ORIGIN,
     process.env.FRONTEND_URL,
@@ -64,31 +66,27 @@ async function startServer() {
     })
   )
 
-  // Compression
+  // ⚡ Performance
   app.use(compression())
 
-  // Logging
+  // 📜 Logs
   app.use(morgan('combined'))
 
-  // Rate limit (API only)
+  // 🚫 Rate limit (apenas API)
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100,
     message: 'Muitas requisições deste IP, tente novamente mais tarde'
   })
-  app.use('/api', limiter)
 
-  // Body parser
+  // 📦 Body parser
   app.use(express.json({ limit: '10mb' }))
   app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
-  // User uploads
+  // 📁 Uploads
   app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')))
 
-  // API routes
-  app.use('/api', routes)
-
-  // Health check
+  // ❤️ Health check
   app.get('/health', (_req, res) => {
     res.json({
       status: 'ok',
@@ -99,58 +97,43 @@ async function startServer() {
   })
 
   if (devMode) {
-    // Development mode: API only
+    // 🔧 DEV MODE (só API)
+    app.use('/api', limiter)
+    app.use('/api', routes)
+
     app.get('/', (_req, res) => {
       res.json({
         message: 'IHO - Índice de Saúde Operacional',
         mode: 'development',
         api: '/api',
-        health: '/health',
-        docs: 'Access the full app on Hostinger (production)'
+        health: '/health'
       })
     })
 
     app.listen(PORT, '0.0.0.0', () => {
-      console.log(`🚀 IHO API rodando na porta ${PORT} (modo desenvolvimento)`)
-      console.log(`🌐 Ambiente: ${process.env.NODE_ENV}`)
-      console.log(`📡 API disponível em /api`)
+      console.log(`🚀 API rodando na porta ${PORT} (DEV)`)
     })
+
   } else {
-    // PRODUCTION MODE
+    // 🚀 PRODUÇÃO
     console.log('🚀 Iniciando em modo produção...')
 
     const frontendDir = path.join(process.cwd(), 'frontend')
-
-    // 1. SERVE ARQUIVOS ESTÁTICOS DO NEXT.JS
     const nextStaticDir = path.join(frontendDir, '.next', 'static')
-    console.log('📁 Servindo arquivos estáticos de:', nextStaticDir)
+    const publicDir = path.join(frontendDir, 'public')
 
-    // Verifica se a pasta existe
+    // 🔍 Validação crítica
     if (!fs.existsSync(nextStaticDir)) {
-      console.error('❌ ERRO CRÍTICO: Pasta não encontrada!', nextStaticDir)
+      console.error('❌ ERRO: build do Next não encontrado!')
+      console.error('👉 Rode: cd frontend && npm run build')
       process.exit(1)
     }
 
-    // Lista os arquivos CSS disponíveis (para debug)
-    try {
-      const cssFiles = fs.readdirSync(path.join(nextStaticDir, 'css'))
-      console.log('📁 Arquivos CSS disponíveis:', cssFiles)
-    } catch (error) {
-      console.log('⚠️ Nenhum arquivo CSS encontrado ainda')
-    }
+    console.log('📁 Next static:', nextStaticDir)
 
-    // Middleware para servir arquivos estáticos com headers corretos
-    app.use('/_next/static', (req, res, next) => {
-      // Log para debug (remova em produção se quiser)
-      console.log('📦 Requisição para /_next/static:', req.url)
-      
-      // Configura headers específicos para CSS
-      if (req.url.endsWith('.css')) {
-        res.setHeader('Content-Type', 'text/css')
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable')
-      }
-      
-      // Passa para o express.static
+    // 1️⃣ STATIC DO NEXT (CORRETO)
+    app.use(
+      '/_next/static',
       express.static(nextStaticDir, {
         maxAge: '1y',
         immutable: true,
@@ -159,14 +142,17 @@ async function startServer() {
             res.setHeader('Content-Type', 'text/css')
           }
         }
-      })(req, res, next)
-    })
+      })
+    )
 
-    // 2. SERVE ARQUIVOS DA PASTA PUBLIC
-    const publicDir = path.join(frontendDir, 'public')
+    // 2️⃣ PUBLIC
     app.use(express.static(publicDir, { maxAge: '1d' }))
 
-    // 3. NEXT.JS HANDLER PARA TODAS AS OUTRAS ROTAS
+    // 3️⃣ API
+    app.use('/api', limiter)
+    app.use('/api', routes)
+
+    // 4️⃣ NEXT.JS
     const next = require('next')
     const nextApp = next({ dev: false, dir: frontendDir })
     const handle = nextApp.getRequestHandler()
@@ -174,26 +160,25 @@ async function startServer() {
     await nextApp.prepare()
     console.log('✅ Next.js preparado')
 
-    // Todas as rotas que não foram capturadas acima vão para o Next.js
+    // ⚠️ Catch-all SEMPRE por último
     app.all('*', (req, res) => {
       return handle(req, res)
     })
 
-    // Inicia o servidor
     const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 IHO rodando na porta ${PORT}`)
-      console.log(`🌐 Ambiente: ${process.env.NODE_ENV}`)
-      console.log(`📡 API disponível em /api`)
-      console.log(`📁 Arquivos estáticos sendo servidos de /_next/static`)
+      console.log(`📡 API: /api`)
+      console.log(`🌐 Frontend: ativo`)
     })
 
+    // 🛑 Shutdown seguro
     process.on('SIGTERM', () => {
-      console.log('SIGTERM recebido, encerrando...')
+      console.log('Encerrando...')
       server.close(() => process.exit(0))
     })
 
     process.on('SIGINT', () => {
-      console.log('SIGINT recebido, encerrando...')
+      console.log('Encerrando...')
       server.close(() => process.exit(0))
     })
   }
