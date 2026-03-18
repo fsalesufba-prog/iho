@@ -518,3 +518,45 @@ model MedicaoEquipamento {
   equipamento      Equipamento @relation(fields: [equipamentoId], references: [id])
   createdAt        DateTime    @default(now())
 }
+
+model alerta {
+  id                   Int       @id @default(autoincrement())
+  empresaId            Int
+  tipo                 String
+  gravidade            String
+  status               String    @default("pendente")
+  titulo               String
+  descricao            String    @db.Text
+  equipamentoId        Int?
+  itemEstoqueId        Int?
+  dataAlerta           DateTime  @default(now())
+  dataResolucao        DateTime?
+  resolvidoPorId       Int?
+  observacaoResolucao  String?   @db.Text
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@index([empresaId])
+  @@index([tipo])
+  @@index([status])
+  @@index([gravidade])
+  @@map("alerta") // Força o nome da tabela
+}
+
+model configuracao_alerta {
+  id                   Int       @id @default(autoincrement())
+  empresaId            Int
+  tipo                 String
+  limite               Float
+  unidade              String
+  notificarEmail       Boolean   @default(false)
+  notificarSistema     Boolean   @default(true)
+  destinatarios        String?   @db.Text
+  diasAntecedencia     Int?      @default(0)
+  horarioNotificacao   String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@unique([empresaId, tipo])
+  @@map("configuracao_alerta")
+}
