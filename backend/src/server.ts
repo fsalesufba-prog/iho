@@ -118,30 +118,28 @@ async function startServer() {
     // 🚀 PRODUÇÃO
     console.log('🚀 Iniciando em modo produção...')
 
-    const frontendDir = path.join(process.cwd(), 'frontend')
+    // 🔥 CORREÇÃO REAL AQUI
+    const frontendDir = path.resolve(__dirname, '../frontend')
     const nextStaticDir = path.join(frontendDir, '.next', 'static')
     const publicDir = path.join(frontendDir, 'public')
+
+    // 🔍 Debug (pode remover depois)
+    console.log('📁 FRONTEND DIR:', frontendDir)
+    console.log('📁 STATIC DIR:', nextStaticDir)
 
     // 🔍 Validação crítica
     if (!fs.existsSync(nextStaticDir)) {
       console.error('❌ ERRO: build do Next não encontrado!')
-      console.error('👉 Rode: cd frontend && npm run build')
+      console.error('👉 Caminho esperado:', nextStaticDir)
       process.exit(1)
     }
 
-    console.log('📁 Next static:', nextStaticDir)
-
-    // 1️⃣ STATIC DO NEXT (CORRETO)
+    // 1️⃣ STATIC DO NEXT
     app.use(
       '/_next/static',
       express.static(nextStaticDir, {
         maxAge: '1y',
-        immutable: true,
-        setHeaders: (res, filePath) => {
-          if (filePath.endsWith('.css')) {
-            res.setHeader('Content-Type', 'text/css')
-          }
-        }
+        immutable: true
       })
     )
 
