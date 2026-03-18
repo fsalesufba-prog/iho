@@ -124,7 +124,7 @@ export default function PlanosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os planos',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -163,7 +163,7 @@ export default function PlanosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o plano',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -186,7 +186,7 @@ export default function PlanosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível duplicar o plano',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

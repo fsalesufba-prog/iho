@@ -2,9 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { motion } from 'framer-motion'
 import {
   ArrowLeft,
@@ -25,33 +22,13 @@ import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Switch } from '@/components/ui/Switch'
-
 import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useEmpresa } from '@/hooks/useEmpresa'
 import { api } from '@/lib/api'
 import { cn } from '@/lib/utils'
 
-const usuarioSchema = z.object({
-  nome: z.string().min(3, 'Nome deve ter pelo menos 3 caracteres'),
-  email: z.string().email('Email inválido'),
-  senha: z.string().min(8, 'Senha deve ter pelo menos 8 caracteres')
-    .regex(/[A-Z]/, 'Senha deve ter pelo menos uma letra maiúscula')
-    .regex(/[a-z]/, 'Senha deve ter pelo menos uma letra minúscula')
-    .regex(/[0-9]/, 'Senha deve ter pelo menos um número')
-    .regex(/[^A-Za-z0-9]/, 'Senha deve ter pelo menos um caractere especial'),
-  confirmarSenha: z.string(),
-  telefone: z.string().optional(),
-  cargo: z.string().optional(),
-  departamento: z.string().optional(),
-  tipo: z.enum(['adm_empresa', 'controlador', 'apontador']),
-  enviarEmail: z.boolean().default(true)
-}).refine((data) => data.senha === data.confirmarSenha, {
-  message: 'As senhas não conferem',
-  path: ['confirmarSenha']
-})
-
-type UsuarioFormData = z.infer<typeof usuarioSchema>
+type TipoUsuario = 'adm_empresa' | 'controlador' | 'apontador'
 
 export default function NovoUsuarioPage() {
   const router = useRouter()
@@ -63,27 +40,31 @@ export default function NovoUsuarioPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-  } = useForm<UsuarioFormData>({
-    resolver: zodResolver(usuarioSchema),
-    defaultValues: {
-      tipo: 'apontador',
-      enviarEmail: true
-    }
-  })
+  // Estados do formulário
+  const [nome, setNome] = useState('')
+  const [email, setEmail] = useState('')
+  const [senha, setSenha] = useState('')
+  const [confirmarSenha, setConfirmarSenha] = useState('')
+  const [telefone, setTelefone] = useState('')
+  const [cargo, setCargo] = useState('')
+  const [departamento, setDepartamento] = useState('')
+  const [tipo, setTipo] = useState<TipoUsuario>('apontador')
+  const [enviarEmail, setEnviarEmail] = useState(true)
 
-  const tipo = watch('tipo')
-  const senha = watch('senha')
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    nome: '',
+    email: '',
+    senha: '',
+    confirmarSenha: '',
+    tipo: '',
+  })
 
   // Verificar limites do plano
   const verificarLimites = () => {
     if (!plano || !empresa) return true
 
+    // Garantir que stats existe com valores padrão
     const empresaAny = empresa as any
     const stats = {
       adm_empresa: empresaAny.stats?.admEmpresa || 0,
@@ -92,15 +73,21 @@ export default function NovoUsuarioPage() {
     }
 
     const limites = {
-      adm_empresa: plano.limiteAdm,
-      controlador: plano.limiteControlador,
-      apontador: plano.limiteApontador
+      adm_empresa: plano.limiteAdm || 0,
+      controlador: plano.limiteControlador || 0,
+      apontador: plano.limiteApontador || 0
     }
 
-    if (stats[tipo] >= limites[tipo]) {
+    const tipoKey = tipo as keyof typeof stats
+    const limiteKey = tipo as keyof typeof limites
+
+    if (stats[tipoKey] >= limites[limiteKey]) {
+      const tipoNome = tipo === 'adm_empresa' ? 'administradores' : 
+                       tipo === 'controlador' ? 'controladores' : 'apontadores'
+      
       toast({
         title: 'Limite do plano atingido',
-        description: `Você já atingiu o limite de ${tipo === 'adm_empresa' ? 'administradores' : tipo === 'controlador' ? 'controladores' : 'apontadores'} do seu plano.`,
+        description: `Você já atingiu o limite de ${tipoNome} do seu plano.`,
         variant: 'destructive'
       })
       return false
@@ -109,7 +96,69 @@ export default function NovoUsuarioPage() {
     return true
   }
 
-  const onSubmit = async (data: UsuarioFormData) => {
+  const validate = () => {
+    const newErrors = {
+      nome: '',
+      email: '',
+      senha: '',
+      confirmarSenha: '',
+      tipo: '',
+    }
+    let isValid = true
+
+    if (!nome || nome.length < 3) {
+      newErrors.nome = 'Nome deve ter pelo menos 3 caracteres'
+      isValid = false
+    }
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'Email inválido'
+      isValid = false
+    }
+
+    // Validação de senha
+    if (!senha) {
+      newErrors.senha = 'Senha é obrigatória'
+      isValid = false
+    } else {
+      if (senha.length < 8) {
+        newErrors.senha = 'Senha deve ter pelo menos 8 caracteres'
+        isValid = false
+      } else if (!/[A-Z]/.test(senha)) {
+        newErrors.senha = 'Senha deve ter pelo menos uma letra maiúscula'
+        isValid = false
+      } else if (!/[a-z]/.test(senha)) {
+        newErrors.senha = 'Senha deve ter pelo menos uma letra minúscula'
+        isValid = false
+      } else if (!/[0-9]/.test(senha)) {
+        newErrors.senha = 'Senha deve ter pelo menos um número'
+        isValid = false
+      } else if (!/[^A-Za-z0-9]/.test(senha)) {
+        newErrors.senha = 'Senha deve ter pelo menos um caractere especial'
+        isValid = false
+      }
+    }
+
+    if (!confirmarSenha) {
+      newErrors.confirmarSenha = 'Confirme a senha'
+      isValid = false
+    } else if (senha !== confirmarSenha) {
+      newErrors.confirmarSenha = 'As senhas não conferem'
+      isValid = false
+    }
+
+    if (!tipo) {
+      newErrors.tipo = 'Tipo de usuário é obrigatório'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
     if (user?.tipo !== 'adm_empresa') {
       toast({
         title: 'Permissão negada',
@@ -119,11 +168,24 @@ export default function NovoUsuarioPage() {
       return
     }
 
+    if (!validate()) return
     if (!verificarLimites()) return
 
     try {
       setSaving(true)
-      await api.post('/usuarios', data)
+
+      const payload = {
+        nome,
+        email,
+        senha,
+        telefone: telefone || null,
+        cargo: cargo || null,
+        departamento: departamento || null,
+        tipo,
+        enviarEmail
+      }
+
+      await api.post('/usuarios', payload)
       
       toast({
         title: 'Usuário criado',
@@ -188,7 +250,7 @@ export default function NovoUsuarioPage() {
                 <CardTitle>Novo Usuário</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={onSubmit} className="space-y-6">
                   {/* Dados Pessoais */}
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold flex items-center gap-2">
@@ -201,11 +263,12 @@ export default function NovoUsuarioPage() {
                         <Label htmlFor="nome">Nome completo *</Label>
                         <Input
                           id="nome"
-                          {...register('nome')}
-                          error={!!errors.nome}
+                          value={nome}
+                          onChange={(e) => setNome(e.target.value)}
+                          className={errors.nome ? 'border-destructive' : ''}
                         />
                         {errors.nome && (
-                          <p className="text-sm text-destructive">{errors.nome.message}</p>
+                          <p className="text-sm text-destructive">{errors.nome}</p>
                         )}
                       </div>
 
@@ -214,11 +277,12 @@ export default function NovoUsuarioPage() {
                         <Input
                           id="email"
                           type="email"
-                          {...register('email')}
-                          error={!!errors.email}
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className={errors.email ? 'border-destructive' : ''}
                         />
                         {errors.email && (
-                          <p className="text-sm text-destructive">{errors.email.message}</p>
+                          <p className="text-sm text-destructive">{errors.email}</p>
                         )}
                       </div>
 
@@ -226,7 +290,8 @@ export default function NovoUsuarioPage() {
                         <Label htmlFor="telefone">Telefone</Label>
                         <Input
                           id="telefone"
-                          {...register('telefone')}
+                          value={telefone}
+                          onChange={(e) => setTelefone(e.target.value)}
                           placeholder="(11) 99999-9999"
                         />
                       </div>
@@ -235,7 +300,8 @@ export default function NovoUsuarioPage() {
                         <Label htmlFor="cargo">Cargo</Label>
                         <Input
                           id="cargo"
-                          {...register('cargo')}
+                          value={cargo}
+                          onChange={(e) => setCargo(e.target.value)}
                           placeholder="Ex: Gerente de Operações"
                         />
                       </div>
@@ -244,7 +310,8 @@ export default function NovoUsuarioPage() {
                         <Label htmlFor="departamento">Departamento</Label>
                         <Input
                           id="departamento"
-                          {...register('departamento')}
+                          value={departamento}
+                          onChange={(e) => setDepartamento(e.target.value)}
                           placeholder="Ex: Operações"
                         />
                       </div>
@@ -265,8 +332,9 @@ export default function NovoUsuarioPage() {
                           <Input
                             id="senha"
                             type={showPassword ? 'text' : 'password'}
-                            {...register('senha')}
-                            error={!!errors.senha}
+                            value={senha}
+                            onChange={(e) => setSenha(e.target.value)}
+                            className={errors.senha ? 'border-destructive' : ''}
                           />
                           <button
                             type="button"
@@ -277,7 +345,7 @@ export default function NovoUsuarioPage() {
                           </button>
                         </div>
                         {errors.senha && (
-                          <p className="text-sm text-destructive">{errors.senha.message}</p>
+                          <p className="text-sm text-destructive">{errors.senha}</p>
                         )}
                         {senha && passwordStrength && (
                           <div className="mt-2">
@@ -302,8 +370,9 @@ export default function NovoUsuarioPage() {
                           <Input
                             id="confirmarSenha"
                             type={showConfirmPassword ? 'text' : 'password'}
-                            {...register('confirmarSenha')}
-                            error={!!errors.confirmarSenha}
+                            value={confirmarSenha}
+                            onChange={(e) => setConfirmarSenha(e.target.value)}
+                            className={errors.confirmarSenha ? 'border-destructive' : ''}
                           />
                           <button
                             type="button"
@@ -314,7 +383,7 @@ export default function NovoUsuarioPage() {
                           </button>
                         </div>
                         {errors.confirmarSenha && (
-                          <p className="text-sm text-destructive">{errors.confirmarSenha.message}</p>
+                          <p className="text-sm text-destructive">{errors.confirmarSenha}</p>
                         )}
                       </div>
                     </div>
@@ -376,11 +445,8 @@ export default function NovoUsuarioPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="tipo">Tipo de usuário *</Label>
-                        <Select
-                          value={tipo}
-                          onValueChange={(value: any) => setValue('tipo', value)}
-                        >
-                          <SelectTrigger>
+                        <Select value={tipo} onValueChange={(value: TipoUsuario) => setTipo(value)}>
+                          <SelectTrigger className={errors.tipo ? 'border-destructive' : ''}>
                             <SelectValue placeholder="Selecione o tipo" />
                           </SelectTrigger>
                           <SelectContent>
@@ -390,7 +456,7 @@ export default function NovoUsuarioPage() {
                           </SelectContent>
                         </Select>
                         {errors.tipo && (
-                          <p className="text-sm text-destructive">{errors.tipo.message}</p>
+                          <p className="text-sm text-destructive">{errors.tipo}</p>
                         )}
                       </div>
                     </div>
@@ -421,8 +487,8 @@ export default function NovoUsuarioPage() {
                       </div>
                       <Switch
                         id="enviarEmail"
-                        checked={watch('enviarEmail')}
-                        onCheckedChange={(checked) => setValue('enviarEmail', checked)}
+                        checked={enviarEmail}
+                        onCheckedChange={setEnviarEmail}
                       />
                     </div>
                   </div>

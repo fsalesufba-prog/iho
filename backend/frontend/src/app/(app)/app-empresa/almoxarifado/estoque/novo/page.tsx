@@ -2,9 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Save, Package } from 'lucide-react'
 
@@ -17,55 +14,101 @@ import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
-
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
-const itemSchema = z.object({
-  nome: z.string().min(1, 'Nome é obrigatório'),
-  codigo: z.string().min(1, 'Código é obrigatório'),
-  descricao: z.string().optional(),
-  categoria: z.string().min(1, 'Categoria é obrigatória'),
-  unidade: z.enum(['un', 'kg', 'l', 'm', 'cx', 'pc']),
-  estoqueMinimo: z.number().int().min(0),
-  estoqueMaximo: z.number().int().min(0),
-  estoqueAtual: z.number().int().min(0).default(0),
-  valorUnitario: z.number().optional().nullable(),
-  localizacao: z.string().optional()
-})
-
-type ItemFormData = z.infer<typeof itemSchema>
+type Unidade = 'un' | 'kg' | 'l' | 'm' | 'cx' | 'pc'
 
 export default function NovoItemPage() {
   const router = useRouter()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [saving, setSaving] = useState(false)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch
-  } = useForm<ItemFormData>({
-    resolver: zodResolver(itemSchema),
-    defaultValues: {
-      unidade: 'un',
-      estoqueMinimo: 0,
-      estoqueMaximo: 100,
-      estoqueAtual: 0
-    }
+  // Estados do formulário
+  const [nome, setNome] = useState('')
+  const [codigo, setCodigo] = useState('')
+  const [descricao, setDescricao] = useState('')
+  const [categoria, setCategoria] = useState('')
+  const [unidade, setUnidade] = useState<Unidade>('un')
+  const [estoqueAtual, setEstoqueAtual] = useState(0)
+  const [estoqueMinimo, setEstoqueMinimo] = useState(0)
+  const [estoqueMaximo, setEstoqueMaximo] = useState(100)
+  const [valorUnitario, setValorUnitario] = useState<number | null>(null)
+  const [localizacao, setLocalizacao] = useState('')
+
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    nome: '',
+    codigo: '',
+    categoria: '',
+    estoqueMinimo: '',
+    estoqueMaximo: '',
   })
 
-  const unidade = watch('unidade')
+  const validate = () => {
+    const newErrors = {
+      nome: '',
+      codigo: '',
+      categoria: '',
+      estoqueMinimo: '',
+      estoqueMaximo: '',
+    }
+    let isValid = true
 
-  const onSubmit = async (data: ItemFormData) => {
+    if (!nome) {
+      newErrors.nome = 'Nome é obrigatório'
+      isValid = false
+    }
+
+    if (!codigo) {
+      newErrors.codigo = 'Código é obrigatório'
+      isValid = false
+    }
+
+    if (!categoria) {
+      newErrors.categoria = 'Categoria é obrigatória'
+      isValid = false
+    }
+
+    if (estoqueMinimo < 0) {
+      newErrors.estoqueMinimo = 'Estoque mínimo deve ser maior ou igual a 0'
+      isValid = false
+    }
+
+    if (estoqueMaximo < 0) {
+      newErrors.estoqueMaximo = 'Estoque máximo deve ser maior ou igual a 0'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
-      await api.post('/almoxarifado', data)
+
+      const payload = {
+        nome,
+        codigo,
+        descricao,
+        categoria,
+        unidade,
+        estoqueMinimo,
+        estoqueMaximo,
+        estoqueAtual,
+        valorUnitario,
+        localizacao,
+      }
+
+      await api.post('/almoxarifado', payload)
       
       toast({
         title: 'Item criado',
@@ -114,19 +157,20 @@ export default function NovoItemPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={onSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Identificação */}
                     <div className="space-y-2">
                       <Label htmlFor="nome">Nome *</Label>
                       <Input
                         id="nome"
-                        {...register('nome')}
+                        value={nome}
+                        onChange={(e) => setNome(e.target.value)}
                         placeholder="Ex: Filtro de Óleo"
-                        error={!!errors.nome}
+                        className={errors.nome ? 'border-destructive' : ''}
                       />
                       {errors.nome && (
-                        <p className="text-sm text-destructive">{errors.nome.message}</p>
+                        <p className="text-sm text-destructive">{errors.nome}</p>
                       )}
                     </div>
 
@@ -134,12 +178,13 @@ export default function NovoItemPage() {
                       <Label htmlFor="codigo">Código *</Label>
                       <Input
                         id="codigo"
-                        {...register('codigo')}
+                        value={codigo}
+                        onChange={(e) => setCodigo(e.target.value)}
                         placeholder="Ex: FLT-001"
-                        error={!!errors.codigo}
+                        className={errors.codigo ? 'border-destructive' : ''}
                       />
                       {errors.codigo && (
-                        <p className="text-sm text-destructive">{errors.codigo.message}</p>
+                        <p className="text-sm text-destructive">{errors.codigo}</p>
                       )}
                     </div>
 
@@ -147,7 +192,8 @@ export default function NovoItemPage() {
                       <Label htmlFor="descricao">Descrição</Label>
                       <Textarea
                         id="descricao"
-                        {...register('descricao')}
+                        value={descricao}
+                        onChange={(e) => setDescricao(e.target.value)}
                         placeholder="Descrição detalhada do item..."
                         className="min-h-[100px]"
                       />
@@ -158,21 +204,19 @@ export default function NovoItemPage() {
                       <Label htmlFor="categoria">Categoria *</Label>
                       <Input
                         id="categoria"
-                        {...register('categoria')}
+                        value={categoria}
+                        onChange={(e) => setCategoria(e.target.value)}
                         placeholder="Ex: Filtros, Lubrificantes, Peças"
-                        error={!!errors.categoria}
+                        className={errors.categoria ? 'border-destructive' : ''}
                       />
                       {errors.categoria && (
-                        <p className="text-sm text-destructive">{errors.categoria.message}</p>
+                        <p className="text-sm text-destructive">{errors.categoria}</p>
                       )}
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="unidade">Unidade *</Label>
-                      <Select
-                        value={unidade}
-                        onValueChange={(value: any) => setValue('unidade', value)}
-                      >
+                      <Select value={unidade} onValueChange={(value: Unidade) => setUnidade(value)}>
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
@@ -194,7 +238,8 @@ export default function NovoItemPage() {
                         id="estoqueAtual"
                         type="number"
                         min="0"
-                        {...register('estoqueAtual', { valueAsNumber: true })}
+                        value={estoqueAtual}
+                        onChange={(e) => setEstoqueAtual(parseInt(e.target.value) || 0)}
                       />
                     </div>
 
@@ -204,11 +249,12 @@ export default function NovoItemPage() {
                         id="estoqueMinimo"
                         type="number"
                         min="0"
-                        {...register('estoqueMinimo', { valueAsNumber: true })}
-                        error={!!errors.estoqueMinimo}
+                        value={estoqueMinimo}
+                        onChange={(e) => setEstoqueMinimo(parseInt(e.target.value) || 0)}
+                        className={errors.estoqueMinimo ? 'border-destructive' : ''}
                       />
                       {errors.estoqueMinimo && (
-                        <p className="text-sm text-destructive">{errors.estoqueMinimo.message}</p>
+                        <p className="text-sm text-destructive">{errors.estoqueMinimo}</p>
                       )}
                     </div>
 
@@ -218,11 +264,12 @@ export default function NovoItemPage() {
                         id="estoqueMaximo"
                         type="number"
                         min="0"
-                        {...register('estoqueMaximo', { valueAsNumber: true })}
-                        error={!!errors.estoqueMaximo}
+                        value={estoqueMaximo}
+                        onChange={(e) => setEstoqueMaximo(parseInt(e.target.value) || 0)}
+                        className={errors.estoqueMaximo ? 'border-destructive' : ''}
                       />
                       {errors.estoqueMaximo && (
-                        <p className="text-sm text-destructive">{errors.estoqueMaximo.message}</p>
+                        <p className="text-sm text-destructive">{errors.estoqueMaximo}</p>
                       )}
                     </div>
 
@@ -234,7 +281,8 @@ export default function NovoItemPage() {
                         type="number"
                         step="0.01"
                         min="0"
-                        {...register('valorUnitario', { valueAsNumber: true })}
+                        value={valorUnitario || ''}
+                        onChange={(e) => setValorUnitario(e.target.value ? parseFloat(e.target.value) : null)}
                         placeholder="0,00"
                       />
                     </div>
@@ -243,7 +291,8 @@ export default function NovoItemPage() {
                       <Label htmlFor="localizacao">Localização</Label>
                       <Input
                         id="localizacao"
-                        {...register('localizacao')}
+                        value={localizacao}
+                        onChange={(e) => setLocalizacao(e.target.value)}
                         placeholder="Ex: Prateleira A1, Corredor 3"
                       />
                     </div>

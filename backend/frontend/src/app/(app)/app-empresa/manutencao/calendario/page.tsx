@@ -21,7 +21,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 interface ManutencaoCalendario {
@@ -39,12 +38,11 @@ interface ManutencaoCalendario {
 }
 
 export default function CalendarioManutencaoPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [currentDate, setCurrentDate] = useState(new Date())
   const [manutencoes, setManutencoes] = useState<Record<string, ManutencaoCalendario[]>>({})
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)  // Mudando para false inicial
   const [tipoFiltro, setTipoFiltro] = useState<string>('todos')
 
   const monthNames = [
@@ -181,127 +179,136 @@ export default function CalendarioManutencaoPage() {
             </div>
           </div>
 
+          {/* Loading indicator */}
+          {loading && (
+            <div className="flex justify-center items-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent" />
+            </div>
+          )}
+
           {/* Calendário */}
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <CalendarIcon className="h-5 w-5 text-primary" />
-                  {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
-                </CardTitle>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => changeMonth(-1)}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => changeMonth(1)}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              {/* Dias da semana */}
-              <div className="grid grid-cols-7 gap-1 mb-2">
-                {weekDays.map(day => (
-                  <div key={day} className="text-center text-sm font-medium text-muted-foreground py-2">
-                    {day}
+          {!loading && (
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <CalendarIcon className="h-5 w-5 text-primary" />
+                    {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+                  </CardTitle>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => changeMonth(-1)}
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => changeMonth(1)}
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
                   </div>
-                ))}
-              </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {/* Dias da semana */}
+                <div className="grid grid-cols-7 gap-1 mb-2">
+                  {weekDays.map(day => (
+                    <div key={day} className="text-center text-sm font-medium text-muted-foreground py-2">
+                      {day}
+                    </div>
+                  ))}
+                </div>
 
-              {/* Grid do calendário */}
-              <div className="grid grid-cols-7 gap-1">
-                {days.map((day, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.01 }}
-                    className={`min-h-[120px] p-2 rounded-lg border ${
-                      day ? 'bg-card hover:shadow-md transition-shadow' : 'bg-muted/30'
-                    }`}
-                  >
-                    {day && (
-                      <>
-                        <div className="flex justify-between items-start mb-2">
-                          <span className={`text-sm font-medium ${
-                            new Date(day.date).toDateString() === new Date().toDateString()
-                              ? 'text-primary font-bold'
-                              : ''
-                          }`}>
-                            {day.day}
-                          </span>
-                          {day.manutencoes.length > 0 && (
-                            <Badge variant="outline" className="text-xs">
-                              {day.manutencoes.length}
-                            </Badge>
-                          )}
-                        </div>
+                {/* Grid do calendário */}
+                <div className="grid grid-cols-7 gap-1">
+                  {days.map((day, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.01 }}
+                      className={`min-h-[120px] p-2 rounded-lg border ${
+                        day ? 'bg-card hover:shadow-md transition-shadow' : 'bg-muted/30'
+                      }`}
+                    >
+                      {day && (
+                        <>
+                          <div className="flex justify-between items-start mb-2">
+                            <span className={`text-sm font-medium ${
+                              new Date(day.date).toDateString() === new Date().toDateString()
+                                ? 'text-primary font-bold'
+                                : ''
+                            }`}>
+                              {day.day}
+                            </span>
+                            {day.manutencoes.length > 0 && (
+                              <Badge variant="outline" className="text-xs">
+                                {day.manutencoes.length}
+                              </Badge>
+                            )}
+                          </div>
 
-                        <div className="space-y-1 max-h-[80px] overflow-y-auto">
-                          {day.manutencoes.slice(0, 3).map((manutencao) => (
-                            <Link
-                              key={manutencao.id}
-                              href={`/app-empresa/manutencao/${manutencao.id}`}
-                              className={`block p-1 rounded text-xs border ${getTipoColor(manutencao.tipo)} hover:opacity-80 transition-opacity`}
-                            >
-                              <div className="flex items-center gap-1">
-                                {getStatusIcon(manutencao.status)}
-                                <span className="truncate flex-1">
-                                  {manutencao.equipamento.tag}
-                                </span>
+                          <div className="space-y-1 max-h-[80px] overflow-y-auto">
+                            {day.manutencoes.slice(0, 3).map((manutencao) => (
+                              <Link
+                                key={manutencao.id}
+                                href={`/app-empresa/manutencao/${manutencao.id}`}
+                                className={`block p-1 rounded text-xs border ${getTipoColor(manutencao.tipo)} hover:opacity-80 transition-opacity`}
+                              >
+                                <div className="flex items-center gap-1">
+                                  {getStatusIcon(manutencao.status)}
+                                  <span className="truncate flex-1">
+                                    {manutencao.equipamento.tag}
+                                  </span>
+                                </div>
+                              </Link>
+                            ))}
+                            {day.manutencoes.length > 3 && (
+                              <div className="text-xs text-muted-foreground text-center">
+                                +{day.manutencoes.length - 3} mais
                               </div>
-                            </Link>
-                          ))}
-                          {day.manutencoes.length > 3 && (
-                            <div className="text-xs text-muted-foreground text-center">
-                              +{day.manutencoes.length - 3} mais
-                            </div>
-                          )}
-                        </div>
-                      </>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
 
-              {/* Legenda */}
-              <div className="mt-6 pt-4 border-t flex flex-wrap gap-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-blue-500" />
-                  <span className="text-sm">Preventiva</span>
+                {/* Legenda */}
+                <div className="mt-6 pt-4 border-t flex flex-wrap gap-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-blue-500" />
+                    <span className="text-sm">Preventiva</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500" />
+                    <span className="text-sm">Corretiva</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-purple-500" />
+                    <span className="text-sm">Preditiva</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-3 w-3 text-yellow-600" />
+                    <span className="text-sm">Programada</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-3 w-3 text-blue-600" />
+                    <span className="text-sm">Em Andamento</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="h-3 w-3 text-green-600" />
+                    <span className="text-sm">Concluída</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <span className="text-sm">Corretiva</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-purple-500" />
-                  <span className="text-sm">Preditiva</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-3 w-3 text-yellow-600" />
-                  <span className="text-sm">Programada</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-3 w-3 text-blue-600" />
-                  <span className="text-sm">Em Andamento</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3 w-3 text-green-600" />
-                  <span className="text-sm">Concluída</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          )}
         </Container>
       </main>
     </>

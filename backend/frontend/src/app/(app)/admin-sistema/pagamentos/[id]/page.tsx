@@ -26,7 +26,7 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-
+import { Input } from '@/components/ui/Input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Separator } from '@/components/ui/Separator'
@@ -125,7 +125,7 @@ export default function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes do pagamento',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -147,7 +147,7 @@ export default function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -167,7 +167,7 @@ export default function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o pagamento',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -186,7 +186,7 @@ export default function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível reenviar o e-mail',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

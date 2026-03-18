@@ -3,14 +3,9 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import { ArrowLeft, Save, RefreshCw } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -22,37 +17,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select'
-
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
-import { useAuth } from '@/components/hooks/useAuth'
 import { api } from '@/lib/api'
 
-const frenteSchema = z.object({
-  nome: z.string().min(1, 'Nome é obrigatório'),
-  descricao: z.string().optional(),
-  status: z.enum(['ativa', 'inativa', 'concluida']),
-})
-
-type FrenteFormData = z.infer<typeof frenteSchema>
+type Status = 'ativa' | 'inativa' | 'concluida'
 
 export default function EditarFrentePage() {
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
-  const { user } = useAuth()
   const id = params.id as string
 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
 
-  const form = useForm<FrenteFormData>({
-    resolver: zodResolver(frenteSchema),
-    defaultValues: {
-      nome: '',
-      descricao: '',
-      status: 'ativa',
-    }
+  // Estados do formulário
+  const [nome, setNome] = useState('')
+  const [descricao, setDescricao] = useState('')
+  const [status, setStatus] = useState<Status>('ativa')
+
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    nome: '',
   })
 
   useEffect(() => {
@@ -64,17 +51,15 @@ export default function EditarFrentePage() {
       const response = await api.get(`/frentes-servico/${id}`)
       const frente = response.data
 
-      form.reset({
-        nome: frente.nome,
-        descricao: frente.descricao || '',
-        status: frente.status,
-      })
+      setNome(frente.nome || '')
+      setDescricao(frente.descricao || '')
+      setStatus(frente.status || 'ativa')
     } catch (error) {
       console.error('Erro ao carregar frente de serviço:', error)
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar a frente de serviço',
-        variant: 'destructive'
+        variant: 'error'
       })
       router.push('/app-empresa/frentes-servico')
     } finally {
@@ -82,11 +67,36 @@ export default function EditarFrentePage() {
     }
   }
 
-  const onSubmit = async (data: FrenteFormData) => {
+  const validate = () => {
+    const newErrors = {
+      nome: '',
+    }
+    let isValid = true
+
+    if (!nome) {
+      newErrors.nome = 'Nome é obrigatório'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
 
-      await api.put(`/frentes-servico/${id}`, data)
+      await api.put(`/frentes-servico/${id}`, {
+        nome,
+        descricao,
+        status,
+      })
 
       toast({
         title: 'Sucesso',
@@ -99,7 +109,7 @@ export default function EditarFrentePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível atualizar a frente de serviço',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setSaving(false)
@@ -152,13 +162,11 @@ export default function EditarFrentePage() {
 
         <div>
           <h1 className="text-3xl font-bold">Editar Frente de Serviço</h1>
-          <p className="text-muted-foreground">
-            {form.watch('nome')}
-          </p>
+          <p className="text-muted-foreground">{nome}</p>
         </div>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <Card>
           <CardHeader>
             <CardTitle>Informações da Frente</CardTitle>
@@ -168,13 +176,13 @@ export default function EditarFrentePage() {
               <Label htmlFor="nome">Nome da Frente</Label>
               <Input
                 id="nome"
-                {...form.register('nome')}
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
                 placeholder="Ex: Terraplenagem"
+                className={errors.nome ? 'border-destructive' : ''}
               />
-              {form.formState.errors.nome && (
-                <p className="text-xs text-destructive">
-                  {form.formState.errors.nome.message}
-                </p>
+              {errors.nome && (
+                <p className="text-xs text-destructive">{errors.nome}</p>
               )}
             </div>
 
@@ -182,7 +190,8 @@ export default function EditarFrentePage() {
               <Label htmlFor="descricao">Descrição</Label>
               <Textarea
                 id="descricao"
-                {...form.register('descricao')}
+                value={descricao}
+                onChange={(e) => setDescricao(e.target.value)}
                 placeholder="Descrição detalhada da frente de serviço..."
                 rows={4}
               />
@@ -190,10 +199,7 @@ export default function EditarFrentePage() {
 
             <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
-              <Select
-                value={form.watch('status')}
-                onValueChange={(value: any) => form.setValue('status', value)}
-              >
+              <Select value={status} onValueChange={(value: Status) => setStatus(value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Selecione" />
                 </SelectTrigger>

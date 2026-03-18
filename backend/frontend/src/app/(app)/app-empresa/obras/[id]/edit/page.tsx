@@ -3,14 +3,9 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import { ArrowLeft, Save, RefreshCw } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -22,29 +17,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select'
-
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'
 import { api } from '@/lib/api'
 import { masks } from '@/lib/masks'
 
-const obraSchema = z.object({
-  nome: z.string().min(1, 'Nome da obra é obrigatório'),
-  codigo: z.string().min(1, 'Código é obrigatório'),
-  cnpj: z.string().min(14, 'CNPJ inválido').max(18),
-  endereco: z.string().min(1, 'Endereço é obrigatório'),
-  cidade: z.string().min(1, 'Cidade é obrigatória'),
-  estado: z.string().length(2, 'Estado deve ter 2 caracteres'),
-  cep: z.string().min(8, 'CEP inválido').max(9),
-  status: z.enum(['ativa', 'paralisada', 'concluida', 'cancelada']),
-  dataInicio: z.string().optional(),
-  dataPrevisaoTermino: z.string().optional(),
-  valor: z.number().min(0).optional(),
-  observacoes: z.string().optional(),
-})
-
-type ObraFormData = z.infer<typeof obraSchema>
+type Status = 'ativa' | 'paralisada' | 'concluida' | 'cancelada'
 
 export default function EditarObraPage() {
   const params = useParams()
@@ -56,22 +35,29 @@ export default function EditarObraPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
 
-  const form = useForm<ObraFormData>({
-    resolver: zodResolver(obraSchema),
-    defaultValues: {
-      nome: '',
-      codigo: '',
-      cnpj: '',
-      endereco: '',
-      cidade: '',
-      estado: '',
-      cep: '',
-      status: 'ativa',
-      dataInicio: '',
-      dataPrevisaoTermino: '',
-      valor: 0,
-      observacoes: '',
-    }
+  // Estados do formulário
+  const [nome, setNome] = useState('')
+  const [codigo, setCodigo] = useState('')
+  const [cnpj, setCnpj] = useState('')
+  const [endereco, setEndereco] = useState('')
+  const [cidade, setCidade] = useState('')
+  const [estado, setEstado] = useState('')
+  const [cep, setCep] = useState('')
+  const [status, setStatus] = useState<Status>('ativa')
+  const [dataInicio, setDataInicio] = useState('')
+  const [dataPrevisaoTermino, setDataPrevisaoTermino] = useState('')
+  const [valor, setValor] = useState(0)
+  const [observacoes, setObservacoes] = useState('')
+
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    nome: '',
+    codigo: '',
+    cnpj: '',
+    endereco: '',
+    cidade: '',
+    estado: '',
+    cep: '',
   })
 
   useEffect(() => {
@@ -84,26 +70,24 @@ export default function EditarObraPage() {
       const response = await api.get(`/obras/${id}`)
       const obra = response.data
 
-      form.reset({
-        nome: obra.nome,
-        codigo: obra.codigo,
-        cnpj: obra.cnpj,
-        endereco: obra.endereco,
-        cidade: obra.cidade,
-        estado: obra.estado,
-        cep: obra.cep,
-        status: obra.status,
-        dataInicio: obra.dataInicio?.split('T')[0] || '',
-        dataPrevisaoTermino: obra.dataPrevisaoTermino?.split('T')[0] || '',
-        valor: obra.valor || 0,
-        observacoes: obra.observacoes || '',
-      })
+      setNome(obra.nome || '')
+      setCodigo(obra.codigo || '')
+      setCnpj(obra.cnpj || '')
+      setEndereco(obra.endereco || '')
+      setCidade(obra.cidade || '')
+      setEstado(obra.estado || '')
+      setCep(obra.cep || '')
+      setStatus(obra.status || 'ativa')
+      setDataInicio(obra.dataInicio?.split('T')[0] || '')
+      setDataPrevisaoTermino(obra.dataPrevisaoTermino?.split('T')[0] || '')
+      setValor(obra.valor || 0)
+      setObservacoes(obra.observacoes || '')
     } catch (error) {
       console.error('Erro ao carregar obra:', error)
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar a obra',
-        variant: 'destructive'
+        variant: 'error'
       })
       router.push('/app-empresa/obras')
     } finally {
@@ -111,12 +95,80 @@ export default function EditarObraPage() {
     }
   }
 
-  const onSubmit = async (data: ObraFormData) => {
+  const validate = () => {
+    const newErrors = {
+      nome: '',
+      codigo: '',
+      cnpj: '',
+      endereco: '',
+      cidade: '',
+      estado: '',
+      cep: '',
+    }
+    let isValid = true
+
+    if (!nome) {
+      newErrors.nome = 'Nome da obra é obrigatório'
+      isValid = false
+    }
+
+    if (!codigo) {
+      newErrors.codigo = 'Código é obrigatório'
+      isValid = false
+    }
+
+    if (!cnpj || cnpj.replace(/\D/g, '').length < 14) {
+      newErrors.cnpj = 'CNPJ inválido'
+      isValid = false
+    }
+
+    if (!endereco) {
+      newErrors.endereco = 'Endereço é obrigatório'
+      isValid = false
+    }
+
+    if (!cidade) {
+      newErrors.cidade = 'Cidade é obrigatória'
+      isValid = false
+    }
+
+    if (!estado || estado.length !== 2) {
+      newErrors.estado = 'Estado deve ter 2 caracteres'
+      isValid = false
+    }
+
+    if (!cep || cep.replace(/\D/g, '').length < 8) {
+      newErrors.cep = 'CEP inválido'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
 
       await api.put(`/obras/${id}`, {
-        ...data,
+        nome,
+        codigo,
+        cnpj: cnpj.replace(/\D/g, ''),
+        endereco,
+        cidade,
+        estado,
+        cep: cep.replace(/\D/g, ''),
+        status,
+        dataInicio: dataInicio || null,
+        dataPrevisaoTermino: dataPrevisaoTermino || null,
+        valor,
+        observacoes: observacoes || null,
         empresaId: user?.empresaId,
       })
 
@@ -131,7 +183,7 @@ export default function EditarObraPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível atualizar a obra',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setSaving(false)
@@ -190,13 +242,11 @@ export default function EditarObraPage() {
 
         <div>
           <h1 className="text-3xl font-bold">Editar Obra</h1>
-          <p className="text-muted-foreground">
-            {form.watch('nome')}
-          </p>
+          <p className="text-muted-foreground">{nome}</p>
         </div>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <Card>
           <CardHeader>
             <CardTitle>Informações da Obra</CardTitle>
@@ -207,13 +257,13 @@ export default function EditarObraPage() {
                 <Label htmlFor="nome">Nome da Obra</Label>
                 <Input
                   id="nome"
-                  {...form.register('nome')}
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
                   placeholder="Ex: Edifício Comercial"
+                  className={errors.nome ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.nome && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.nome.message}
-                  </p>
+                {errors.nome && (
+                  <p className="text-xs text-destructive">{errors.nome}</p>
                 )}
               </div>
 
@@ -221,13 +271,13 @@ export default function EditarObraPage() {
                 <Label htmlFor="codigo">Código</Label>
                 <Input
                   id="codigo"
-                  {...form.register('codigo')}
+                  value={codigo}
+                  onChange={(e) => setCodigo(e.target.value)}
                   placeholder="Ex: OB-001"
+                  className={errors.codigo ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.codigo && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.codigo.message}
-                  </p>
+                {errors.codigo && (
+                  <p className="text-xs text-destructive">{errors.codigo}</p>
                 )}
               </div>
             </div>
@@ -236,15 +286,14 @@ export default function EditarObraPage() {
               <Label htmlFor="cnpj">CNPJ</Label>
               <Input
                 id="cnpj"
-                {...form.register('cnpj')}
-                onChange={(e) => form.setValue('cnpj', masks.cnpj(e.target.value))}
+                value={cnpj}
+                onChange={(e) => setCnpj(masks.cnpj(e.target.value))}
                 placeholder="00.000.000/0000-00"
                 maxLength={18}
+                className={errors.cnpj ? 'border-destructive' : ''}
               />
-              {form.formState.errors.cnpj && (
-                <p className="text-xs text-destructive">
-                  {form.formState.errors.cnpj.message}
-                </p>
+              {errors.cnpj && (
+                <p className="text-xs text-destructive">{errors.cnpj}</p>
               )}
             </div>
 
@@ -252,13 +301,13 @@ export default function EditarObraPage() {
               <Label htmlFor="endereco">Endereço</Label>
               <Input
                 id="endereco"
-                {...form.register('endereco')}
+                value={endereco}
+                onChange={(e) => setEndereco(e.target.value)}
                 placeholder="Rua, número, complemento"
+                className={errors.endereco ? 'border-destructive' : ''}
               />
-              {form.formState.errors.endereco && (
-                <p className="text-xs text-destructive">
-                  {form.formState.errors.endereco.message}
-                </p>
+              {errors.endereco && (
+                <p className="text-xs text-destructive">{errors.endereco}</p>
               )}
             </div>
 
@@ -267,23 +316,20 @@ export default function EditarObraPage() {
                 <Label htmlFor="cidade">Cidade</Label>
                 <Input
                   id="cidade"
-                  {...form.register('cidade')}
+                  value={cidade}
+                  onChange={(e) => setCidade(e.target.value)}
                   placeholder="Cidade"
+                  className={errors.cidade ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.cidade && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.cidade.message}
-                  </p>
+                {errors.cidade && (
+                  <p className="text-xs text-destructive">{errors.cidade}</p>
                 )}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="estado">UF</Label>
-                <Select
-                  value={form.watch('estado')}
-                  onValueChange={(value) => form.setValue('estado', value)}
-                >
-                  <SelectTrigger>
+                <Select value={estado} onValueChange={setEstado}>
+                  <SelectTrigger className={errors.estado ? 'border-destructive' : ''}>
                     <SelectValue placeholder="UF" />
                   </SelectTrigger>
                   <SelectContent>
@@ -292,10 +338,8 @@ export default function EditarObraPage() {
                     ))}
                   </SelectContent>
                 </Select>
-                {form.formState.errors.estado && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.estado.message}
-                  </p>
+                {errors.estado && (
+                  <p className="text-xs text-destructive">{errors.estado}</p>
                 )}
               </div>
 
@@ -303,15 +347,14 @@ export default function EditarObraPage() {
                 <Label htmlFor="cep">CEP</Label>
                 <Input
                   id="cep"
-                  {...form.register('cep')}
-                  onChange={(e) => form.setValue('cep', masks.cep(e.target.value))}
+                  value={cep}
+                  onChange={(e) => setCep(masks.cep(e.target.value))}
                   placeholder="00000-000"
                   maxLength={9}
+                  className={errors.cep ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.cep && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.cep.message}
-                  </p>
+                {errors.cep && (
+                  <p className="text-xs text-destructive">{errors.cep}</p>
                 )}
               </div>
             </div>
@@ -322,7 +365,8 @@ export default function EditarObraPage() {
                 <Input
                   id="dataInicio"
                   type="date"
-                  {...form.register('dataInicio')}
+                  value={dataInicio}
+                  onChange={(e) => setDataInicio(e.target.value)}
                 />
               </div>
 
@@ -331,7 +375,8 @@ export default function EditarObraPage() {
                 <Input
                   id="dataPrevisaoTermino"
                   type="date"
-                  {...form.register('dataPrevisaoTermino')}
+                  value={dataPrevisaoTermino}
+                  onChange={(e) => setDataPrevisaoTermino(e.target.value)}
                 />
               </div>
             </div>
@@ -342,21 +387,14 @@ export default function EditarObraPage() {
                 id="valor"
                 type="number"
                 step="0.01"
-                {...form.register('valor', { valueAsNumber: true })}
+                value={valor}
+                onChange={(e) => setValor(parseFloat(e.target.value) || 0)}
               />
-              {form.formState.errors.valor && (
-                <p className="text-xs text-destructive">
-                  {form.formState.errors.valor.message}
-                </p>
-              )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
-              <Select
-                value={form.watch('status')}
-                onValueChange={(value: any) => form.setValue('status', value)}
-              >
+              <Select value={status} onValueChange={(value: Status) => setStatus(value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Selecione" />
                 </SelectTrigger>
@@ -373,7 +411,8 @@ export default function EditarObraPage() {
               <Label htmlFor="observacoes">Observações</Label>
               <Textarea
                 id="observacoes"
-                {...form.register('observacoes')}
+                value={observacoes}
+                onChange={(e) => setObservacoes(e.target.value)}
                 placeholder="Observações adicionais sobre a obra..."
                 rows={4}
               />

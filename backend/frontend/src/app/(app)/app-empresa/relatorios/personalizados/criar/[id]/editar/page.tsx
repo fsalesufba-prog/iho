@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { motion } from 'framer-motion'
 import {
   ArrowLeft,
@@ -31,17 +28,8 @@ import { Badge } from '@/components/ui/Badge'
 import { useToast } from '@/components/ui/use-toast'
 import { api } from '@/lib/api'
 
-const relatorioSchema = z.object({
-  nome: z.string().min(1, 'Nome é obrigatório'),
-  descricao: z.string().optional(),
-  tipo: z.enum(['operacional', 'financeiro', 'manutencao', 'equipamentos', 'obras']),
-  isPublico: z.boolean().default(false),
-  agendado: z.boolean().default(false),
-  frequencia: z.enum(['diario', 'semanal', 'mensal']).optional(),
-  destinatarios: z.array(z.string().email()).optional()
-})
-
-type RelatorioFormData = z.infer<typeof relatorioSchema>
+type TipoRelatorio = 'operacional' | 'financeiro' | 'manutencao' | 'equipamentos' | 'obras'
+type Frequencia = 'diario' | 'semanal' | 'mensal'
 
 export default function EditarRelatorioPersonalizadoPage() {
   const router = useRouter()
@@ -50,21 +38,23 @@ export default function EditarRelatorioPersonalizadoPage() {
 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+
+  // Estados do formulário
+  const [nome, setNome] = useState('')
+  const [descricao, setDescricao] = useState('')
+  const [tipo, setTipo] = useState<TipoRelatorio>('operacional')
+  const [isPublico, setIsPublico] = useState(false)
+  const [agendado, setAgendado] = useState(false)
+  const [frequencia, setFrequencia] = useState<Frequencia>('mensal')
   const [destinatarios, setDestinatarios] = useState<string[]>([])
   const [novoEmail, setNovoEmail] = useState('')
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    reset
-  } = useForm<RelatorioFormData>({
-    resolver: zodResolver(relatorioSchema)
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    nome: '',
+    tipo: '',
+    frequencia: '',
   })
-
-  const agendado = watch('agendado')
 
   useEffect(() => {
     carregarRelatorio()
@@ -76,14 +66,12 @@ export default function EditarRelatorioPersonalizadoPage() {
       const response = await api.get(`/relatorios/personalizados/${params.id}`)
       const relatorio = response.data.data
 
-      reset({
-        nome: relatorio.nome,
-        descricao: relatorio.descricao || '',
-        tipo: relatorio.tipo,
-        isPublico: relatorio.isPublico,
-        agendado: relatorio.agendado,
-        frequencia: relatorio.frequencia
-      })
+      setNome(relatorio.nome || '')
+      setDescricao(relatorio.descricao || '')
+      setTipo(relatorio.tipo || 'operacional')
+      setIsPublico(relatorio.isPublico || false)
+      setAgendado(relatorio.agendado || false)
+      setFrequencia(relatorio.frequencia || 'mensal')
 
       if (relatorio.destinatarios) {
         setDestinatarios(relatorio.destinatarios)
@@ -102,7 +90,7 @@ export default function EditarRelatorioPersonalizadoPage() {
   const adicionarDestinatario = () => {
     if (!novoEmail) return
 
-    if (!novoEmail.includes('@')) {
+    if (!novoEmail.includes('@') || !novoEmail.includes('.')) {
       toast({
         title: 'Email inválido',
         description: 'Digite um endereço de email válido.',
@@ -128,13 +116,51 @@ export default function EditarRelatorioPersonalizadoPage() {
     setDestinatarios(destinatarios.filter(e => e !== email))
   }
 
-  const onSubmit = async (data: RelatorioFormData) => {
+  const validate = () => {
+    const newErrors = {
+      nome: '',
+      tipo: '',
+      frequencia: '',
+    }
+    let isValid = true
+
+    if (!nome) {
+      newErrors.nome = 'Nome é obrigatório'
+      isValid = false
+    }
+
+    if (!tipo) {
+      newErrors.tipo = 'Tipo é obrigatório'
+      isValid = false
+    }
+
+    if (agendado && !frequencia) {
+      newErrors.frequencia = 'Frequência é obrigatória para relatórios agendados'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
       
       const payload = {
-        ...data,
-        destinatarios: data.agendado ? destinatarios : undefined
+        nome,
+        descricao: descricao || null,
+        tipo,
+        isPublico,
+        agendado,
+        frequencia: agendado ? frequencia : undefined,
+        destinatarios: agendado ? destinatarios : undefined
       }
 
       await api.put(`/relatorios/personalizados/${params.id}`, payload)
@@ -203,28 +229,26 @@ export default function EditarRelatorioPersonalizadoPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={onSubmit} className="space-y-6">
                   {/* Informações Básicas */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="nome">Nome do Relatório *</Label>
                       <Input
                         id="nome"
-                        {...register('nome')}
-                        error={!!errors.nome}
+                        value={nome}
+                        onChange={(e) => setNome(e.target.value)}
+                        className={errors.nome ? 'border-destructive' : ''}
                       />
                       {errors.nome && (
-                        <p className="text-sm text-destructive">{errors.nome.message}</p>
+                        <p className="text-sm text-destructive">{errors.nome}</p>
                       )}
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="tipo">Tipo de Relatório *</Label>
-                      <Select
-                        value={watch('tipo')}
-                        onValueChange={(value: any) => setValue('tipo', value)}
-                      >
-                        <SelectTrigger>
+                      <Select value={tipo} onValueChange={(value: TipoRelatorio) => setTipo(value)}>
+                        <SelectTrigger className={errors.tipo ? 'border-destructive' : ''}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -235,13 +259,17 @@ export default function EditarRelatorioPersonalizadoPage() {
                           <SelectItem value="obras">Obras</SelectItem>
                         </SelectContent>
                       </Select>
+                      {errors.tipo && (
+                        <p className="text-sm text-destructive">{errors.tipo}</p>
+                      )}
                     </div>
 
                     <div className="col-span-2 space-y-2">
                       <Label htmlFor="descricao">Descrição</Label>
                       <Textarea
                         id="descricao"
-                        {...register('descricao')}
+                        value={descricao}
+                        onChange={(e) => setDescricao(e.target.value)}
                         className="min-h-[100px]"
                       />
                     </div>
@@ -253,17 +281,17 @@ export default function EditarRelatorioPersonalizadoPage() {
                     
                     <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
                       <div className="flex items-center gap-3">
-                        {watch('isPublico') ? (
+                        {isPublico ? (
                           <Globe className="h-5 w-5 text-green-600" />
                         ) : (
                           <Lock className="h-5 w-5 text-yellow-600" />
                         )}
                         <div>
                           <Label htmlFor="isPublico" className="font-medium">
-                            {watch('isPublico') ? 'Relatório Público' : 'Relatório Privado'}
+                            {isPublico ? 'Relatório Público' : 'Relatório Privado'}
                           </Label>
                           <p className="text-sm text-muted-foreground">
-                            {watch('isPublico')
+                            {isPublico
                               ? 'Qualquer usuário pode visualizar e executar este relatório'
                               : 'Apenas você pode visualizar e executar este relatório'}
                           </p>
@@ -271,8 +299,8 @@ export default function EditarRelatorioPersonalizadoPage() {
                       </div>
                       <Switch
                         id="isPublico"
-                        checked={watch('isPublico')}
-                        onCheckedChange={(checked) => setValue('isPublico', checked)}
+                        checked={isPublico}
+                        onCheckedChange={setIsPublico}
                       />
                     </div>
                   </div>
@@ -298,7 +326,7 @@ export default function EditarRelatorioPersonalizadoPage() {
                       <Switch
                         id="agendado"
                         checked={agendado}
-                        onCheckedChange={(checked) => setValue('agendado', checked)}
+                        onCheckedChange={setAgendado}
                       />
                     </div>
 
@@ -306,11 +334,8 @@ export default function EditarRelatorioPersonalizadoPage() {
                       <div className="space-y-4 pl-8">
                         <div className="space-y-2">
                           <Label htmlFor="frequencia">Frequência *</Label>
-                          <Select
-                            value={watch('frequencia')}
-                            onValueChange={(value: any) => setValue('frequencia', value)}
-                          >
-                            <SelectTrigger>
+                          <Select value={frequencia} onValueChange={(value: Frequencia) => setFrequencia(value)}>
+                            <SelectTrigger className={errors.frequencia ? 'border-destructive' : ''}>
                               <SelectValue placeholder="Selecione a frequência" />
                             </SelectTrigger>
                             <SelectContent>
@@ -319,6 +344,9 @@ export default function EditarRelatorioPersonalizadoPage() {
                               <SelectItem value="mensal">Mensal</SelectItem>
                             </SelectContent>
                           </Select>
+                          {errors.frequencia && (
+                            <p className="text-sm text-destructive">{errors.frequencia}</p>
+                          )}
                         </div>
 
                         <div className="space-y-2">

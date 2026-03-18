@@ -23,6 +23,7 @@ import {
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
+import { Skeleton } from '@/components/ui/Skeleton'
 import { Container } from '@/components/common/Container'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
@@ -178,8 +179,8 @@ export default function CatalogoEquipamentosPage() {
     }
   }
 
-  const tiposUnicos = [...new Set(catalogo.map(e => e.tipo))]
-
+  const tiposUnicos = Array.from(new Set(catalogo.map(e => e.tipo)))
+  
   return (
     <>
       <Sidebar />

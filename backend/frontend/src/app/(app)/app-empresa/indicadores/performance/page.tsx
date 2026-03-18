@@ -9,6 +9,7 @@ import {
   Download,
   RefreshCw,
   Calendar,
+  Minus
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -19,7 +20,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 interface PerformanceData {
@@ -51,7 +51,6 @@ interface PerformanceData {
 }
 
 export default function PerformancePage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<PerformanceData | null>(null)

@@ -19,6 +19,7 @@ import {
   ChevronRight,
   RefreshCw,
   Activity,
+  Play
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'

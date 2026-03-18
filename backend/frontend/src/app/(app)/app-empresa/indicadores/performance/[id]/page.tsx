@@ -11,6 +11,7 @@ import {
   Download,
   RefreshCw,
   Truck,
+  Minus
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -21,7 +22,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 interface Equipamento {
@@ -53,7 +53,6 @@ interface PerformanceData {
 
 export default function PerformanceEquipamentoPage() {
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<PerformanceData | null>(null)

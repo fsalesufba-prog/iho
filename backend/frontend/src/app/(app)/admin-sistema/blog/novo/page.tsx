@@ -3,10 +3,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import {
   ArrowLeft,
   Save,
@@ -17,7 +13,6 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-
 import { Card, CardContent } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -36,23 +31,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Separator } from '@/components/ui/Separator'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-
 import { BlogEditor } from '@/components/blog/BlogEditor'
-
-const postSchema = z.object({
-  titulo: z.string().min(1, 'Título é obrigatório'),
-  slug: z.string().min(1, 'Slug é obrigatório'),
-  resumo: z.string().min(1, 'Resumo é obrigatório'),
-  conteudo: z.string().min(1, 'Conteúdo é obrigatório'),
-  categoria: z.string().min(1, 'Categoria é obrigatória'),
-  autor: z.string().min(1, 'Autor é obrigatório'),
-  imagem: z.string().optional(),
-  destaque: z.boolean().default(false),
-  publicado: z.boolean().default(false),
-  dataPublicacao: z.string().optional(),
-})
-
-type PostFormData = z.infer<typeof postSchema>
 
 export default function NovoPostPage() {
   const router = useRouter()
@@ -61,22 +40,18 @@ export default function NovoPostPage() {
   const [tags, setTags] = useState<string[]>([])
   const [novaTag, setNovaTag] = useState('')
   const [activeTab, setActiveTab] = useState('escrever')
-
-  const form = useForm<PostFormData>({
-    resolver: zodResolver(postSchema),
-    defaultValues: {
-      titulo: '',
-      slug: '',
-      resumo: '',
-      conteudo: '',
-      categoria: '',
-      autor: '',
-      imagem: '',
-      destaque: false,
-      publicado: false,
-      dataPublicacao: new Date().toISOString().split('T')[0],
-    }
-  })
+  
+  // Estados do formulário
+  const [titulo, setTitulo] = useState('')
+  const [slug, setSlug] = useState('')
+  const [resumo, setResumo] = useState('')
+  const [conteudo, setConteudo] = useState('')
+  const [categoria, setCategoria] = useState('')
+  const [autor, setAutor] = useState('')
+  const [imagem, setImagem] = useState('')
+  const [destaque, setDestaque] = useState(false)
+  const [publicado, setPublicado] = useState(false)
+  const [dataPublicacao, setDataPublicacao] = useState(new Date().toISOString().split('T')[0])
 
   const generateSlug = (title: string) => {
     return title
@@ -88,8 +63,8 @@ export default function NovoPostPage() {
   }
 
   const handleTitleChange = (title: string) => {
-    form.setValue('titulo', title)
-    form.setValue('slug', generateSlug(title))
+    setTitulo(title)
+    setSlug(generateSlug(title))
   }
 
   const adicionarTag = () => {
@@ -103,12 +78,33 @@ export default function NovoPostPage() {
     setTags(tags.filter((_, i) => i !== index))
   }
 
-  const onSubmit = async (data: PostFormData) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    // Validação básica
+    if (!titulo || !slug || !resumo || !conteudo || !categoria || !autor) {
+      toast({
+        title: 'Erro',
+        description: 'Preencha todos os campos obrigatórios',
+        variant: 'error'
+      })
+      return
+    }
+
     try {
       setLoading(true)
 
       await api.post('/admin/blog', {
-        ...data,
+        titulo,
+        slug,
+        resumo,
+        conteudo,
+        categoria,
+        autor,
+        imagem,
+        destaque,
+        publicado,
+        dataPublicacao,
         tags,
       })
 
@@ -123,7 +119,7 @@ export default function NovoPostPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível criar o post',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -161,7 +157,7 @@ export default function NovoPostPage() {
           <TabsTrigger value="configuracoes">Configurações</TabsTrigger>
         </TabsList>
 
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit}>
           <TabsContent value="escrever" className="space-y-4 mt-4">
             <Card>
               <CardContent className="p-6 space-y-4">
@@ -169,57 +165,39 @@ export default function NovoPostPage() {
                   <Label htmlFor="titulo">Título</Label>
                   <Input
                     id="titulo"
-                    {...form.register('titulo')}
+                    value={titulo}
                     onChange={(e) => handleTitleChange(e.target.value)}
                     placeholder="Título do post"
                   />
-                  {form.formState.errors.titulo && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.titulo.message}
-                    </p>
-                  )}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="slug">Slug</Label>
                   <Input
                     id="slug"
-                    {...form.register('slug')}
+                    value={slug}
+                    onChange={(e) => setSlug(e.target.value)}
                     placeholder="url-do-post"
                   />
-                  {form.formState.errors.slug && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.slug.message}
-                    </p>
-                  )}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="resumo">Resumo</Label>
                   <Textarea
                     id="resumo"
-                    {...form.register('resumo')}
+                    value={resumo}
+                    onChange={(e) => setResumo(e.target.value)}
                     placeholder="Breve resumo do post"
                     rows={3}
                   />
-                  {form.formState.errors.resumo && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.resumo.message}
-                    </p>
-                  )}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="conteudo">Conteúdo</Label>
                   <BlogEditor
-                    value={form.watch('conteudo')}
-                    onChange={(value) => form.setValue('conteudo', value)}
+                    value={conteudo}
+                    onChange={setConteudo}
                   />
-                  {form.formState.errors.conteudo && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.conteudo.message}
-                    </p>
-                  )}
                 </div>
               </CardContent>
             </Card>
@@ -233,22 +211,15 @@ export default function NovoPostPage() {
                     <Label htmlFor="autor">Autor</Label>
                     <Input
                       id="autor"
-                      {...form.register('autor')}
+                      value={autor}
+                      onChange={(e) => setAutor(e.target.value)}
                       placeholder="Nome do autor"
                     />
-                    {form.formState.errors.autor && (
-                      <p className="text-xs text-destructive">
-                        {form.formState.errors.autor.message}
-                      </p>
-                    )}
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="categoria">Categoria</Label>
-                    <Select
-                      value={form.watch('categoria')}
-                      onValueChange={(value) => form.setValue('categoria', value)}
-                    >
+                    <Select value={categoria} onValueChange={setCategoria}>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecione" />
                       </SelectTrigger>
@@ -262,11 +233,6 @@ export default function NovoPostPage() {
                         <SelectItem value="Tutoriais">Tutoriais</SelectItem>
                       </SelectContent>
                     </Select>
-                    {form.formState.errors.categoria && (
-                      <p className="text-xs text-destructive">
-                        {form.formState.errors.categoria.message}
-                      </p>
-                    )}
                   </div>
                 </div>
 
@@ -303,7 +269,8 @@ export default function NovoPostPage() {
                   <Label htmlFor="imagem">URL da Imagem</Label>
                   <Input
                     id="imagem"
-                    {...form.register('imagem')}
+                    value={imagem}
+                    onChange={(e) => setImagem(e.target.value)}
                     placeholder="https://..."
                   />
                 </div>
@@ -316,7 +283,8 @@ export default function NovoPostPage() {
                     <Input
                       id="dataPublicacao"
                       type="date"
-                      {...form.register('dataPublicacao')}
+                      value={dataPublicacao}
+                      onChange={(e) => setDataPublicacao(e.target.value)}
                     />
                   </div>
 
@@ -325,8 +293,8 @@ export default function NovoPostPage() {
                       <Label htmlFor="destaque" className="cursor-pointer">Post em Destaque</Label>
                       <Switch
                         id="destaque"
-                        checked={form.watch('destaque')}
-                        onCheckedChange={(checked) => form.setValue('destaque', checked)}
+                        checked={destaque}
+                        onCheckedChange={setDestaque}
                       />
                     </div>
 
@@ -334,18 +302,18 @@ export default function NovoPostPage() {
                       <Label htmlFor="publicado" className="cursor-pointer">Publicar Imediatamente</Label>
                       <Switch
                         id="publicado"
-                        checked={form.watch('publicado')}
-                        onCheckedChange={(checked) => form.setValue('publicado', checked)}
+                        checked={publicado}
+                        onCheckedChange={setPublicado}
                       />
                     </div>
                   </div>
                 </div>
 
-                {!form.watch('publicado') && form.watch('dataPublicacao') && (
+                {!publicado && dataPublicacao && (
                   <Alert>
                     <Info className="h-4 w-4" />
                     <AlertDescription>
-                      O post será agendado para {new Date(form.watch('dataPublicacao')).toLocaleDateString('pt-BR')}
+                      O post será agendado para {new Date(dataPublicacao).toLocaleDateString('pt-BR')}
                     </AlertDescription>
                   </Alert>
                 )}

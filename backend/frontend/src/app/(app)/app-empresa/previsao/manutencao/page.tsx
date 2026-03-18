@@ -19,7 +19,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
+
 import { api } from '@/lib/api'
 import { formatDate } from '@/lib/utils'
 
@@ -48,7 +48,6 @@ interface ManutencaoPrevisaoData {
 }
 
 export default function PrevisaoManutencoesPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<ManutencaoPrevisaoData | null>(null)

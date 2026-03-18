@@ -3,14 +3,9 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import { ArrowLeft, Save, RefreshCw, Star } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -21,31 +16,6 @@ import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'
 import { api } from '@/lib/api'
-
-const formSchema = z.object({
-  precoCondicoes: z.number()
-    .min(0, 'Nota deve ser entre 0 e 5')
-    .max(5, 'Nota deve ser entre 0 e 5'),
-  qualidadeServico: z.number()
-    .min(0, 'Nota deve ser entre 0 e 5')
-    .max(5, 'Nota deve ser entre 0 e 5'),
-  qualidadeEntrega: z.number()
-    .min(0, 'Nota deve ser entre 0 e 5')
-    .max(5, 'Nota deve ser entre 0 e 5'),
-  segurancaSaude: z.number()
-    .min(0, 'Nota deve ser entre 0 e 5')
-    .max(5, 'Nota deve ser entre 0 e 5'),
-  estoque: z.number()
-    .min(0, 'Nota deve ser entre 0 e 5')
-    .max(5, 'Nota deve ser entre 0 e 5'),
-  administracao: z.number()
-    .min(0, 'Nota deve ser entre 0 e 5')
-    .max(5, 'Nota deve ser entre 0 e 5'),
-  ocorrencias: z.string().optional(),
-  observacoes: z.string().optional(),
-})
-
-type FormData = z.infer<typeof formSchema>
 
 const pesos = {
   precoCondicoes: 0.20, // 20%
@@ -68,21 +38,25 @@ export default function NovaAvaliacaoPage() {
   const [centroNome, setCentroNome] = useState('')
   const [notaFinal, setNotaFinal] = useState(0)
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      precoCondicoes: 3,
-      qualidadeServico: 3,
-      qualidadeEntrega: 3,
-      segurancaSaude: 3,
-      estoque: 3,
-      administracao: 3,
-      ocorrencias: '',
-      observacoes: '',
-    }
-  })
+  // Estados do formulário
+  const [precoCondicoes, setPrecoCondicoes] = useState(3)
+  const [qualidadeServico, setQualidadeServico] = useState(3)
+  const [qualidadeEntrega, setQualidadeEntrega] = useState(3)
+  const [segurancaSaude, setSegurancaSaude] = useState(3)
+  const [estoque, setEstoque] = useState(3)
+  const [administracao, setAdministracao] = useState(3)
+  const [ocorrencias, setOcorrencias] = useState('')
+  const [observacoes, setObservacoes] = useState('')
 
-  const watchAllFields = form.watch()
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    precoCondicoes: '',
+    qualidadeServico: '',
+    qualidadeEntrega: '',
+    segurancaSaude: '',
+    estoque: '',
+    administracao: '',
+  })
 
   useEffect(() => {
     carregarCentro()
@@ -90,7 +64,7 @@ export default function NovaAvaliacaoPage() {
 
   useEffect(() => {
     calcularNotaFinal()
-  }, [watchAllFields])
+  }, [precoCondicoes, qualidadeServico, qualidadeEntrega, segurancaSaude, estoque, administracao])
 
   const carregarCentro = async () => {
     try {
@@ -104,25 +78,77 @@ export default function NovaAvaliacaoPage() {
   }
 
   const calcularNotaFinal = () => {
-    const values = form.getValues()
     let total = 0
     
-    total += values.precoCondicoes * pesos.precoCondicoes
-    total += values.qualidadeServico * pesos.qualidadeServico
-    total += values.qualidadeEntrega * pesos.qualidadeEntrega
-    total += values.segurancaSaude * pesos.segurancaSaude
-    total += values.estoque * pesos.estoque
-    total += values.administracao * pesos.administracao
+    total += precoCondicoes * pesos.precoCondicoes
+    total += qualidadeServico * pesos.qualidadeServico
+    total += qualidadeEntrega * pesos.qualidadeEntrega
+    total += segurancaSaude * pesos.segurancaSaude
+    total += estoque * pesos.estoque
+    total += administracao * pesos.administracao
 
     setNotaFinal(Number(total.toFixed(2)))
   }
 
-  const onSubmit = async (data: FormData) => {
+  const validate = () => {
+    const newErrors = {
+      precoCondicoes: '',
+      qualidadeServico: '',
+      qualidadeEntrega: '',
+      segurancaSaude: '',
+      estoque: '',
+      administracao: '',
+    }
+    let isValid = true
+
+    if (precoCondicoes < 0 || precoCondicoes > 5) {
+      newErrors.precoCondicoes = 'Nota deve ser entre 0 e 5'
+      isValid = false
+    }
+    if (qualidadeServico < 0 || qualidadeServico > 5) {
+      newErrors.qualidadeServico = 'Nota deve ser entre 0 e 5'
+      isValid = false
+    }
+    if (qualidadeEntrega < 0 || qualidadeEntrega > 5) {
+      newErrors.qualidadeEntrega = 'Nota deve ser entre 0 e 5'
+      isValid = false
+    }
+    if (segurancaSaude < 0 || segurancaSaude > 5) {
+      newErrors.segurancaSaude = 'Nota deve ser entre 0 e 5'
+      isValid = false
+    }
+    if (estoque < 0 || estoque > 5) {
+      newErrors.estoque = 'Nota deve ser entre 0 e 5'
+      isValid = false
+    }
+    if (administracao < 0 || administracao > 5) {
+      newErrors.administracao = 'Nota deve ser entre 0 e 5'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
 
       await api.post('/centros-custo/avaliacoes', {
-        ...data,
+        precoCondicoes,
+        qualidadeServico,
+        qualidadeEntrega,
+        segurancaSaude,
+        estoque,
+        administracao,
+        ocorrencias,
+        observacoes,
         centroCustoId: parseInt(id),
         avaliadorId: user?.id,
         notaFinal,
@@ -139,7 +165,7 @@ export default function NovaAvaliacaoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível registrar a avaliação',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setSaving(false)
@@ -204,7 +230,7 @@ export default function NovaAvaliacaoPage() {
         </div>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <Card>
           <CardHeader>
             <CardTitle>Avaliação do Fornecedor</CardTitle>
@@ -238,12 +264,12 @@ export default function NovaAvaliacaoPage() {
                   step="0.1"
                   min="0"
                   max="5"
-                  {...form.register('precoCondicoes', { valueAsNumber: true })}
+                  value={precoCondicoes}
+                  onChange={(e) => setPrecoCondicoes(parseFloat(e.target.value) || 0)}
+                  className={errors.precoCondicoes ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.precoCondicoes && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.precoCondicoes.message}
-                  </p>
+                {errors.precoCondicoes && (
+                  <p className="text-xs text-destructive">{errors.precoCondicoes}</p>
                 )}
               </div>
 
@@ -261,12 +287,12 @@ export default function NovaAvaliacaoPage() {
                   step="0.1"
                   min="0"
                   max="5"
-                  {...form.register('qualidadeServico', { valueAsNumber: true })}
+                  value={qualidadeServico}
+                  onChange={(e) => setQualidadeServico(parseFloat(e.target.value) || 0)}
+                  className={errors.qualidadeServico ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.qualidadeServico && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.qualidadeServico.message}
-                  </p>
+                {errors.qualidadeServico && (
+                  <p className="text-xs text-destructive">{errors.qualidadeServico}</p>
                 )}
               </div>
 
@@ -284,12 +310,12 @@ export default function NovaAvaliacaoPage() {
                   step="0.1"
                   min="0"
                   max="5"
-                  {...form.register('qualidadeEntrega', { valueAsNumber: true })}
+                  value={qualidadeEntrega}
+                  onChange={(e) => setQualidadeEntrega(parseFloat(e.target.value) || 0)}
+                  className={errors.qualidadeEntrega ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.qualidadeEntrega && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.qualidadeEntrega.message}
-                  </p>
+                {errors.qualidadeEntrega && (
+                  <p className="text-xs text-destructive">{errors.qualidadeEntrega}</p>
                 )}
               </div>
 
@@ -307,12 +333,12 @@ export default function NovaAvaliacaoPage() {
                   step="0.1"
                   min="0"
                   max="5"
-                  {...form.register('segurancaSaude', { valueAsNumber: true })}
+                  value={segurancaSaude}
+                  onChange={(e) => setSegurancaSaude(parseFloat(e.target.value) || 0)}
+                  className={errors.segurancaSaude ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.segurancaSaude && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.segurancaSaude.message}
-                  </p>
+                {errors.segurancaSaude && (
+                  <p className="text-xs text-destructive">{errors.segurancaSaude}</p>
                 )}
               </div>
 
@@ -330,12 +356,12 @@ export default function NovaAvaliacaoPage() {
                   step="0.1"
                   min="0"
                   max="5"
-                  {...form.register('estoque', { valueAsNumber: true })}
+                  value={estoque}
+                  onChange={(e) => setEstoque(parseFloat(e.target.value) || 0)}
+                  className={errors.estoque ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.estoque && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.estoque.message}
-                  </p>
+                {errors.estoque && (
+                  <p className="text-xs text-destructive">{errors.estoque}</p>
                 )}
               </div>
 
@@ -353,12 +379,12 @@ export default function NovaAvaliacaoPage() {
                   step="0.1"
                   min="0"
                   max="5"
-                  {...form.register('administracao', { valueAsNumber: true })}
+                  value={administracao}
+                  onChange={(e) => setAdministracao(parseFloat(e.target.value) || 0)}
+                  className={errors.administracao ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.administracao && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.administracao.message}
-                  </p>
+                {errors.administracao && (
+                  <p className="text-xs text-destructive">{errors.administracao}</p>
                 )}
               </div>
             </div>
@@ -369,7 +395,8 @@ export default function NovaAvaliacaoPage() {
               <Label htmlFor="ocorrencias">Ocorrências (afetam a nota)</Label>
               <Textarea
                 id="ocorrencias"
-                {...form.register('ocorrencias')}
+                value={ocorrencias}
+                onChange={(e) => setOcorrencias(e.target.value)}
                 placeholder="Descreva ocorrências que impactaram negativamente..."
                 rows={3}
               />
@@ -382,7 +409,8 @@ export default function NovaAvaliacaoPage() {
               <Label htmlFor="observacoes">Observações Gerais</Label>
               <Textarea
                 id="observacoes"
-                {...form.register('observacoes')}
+                value={observacoes}
+                onChange={(e) => setObservacoes(e.target.value)}
                 placeholder="Observações adicionais sobre a avaliação..."
                 rows={3}
               />

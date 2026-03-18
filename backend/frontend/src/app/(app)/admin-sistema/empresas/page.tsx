@@ -135,7 +135,7 @@ export default function EmpresasPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as empresas',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -164,7 +164,7 @@ export default function EmpresasPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a empresa',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -182,7 +182,7 @@ export default function EmpresasPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

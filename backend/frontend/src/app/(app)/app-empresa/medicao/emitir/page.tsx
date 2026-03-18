@@ -2,9 +2,6 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { motion } from 'framer-motion'
 import {
   ArrowLeft,
@@ -25,25 +22,9 @@ import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
 
-const equipamentoSchema = z.object({
-  equipamentoId: z.number().int().positive(),
-  horasTrabalhadas: z.number().positive('Horas deve ser maior que zero')
-})
-
-const medicaoSchema = z.object({
-  titulo: z.string().min(1, 'Título é obrigatório'),
-  obraId: z.number().int().positive('Selecione uma obra'),
-  periodoInicio: z.string().min(1, 'Data inicial é obrigatória'),
-  periodoFim: z.string().min(1, 'Data final é obrigatória'),
-  observacoes: z.string().optional(),
-  modeloId: z.number().int().optional()
-})
-
-type MedicaoFormData = z.infer<typeof medicaoSchema>
 type EquipamentoItem = {
   equipamentoId: number
   equipamentoTag: string
@@ -77,10 +58,9 @@ function EmitirMedicaoPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const medicaoId = searchParams.get('id')
-  const { user } = useAuth()
   const { toast } = useToast()
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)  // Agora usado no Skeleton
   const [saving, setSaving] = useState(false)
   const [obras, setObras] = useState<Obra[]>([])
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([])
@@ -89,18 +69,21 @@ function EmitirMedicaoPage() {
   const [equipamentoSelecionado, setEquipamentoSelecionado] = useState<string>('')
   const [horasInput, setHorasInput] = useState<string>('')
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    reset
-  } = useForm<MedicaoFormData>({
-    resolver: zodResolver(medicaoSchema)
-  })
+  // Estados do formulário
+  const [titulo, setTitulo] = useState('')
+  const [obraId, setObraId] = useState<number | null>(null)
+  const [periodoInicio, setPeriodoInicio] = useState('')
+  const [periodoFim, setPeriodoFim] = useState('')
+  const [observacoes, setObservacoes] = useState('')
+  const [modeloId, setModeloId] = useState<number | null>(null)
 
-  const obraId = watch('obraId')
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    titulo: '',
+    obraId: '',
+    periodoInicio: '',
+    periodoFim: '',
+  })
 
   useEffect(() => {
     carregarDados()
@@ -122,8 +105,8 @@ function EmitirMedicaoPage() {
         api.get('/obras', { params: { limit: 100, status: 'ativa' } }),
         api.get('/medicao/modelos')
       ])
-      setObras(obrasRes.data.obras)
-      setModelos(modelosRes.data.data)
+      setObras(obrasRes.data.obras || [])
+      setModelos(modelosRes.data.data || [])
     } catch (error) {
       console.error('Erro ao carregar dados:', error)
     } finally {
@@ -136,23 +119,21 @@ function EmitirMedicaoPage() {
       const response = await api.get(`/medicao/${medicaoId}`)
       const medicao = response.data.data
       
-      reset({
-        titulo: medicao.titulo,
-        obraId: medicao.obraId,
-        periodoInicio: medicao.periodoInicio.split('T')[0],
-        periodoFim: medicao.periodoFim.split('T')[0],
-        observacoes: medicao.observacoes || '',
-        modeloId: medicao.modeloId
-      })
+      setTitulo(medicao.titulo || '')
+      setObraId(medicao.obraId || null)
+      setPeriodoInicio(medicao.periodoInicio?.split('T')[0] || '')
+      setPeriodoFim(medicao.periodoFim?.split('T')[0] || '')
+      setObservacoes(medicao.observacoes || '')
+      setModeloId(medicao.modeloId || null)
 
-      setItens(medicao.equipamentos.map((eq: any) => ({
+      setItens(medicao.equipamentos?.map((eq: any) => ({
         equipamentoId: eq.equipamento.id,
         equipamentoTag: eq.equipamento.tag,
         equipamentoNome: eq.equipamento.nome,
         horasTrabalhadas: eq.horasTrabalhadas,
         valorUnitario: eq.valorUnitario,
         valorTotal: eq.valorTotal
-      })))
+      })) || [])
     } catch (error) {
       toast({
         title: 'Erro ao carregar medição',
@@ -167,7 +148,7 @@ function EmitirMedicaoPage() {
       const response = await api.get('/equipamentos', {
         params: { obraId, status: 'disponivel,em_uso' }
       })
-      setEquipamentos(response.data.equipamentos)
+      setEquipamentos(response.data.equipamentos || [])
     } catch (error) {
       console.error('Erro ao carregar equipamentos:', error)
     }
@@ -228,7 +209,46 @@ function EmitirMedicaoPage() {
     return { horasTotal, valorTotal }
   }
 
-  const onSubmit = async (data: MedicaoFormData) => {
+  const validate = () => {
+    const newErrors = {
+      titulo: '',
+      obraId: '',
+      periodoInicio: '',
+      periodoFim: '',
+    }
+    let isValid = true
+
+    if (!titulo) {
+      newErrors.titulo = 'Título é obrigatório'
+      isValid = false
+    }
+
+    if (!obraId) {
+      newErrors.obraId = 'Selecione uma obra'
+      isValid = false
+    }
+
+    if (!periodoInicio) {
+      newErrors.periodoInicio = 'Data inicial é obrigatória'
+      isValid = false
+    }
+
+    if (!periodoFim) {
+      newErrors.periodoFim = 'Data final é obrigatória'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     if (itens.length === 0) {
       toast({
         title: 'Nenhum equipamento',
@@ -242,7 +262,12 @@ function EmitirMedicaoPage() {
       setSaving(true)
       
       const payload = {
-        ...data,
+        titulo,
+        obraId,
+        periodoInicio,
+        periodoFim,
+        observacoes: observacoes || null,
+        modeloId: modeloId || null,
         equipamentos: itens.map(item => ({
           equipamentoId: item.equipamentoId,
           horasTrabalhadas: item.horasTrabalhadas,
@@ -279,6 +304,25 @@ function EmitirMedicaoPage() {
 
   const { horasTotal, valorTotal } = calcularTotais()
 
+  // Skeleton de loading
+  if (loading) {
+    return (
+      <>
+        <Sidebar />
+        <main className="flex-1 overflow-y-auto bg-background">
+          <Header title="Carregando..." />
+          <Container size="xl" className="py-8">
+            <div className="space-y-6">
+              <div className="h-8 w-48 bg-muted rounded animate-pulse" />
+              <div className="h-64 bg-muted rounded-lg animate-pulse" />
+              <div className="h-64 bg-muted rounded-lg animate-pulse" />
+            </div>
+          </Container>
+        </main>
+      </>
+    )
+  }
+
   return (
     <>
       <Sidebar />
@@ -301,7 +345,7 @@ function EmitirMedicaoPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={onSubmit} className="space-y-6">
               {/* Dados da Medição */}
               <Card>
                 <CardHeader>
@@ -316,12 +360,13 @@ function EmitirMedicaoPage() {
                       <Label htmlFor="titulo">Título *</Label>
                       <Input
                         id="titulo"
-                        {...register('titulo')}
+                        value={titulo}
+                        onChange={(e) => setTitulo(e.target.value)}
                         placeholder="Ex: Medição de Fevereiro/2024"
-                        error={!!errors.titulo}
+                        className={errors.titulo ? 'border-destructive' : ''}
                       />
                       {errors.titulo && (
-                        <p className="text-sm text-destructive">{errors.titulo.message}</p>
+                        <p className="text-sm text-destructive">{errors.titulo}</p>
                       )}
                     </div>
 
@@ -329,9 +374,9 @@ function EmitirMedicaoPage() {
                       <Label htmlFor="obraId">Obra *</Label>
                       <Select
                         value={obraId?.toString() || ''}
-                        onValueChange={(value) => setValue('obraId', parseInt(value))}
+                        onValueChange={(value) => setObraId(value ? parseInt(value) : null)}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className={errors.obraId ? 'border-destructive' : ''}>
                           <SelectValue placeholder="Selecione a obra" />
                         </SelectTrigger>
                         <SelectContent>
@@ -343,7 +388,7 @@ function EmitirMedicaoPage() {
                         </SelectContent>
                       </Select>
                       {errors.obraId && (
-                        <p className="text-sm text-destructive">{errors.obraId.message}</p>
+                        <p className="text-sm text-destructive">{errors.obraId}</p>
                       )}
                     </div>
 
@@ -352,11 +397,12 @@ function EmitirMedicaoPage() {
                       <Input
                         id="periodoInicio"
                         type="date"
-                        {...register('periodoInicio')}
-                        error={!!errors.periodoInicio}
+                        value={periodoInicio}
+                        onChange={(e) => setPeriodoInicio(e.target.value)}
+                        className={errors.periodoInicio ? 'border-destructive' : ''}
                       />
                       {errors.periodoInicio && (
-                        <p className="text-sm text-destructive">{errors.periodoInicio.message}</p>
+                        <p className="text-sm text-destructive">{errors.periodoInicio}</p>
                       )}
                     </div>
 
@@ -365,19 +411,20 @@ function EmitirMedicaoPage() {
                       <Input
                         id="periodoFim"
                         type="date"
-                        {...register('periodoFim')}
-                        error={!!errors.periodoFim}
+                        value={periodoFim}
+                        onChange={(e) => setPeriodoFim(e.target.value)}
+                        className={errors.periodoFim ? 'border-destructive' : ''}
                       />
                       {errors.periodoFim && (
-                        <p className="text-sm text-destructive">{errors.periodoFim.message}</p>
+                        <p className="text-sm text-destructive">{errors.periodoFim}</p>
                       )}
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="modeloId">Modelo (opcional)</Label>
                       <Select
-                        value={watch('modeloId')?.toString() || ''}
-                        onValueChange={(value) => setValue('modeloId', value ? parseInt(value) : undefined)}
+                        value={modeloId?.toString() || ''}
+                        onValueChange={(value) => setModeloId(value ? parseInt(value) : null)}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Selecione um modelo" />
@@ -396,7 +443,8 @@ function EmitirMedicaoPage() {
                       <Label htmlFor="observacoes">Observações</Label>
                       <Textarea
                         id="observacoes"
-                        {...register('observacoes')}
+                        value={observacoes}
+                        onChange={(e) => setObservacoes(e.target.value)}
                         placeholder="Observações adicionais sobre a medição..."
                         className="min-h-[100px]"
                       />
@@ -539,9 +587,14 @@ function EmitirMedicaoPage() {
     </>
   )
 }
+
 export default function EmitirMedicaoPageWrapper() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" /></div>}>
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+      </div>
+    }>
       <EmitirMedicaoPage />
     </Suspense>
   )

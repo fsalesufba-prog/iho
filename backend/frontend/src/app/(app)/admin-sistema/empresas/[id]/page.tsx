@@ -25,7 +25,7 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-
+import { Skeleton } from '@/components/ui/Skeleton'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
@@ -146,7 +146,7 @@ export default function EmpresaDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes da empresa',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -168,7 +168,7 @@ export default function EmpresaDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a empresa',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

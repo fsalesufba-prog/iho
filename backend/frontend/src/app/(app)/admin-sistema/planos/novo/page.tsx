@@ -3,10 +3,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import {
   ArrowLeft,
   Save,
@@ -16,52 +12,44 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Textarea } from '@/components/ui/Textarea'
-
 import { Switch } from '@/components/ui/Switch'
-
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-
-const planoSchema = z.object({
-  nome: z.string().min(1, 'Nome é obrigatório'),
-  descricao: z.string().min(1, 'Descrição é obrigatória'),
-  valorImplantacao: z.number().min(0, 'Valor deve ser maior ou igual a 0'),
-  valorMensal: z.number().min(0, 'Valor deve ser maior ou igual a 0'),
-  limiteAdm: z.number().min(0, 'Limite deve ser maior ou igual a 0'),
-  limiteControlador: z.number().min(0, 'Limite deve ser maior ou igual a 0'),
-  limiteApontador: z.number().min(0, 'Limite deve ser maior ou igual a 0'),
-  limiteEquipamentos: z.number().min(0, 'Limite deve ser maior ou igual a 0'),
-  status: z.enum(['ativo', 'inativo']).default('ativo'),
-})
-
-type PlanoFormData = z.infer<typeof planoSchema>
 
 export default function NovoPlanoPage() {
   const router = useRouter()
   const { toast } = useToast()
 
   const [saving, setSaving] = useState(false)
+  
+  // Estados do formulário
+  const [nome, setNome] = useState('')
+  const [descricao, setDescricao] = useState('')
+  const [valorImplantacao, setValorImplantacao] = useState(3000)
+  const [valorMensal, setValorMensal] = useState(0)
+  const [limiteAdm, setLimiteAdm] = useState(1)
+  const [limiteControlador, setLimiteControlador] = useState(2)
+  const [limiteApontador, setLimiteApontador] = useState(2)
+  const [limiteEquipamentos, setLimiteEquipamentos] = useState(25)
+  const [status, setStatus] = useState('ativo')
+
   const [recursos, setRecursos] = useState<string[]>([])
   const [novoRecurso, setNovoRecurso] = useState('')
 
-  const form = useForm<PlanoFormData>({
-    resolver: zodResolver(planoSchema),
-    defaultValues: {
-      nome: '',
-      descricao: '',
-      valorImplantacao: 3000,
-      valorMensal: 0,
-      limiteAdm: 1,
-      limiteControlador: 2,
-      limiteApontador: 2,
-      limiteEquipamentos: 25,
-      status: 'ativo',
-    }
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    nome: '',
+    descricao: '',
+    valorImplantacao: '',
+    valorMensal: '',
+    limiteAdm: '',
+    limiteControlador: '',
+    limiteApontador: '',
+    limiteEquipamentos: '',
   })
 
   const adicionarRecurso = () => {
@@ -75,12 +63,76 @@ export default function NovoPlanoPage() {
     setRecursos(recursos.filter((_, i) => i !== index))
   }
 
-  const onSubmit = async (data: PlanoFormData) => {
+  const validate = () => {
+    const newErrors = {
+      nome: '',
+      descricao: '',
+      valorImplantacao: '',
+      valorMensal: '',
+      limiteAdm: '',
+      limiteControlador: '',
+      limiteApontador: '',
+      limiteEquipamentos: '',
+    }
+    let isValid = true
+
+    if (!nome) {
+      newErrors.nome = 'Nome é obrigatório'
+      isValid = false
+    }
+    if (!descricao) {
+      newErrors.descricao = 'Descrição é obrigatória'
+      isValid = false
+    }
+    if (valorImplantacao < 0) {
+      newErrors.valorImplantacao = 'Valor deve ser maior ou igual a 0'
+      isValid = false
+    }
+    if (valorMensal < 0) {
+      newErrors.valorMensal = 'Valor deve ser maior ou igual a 0'
+      isValid = false
+    }
+    if (limiteAdm < 0) {
+      newErrors.limiteAdm = 'Limite deve ser maior ou igual a 0'
+      isValid = false
+    }
+    if (limiteControlador < 0) {
+      newErrors.limiteControlador = 'Limite deve ser maior ou igual a 0'
+      isValid = false
+    }
+    if (limiteApontador < 0) {
+      newErrors.limiteApontador = 'Limite deve ser maior ou igual a 0'
+      isValid = false
+    }
+    if (limiteEquipamentos < 0) {
+      newErrors.limiteEquipamentos = 'Limite deve ser maior ou igual a 0'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
 
       await api.post('/planos', {
-        ...data,
+        nome,
+        descricao,
+        valorImplantacao,
+        valorMensal,
+        limiteAdm,
+        limiteControlador,
+        limiteApontador,
+        limiteEquipamentos,
+        status,
         recursos: JSON.stringify(recursos),
       })
 
@@ -95,7 +147,7 @@ export default function NovoPlanoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível criar o plano',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setSaving(false)
@@ -127,7 +179,7 @@ export default function NovoPlanoPage() {
         </div>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit}>
         <Card>
           <CardHeader>
             <CardTitle>Informações do Plano</CardTitle>
@@ -137,13 +189,12 @@ export default function NovoPlanoPage() {
               <Label htmlFor="nome">Nome do Plano</Label>
               <Input
                 id="nome"
-                {...form.register('nome')}
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
                 placeholder="Ex: Start, Pro, Enterprise..."
               />
-              {form.formState.errors.nome && (
-                <p className="text-xs text-destructive">
-                  {form.formState.errors.nome.message}
-                </p>
+              {errors.nome && (
+                <p className="text-xs text-destructive">{errors.nome}</p>
               )}
             </div>
 
@@ -151,14 +202,13 @@ export default function NovoPlanoPage() {
               <Label htmlFor="descricao">Descrição</Label>
               <Textarea
                 id="descricao"
-                {...form.register('descricao')}
+                value={descricao}
+                onChange={(e) => setDescricao(e.target.value)}
                 placeholder="Descrição do plano"
                 rows={3}
               />
-              {form.formState.errors.descricao && (
-                <p className="text-xs text-destructive">
-                  {form.formState.errors.descricao.message}
-                </p>
+              {errors.descricao && (
+                <p className="text-xs text-destructive">{errors.descricao}</p>
               )}
             </div>
 
@@ -169,12 +219,11 @@ export default function NovoPlanoPage() {
                   id="valorImplantacao"
                   type="number"
                   step="0.01"
-                  {...form.register('valorImplantacao', { valueAsNumber: true })}
+                  value={valorImplantacao}
+                  onChange={(e) => setValorImplantacao(parseFloat(e.target.value) || 0)}
                 />
-                {form.formState.errors.valorImplantacao && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.valorImplantacao.message}
-                  </p>
+                {errors.valorImplantacao && (
+                  <p className="text-xs text-destructive">{errors.valorImplantacao}</p>
                 )}
               </div>
 
@@ -184,12 +233,11 @@ export default function NovoPlanoPage() {
                   id="valorMensal"
                   type="number"
                   step="0.01"
-                  {...form.register('valorMensal', { valueAsNumber: true })}
+                  value={valorMensal}
+                  onChange={(e) => setValorMensal(parseFloat(e.target.value) || 0)}
                 />
-                {form.formState.errors.valorMensal && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.valorMensal.message}
-                  </p>
+                {errors.valorMensal && (
+                  <p className="text-xs text-destructive">{errors.valorMensal}</p>
                 )}
               </div>
             </div>
@@ -202,12 +250,11 @@ export default function NovoPlanoPage() {
                   <Input
                     id="limiteAdm"
                     type="number"
-                    {...form.register('limiteAdm', { valueAsNumber: true })}
+                    value={limiteAdm}
+                    onChange={(e) => setLimiteAdm(parseInt(e.target.value) || 0)}
                   />
-                  {form.formState.errors.limiteAdm && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.limiteAdm.message}
-                    </p>
+                  {errors.limiteAdm && (
+                    <p className="text-xs text-destructive">{errors.limiteAdm}</p>
                   )}
                 </div>
 
@@ -216,12 +263,11 @@ export default function NovoPlanoPage() {
                   <Input
                     id="limiteControlador"
                     type="number"
-                    {...form.register('limiteControlador', { valueAsNumber: true })}
+                    value={limiteControlador}
+                    onChange={(e) => setLimiteControlador(parseInt(e.target.value) || 0)}
                   />
-                  {form.formState.errors.limiteControlador && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.limiteControlador.message}
-                    </p>
+                  {errors.limiteControlador && (
+                    <p className="text-xs text-destructive">{errors.limiteControlador}</p>
                   )}
                 </div>
 
@@ -230,12 +276,11 @@ export default function NovoPlanoPage() {
                   <Input
                     id="limiteApontador"
                     type="number"
-                    {...form.register('limiteApontador', { valueAsNumber: true })}
+                    value={limiteApontador}
+                    onChange={(e) => setLimiteApontador(parseInt(e.target.value) || 0)}
                   />
-                  {form.formState.errors.limiteApontador && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.limiteApontador.message}
-                    </p>
+                  {errors.limiteApontador && (
+                    <p className="text-xs text-destructive">{errors.limiteApontador}</p>
                   )}
                 </div>
 
@@ -244,12 +289,11 @@ export default function NovoPlanoPage() {
                   <Input
                     id="limiteEquipamentos"
                     type="number"
-                    {...form.register('limiteEquipamentos', { valueAsNumber: true })}
+                    value={limiteEquipamentos}
+                    onChange={(e) => setLimiteEquipamentos(parseInt(e.target.value) || 0)}
                   />
-                  {form.formState.errors.limiteEquipamentos && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.limiteEquipamentos.message}
-                    </p>
+                  {errors.limiteEquipamentos && (
+                    <p className="text-xs text-destructive">{errors.limiteEquipamentos}</p>
                   )}
                 </div>
               </div>
@@ -295,8 +339,8 @@ export default function NovoPlanoPage() {
             <div className="flex items-center space-x-2 pt-4">
               <Switch
                 id="status"
-                checked={form.watch('status') === 'ativo'}
-                onCheckedChange={(checked) => form.setValue('status', checked ? 'ativo' : 'inativo')}
+                checked={status === 'ativo'}
+                onCheckedChange={(checked) => setStatus(checked ? 'ativo' : 'inativo')}
               />
               <Label htmlFor="status" className="font-medium">
                 Plano ativo

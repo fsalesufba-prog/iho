@@ -97,7 +97,7 @@ function PagamentoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as informações do plano',
-        variant: 'destructive'
+        variant: 'error'
       })
       router.push('/planos')
     } finally {
@@ -141,7 +141,7 @@ function PagamentoPage() {
         toast({
           title: 'Atenção',
           description: 'Selecione um método de pagamento',
-          variant: 'destructive'
+          variant: 'error'
         })
       }
     }
@@ -156,7 +156,7 @@ function PagamentoPage() {
       toast({
         title: 'Atenção',
         description: 'Você precisa aceitar os termos de uso',
-        variant: 'destructive'
+        variant: 'error'
       })
       return
     }
@@ -186,7 +186,7 @@ function PagamentoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível processar o pagamento',
-        variant: 'destructive'
+        variant: 'error'
       })
       setProcessing(false)
     }

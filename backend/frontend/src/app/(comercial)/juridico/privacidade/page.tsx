@@ -107,10 +107,11 @@ export default function PrivacidadePage() {
     },
     {
       titulo: '10. Encarregado de Dados (DPO)',
-      conteudo: `Para questões relacionadas à privacidade e proteção de dados, entre em contato com nosss Encarregada:`,
+      conteudo: `Para questões relacionadas à privacidade e proteção de dados, entre em contato com nossa Encarregada:`,
       contato: {
         nome: 'Fernanda Sales',
         email: 'contato@sqtecnologiadainformacao.com',
+        telefone: '(71) 98260-7352',
         endereco: 'Salvador, BA'
       }
     }

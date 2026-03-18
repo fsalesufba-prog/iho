@@ -11,6 +11,7 @@ import {
   Download,
   RefreshCw,
   Truck,
+  Minus
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -22,7 +23,6 @@ import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatDate } from '@/lib/utils'
 
@@ -71,7 +71,6 @@ interface MTBFMTTRData {
 
 export default function MtbfMttrEquipamentoPage() {
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<MTBFMTTRData | null>(null)

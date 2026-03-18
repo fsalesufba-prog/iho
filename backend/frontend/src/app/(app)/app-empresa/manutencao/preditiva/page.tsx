@@ -83,7 +83,7 @@ export default function ManutencaoPreditivaPage() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFiltro, setStatusFiltro] = useState<string>('todos')
-  const [confiabilidadeFiltro, setConfiabilidadeFiltro] = useState<string>('todos')
+  const [confiabilidadeFiltro] = useState<string>('todos')
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [selectedManutencao, setSelectedManutencao] = useState<ManutencaoPreditiva | null>(null)

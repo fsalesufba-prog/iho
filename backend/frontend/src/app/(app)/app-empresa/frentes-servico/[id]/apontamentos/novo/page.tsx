@@ -3,14 +3,9 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import { ArrowLeft, Save, RefreshCw } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -22,26 +17,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/Select'
-
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'
 import { api } from '@/lib/api'
-
-const apontamentoSchema = z.object({
-  data: z.string().min(1, 'Data é obrigatória'),
-  equipamentoId: z.string().min(1, 'Equipamento é obrigatório'),
-  operadorId: z.string().optional(),
-  horasInicial: z.number().min(0, 'Horas iniciais devem ser maior ou igual a 0'),
-  horasFinal: z.number().min(0, 'Horas finais devem ser maior ou igual a 0'),
-  combustivelLitros: z.number().min(0).optional(),
-  observacoes: z.string().optional(),
-}).refine((data) => data.horasFinal > data.horasInicial, {
-  message: "Horas finais devem ser maiores que horas iniciais",
-  path: ["horasFinal"],
-})
-
-type ApontamentoFormData = z.infer<typeof apontamentoSchema>
 
 export default function NovoApontamentoPage() {
   const params = useParams()
@@ -56,21 +35,23 @@ export default function NovoApontamentoPage() {
   const [operadores, setOperadores] = useState<any[]>([])
   const [frenteNome, setFrenteNome] = useState('')
 
-  const form = useForm<ApontamentoFormData>({
-    resolver: zodResolver(apontamentoSchema),
-    defaultValues: {
-      data: new Date().toISOString().split('T')[0],
-      equipamentoId: '',
-      operadorId: '',
-      horasInicial: 0,
-      horasFinal: 0,
-      combustivelLitros: 0,
-      observacoes: '',
-    }
+  // Estados do formulário
+  const [data, setData] = useState(new Date().toISOString().split('T')[0])
+  const [equipamentoId, setEquipamentoId] = useState('')
+  const [operadorId, setOperadorId] = useState('')
+  const [horasInicial, setHorasInicial] = useState(0)
+  const [horasFinal, setHorasFinal] = useState(0)
+  const [combustivelLitros, setCombustivelLitros] = useState(0)
+  const [observacoes, setObservacoes] = useState('')
+
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    data: '',
+    equipamentoId: '',
+    horasInicial: '',
+    horasFinal: '',
   })
 
-  const horasInicial = form.watch('horasInicial')
-  const horasFinal = form.watch('horasFinal')
   const horasTrabalhadas = horasFinal - horasInicial
 
   useEffect(() => {
@@ -90,30 +71,78 @@ export default function NovoApontamentoPage() {
       ])
 
       setFrenteNome(frenteRes.data.nome)
-      setEquipamentos(equipamentosRes.data.data)
-      setOperadores(operadoresRes.data.data)
+      setEquipamentos(equipamentosRes.data.data || [])
+      setOperadores(operadoresRes.data.data || [])
     } catch (error) {
       console.error('Erro ao carregar dados:', error)
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os dados',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
     }
   }
 
-  const onSubmit = async (data: ApontamentoFormData) => {
+  const validate = () => {
+    const newErrors = {
+      data: '',
+      equipamentoId: '',
+      horasInicial: '',
+      horasFinal: '',
+    }
+    let isValid = true
+
+    if (!data) {
+      newErrors.data = 'Data é obrigatória'
+      isValid = false
+    }
+
+    if (!equipamentoId) {
+      newErrors.equipamentoId = 'Equipamento é obrigatório'
+      isValid = false
+    }
+
+    if (horasInicial < 0) {
+      newErrors.horasInicial = 'Horas iniciais devem ser maior ou igual a 0'
+      isValid = false
+    }
+
+    if (horasFinal < 0) {
+      newErrors.horasFinal = 'Horas finais devem ser maior ou igual a 0'
+      isValid = false
+    }
+
+    if (horasFinal <= horasInicial) {
+      newErrors.horasFinal = 'Horas finais devem ser maiores que horas iniciais'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
 
       await api.post('/apontamentos', {
-        ...data,
+        data,
         frenteId: parseInt(id),
+        equipamentoId: parseInt(equipamentoId),
+        operadorId: operadorId ? parseInt(operadorId) : null,
+        horasInicial,
+        horasFinal,
         horasTrabalhadas,
-        equipamentoId: parseInt(data.equipamentoId),
-        operadorId: data.operadorId ? parseInt(data.operadorId) : null,
+        combustivelLitros: combustivelLitros || 0,
+        observacoes: observacoes || null,
       })
 
       toast({
@@ -127,7 +156,7 @@ export default function NovoApontamentoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível registrar o apontamento',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setSaving(false)
@@ -186,7 +215,7 @@ export default function NovoApontamentoPage() {
         </div>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <Card>
           <CardHeader>
             <CardTitle>Informações do Apontamento</CardTitle>
@@ -197,23 +226,20 @@ export default function NovoApontamentoPage() {
               <Input
                 id="data"
                 type="date"
-                {...form.register('data')}
+                value={data}
+                onChange={(e) => setData(e.target.value)}
+                className={errors.data ? 'border-destructive' : ''}
               />
-              {form.formState.errors.data && (
-                <p className="text-xs text-destructive">
-                  {form.formState.errors.data.message}
-                </p>
+              {errors.data && (
+                <p className="text-xs text-destructive">{errors.data}</p>
               )}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="equipamentoId">Equipamento</Label>
-                <Select
-                  value={form.watch('equipamentoId')}
-                  onValueChange={(value) => form.setValue('equipamentoId', value)}
-                >
-                  <SelectTrigger>
+                <Select value={equipamentoId} onValueChange={setEquipamentoId}>
+                  <SelectTrigger className={errors.equipamentoId ? 'border-destructive' : ''}>
                     <SelectValue placeholder="Selecione" />
                   </SelectTrigger>
                   <SelectContent>
@@ -224,19 +250,14 @@ export default function NovoApontamentoPage() {
                     ))}
                   </SelectContent>
                 </Select>
-                {form.formState.errors.equipamentoId && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.equipamentoId.message}
-                  </p>
+                {errors.equipamentoId && (
+                  <p className="text-xs text-destructive">{errors.equipamentoId}</p>
                 )}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="operadorId">Operador</Label>
-                <Select
-                  value={form.watch('operadorId')}
-                  onValueChange={(value) => form.setValue('operadorId', value)}
-                >
+                <Select value={operadorId} onValueChange={setOperadorId}>
                   <SelectTrigger>
                     <SelectValue placeholder="Opcional" />
                   </SelectTrigger>
@@ -258,12 +279,12 @@ export default function NovoApontamentoPage() {
                 <Input
                   id="horasInicial"
                   type="number"
-                  {...form.register('horasInicial', { valueAsNumber: true })}
+                  value={horasInicial}
+                  onChange={(e) => setHorasInicial(parseInt(e.target.value) || 0)}
+                  className={errors.horasInicial ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.horasInicial && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.horasInicial.message}
-                  </p>
+                {errors.horasInicial && (
+                  <p className="text-xs text-destructive">{errors.horasInicial}</p>
                 )}
               </div>
 
@@ -272,12 +293,12 @@ export default function NovoApontamentoPage() {
                 <Input
                   id="horasFinal"
                   type="number"
-                  {...form.register('horasFinal', { valueAsNumber: true })}
+                  value={horasFinal}
+                  onChange={(e) => setHorasFinal(parseInt(e.target.value) || 0)}
+                  className={errors.horasFinal ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.horasFinal && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.horasFinal.message}
-                  </p>
+                {errors.horasFinal && (
+                  <p className="text-xs text-destructive">{errors.horasFinal}</p>
                 )}
               </div>
             </div>
@@ -296,7 +317,8 @@ export default function NovoApontamentoPage() {
                 id="combustivelLitros"
                 type="number"
                 step="0.1"
-                {...form.register('combustivelLitros', { valueAsNumber: true })}
+                value={combustivelLitros}
+                onChange={(e) => setCombustivelLitros(parseFloat(e.target.value) || 0)}
               />
               <p className="text-xs text-muted-foreground">
                 Opcional - quantidade de combustível abastecida/utilizada
@@ -307,7 +329,8 @@ export default function NovoApontamentoPage() {
               <Label htmlFor="observacoes">Observações</Label>
               <Textarea
                 id="observacoes"
-                {...form.register('observacoes')}
+                value={observacoes}
+                onChange={(e) => setObservacoes(e.target.value)}
                 placeholder="Observações sobre o apontamento..."
                 rows={4}
               />

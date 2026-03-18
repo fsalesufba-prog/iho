@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
 import {
   ArrowLeft,
   Edit,
@@ -104,7 +103,7 @@ export default function UsuarioDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes do usuário',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -126,7 +125,7 @@ export default function UsuarioDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -145,7 +144,7 @@ export default function UsuarioDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível resetar a senha',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -165,7 +164,7 @@ export default function UsuarioDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o usuário',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

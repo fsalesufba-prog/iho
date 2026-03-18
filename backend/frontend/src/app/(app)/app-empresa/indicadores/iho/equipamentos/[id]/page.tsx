@@ -27,7 +27,6 @@ import { Badge } from '@/components/ui/Badge'
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatDate } from '@/lib/utils'
 
@@ -63,7 +62,6 @@ interface IHOData {
 
 export default function IhoEquipamentoPage() {
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<IHOData | null>(null)

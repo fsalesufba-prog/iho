@@ -24,7 +24,6 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency, formatDate, formatDateTime } from '@/lib/utils'
 
@@ -81,7 +80,6 @@ interface Medicao {
 
 export default function DetalheHistoricoMedicaoPage() {
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [medicao, setMedicao] = useState<Medicao | null>(null)

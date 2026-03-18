@@ -29,10 +29,10 @@ import {
 } from '@/components/ui/Dialog'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatDateTime } from '@/lib/utils'
-
+import { Header } from '@/components/app/Header'
+import { Sidebar } from '@/components/app/Sidebar'
 interface AlertaEstoque {
   id: number
   titulo: string
@@ -57,7 +57,6 @@ interface AlertaEstoque {
 
 export default function DetalheAlertaEstoquePage() {
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [alerta, setAlerta] = useState<AlertaEstoque | null>(null)

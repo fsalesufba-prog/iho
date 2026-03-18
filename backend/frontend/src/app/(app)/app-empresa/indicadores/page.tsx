@@ -14,6 +14,7 @@ import {
   RefreshCw,
   Calendar,
   Zap,
+  Minus
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -25,7 +26,6 @@ import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
 
@@ -130,7 +130,6 @@ interface DashboardData {
 }
 
 export default function IndicadoresPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(true)

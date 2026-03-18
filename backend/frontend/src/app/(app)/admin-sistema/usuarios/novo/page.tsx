@@ -3,10 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import {
   ArrowLeft,
   Save,
@@ -17,7 +13,6 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -30,29 +25,11 @@ import {
 } from '@/components/ui/Select'
 import { Switch } from '@/components/ui/Switch'
 import { Alert, AlertDescription } from '@/components/ui/Alert'
-
 import { Progress } from '@/components/ui/Progress'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
 import { masks } from '@/lib/masks'
-
 import { cn } from '@/lib/utils'
-
-const usuarioSchema = z.object({
-  nome: z.string().min(1, 'Nome é obrigatório'),
-  email: z.string().email('E-mail inválido'),
-  telefone: z.string().min(10, 'Telefone inválido').optional(),
-  tipo: z.enum(['adm_sistema', 'adm_empresa', 'controlador', 'apontador']),
-  empresaId: z.string().optional(),
-  senha: z.string().min(6, 'Senha deve ter no mínimo 6 caracteres'),
-  confirmarSenha: z.string().min(6, 'Confirme a senha'),
-  ativo: z.boolean().default(true),
-}).refine((data) => data.senha === data.confirmarSenha, {
-  message: "As senhas não conferem",
-  path: ["confirmarSenha"],
-})
-
-type UsuarioFormData = z.infer<typeof usuarioSchema>
 
 export default function NovoUsuarioPage() {
   const router = useRouter()
@@ -64,22 +41,26 @@ export default function NovoUsuarioPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [forcaSenha, setForcaSenha] = useState(0)
 
-  const form = useForm<UsuarioFormData>({
-    resolver: zodResolver(usuarioSchema),
-    defaultValues: {
-      nome: '',
-      email: '',
-      telefone: '',
-      tipo: 'apontador',
-      empresaId: '',
-      senha: '',
-      confirmarSenha: '',
-      ativo: true,
-    }
-  })
+  // Estados do formulário
+  const [nome, setNome] = useState('')
+  const [email, setEmail] = useState('')
+  const [telefone, setTelefone] = useState('')
+  const [tipo, setTipo] = useState('apontador')
+  const [empresaId, setEmpresaId] = useState('')
+  const [senha, setSenha] = useState('')
+  const [confirmarSenha, setConfirmarSenha] = useState('')
+  const [ativo, setAtivo] = useState(true)
 
-  const tipoSelecionado = form.watch('tipo')
-  const senha = form.watch('senha')
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    nome: '',
+    email: '',
+    telefone: '',
+    tipo: '',
+    empresaId: '',
+    senha: '',
+    confirmarSenha: '',
+  })
 
   useEffect(() => {
     carregarEmpresas()
@@ -105,13 +86,73 @@ export default function NovoUsuarioPage() {
     }
   }
 
-  const onSubmit = async (data: UsuarioFormData) => {
+  const validate = () => {
+    const newErrors = {
+      nome: '',
+      email: '',
+      telefone: '',
+      tipo: '',
+      empresaId: '',
+      senha: '',
+      confirmarSenha: '',
+    }
+    let isValid = true
+
+    if (!nome) {
+      newErrors.nome = 'Nome é obrigatório'
+      isValid = false
+    }
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'E-mail inválido'
+      isValid = false
+    }
+
+    if (!tipo) {
+      newErrors.tipo = 'Tipo é obrigatório'
+      isValid = false
+    }
+
+    if (tipo !== 'adm_sistema' && !empresaId) {
+      newErrors.empresaId = 'Empresa é obrigatória'
+      isValid = false
+    }
+
+    if (!senha) {
+      newErrors.senha = 'Senha é obrigatória'
+      isValid = false
+    } else if (senha.length < 6) {
+      newErrors.senha = 'Senha deve ter no mínimo 6 caracteres'
+      isValid = false
+    }
+
+    if (senha !== confirmarSenha) {
+      newErrors.confirmarSenha = 'As senhas não conferem'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setLoading(true)
 
       const payload = {
-        ...data,
-        empresaId: data.empresaId ? parseInt(data.empresaId) : null,
+        nome,
+        email,
+        telefone: telefone.replace(/\D/g, ''),
+        tipo,
+        empresaId: tipo !== 'adm_sistema' ? parseInt(empresaId) : null,
+        senha,
+        ativo,
       }
 
       await api.post('/usuarios', payload)
@@ -127,7 +168,7 @@ export default function NovoUsuarioPage() {
       toast({
         title: 'Erro',
         description: error.response?.data?.message || 'Não foi possível criar o usuário',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -168,7 +209,7 @@ export default function NovoUsuarioPage() {
         </div>
       </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <Card>
           <CardHeader>
             <CardTitle>Informações do Usuário</CardTitle>
@@ -178,13 +219,12 @@ export default function NovoUsuarioPage() {
               <Label htmlFor="nome">Nome Completo</Label>
               <Input
                 id="nome"
-                {...form.register('nome')}
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
                 placeholder="Nome do usuário"
               />
-              {form.formState.errors.nome && (
-                <p className="text-xs text-destructive">
-                  {form.formState.errors.nome.message}
-                </p>
+              {errors.nome && (
+                <p className="text-xs text-destructive">{errors.nome}</p>
               )}
             </div>
 
@@ -194,13 +234,12 @@ export default function NovoUsuarioPage() {
                 <Input
                   id="email"
                   type="email"
-                  {...form.register('email')}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="usuario@email.com"
                 />
-                {form.formState.errors.email && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.email.message}
-                  </p>
+                {errors.email && (
+                  <p className="text-xs text-destructive">{errors.email}</p>
                 )}
               </div>
 
@@ -208,8 +247,8 @@ export default function NovoUsuarioPage() {
                 <Label htmlFor="telefone">Telefone</Label>
                 <Input
                   id="telefone"
-                  {...form.register('telefone')}
-                  onChange={(e) => form.setValue('telefone', masks.phone(e.target.value))}
+                  value={telefone}
+                  onChange={(e) => setTelefone(masks.phone(e.target.value))}
                   placeholder="(00) 00000-0000"
                   maxLength={15}
                 />
@@ -219,10 +258,7 @@ export default function NovoUsuarioPage() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="tipo">Tipo de Usuário</Label>
-                <Select
-                  value={form.watch('tipo')}
-                  onValueChange={(value: any) => form.setValue('tipo', value)}
-                >
+                <Select value={tipo} onValueChange={setTipo}>
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione" />
                   </SelectTrigger>
@@ -233,20 +269,15 @@ export default function NovoUsuarioPage() {
                     <SelectItem value="apontador">Apontador</SelectItem>
                   </SelectContent>
                 </Select>
-                {form.formState.errors.tipo && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.tipo.message}
-                  </p>
+                {errors.tipo && (
+                  <p className="text-xs text-destructive">{errors.tipo}</p>
                 )}
               </div>
 
-              {tipoSelecionado !== 'adm_sistema' && (
+              {tipo !== 'adm_sistema' && (
                 <div className="space-y-2">
                   <Label htmlFor="empresaId">Empresa</Label>
-                  <Select
-                    value={form.watch('empresaId')}
-                    onValueChange={(value) => form.setValue('empresaId', value)}
-                  >
+                  <Select value={empresaId} onValueChange={setEmpresaId}>
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione uma empresa" />
                     </SelectTrigger>
@@ -258,10 +289,8 @@ export default function NovoUsuarioPage() {
                       ))}
                     </SelectContent>
                   </Select>
-                  {form.formState.errors.empresaId && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.empresaId.message}
-                    </p>
+                  {errors.empresaId && (
+                    <p className="text-xs text-destructive">{errors.empresaId}</p>
                   )}
                 </div>
               )}
@@ -274,7 +303,8 @@ export default function NovoUsuarioPage() {
                   <Input
                     id="senha"
                     type={showPassword ? 'text' : 'password'}
-                    {...form.register('senha')}
+                    value={senha}
+                    onChange={(e) => setSenha(e.target.value)}
                     placeholder="••••••••"
                   />
                   <button
@@ -285,10 +315,8 @@ export default function NovoUsuarioPage() {
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
-                {form.formState.errors.senha && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.senha.message}
-                  </p>
+                {errors.senha && (
+                  <p className="text-xs text-destructive">{errors.senha}</p>
                 )}
 
                 {senha.length > 0 && (
@@ -310,7 +338,8 @@ export default function NovoUsuarioPage() {
                   <Input
                     id="confirmarSenha"
                     type={showConfirmPassword ? 'text' : 'password'}
-                    {...form.register('confirmarSenha')}
+                    value={confirmarSenha}
+                    onChange={(e) => setConfirmarSenha(e.target.value)}
                     placeholder="••••••••"
                   />
                   <button
@@ -321,10 +350,8 @@ export default function NovoUsuarioPage() {
                     {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
-                {form.formState.errors.confirmarSenha && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.confirmarSenha.message}
-                  </p>
+                {errors.confirmarSenha && (
+                  <p className="text-xs text-destructive">{errors.confirmarSenha}</p>
                 )}
               </div>
             </div>
@@ -332,8 +359,8 @@ export default function NovoUsuarioPage() {
             <div className="flex items-center space-x-2 pt-4">
               <Switch
                 id="ativo"
-                checked={form.watch('ativo')}
-                onCheckedChange={(checked) => form.setValue('ativo', checked)}
+                checked={ativo}
+                onCheckedChange={setAtivo}
               />
               <Label htmlFor="ativo" className="font-medium">
                 Usuário ativo

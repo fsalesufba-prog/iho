@@ -32,13 +32,11 @@ import {
 } from '@/components/ui/Card'
 import { Alert, AlertDescription } from '@/components/ui/Alert'
 import { Badge } from '@/components/ui/Badge'
-import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'
 
 function LoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { toast } = useToast()
   const { login } = useAuth()
 
   const [email, setEmail] = useState('')
@@ -49,7 +47,6 @@ function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
 
-  const from = searchParams.get('from') || '/app-empresa/dashboard'
   const registered = searchParams.get('registered')
   const reset = searchParams.get('reset')
 

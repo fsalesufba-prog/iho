@@ -21,7 +21,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 interface ClasseData {
@@ -44,7 +43,6 @@ interface ClasseData {
 
 export default function IhoClassePage() {
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<ClasseData | null>(null)
@@ -52,14 +50,21 @@ export default function IhoClassePage() {
   const [periodo, setPeriodo] = useState('30')
   const [refreshing, setRefreshing] = useState(false)
 
+  // Converte params.tipo para string (pode ser string ou string[])
+  const tipo = Array.isArray(params.tipo) ? params.tipo[0] : params.tipo
+
   useEffect(() => {
-    carregarDados()
-  }, [params.tipo, periodo])
+    if (tipo) {
+      carregarDados()
+    }
+  }, [tipo, periodo])
 
   const carregarDados = async () => {
+    if (!tipo) return
+    
     try {
       setLoading(true)
-      const response = await api.get(`/indicadores/iho/classes/${encodeURIComponent(params.tipo)}`, {
+      const response = await api.get(`/indicadores/iho/classes/${encodeURIComponent(tipo)}`, {
         params: { periodo }
       })
       setData(response.data.data)
@@ -105,7 +110,7 @@ export default function IhoClassePage() {
     )
   }
 
-  if (!data) {
+  if (!data || !tipo) {
     return (
       <>
         <Sidebar />

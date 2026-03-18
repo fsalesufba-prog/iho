@@ -133,7 +133,7 @@ export default function ObrasPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as obras',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -174,7 +174,7 @@ export default function ObrasPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a obra',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

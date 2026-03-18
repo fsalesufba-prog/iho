@@ -148,7 +148,7 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os posts',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -187,7 +187,7 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o post',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -205,7 +205,7 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o destaque',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -224,14 +224,15 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar a publicação',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
 
   const handleDuplicar = async (post: Post) => {
     try {
-      const { id, visualizacoes, likes, comentarios, createdAt, updatedAt, ...postData } = post
+      const { id, visualizacoes, likes, comentarios, createdAt, updatedAt, dataPublicacao, ...postData } = post
+
       await api.post('/admin/blog', {
         ...postData,
         titulo: `${post.titulo} (cópia)`,
@@ -248,17 +249,23 @@ export default function BlogAdminPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível duplicar o post',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
 
   const getStatusBadge = (publicado: boolean, dataPublicacao?: string) => {
     if (publicado) {
+      // Verifica se é uma publicação futura (programada)
+      const isProgramado = dataPublicacao && new Date(dataPublicacao) > new Date()
+
       return (
-        <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+        <Badge className={isProgramado
+          ? "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300"
+          : "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+        }>
           <CheckCircle className="h-3 w-3 mr-1" />
-          Publicado
+          {isProgramado ? 'Programado' : 'Publicado'}
         </Badge>
       )
     }

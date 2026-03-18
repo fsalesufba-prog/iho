@@ -153,7 +153,7 @@ export default function CentrosCustoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os centros de custo',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -194,7 +194,7 @@ export default function CentrosCustoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o centro de custo',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

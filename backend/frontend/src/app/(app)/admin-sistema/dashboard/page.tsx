@@ -117,7 +117,7 @@ export default function AdminDashboardPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o dashboard',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)

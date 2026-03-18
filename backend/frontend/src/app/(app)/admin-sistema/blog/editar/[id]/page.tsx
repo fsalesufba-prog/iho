@@ -3,10 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import {
   ArrowLeft,
   Save,
@@ -17,7 +13,6 @@ import {
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-
 import { Card, CardContent } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -37,24 +32,7 @@ import { Separator } from '@/components/ui/Separator'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
-
 import { BlogEditor } from '@/components/blog/BlogEditor'
-import Image from 'next/image'
-
-const postSchema = z.object({
-  titulo: z.string().min(1, 'Título é obrigatório'),
-  slug: z.string().min(1, 'Slug é obrigatório'),
-  resumo: z.string().min(1, 'Resumo é obrigatório'),
-  conteudo: z.string().min(1, 'Conteúdo é obrigatório'),
-  categoria: z.string().min(1, 'Categoria é obrigatória'),
-  autor: z.string().min(1, 'Autor é obrigatório'),
-  imagem: z.string().optional(),
-  destaque: z.boolean().default(false),
-  publicado: z.boolean().default(false),
-  dataPublicacao: z.string().optional(),
-})
-
-type PostFormData = z.infer<typeof postSchema>
 
 export default function EditarPostPage() {
   const params = useParams()
@@ -64,24 +42,29 @@ export default function EditarPostPage() {
 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  const [tags, setTags] = useState<string[]>([])
-  const [novaTag, setNovaTag] = useState('')
   const [activeTab, setActiveTab] = useState('escrever')
 
-  const form = useForm<PostFormData>({
-    resolver: zodResolver(postSchema),
-    defaultValues: {
-      titulo: '',
-      slug: '',
-      resumo: '',
-      conteudo: '',
-      categoria: '',
-      autor: '',
-      imagem: '',
-      destaque: false,
-      publicado: false,
-      dataPublicacao: '',
-    }
+  // Estados do formulário
+  const [titulo, setTitulo] = useState('')
+  const [slug, setSlug] = useState('')
+  const [resumo, setResumo] = useState('')
+  const [conteudo, setConteudo] = useState('')
+  const [categoria, setCategoria] = useState('')
+  const [autor, setAutor] = useState('')
+  const [imagem, setImagem] = useState('')
+  const [destaque, setDestaque] = useState(false)
+  const [publicado, setPublicado] = useState(false)
+  const [dataPublicacao, setDataPublicacao] = useState('')
+  const [tags, setTags] = useState<string[]>([])
+  const [novaTag, setNovaTag] = useState('')
+
+  const [errors, setErrors] = useState({
+    titulo: '',
+    slug: '',
+    resumo: '',
+    conteudo: '',
+    categoria: '',
+    autor: '',
   })
 
   useEffect(() => {
@@ -94,26 +77,23 @@ export default function EditarPostPage() {
       const response = await api.get(`/admin/blog/${id}`)
       const post = response.data
 
-      form.reset({
-        titulo: post.titulo,
-        slug: post.slug,
-        resumo: post.resumo,
-        conteudo: post.conteudo,
-        categoria: post.categoria,
-        autor: post.autor,
-                imagem: post.imagem || '',
-        destaque: post.destaque,
-        publicado: post.publicado,
-        dataPublicacao: post.dataPublicacao?.split('T')[0] || '',
-      })
-
+      setTitulo(post.titulo || '')
+      setSlug(post.slug || '')
+      setResumo(post.resumo || '')
+      setConteudo(post.conteudo || '')
+      setCategoria(post.categoria || '')
+      setAutor(post.autor || '')
+      setImagem(post.imagem || '')
+      setDestaque(post.destaque || false)
+      setPublicado(post.publicado || false)
+      setDataPublicacao(post.dataPublicacao?.split('T')[0] || '')
       setTags(post.tags || [])
     } catch (error) {
       console.error('Erro ao carregar post:', error)
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o post',
-        variant: 'destructive'
+        variant: 'error'
       })
       router.push('/admin-sistema/blog')
     } finally {
@@ -131,8 +111,8 @@ export default function EditarPostPage() {
   }
 
   const handleTitleChange = (title: string) => {
-    form.setValue('titulo', title)
-    form.setValue('slug', generateSlug(title))
+    setTitulo(title)
+    setSlug(generateSlug(title))
   }
 
   const adicionarTag = () => {
@@ -146,12 +126,72 @@ export default function EditarPostPage() {
     setTags(tags.filter((_, i) => i !== index))
   }
 
-  const onSubmit = async (data: PostFormData) => {
+  const validate = () => {
+    const newErrors = {
+      titulo: '',
+      slug: '',
+      resumo: '',
+      conteudo: '',
+      categoria: '',
+      autor: '',
+    }
+    let isValid = true
+
+    if (!titulo) {
+      newErrors.titulo = 'Título é obrigatório'
+      isValid = false
+    }
+    if (!slug) {
+      newErrors.slug = 'Slug é obrigatório'
+      isValid = false
+    }
+    if (!resumo) {
+      newErrors.resumo = 'Resumo é obrigatório'
+      isValid = false
+    }
+    if (!conteudo) {
+      newErrors.conteudo = 'Conteúdo é obrigatório'
+      isValid = false
+    }
+    if (!categoria) {
+      newErrors.categoria = 'Categoria é obrigatória'
+      isValid = false
+    }
+    if (!autor) {
+      newErrors.autor = 'Autor é obrigatório'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      toast({
+        title: 'Erro',
+        description: 'Preencha todos os campos obrigatórios',
+        variant: 'error'
+      })
+      return
+    }
+
     try {
       setSaving(true)
 
       await api.put(`/admin/blog/${id}`, {
-        ...data,
+        titulo,
+        slug,
+        resumo,
+        conteudo,
+        categoria,
+        autor,
+        imagem,
+        destaque,
+        publicado,
+        dataPublicacao,
         tags,
       })
 
@@ -166,7 +206,7 @@ export default function EditarPostPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível atualizar o post',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setSaving(false)
@@ -214,9 +254,7 @@ export default function EditarPostPage() {
 
         <div>
           <h1 className="text-3xl font-bold">Editar Post</h1>
-          <p className="text-muted-foreground">
-            {form.watch('titulo')}
-          </p>
+          <p className="text-muted-foreground">{titulo}</p>
         </div>
       </div>
 
@@ -226,7 +264,7 @@ export default function EditarPostPage() {
           <TabsTrigger value="configuracoes">Configurações</TabsTrigger>
         </TabsList>
 
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit}>
           <TabsContent value="escrever" className="space-y-4 mt-4">
             <Card>
               <CardContent className="p-6 space-y-4">
@@ -234,14 +272,12 @@ export default function EditarPostPage() {
                   <Label htmlFor="titulo">Título</Label>
                   <Input
                     id="titulo"
-                    {...form.register('titulo')}
+                    value={titulo}
                     onChange={(e) => handleTitleChange(e.target.value)}
                     placeholder="Título do post"
                   />
-                  {form.formState.errors.titulo && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.titulo.message}
-                    </p>
+                  {errors.titulo && (
+                    <p className="text-xs text-destructive">{errors.titulo}</p>
                   )}
                 </div>
 
@@ -249,13 +285,12 @@ export default function EditarPostPage() {
                   <Label htmlFor="slug">Slug</Label>
                   <Input
                     id="slug"
-                    {...form.register('slug')}
+                    value={slug}
+                    onChange={(e) => setSlug(e.target.value)}
                     placeholder="url-do-post"
                   />
-                  {form.formState.errors.slug && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.slug.message}
-                    </p>
+                  {errors.slug && (
+                    <p className="text-xs text-destructive">{errors.slug}</p>
                   )}
                 </div>
 
@@ -263,27 +298,24 @@ export default function EditarPostPage() {
                   <Label htmlFor="resumo">Resumo</Label>
                   <Textarea
                     id="resumo"
-                    {...form.register('resumo')}
+                    value={resumo}
+                    onChange={(e) => setResumo(e.target.value)}
                     placeholder="Breve resumo do post"
                     rows={3}
                   />
-                  {form.formState.errors.resumo && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.resumo.message}
-                    </p>
+                  {errors.resumo && (
+                    <p className="text-xs text-destructive">{errors.resumo}</p>
                   )}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="conteudo">Conteúdo</Label>
                   <BlogEditor
-                    value={form.watch('conteudo')}
-                    onChange={(value) => form.setValue('conteudo', value)}
+                    value={conteudo}
+                    onChange={setConteudo}
                   />
-                  {form.formState.errors.conteudo && (
-                    <p className="text-xs text-destructive">
-                      {form.formState.errors.conteudo.message}
-                    </p>
+                  {errors.conteudo && (
+                    <p className="text-xs text-destructive">{errors.conteudo}</p>
                   )}
                 </div>
               </CardContent>
@@ -298,22 +330,18 @@ export default function EditarPostPage() {
                     <Label htmlFor="autor">Autor</Label>
                     <Input
                       id="autor"
-                      {...form.register('autor')}
+                      value={autor}
+                      onChange={(e) => setAutor(e.target.value)}
                       placeholder="Nome do autor"
                     />
-                    {form.formState.errors.autor && (
-                      <p className="text-xs text-destructive">
-                        {form.formState.errors.autor.message}
-                      </p>
+                    {errors.autor && (
+                      <p className="text-xs text-destructive">{errors.autor}</p>
                     )}
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="categoria">Categoria</Label>
-                    <Select
-                      value={form.watch('categoria')}
-                      onValueChange={(value) => form.setValue('categoria', value)}
-                    >
+                    <Select value={categoria} onValueChange={setCategoria}>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecione" />
                       </SelectTrigger>
@@ -327,10 +355,8 @@ export default function EditarPostPage() {
                         <SelectItem value="Tutoriais">Tutoriais</SelectItem>
                       </SelectContent>
                     </Select>
-                    {form.formState.errors.categoria && (
-                      <p className="text-xs text-destructive">
-                        {form.formState.errors.categoria.message}
-                      </p>
+                    {errors.categoria && (
+                      <p className="text-xs text-destructive">{errors.categoria}</p>
                     )}
                   </div>
                 </div>
@@ -368,7 +394,8 @@ export default function EditarPostPage() {
                   <Label htmlFor="imagem">URL da Imagem</Label>
                   <Input
                     id="imagem"
-                    {...form.register('imagem')}
+                    value={imagem}
+                    onChange={(e) => setImagem(e.target.value)}
                     placeholder="https://..."
                   />
                 </div>
@@ -381,7 +408,8 @@ export default function EditarPostPage() {
                     <Input
                       id="dataPublicacao"
                       type="date"
-                      {...form.register('dataPublicacao')}
+                      value={dataPublicacao}
+                      onChange={(e) => setDataPublicacao(e.target.value)}
                     />
                   </div>
 
@@ -390,8 +418,8 @@ export default function EditarPostPage() {
                       <Label htmlFor="destaque" className="cursor-pointer">Post em Destaque</Label>
                       <Switch
                         id="destaque"
-                        checked={form.watch('destaque')}
-                        onCheckedChange={(checked) => form.setValue('destaque', checked)}
+                        checked={destaque}
+                        onCheckedChange={setDestaque}
                       />
                     </div>
 
@@ -399,18 +427,18 @@ export default function EditarPostPage() {
                       <Label htmlFor="publicado" className="cursor-pointer">Publicado</Label>
                       <Switch
                         id="publicado"
-                        checked={form.watch('publicado')}
-                        onCheckedChange={(checked) => form.setValue('publicado', checked)}
+                        checked={publicado}
+                        onCheckedChange={setPublicado}
                       />
                     </div>
                   </div>
                 </div>
 
-                {!form.watch('publicado') && form.watch('dataPublicacao') && (
+                {!publicado && dataPublicacao && (
                   <Alert>
                     <Info className="h-4 w-4" />
                     <AlertDescription>
-                      O post será agendado para {new Date(form.watch('dataPublicacao')).toLocaleDateString('pt-BR')}
+                      O post será agendado para {new Date(dataPublicacao).toLocaleDateString('pt-BR')}
                     </AlertDescription>
                   </Alert>
                 )}

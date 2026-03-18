@@ -16,7 +16,6 @@ import {
   Calendar,
   CreditCard,
   QrCode,
-  Barcode,
   FileText,
   Sparkles,
 } from 'lucide-react'
@@ -26,7 +25,7 @@ import { Container } from '@/components/common/Container'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Input } from '@/components/ui/Input'
-
+import { Label } from '@/components/ui/Label'
 import { useToast } from '@/components/hooks/useToast'
 import { api } from '@/lib/api'
 import { cn } from '@/lib/utils'
@@ -55,7 +54,6 @@ function PagamentoDetalhePage() {
   const [copied, setCopied] = useState(false)
   const [tempoRestante, setTempoRestante] = useState<string>('')
 
-  const tipo = searchParams.get('tipo') || 'pix'
   const statusParam = searchParams.get('status')
 
   useEffect(() => {
@@ -73,6 +71,7 @@ function PagamentoDetalhePage() {
 
       return () => clearInterval(intervalo)
     }
+    return undefined
   }, [pagamento?.id, pagamento?.status])
 
   useEffect(() => {
@@ -96,6 +95,7 @@ function PagamentoDetalhePage() {
       const timer = setInterval(atualizarTimer, 1000)
       return () => clearInterval(timer)
     }
+    return undefined
   }, [pagamento?.dataVencimento, pagamento?.metodo])
 
   const carregarPagamento = async (id: number) => {
@@ -108,7 +108,7 @@ function PagamentoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as informações do pagamento',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -289,7 +289,7 @@ function PagamentoDetalhePage() {
           <div className="text-center">
             <Badge className="mb-4 px-4 py-2">
               {pagamento.metodo === 'pix' && <QrCode className="h-4 w-4 mr-2" />}
-              {pagamento.metodo === 'boleto' && <Barcode className="h-4 w-4 mr-2" />}
+              {pagamento.metodo === 'boleto' && <FileText className="h-4 w-4 mr-2" />}
               {pagamento.metodo === 'cartao' && <CreditCard className="h-4 w-4 mr-2" />}
               Pagamento via {pagamento.metodo === 'pix' ? 'PIX' : 
                              pagamento.metodo === 'boleto' ? 'Boleto' : 'Cartão'}
@@ -403,7 +403,7 @@ function PagamentoDetalhePage() {
               <CardContent className="p-6 space-y-6">
                 {/* Código de Barras */}
                 <div className="text-center p-6 bg-muted rounded-lg">
-                  <Barcode className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+                  <FileText className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
                   
                   {pagamento.linhaDigitavel && (
                     <div className="space-y-2">
@@ -501,6 +501,7 @@ function PagamentoDetalhePage() {
     </div>
   )
 }
+
 export default function PagamentoDetalhePageWrapper() {
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" /></div>}>

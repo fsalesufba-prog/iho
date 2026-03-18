@@ -3,14 +3,9 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import { ArrowLeft, Save, RefreshCw } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
@@ -23,26 +18,11 @@ import {
   SelectValue,
 } from '@/components/ui/Select'
 import { Switch } from '@/components/ui/Switch'
-
 import { Skeleton } from '@/components/ui/Skeleton'
 import { useToast } from '@/components/hooks/useToast'
 import { useAuth } from '@/components/hooks/useAuth'
 import { api } from '@/lib/api'
 import { masks } from '@/lib/masks'
-
-const formSchema = z.object({
-  nome: z.string().min(1, 'Nome é obrigatório'),
-  codigo: z.string().min(1, 'Código é obrigatório'),
-  obraId: z.string().optional(),
-  contato: z.string().optional(),
-  telefone: z.string().optional(),
-  email: z.string().email('E-mail inválido').optional().or(z.literal('')),
-  endereco: z.string().optional(),
-  observacoes: z.string().optional(),
-  ativo: z.boolean().default(true),
-})
-
-type FormData = z.infer<typeof formSchema>
 
 export default function EditarCentroCustoPage() {
   const params = useParams()
@@ -55,19 +35,22 @@ export default function EditarCentroCustoPage() {
   const [saving, setSaving] = useState(false)
   const [obras, setObras] = useState<any[]>([])
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      nome: '',
-      codigo: '',
-      obraId: '',
-      contato: '',
-      telefone: '',
-      email: '',
-      endereco: '',
-      observacoes: '',
-      ativo: true,
-    }
+  // Estados do formulário
+  const [nome, setNome] = useState('')
+  const [codigo, setCodigo] = useState('')
+  const [obraId, setObraId] = useState('')
+  const [contato, setContato] = useState('')
+  const [telefone, setTelefone] = useState('')
+  const [email, setEmail] = useState('')
+  const [endereco, setEndereco] = useState('')
+  const [observacoes, setObservacoes] = useState('')
+  const [ativo, setAtivo] = useState(true)
+
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    nome: '',
+    codigo: '',
+    email: '',
   })
 
   useEffect(() => {
@@ -91,23 +74,21 @@ export default function EditarCentroCustoPage() {
       const response = await api.get(`/centros-custo/${id}`)
       const centro = response.data
 
-      form.reset({
-        nome: centro.nome,
-        codigo: centro.codigo,
-        obraId: centro.obraId?.toString() || '',
-        contato: centro.contato || '',
-        telefone: centro.telefone || '',
-        email: centro.email || '',
-        endereco: centro.endereco || '',
-        observacoes: centro.observacoes || '',
-        ativo: centro.status === 'ativo',
-      })
+      setNome(centro.nome || '')
+      setCodigo(centro.codigo || '')
+      setObraId(centro.obraId?.toString() || '')
+      setContato(centro.contato || '')
+      setTelefone(centro.telefone || '')
+      setEmail(centro.email || '')
+      setEndereco(centro.endereco || '')
+      setObservacoes(centro.observacoes || '')
+      setAtivo(centro.status === 'ativo')
     } catch (error) {
       console.error('Erro ao carregar centro de custo:', error)
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar o centro de custo',
-        variant: 'destructive'
+        variant: 'error'
       })
       router.push('/app-empresa/centros-custo')
     } finally {
@@ -115,14 +96,53 @@ export default function EditarCentroCustoPage() {
     }
   }
 
-  const onSubmit = async (data: FormData) => {
+  const validate = () => {
+    const newErrors = {
+      nome: '',
+      codigo: '',
+      email: '',
+    }
+    let isValid = true
+
+    if (!nome) {
+      newErrors.nome = 'Nome é obrigatório'
+      isValid = false
+    }
+
+    if (!codigo) {
+      newErrors.codigo = 'Código é obrigatório'
+      isValid = false
+    }
+
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'E-mail inválido'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
 
       await api.put(`/centros-custo/${id}`, {
-        ...data,
-        obraId: data.obraId ? parseInt(data.obraId) : null,
-        status: data.ativo ? 'ativo' : 'inativo'
+        nome,
+        codigo,
+        obraId: obraId ? parseInt(obraId) : null,
+        contato,
+        telefone,
+        email,
+        endereco,
+        observacoes,
+        status: ativo ? 'ativo' : 'inativo'
       })
 
       toast({
@@ -136,7 +156,7 @@ export default function EditarCentroCustoPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível atualizar o centro de custo',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setSaving(false)
@@ -187,13 +207,11 @@ export default function EditarCentroCustoPage() {
 
         <div>
           <h1 className="text-3xl font-bold">Editar Centro de Custo</h1>
-          <p className="text-muted-foreground">
-            {form.watch('nome')}
-          </p>
+          <p className="text-muted-foreground">{nome}</p>
         </div>
-            </div>
+      </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmit}>
         <Card>
           <CardHeader>
             <CardTitle>Informações do Centro de Custo</CardTitle>
@@ -204,13 +222,13 @@ export default function EditarCentroCustoPage() {
                 <Label htmlFor="nome">Nome / Razão Social</Label>
                 <Input
                   id="nome"
-                  {...form.register('nome')}
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
                   placeholder="Nome do fornecedor"
+                  className={errors.nome ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.nome && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.nome.message}
-                  </p>
+                {errors.nome && (
+                  <p className="text-xs text-destructive">{errors.nome}</p>
                 )}
               </div>
 
@@ -218,23 +236,20 @@ export default function EditarCentroCustoPage() {
                 <Label htmlFor="codigo">Código</Label>
                 <Input
                   id="codigo"
-                  {...form.register('codigo')}
+                  value={codigo}
+                  onChange={(e) => setCodigo(e.target.value)}
                   placeholder="Ex: FORN-001"
+                  className={errors.codigo ? 'border-destructive' : ''}
                 />
-                {form.formState.errors.codigo && (
-                  <p className="text-xs text-destructive">
-                    {form.formState.errors.codigo.message}
-                  </p>
+                {errors.codigo && (
+                  <p className="text-xs text-destructive">{errors.codigo}</p>
                 )}
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="obraId">Obra (opcional)</Label>
-              <Select
-                value={form.watch('obraId')}
-                onValueChange={(value) => form.setValue('obraId', value)}
-              >
+              <Select value={obraId} onValueChange={setObraId}>
                 <SelectTrigger>
                   <SelectValue placeholder="Selecione uma obra" />
                 </SelectTrigger>
@@ -254,7 +269,8 @@ export default function EditarCentroCustoPage() {
                 <Label htmlFor="contato">Nome do Contato</Label>
                 <Input
                   id="contato"
-                  {...form.register('contato')}
+                  value={contato}
+                  onChange={(e) => setContato(e.target.value)}
                   placeholder="Pessoa de contato"
                 />
               </div>
@@ -263,8 +279,8 @@ export default function EditarCentroCustoPage() {
                 <Label htmlFor="telefone">Telefone</Label>
                 <Input
                   id="telefone"
-                  {...form.register('telefone')}
-                  onChange={(e) => form.setValue('telefone', masks.phone(e.target.value))}
+                  value={telefone}
+                  onChange={(e) => setTelefone(masks.phone(e.target.value))}
                   placeholder="(00) 00000-0000"
                   maxLength={15}
                 />
@@ -276,13 +292,13 @@ export default function EditarCentroCustoPage() {
               <Input
                 id="email"
                 type="email"
-                {...form.register('email')}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="contato@fornecedor.com"
+                className={errors.email ? 'border-destructive' : ''}
               />
-              {form.formState.errors.email && (
-                <p className="text-xs text-destructive">
-                  {form.formState.errors.email.message}
-                </p>
+              {errors.email && (
+                <p className="text-xs text-destructive">{errors.email}</p>
               )}
             </div>
 
@@ -290,7 +306,8 @@ export default function EditarCentroCustoPage() {
               <Label htmlFor="endereco">Endereço</Label>
               <Input
                 id="endereco"
-                {...form.register('endereco')}
+                value={endereco}
+                onChange={(e) => setEndereco(e.target.value)}
                 placeholder="Endereço completo"
               />
             </div>
@@ -299,7 +316,8 @@ export default function EditarCentroCustoPage() {
               <Label htmlFor="observacoes">Observações</Label>
               <Textarea
                 id="observacoes"
-                {...form.register('observacoes')}
+                value={observacoes}
+                onChange={(e) => setObservacoes(e.target.value)}
                 placeholder="Observações adicionais..."
                 rows={4}
               />
@@ -308,8 +326,8 @@ export default function EditarCentroCustoPage() {
             <div className="flex items-center space-x-2">
               <Switch
                 id="ativo"
-                checked={form.watch('ativo')}
-                onCheckedChange={(checked) => form.setValue('ativo', checked)}
+                checked={ativo}
+                onCheckedChange={setAtivo}
               />
               <Label htmlFor="ativo">Centro de custo ativo</Label>
             </div>

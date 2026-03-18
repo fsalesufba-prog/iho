@@ -36,7 +36,6 @@ import {
 } from '@/components/ui/Dialog'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatDateTime } from '@/lib/utils'
 
@@ -81,7 +80,6 @@ interface DashboardData {
 }
 
 export default function AlertasPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<DashboardData | null>(null)

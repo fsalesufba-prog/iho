@@ -20,7 +20,6 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency, formatDateTime } from '@/lib/utils'
 
@@ -53,7 +52,6 @@ interface Movimentacao {
 
 export default function DetalheMovimentacaoPage() {
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [movimentacao, setMovimentacao] = useState<Movimentacao | null>(null)

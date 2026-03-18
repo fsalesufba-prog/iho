@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from 'next'
+import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
 import './globals.css'
 import './(comercial)/globals-comercial.css'
@@ -18,16 +18,6 @@ const poppins = Poppins({
   variable: '--font-poppins',
   display: 'swap',
 })
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#0ea5e9' },
-    { media: '(prefers-color-scheme: dark)', color: '#0284c7' },
-  ],
-}
 
 export const metadata: Metadata = {
   title: {

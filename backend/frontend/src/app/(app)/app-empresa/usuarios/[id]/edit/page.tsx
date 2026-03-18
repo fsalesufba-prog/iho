@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Save, User, Shield } from 'lucide-react'
 
@@ -21,17 +18,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
-const usuarioSchema = z.object({
-  nome: z.string().min(3, 'Nome deve ter pelo menos 3 caracteres'),
-  email: z.string().email('Email inválido'),
-  telefone: z.string().optional(),
-  cargo: z.string().optional(),
-  departamento: z.string().optional(),
-  tipo: z.enum(['adm_empresa', 'controlador', 'apontador']),
-  ativo: z.boolean()
-})
-
-type UsuarioFormData = z.infer<typeof usuarioSchema>
+type TipoUsuario = 'adm_empresa' | 'controlador' | 'apontador'
 
 export default function EditarUsuarioPage() {
   const router = useRouter()
@@ -39,25 +26,24 @@ export default function EditarUsuarioPage() {
   const { user } = useAuth()
   const { toast } = useToast()
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    reset
-  } = useForm<UsuarioFormData>({
-    resolver: zodResolver(usuarioSchema),
-    defaultValues: {
-      ativo: true
-    }
-  })
+  // Estados do formulário
+  const [nome, setNome] = useState('')
+  const [email, setEmail] = useState('')
+  const [telefone, setTelefone] = useState('')
+  const [cargo, setCargo] = useState('')
+  const [departamento, setDepartamento] = useState('')
+  const [tipo, setTipo] = useState<TipoUsuario>('apontador')
+  const [ativo, setAtivo] = useState(true)
 
-  const tipo = watch('tipo')
-  const ativo = watch('ativo')
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    nome: '',
+    email: '',
+    tipo: '',
+  })
 
   useEffect(() => {
     carregarUsuario()
@@ -69,15 +55,13 @@ export default function EditarUsuarioPage() {
       const response = await api.get(`/usuarios/${params.id}`)
       const usuario = response.data
 
-      reset({
-        nome: usuario.nome,
-        email: usuario.email,
-        telefone: usuario.telefone || '',
-        cargo: usuario.cargo || '',
-        departamento: usuario.departamento || '',
-        tipo: usuario.tipo,
-        ativo: usuario.ativo
-      })
+      setNome(usuario.nome || '')
+      setEmail(usuario.email || '')
+      setTelefone(usuario.telefone || '')
+      setCargo(usuario.cargo || '')
+      setDepartamento(usuario.departamento || '')
+      setTipo(usuario.tipo || 'apontador')
+      setAtivo(usuario.ativo ?? true)
     } catch (error) {
       toast({
         title: 'Erro ao carregar usuário',
@@ -89,7 +73,36 @@ export default function EditarUsuarioPage() {
     }
   }
 
-  const onSubmit = async (data: UsuarioFormData) => {
+  const validate = () => {
+    const newErrors = {
+      nome: '',
+      email: '',
+      tipo: '',
+    }
+    let isValid = true
+
+    if (!nome || nome.length < 3) {
+      newErrors.nome = 'Nome deve ter pelo menos 3 caracteres'
+      isValid = false
+    }
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'Email inválido'
+      isValid = false
+    }
+
+    if (!tipo) {
+      newErrors.tipo = 'Tipo de usuário é obrigatório'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
     if (user?.tipo !== 'adm_empresa') {
       toast({
         title: 'Permissão negada',
@@ -99,9 +112,24 @@ export default function EditarUsuarioPage() {
       return
     }
 
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
-      await api.put(`/usuarios/${params.id}`, data)
+
+      const payload = {
+        nome,
+        email,
+        telefone: telefone || null,
+        cargo: cargo || null,
+        departamento: departamento || null,
+        tipo,
+        ativo,
+      }
+      
+      await api.put(`/usuarios/${params.id}`, payload)
       
       toast({
         title: 'Usuário atualizado',
@@ -164,7 +192,7 @@ export default function EditarUsuarioPage() {
                 <CardTitle>Editar Usuário</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={onSubmit} className="space-y-6">
                   {/* Dados Pessoais */}
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold flex items-center gap-2">
@@ -177,11 +205,12 @@ export default function EditarUsuarioPage() {
                         <Label htmlFor="nome">Nome completo *</Label>
                         <Input
                           id="nome"
-                          {...register('nome')}
-                          error={!!errors.nome}
+                          value={nome}
+                          onChange={(e) => setNome(e.target.value)}
+                          className={errors.nome ? 'border-destructive' : ''}
                         />
                         {errors.nome && (
-                          <p className="text-sm text-destructive">{errors.nome.message}</p>
+                          <p className="text-sm text-destructive">{errors.nome}</p>
                         )}
                       </div>
 
@@ -190,11 +219,12 @@ export default function EditarUsuarioPage() {
                         <Input
                           id="email"
                           type="email"
-                          {...register('email')}
-                          error={!!errors.email}
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className={errors.email ? 'border-destructive' : ''}
                         />
                         {errors.email && (
-                          <p className="text-sm text-destructive">{errors.email.message}</p>
+                          <p className="text-sm text-destructive">{errors.email}</p>
                         )}
                       </div>
 
@@ -202,7 +232,8 @@ export default function EditarUsuarioPage() {
                         <Label htmlFor="telefone">Telefone</Label>
                         <Input
                           id="telefone"
-                          {...register('telefone')}
+                          value={telefone}
+                          onChange={(e) => setTelefone(e.target.value)}
                           placeholder="(11) 99999-9999"
                         />
                       </div>
@@ -211,7 +242,8 @@ export default function EditarUsuarioPage() {
                         <Label htmlFor="cargo">Cargo</Label>
                         <Input
                           id="cargo"
-                          {...register('cargo')}
+                          value={cargo}
+                          onChange={(e) => setCargo(e.target.value)}
                           placeholder="Ex: Gerente de Operações"
                         />
                       </div>
@@ -220,7 +252,8 @@ export default function EditarUsuarioPage() {
                         <Label htmlFor="departamento">Departamento</Label>
                         <Input
                           id="departamento"
-                          {...register('departamento')}
+                          value={departamento}
+                          onChange={(e) => setDepartamento(e.target.value)}
                           placeholder="Ex: Operações"
                         />
                       </div>
@@ -237,11 +270,8 @@ export default function EditarUsuarioPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="tipo">Tipo de usuário *</Label>
-                        <Select
-                          value={tipo}
-                          onValueChange={(value: any) => setValue('tipo', value)}
-                        >
-                          <SelectTrigger>
+                        <Select value={tipo} onValueChange={(value: TipoUsuario) => setTipo(value)}>
+                          <SelectTrigger className={errors.tipo ? 'border-destructive' : ''}>
                             <SelectValue placeholder="Selecione o tipo" />
                           </SelectTrigger>
                           <SelectContent>
@@ -251,7 +281,7 @@ export default function EditarUsuarioPage() {
                           </SelectContent>
                         </Select>
                         {errors.tipo && (
-                          <p className="text-sm text-destructive">{errors.tipo.message}</p>
+                          <p className="text-sm text-destructive">{errors.tipo}</p>
                         )}
                       </div>
                     </div>
@@ -285,7 +315,7 @@ export default function EditarUsuarioPage() {
                       <Switch
                         id="ativo"
                         checked={ativo}
-                        onCheckedChange={(checked) => setValue('ativo', checked)}
+                        onCheckedChange={setAtivo}
                       />
                     </div>
                   </div>

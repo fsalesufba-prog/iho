@@ -9,6 +9,7 @@ import {
   Download,
   RefreshCw,
   TrendingUp,
+  Minus
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -19,7 +20,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
 
@@ -45,7 +45,6 @@ interface CustosPrevisaoData {
 }
 
 export default function PrevisaoCustosPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<CustosPrevisaoData | null>(null)
@@ -81,7 +80,7 @@ export default function PrevisaoCustosPage() {
     setRefreshing(false)
   }
 
-  const getTendenciaIcon = (tendencia: number) => {
+  const getTendenciaIcon = (tendencia: number = 0) => {
     if (tendencia > 0.05) return <TrendingUp className="h-4 w-4 text-red-600" />
     if (tendencia < -0.05) return <TrendingUp className="h-4 w-4 text-green-600 transform rotate-180" />
     return <Minus className="h-4 w-4 text-gray-600" />
@@ -103,6 +102,16 @@ export default function PrevisaoCustosPage() {
       </>
     )
   }
+
+  // Valores seguros com fallback
+  const estatisticas = data?.estatisticas || {
+    mediaMensal: 0,
+    minimo: 0,
+    maximo: 0,
+    tendencia: 0
+  }
+  const totalProjetado = data?.totalProjetado || 0
+  const previsao = data?.previsao || []
 
   return (
     <>
@@ -163,28 +172,28 @@ export default function PrevisaoCustosPage() {
             <Card>
               <CardContent className="p-4">
                 <p className="text-sm text-muted-foreground">Média Mensal</p>
-                <p className="text-2xl font-bold">{formatCurrency(data?.estatisticas.mediaMensal || 0)}</p>
+                <p className="text-2xl font-bold">{formatCurrency(estatisticas.mediaMensal)}</p>
               </CardContent>
             </Card>
 
             <Card>
               <CardContent className="p-4">
                 <p className="text-sm text-muted-foreground">Mínimo Mensal</p>
-                <p className="text-2xl font-bold text-green-600">{formatCurrency(data?.estatisticas.minimo || 0)}</p>
+                <p className="text-2xl font-bold text-green-600">{formatCurrency(estatisticas.minimo)}</p>
               </CardContent>
             </Card>
 
             <Card>
               <CardContent className="p-4">
                 <p className="text-sm text-muted-foreground">Máximo Mensal</p>
-                <p className="text-2xl font-bold text-red-600">{formatCurrency(data?.estatisticas.maximo || 0)}</p>
+                <p className="text-2xl font-bold text-red-600">{formatCurrency(estatisticas.maximo)}</p>
               </CardContent>
             </Card>
 
             <Card>
               <CardContent className="p-4">
                 <p className="text-sm text-muted-foreground">Total Projetado</p>
-                <p className="text-2xl font-bold text-primary">{formatCurrency(data?.totalProjetado || 0)}</p>
+                <p className="text-2xl font-bold text-primary">{formatCurrency(totalProjetado)}</p>
               </CardContent>
             </Card>
           </div>
@@ -194,18 +203,18 @@ export default function PrevisaoCustosPage() {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  {getTendenciaIcon(data?.estatisticas.tendencia || 0)}
+                  {getTendenciaIcon(estatisticas.tendencia)}
                   <div>
                     <p className="text-sm text-muted-foreground">Tendência de Custos</p>
                     <p className="text-lg font-bold">
-                      {data?.estatisticas.tendencia > 0 ? '+' : ''}
-                      {((data?.estatisticas.tendencia || 0) * 100).toFixed(1)}%
+                      {estatisticas.tendencia > 0 ? '+' : ''}
+                      {(estatisticas.tendencia * 100).toFixed(1)}%
                     </p>
                   </div>
                 </div>
                 <Badge variant="outline" className="text-sm">
-                  {data?.estatisticas.tendencia > 0.1 ? 'Alta' :
-                   data?.estatisticas.tendencia < -0.1 ? 'Queda' : 'Estável'}
+                  {estatisticas.tendencia > 0.1 ? 'Alta' :
+                   estatisticas.tendencia < -0.1 ? 'Queda' : 'Estável'}
                 </Badge>
               </div>
             </CardContent>
@@ -224,43 +233,45 @@ export default function PrevisaoCustosPage() {
           </Card>
 
           {/* Tabela de Previsão */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Previsão Mensal</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {data?.previsao.map((item, index) => (
-                  <motion.div
-                    key={item.mes}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="p-4 rounded-lg border"
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium">Mês {item.mes}</span>
-                      <Badge variant="outline">{item.confiabilidade}% confiança</Badge>
-                    </div>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div>
-                        <p className="text-sm text-muted-foreground">Projeção</p>
-                        <p className="text-lg font-bold">{formatCurrency(item.valor)}</p>
+          {previsao.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Previsão Mensal</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {previsao.map((item, index) => (
+                    <motion.div
+                      key={item.mes}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      className="p-4 rounded-lg border"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-medium">Mês {item.mes}</span>
+                        <Badge variant="outline">{item.confiabilidade}% confiança</Badge>
                       </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Mínimo</p>
-                        <p className="text-lg font-bold text-green-600">{formatCurrency(item.intervaloMin)}</p>
+                      <div className="grid grid-cols-3 gap-4">
+                        <div>
+                          <p className="text-sm text-muted-foreground">Projeção</p>
+                          <p className="text-lg font-bold">{formatCurrency(item.valor)}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-muted-foreground">Mínimo</p>
+                          <p className="text-lg font-bold text-green-600">{formatCurrency(item.intervaloMin)}</p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-muted-foreground">Máximo</p>
+                          <p className="text-lg font-bold text-red-600">{formatCurrency(item.intervaloMax)}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm text-muted-foreground">Máximo</p>
-                        <p className="text-lg font-bold text-red-600">{formatCurrency(item.intervaloMax)}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                    </motion.div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </Container>
       </main>
     </>

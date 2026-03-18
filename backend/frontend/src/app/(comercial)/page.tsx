@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
-import Image from 'next/image'
+
 import {
   ArrowRight,
   ChevronDown,
@@ -37,12 +37,15 @@ export default function ComercialPage() {
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95])
 
+  // Transforma a posição do mouse em movimento parallax
+  const heroX = useTransform(scrollYProgress, [0, 1], [mousePosition.x, 0])
+  const heroY = useTransform(scrollYProgress, [0, 1], [mousePosition.y, 0])
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
-      })
+      const x = (e.clientX / window.innerWidth - 0.5) * 20
+      const y = (e.clientY / window.innerHeight - 0.5) * 20
+      setMousePosition({ x, y })
     }
 
     window.addEventListener('mousemove', handleMouseMove)
@@ -216,6 +219,10 @@ export default function ComercialPage() {
             <motion.div
               key={i}
               className="absolute h-1 w-1 rounded-full bg-primary/30"
+              style={{
+                x: mousePosition.x * 0.5, // Efeito parallax sutil
+                y: mousePosition.y * 0.5,
+              }}
               initial={{
                 x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
                 y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
@@ -236,21 +243,12 @@ export default function ComercialPage() {
 
         <Container size="lg" className="relative z-10">
           <motion.div
-            style={{ opacity, scale }}
+            style={{ opacity, scale, x: heroX, y: heroY }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            {/* Badge de novidade */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="flex justify-center mb-6"
-            >
-            </motion.div>
-
             {/* Título principal */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}

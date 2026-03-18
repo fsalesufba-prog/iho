@@ -19,10 +19,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatDate, formatCurrency } from '@/lib/utils'
-
+import { Input } from '@/components/ui/Input'
 interface ManutencaoData {
   titulo: string
   periodo: {
@@ -54,7 +53,6 @@ interface ManutencaoData {
 }
 
 export default function RelatorioManutencaoPage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<ManutencaoData | null>(null)
@@ -260,7 +258,7 @@ export default function RelatorioManutencaoPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {data?.porTipo.map((item, index) => (
+                  {data?.porTipo.map((item) => (
                     <div key={item.tipo} className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <Badge className={getTipoBadge(item.tipo)}>
@@ -286,7 +284,7 @@ export default function RelatorioManutencaoPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {data?.porTipo.map((item, index) => (
+                  {data?.porTipo.map((item) => (
                     <div key={item.tipo} className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>{item.tipo}</span>

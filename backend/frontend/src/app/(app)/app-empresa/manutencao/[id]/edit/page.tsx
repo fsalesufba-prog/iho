@@ -2,11 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Save, Wrench } from 'lucide-react'
+import Link from 'next/link'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
@@ -18,21 +16,10 @@ import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
-const manutencaoSchema = z.object({
-  dataProgramada: z.string().min(1, 'Data programada é obrigatória'),
-  dataRealizada: z.string().optional().nullable(),
-  descricao: z.string().min(1, 'Descrição é obrigatória'),
-  observacoes: z.string().optional().nullable(),
-  horasEquipamento: z.number().int().default(0),
-  custo: z.number().optional().nullable(),
-  status: z.enum(['programada', 'em_andamento', 'concluida', 'cancelada']),
-  prioridade: z.enum(['baixa', 'media', 'alta', 'critica'])
-})
-
-type ManutencaoFormData = z.infer<typeof manutencaoSchema>
+type Status = 'programada' | 'em_andamento' | 'concluida' | 'cancelada'
+type Prioridade = 'baixa' | 'media' | 'alta' | 'critica'
 
 interface Manutencao {
   id: number
@@ -55,26 +42,27 @@ interface Manutencao {
 export default function EditarManutencaoPage() {
   const router = useRouter()
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [manutencao, setManutencao] = useState<Manutencao | null>(null)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    reset
-  } = useForm<ManutencaoFormData>({
-    resolver: zodResolver(manutencaoSchema)
-  })
+  // Estados do formulário
+  const [dataProgramada, setDataProgramada] = useState('')
+  const [dataRealizada, setDataRealizada] = useState('')
+  const [descricao, setDescricao] = useState('')
+  const [observacoes, setObservacoes] = useState('')
+  const [horasEquipamento, setHorasEquipamento] = useState(0)
+  const [custo, setCusto] = useState<number | null>(null)
+  const [status, setStatus] = useState<Status>('programada')
+  const [prioridade, setPrioridade] = useState<Prioridade>('media')
 
-  const status = watch('status')
-  const prioridade = watch('prioridade')
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    dataProgramada: '',
+    descricao: '',
+  })
 
   useEffect(() => {
     carregarManutencao()
@@ -84,18 +72,17 @@ export default function EditarManutencaoPage() {
     try {
       setLoading(true)
       const response = await api.get(`/manutencoes/${params.id}`)
-      setManutencao(response.data)
+      const data = response.data
       
-      reset({
-        dataProgramada: response.data.dataProgramada.split('T')[0],
-        dataRealizada: response.data.dataRealizada ? response.data.dataRealizada.split('T')[0] : null,
-        descricao: response.data.descricao,
-        observacoes: response.data.observacoes || '',
-        horasEquipamento: response.data.horasEquipamento,
-        custo: response.data.custo,
-        status: response.data.status,
-        prioridade: response.data.prioridade
-      })
+      setManutencao(data)
+      setDataProgramada(data.dataProgramada?.split('T')[0] || '')
+      setDataRealizada(data.dataRealizada?.split('T')[0] || '')
+      setDescricao(data.descricao || '')
+      setObservacoes(data.observacoes || '')
+      setHorasEquipamento(data.horasEquipamento || 0)
+      setCusto(data.custo || null)
+      setStatus(data.status || 'programada')
+      setPrioridade(data.prioridade || 'media')
     } catch (error) {
       toast({
         title: 'Erro ao carregar manutenção',
@@ -107,10 +94,49 @@ export default function EditarManutencaoPage() {
     }
   }
 
-  const onSubmit = async (data: ManutencaoFormData) => {
+  const validate = () => {
+    const newErrors = {
+      dataProgramada: '',
+      descricao: '',
+    }
+    let isValid = true
+
+    if (!dataProgramada) {
+      newErrors.dataProgramada = 'Data programada é obrigatória'
+      isValid = false
+    }
+
+    if (!descricao) {
+      newErrors.descricao = 'Descrição é obrigatória'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
-      await api.put(`/manutencoes/${params.id}`, data)
+
+      const payload = {
+        dataProgramada,
+        dataRealizada: dataRealizada || null,
+        descricao,
+        observacoes: observacoes || null,
+        horasEquipamento,
+        custo: custo || null,
+        status,
+        prioridade,
+      }
+
+      await api.put(`/manutencoes/${params.id}`, payload)
       
       toast({
         title: 'Manutenção atualizada',
@@ -203,7 +229,7 @@ export default function EditarManutencaoPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={onSubmit} className="space-y-6">
                   <div className="p-4 bg-muted/30 rounded-lg mb-4">
                     <p className="text-sm">
                       <span className="font-medium">Equipamento:</span> {manutencao.equipamento.tag} - {manutencao.equipamento.nome}
@@ -216,11 +242,12 @@ export default function EditarManutencaoPage() {
                       <Input
                         id="dataProgramada"
                         type="date"
-                        {...register('dataProgramada')}
-                        error={!!errors.dataProgramada}
+                        value={dataProgramada}
+                        onChange={(e) => setDataProgramada(e.target.value)}
+                        className={errors.dataProgramada ? 'border-destructive' : ''}
                       />
                       {errors.dataProgramada && (
-                        <p className="text-sm text-destructive">{errors.dataProgramada.message}</p>
+                        <p className="text-sm text-destructive">{errors.dataProgramada}</p>
                       )}
                     </div>
 
@@ -229,16 +256,14 @@ export default function EditarManutencaoPage() {
                       <Input
                         id="dataRealizada"
                         type="date"
-                        {...register('dataRealizada')}
+                        value={dataRealizada}
+                        onChange={(e) => setDataRealizada(e.target.value)}
                       />
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="status">Status *</Label>
-                      <Select
-                        value={status}
-                        onValueChange={(value: any) => setValue('status', value)}
-                      >
+                      <Select value={status} onValueChange={(value: Status) => setStatus(value)}>
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
@@ -253,10 +278,7 @@ export default function EditarManutencaoPage() {
 
                     <div className="space-y-2">
                       <Label htmlFor="prioridade">Prioridade *</Label>
-                      <Select
-                        value={prioridade}
-                        onValueChange={(value: any) => setValue('prioridade', value)}
-                      >
+                      <Select value={prioridade} onValueChange={(value: Prioridade) => setPrioridade(value)}>
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
@@ -274,7 +296,8 @@ export default function EditarManutencaoPage() {
                       <Input
                         id="horasEquipamento"
                         type="number"
-                        {...register('horasEquipamento', { valueAsNumber: true })}
+                        value={horasEquipamento}
+                        onChange={(e) => setHorasEquipamento(parseInt(e.target.value) || 0)}
                       />
                     </div>
 
@@ -284,7 +307,8 @@ export default function EditarManutencaoPage() {
                         id="custo"
                         type="number"
                         step="0.01"
-                        {...register('custo', { valueAsNumber: true })}
+                        value={custo || ''}
+                        onChange={(e) => setCusto(e.target.value ? parseFloat(e.target.value) : null)}
                       />
                     </div>
 
@@ -292,12 +316,12 @@ export default function EditarManutencaoPage() {
                       <Label htmlFor="descricao">Descrição *</Label>
                       <Textarea
                         id="descricao"
-                        {...register('descricao')}
-                        className="min-h-[100px]"
-                        error={!!errors.descricao}
+                        value={descricao}
+                        onChange={(e) => setDescricao(e.target.value)}
+                        className={`min-h-[100px] ${errors.descricao ? 'border-destructive' : ''}`}
                       />
                       {errors.descricao && (
-                        <p className="text-sm text-destructive">{errors.descricao.message}</p>
+                        <p className="text-sm text-destructive">{errors.descricao}</p>
                       )}
                     </div>
 
@@ -305,7 +329,8 @@ export default function EditarManutencaoPage() {
                       <Label htmlFor="observacoes">Observações</Label>
                       <Textarea
                         id="observacoes"
-                        {...register('observacoes')}
+                        value={observacoes}
+                        onChange={(e) => setObservacoes(e.target.value)}
                         className="min-h-[80px]"
                       />
                     </div>

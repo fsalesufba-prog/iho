@@ -22,6 +22,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Award,
+  Minus
 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
@@ -138,7 +139,7 @@ export default function AvaliacoesPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar as avaliações',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -177,7 +178,7 @@ export default function AvaliacoesPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir a avaliação',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

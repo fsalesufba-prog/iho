@@ -2,11 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Save, Building2, Loader2 } from 'lucide-react'
+import { ArrowLeft, Save, Building2 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
 import { Sidebar } from '@/components/app/Sidebar'
@@ -17,29 +14,11 @@ import { Input } from '@/components/ui/Input'
 import { Label } from '@/components/ui/Label'
 import { Separator } from '@/components/ui/Separator'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCNPJ, formatPhone, formatCEP } from '@/lib/utils'
 
-const empresaSchema = z.object({
-  nome: z.string().min(1, 'Nome é obrigatório'),
-  cnpj: z.string().min(14, 'CNPJ inválido'),
-  email: z.string().email('Email inválido'),
-  telefone: z.string().min(10, 'Telefone inválido'),
-  endereco: z.string().min(1, 'Endereço é obrigatório'),
-  numero: z.string().min(1, 'Número é obrigatório'),
-  complemento: z.string().optional(),
-  bairro: z.string().min(1, 'Bairro é obrigatório'),
-  cidade: z.string().min(1, 'Cidade é obrigatória'),
-  estado: z.string().length(2, 'Estado inválido'),
-  cep: z.string().min(8, 'CEP inválido')
-})
-
-type EmpresaFormData = z.infer<typeof empresaSchema>
-
 export default function ConfiguracoesEmpresaPage() {
   const router = useRouter()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [loading, setLoading] = useState(true)
@@ -47,14 +26,31 @@ export default function ConfiguracoesEmpresaPage() {
   const [logo, setLogo] = useState<string | null>(null)
   const [logoFile, setLogoFile] = useState<File | null>(null)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    reset
-  } = useForm<EmpresaFormData>({
-    resolver: zodResolver(empresaSchema)
+  // Estados do formulário
+  const [nome, setNome] = useState('')
+  const [cnpj, setCnpj] = useState('')
+  const [email, setEmail] = useState('')
+  const [telefone, setTelefone] = useState('')
+  const [endereco, setEndereco] = useState('')
+  const [numero, setNumero] = useState('')
+  const [complemento, setComplemento] = useState('')
+  const [bairro, setBairro] = useState('')
+  const [cidade, setCidade] = useState('')
+  const [estado, setEstado] = useState('')
+  const [cep, setCep] = useState('')
+
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    nome: '',
+    cnpj: '',
+    email: '',
+    telefone: '',
+    endereco: '',
+    numero: '',
+    bairro: '',
+    cidade: '',
+    estado: '',
+    cep: '',
   })
 
   useEffect(() => {
@@ -67,26 +63,24 @@ export default function ConfiguracoesEmpresaPage() {
       const response = await api.get('/configuracoes/empresa')
       const empresa = response.data.data
 
-      // Separar endereço completo em partes (assumindo formato "rua, numero - bairro")
-      const enderecoParts = empresa.endereco.split(',')
+      // Separar endereço completo em partes
+      const enderecoParts = empresa.endereco?.split(',') || []
       const rua = enderecoParts[0] || ''
       const resto = enderecoParts[1]?.split('-') || []
-      const numero = resto[0]?.trim() || ''
-      const bairro = resto[1]?.trim() || ''
+      const numeroPart = resto[0]?.trim() || ''
+      const bairroPart = resto[1]?.trim() || ''
 
-      reset({
-        nome: empresa.nome,
-        cnpj: empresa.cnpj,
-        email: empresa.email,
-        telefone: empresa.telefone,
-        endereco: rua,
-        numero,
-        complemento: empresa.complemento || '',
-        bairro,
-        cidade: empresa.cidade,
-        estado: empresa.estado,
-        cep: empresa.cep
-      })
+      setNome(empresa.nome || '')
+      setCnpj(empresa.cnpj || '')
+      setEmail(empresa.email || '')
+      setTelefone(empresa.telefone || '')
+      setEndereco(rua)
+      setNumero(numeroPart)
+      setComplemento(empresa.complemento || '')
+      setBairro(bairroPart)
+      setCidade(empresa.cidade || '')
+      setEstado(empresa.estado || '')
+      setCep(empresa.cep || '')
 
       if (empresa.logo) {
         setLogo(empresa.logo)
@@ -114,20 +108,97 @@ export default function ConfiguracoesEmpresaPage() {
     }
   }
 
-  const onSubmit = async (data: EmpresaFormData) => {
+  const validate = () => {
+    const newErrors = {
+      nome: '',
+      cnpj: '',
+      email: '',
+      telefone: '',
+      endereco: '',
+      numero: '',
+      bairro: '',
+      cidade: '',
+      estado: '',
+      cep: '',
+    }
+    let isValid = true
+
+    if (!nome) {
+      newErrors.nome = 'Nome é obrigatório'
+      isValid = false
+    }
+
+    if (!cnpj || cnpj.replace(/\D/g, '').length < 14) {
+      newErrors.cnpj = 'CNPJ inválido'
+      isValid = false
+    }
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'Email inválido'
+      isValid = false
+    }
+
+    if (!telefone || telefone.replace(/\D/g, '').length < 10) {
+      newErrors.telefone = 'Telefone inválido'
+      isValid = false
+    }
+
+    if (!endereco) {
+      newErrors.endereco = 'Endereço é obrigatório'
+      isValid = false
+    }
+
+    if (!numero) {
+      newErrors.numero = 'Número é obrigatório'
+      isValid = false
+    }
+
+    if (!bairro) {
+      newErrors.bairro = 'Bairro é obrigatório'
+      isValid = false
+    }
+
+    if (!cidade) {
+      newErrors.cidade = 'Cidade é obrigatória'
+      isValid = false
+    }
+
+    if (!estado || estado.length !== 2) {
+      newErrors.estado = 'Estado inválido'
+      isValid = false
+    }
+
+    if (!cep || cep.replace(/\D/g, '').length < 8) {
+      newErrors.cep = 'CEP inválido'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
 
       // Montar endereço completo
-      const enderecoCompleto = `${data.endereco}, ${data.numero} - ${data.bairro}${data.complemento ? `, ${data.complemento}` : ''}`
+      const enderecoCompleto = `${endereco}, ${numero} - ${bairro}${complemento ? `, ${complemento}` : ''}`
 
       const formData = new FormData()
-      Object.entries(data).forEach(([key, value]) => {
-        if (key !== 'endereco' && key !== 'numero' && key !== 'complemento' && key !== 'bairro') {
-          formData.append(key, value)
-        }
-      })
+      formData.append('nome', nome)
+      formData.append('cnpj', cnpj.replace(/\D/g, ''))
+      formData.append('email', email)
+      formData.append('telefone', telefone.replace(/\D/g, ''))
       formData.append('endereco', enderecoCompleto)
+      formData.append('cidade', cidade)
+      formData.append('estado', estado)
+      formData.append('cep', cep.replace(/\D/g, ''))
       
       if (logoFile) {
         formData.append('logo', logoFile)
@@ -202,12 +273,13 @@ export default function ConfiguracoesEmpresaPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={onSubmit} className="space-y-6">
                   {/* Logo */}
                   <div className="flex items-center gap-6">
                     <div className="relative">
                       <div className="h-24 w-24 rounded-lg border-2 border-dashed flex items-center justify-center overflow-hidden">
                         {logo ? (
+                          // eslint-disable-next-line @next/next/no-img-element
                           <img src={logo} alt="Logo" className="h-full w-full object-cover" />
                         ) : (
                           <Building2 className="h-8 w-8 text-muted-foreground" />
@@ -236,11 +308,12 @@ export default function ConfiguracoesEmpresaPage() {
                       <Label htmlFor="nome">Razão Social *</Label>
                       <Input
                         id="nome"
-                        {...register('nome')}
-                        error={!!errors.nome}
+                        value={nome}
+                        onChange={(e) => setNome(e.target.value)}
+                        className={errors.nome ? 'border-destructive' : ''}
                       />
                       {errors.nome && (
-                        <p className="text-sm text-destructive">{errors.nome.message}</p>
+                        <p className="text-sm text-destructive">{errors.nome}</p>
                       )}
                     </div>
 
@@ -248,15 +321,12 @@ export default function ConfiguracoesEmpresaPage() {
                       <Label htmlFor="cnpj">CNPJ *</Label>
                       <Input
                         id="cnpj"
-                        {...register('cnpj')}
-                        onChange={(e) => {
-                          const formatted = formatCNPJ(e.target.value)
-                          setValue('cnpj', formatted)
-                        }}
-                        error={!!errors.cnpj}
+                        value={cnpj}
+                        onChange={(e) => setCnpj(formatCNPJ(e.target.value))}
+                        className={errors.cnpj ? 'border-destructive' : ''}
                       />
                       {errors.cnpj && (
-                        <p className="text-sm text-destructive">{errors.cnpj.message}</p>
+                        <p className="text-sm text-destructive">{errors.cnpj}</p>
                       )}
                     </div>
 
@@ -265,11 +335,12 @@ export default function ConfiguracoesEmpresaPage() {
                       <Input
                         id="email"
                         type="email"
-                        {...register('email')}
-                        error={!!errors.email}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className={errors.email ? 'border-destructive' : ''}
                       />
                       {errors.email && (
-                        <p className="text-sm text-destructive">{errors.email.message}</p>
+                        <p className="text-sm text-destructive">{errors.email}</p>
                       )}
                     </div>
 
@@ -277,15 +348,12 @@ export default function ConfiguracoesEmpresaPage() {
                       <Label htmlFor="telefone">Telefone *</Label>
                       <Input
                         id="telefone"
-                        {...register('telefone')}
-                        onChange={(e) => {
-                          const formatted = formatPhone(e.target.value)
-                          setValue('telefone', formatted)
-                        }}
-                        error={!!errors.telefone}
+                        value={telefone}
+                        onChange={(e) => setTelefone(formatPhone(e.target.value))}
+                        className={errors.telefone ? 'border-destructive' : ''}
                       />
                       {errors.telefone && (
-                        <p className="text-sm text-destructive">{errors.telefone.message}</p>
+                        <p className="text-sm text-destructive">{errors.telefone}</p>
                       )}
                     </div>
                   </div>
@@ -298,11 +366,12 @@ export default function ConfiguracoesEmpresaPage() {
                       <Label htmlFor="endereco">Logradouro *</Label>
                       <Input
                         id="endereco"
-                        {...register('endereco')}
-                        error={!!errors.endereco}
+                        value={endereco}
+                        onChange={(e) => setEndereco(e.target.value)}
+                        className={errors.endereco ? 'border-destructive' : ''}
                       />
                       {errors.endereco && (
-                        <p className="text-sm text-destructive">{errors.endereco.message}</p>
+                        <p className="text-sm text-destructive">{errors.endereco}</p>
                       )}
                     </div>
 
@@ -310,11 +379,12 @@ export default function ConfiguracoesEmpresaPage() {
                       <Label htmlFor="numero">Número *</Label>
                       <Input
                         id="numero"
-                        {...register('numero')}
-                        error={!!errors.numero}
+                        value={numero}
+                        onChange={(e) => setNumero(e.target.value)}
+                        className={errors.numero ? 'border-destructive' : ''}
                       />
                       {errors.numero && (
-                        <p className="text-sm text-destructive">{errors.numero.message}</p>
+                        <p className="text-sm text-destructive">{errors.numero}</p>
                       )}
                     </div>
 
@@ -322,7 +392,8 @@ export default function ConfiguracoesEmpresaPage() {
                       <Label htmlFor="complemento">Complemento</Label>
                       <Input
                         id="complemento"
-                        {...register('complemento')}
+                        value={complemento}
+                        onChange={(e) => setComplemento(e.target.value)}
                       />
                     </div>
 
@@ -330,11 +401,12 @@ export default function ConfiguracoesEmpresaPage() {
                       <Label htmlFor="bairro">Bairro *</Label>
                       <Input
                         id="bairro"
-                        {...register('bairro')}
-                        error={!!errors.bairro}
+                        value={bairro}
+                        onChange={(e) => setBairro(e.target.value)}
+                        className={errors.bairro ? 'border-destructive' : ''}
                       />
                       {errors.bairro && (
-                        <p className="text-sm text-destructive">{errors.bairro.message}</p>
+                        <p className="text-sm text-destructive">{errors.bairro}</p>
                       )}
                     </div>
 
@@ -342,11 +414,12 @@ export default function ConfiguracoesEmpresaPage() {
                       <Label htmlFor="cidade">Cidade *</Label>
                       <Input
                         id="cidade"
-                        {...register('cidade')}
-                        error={!!errors.cidade}
+                        value={cidade}
+                        onChange={(e) => setCidade(e.target.value)}
+                        className={errors.cidade ? 'border-destructive' : ''}
                       />
                       {errors.cidade && (
-                        <p className="text-sm text-destructive">{errors.cidade.message}</p>
+                        <p className="text-sm text-destructive">{errors.cidade}</p>
                       )}
                     </div>
 
@@ -354,13 +427,13 @@ export default function ConfiguracoesEmpresaPage() {
                       <Label htmlFor="estado">UF *</Label>
                       <Input
                         id="estado"
-                        {...register('estado')}
+                        value={estado}
+                        onChange={(e) => setEstado(e.target.value.toUpperCase())}
                         maxLength={2}
-                        className="uppercase"
-                        error={!!errors.estado}
+                        className={`uppercase ${errors.estado ? 'border-destructive' : ''}`}
                       />
                       {errors.estado && (
-                        <p className="text-sm text-destructive">{errors.estado.message}</p>
+                        <p className="text-sm text-destructive">{errors.estado}</p>
                       )}
                     </div>
 
@@ -368,15 +441,12 @@ export default function ConfiguracoesEmpresaPage() {
                       <Label htmlFor="cep">CEP *</Label>
                       <Input
                         id="cep"
-                        {...register('cep')}
-                        onChange={(e) => {
-                          const formatted = formatCEP(e.target.value)
-                          setValue('cep', formatted)
-                        }}
-                        error={!!errors.cep}
+                        value={cep}
+                        onChange={(e) => setCep(formatCEP(e.target.value))}
+                        className={errors.cep ? 'border-destructive' : ''}
                       />
                       {errors.cep && (
-                        <p className="text-sm text-destructive">{errors.cep.message}</p>
+                        <p className="text-sm text-destructive">{errors.cep}</p>
                       )}
                     </div>
                   </div>
@@ -396,7 +466,7 @@ export default function ConfiguracoesEmpresaPage() {
                     >
                       {saving ? (
                         <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-background border-t-transparent mr-2" />
                           Salvando...
                         </>
                       ) : (

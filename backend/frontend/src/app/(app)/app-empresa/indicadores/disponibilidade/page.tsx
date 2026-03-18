@@ -9,6 +9,7 @@ import {
   Download,
   RefreshCw,
   Calendar,
+  Minus
 } from 'lucide-react'
 
 import { Header } from '@/components/app/Header'
@@ -20,7 +21,6 @@ import { Badge } from '@/components/ui/Badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
 interface DisponibilidadeData {
@@ -52,7 +52,6 @@ interface DisponibilidadeData {
 }
 
 export default function DisponibilidadePage() {
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<DisponibilidadeData | null>(null)

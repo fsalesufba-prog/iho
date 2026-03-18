@@ -60,7 +60,7 @@ export default function ResetarSenhaPage() {
   const percentualForca = (forcaSenha / 5) * 100
 
   const getForcaTexto = () => {
-    if (password.length === 0) return ''
+    if (password.length === 0) return { texto: '', cor: '' }
     if (forcaSenha <= 2) return { texto: 'Fraca', cor: 'text-red-600' }
     if (forcaSenha <= 3) return { texto: 'Média', cor: 'text-yellow-600' }
     if (forcaSenha <= 4) return { texto: 'Boa', cor: 'text-blue-600' }
@@ -213,25 +213,27 @@ export default function ResetarSenhaPage() {
                 <div className="space-y-1 mt-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs">Força da senha:</span>
-                    <span className={cn('text-xs font-medium', forcaTexto.cor)}>
-                      {forcaTexto.texto}
-                    </span>
+                    {forcaTexto.texto && (
+                      <span className={cn('text-xs font-medium', forcaTexto.cor)}>
+                        {forcaTexto.texto}
+                      </span>
+                    )}
                   </div>
                   <Progress value={percentualForca} className="h-1" />
                 </div>
               )}
 
               <ul className="text-xs space-y-1 text-muted-foreground mt-2">
-                <li className={password.length >= 6 ? 'text-green-600' : ''}>
+                <li className={cn(password.length >= 6 ? 'text-green-600' : '')}>
                   • Mínimo 6 caracteres
                 </li>
-                <li className={/[A-Z]/.test(password) ? 'text-green-600' : ''}>
+                <li className={cn(/[A-Z]/.test(password) ? 'text-green-600' : '')}>
                   • Pelo menos uma letra maiúscula
                 </li>
-                <li className={/[a-z]/.test(password) ? 'text-green-600' : ''}>
+                <li className={cn(/[a-z]/.test(password) ? 'text-green-600' : '')}>
                   • Pelo menos uma letra minúscula
                 </li>
-                <li className={/[0-9]/.test(password) ? 'text-green-600' : ''}>
+                <li className={cn(/[0-9]/.test(password) ? 'text-green-600' : '')}>
                   • Pelo menos um número
                 </li>
               </ul>

@@ -12,7 +12,6 @@ import {
   Wrench,
   History,
   Clock,
-  Tag,
   DollarSign,
   Activity,
   Truck,

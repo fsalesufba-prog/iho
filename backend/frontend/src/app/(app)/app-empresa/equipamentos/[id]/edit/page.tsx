@@ -2,15 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { motion } from 'framer-motion'
 import {
   ArrowLeft,
   Save,
   Package,
-  Tag,
   DollarSign,
   MapPin,
   Wrench,
@@ -27,36 +23,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/Switch'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
-const equipamentoSchema = z.object({
-  tag: z.string().min(1, 'Tag é obrigatória'),
-  nome: z.string().min(1, 'Nome é obrigatório'),
-  tipo: z.string().min(1, 'Tipo é obrigatório'),
-  marca: z.string().min(1, 'Marca é obrigatória'),
-  modelo: z.string().min(1, 'Modelo é obrigatório'),
-  anoFabricacao: z.number().int().min(1900).max(new Date().getFullYear()),
-  numeroSerie: z.string().min(1, 'Número de série é obrigatório'),
-  placa: z.string().optional().nullable(),
-  horaAtual: z.number().int().default(0),
-  kmAtual: z.number().int().optional().nullable(),
-  status: z.enum(['disponivel', 'em_uso', 'manutencao', 'inativo']),
-  obraId: z.number().optional().nullable(),
-  frenteServicoId: z.number().optional().nullable(),
-  centroCustoId: z.number().optional().nullable(),
-  valorAquisicao: z.number().optional().nullable(),
-  valorDepreciacaoAnual: z.number().optional().nullable(),
-  dataAquisicao: z.string().optional().nullable(),
-  vidaUtilAnos: z.number().int().default(5),
-  valorResidual: z.number().default(0),
-  valorLocacaoDiaria: z.number().optional().nullable(),
-  valorLocacaoMensal: z.number().optional().nullable(),
-  comOperador: z.boolean().default(false),
-  planoManutencao: z.string().optional().nullable()
-})
-
-type EquipamentoFormData = z.infer<typeof equipamentoSchema>
+type Status = 'disponivel' | 'em_uso' | 'manutencao' | 'inativo'
 
 interface Obra {
   id: number
@@ -79,40 +48,51 @@ interface CentroCusto {
 export default function EditarEquipamentoPage() {
   const router = useRouter()
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [obras, setObras] = useState<Obra[]>([])
   const [frentesServico, setFrentesServico] = useState<FrenteServico[]>([])
   const [centrosCusto, setCentrosCusto] = useState<CentroCusto[]>([])
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    reset
-  } = useForm<EquipamentoFormData>({
-    resolver: zodResolver(equipamentoSchema),
-    defaultValues: {
-      status: 'disponivel',
-      comOperador: false,
-      vidaUtilAnos: 5,
-      valorResidual: 0,
-      horaAtual: 0
-    }
+  // Estados do formulário
+  const [tag, setTag] = useState('')
+  const [nome, setNome] = useState('')
+  const [tipo, setTipo] = useState('')
+  const [marca, setMarca] = useState('')
+  const [modelo, setModelo] = useState('')
+  const [anoFabricacao, setAnoFabricacao] = useState(new Date().getFullYear())
+  const [numeroSerie, setNumeroSerie] = useState('')
+  const [placa, setPlaca] = useState('')
+  const [status, setStatus] = useState<Status>('disponivel')
+  const [obraId, setObraId] = useState<number | null>(null)
+  const [frenteServicoId, setFrenteServicoId] = useState<number | null>(null)
+  const [centroCustoId, setCentroCustoId] = useState<number | null>(null)
+  const [horaAtual, setHoraAtual] = useState(0)
+  const [kmAtual, setKmAtual] = useState<number | null>(null)
+  const [valorAquisicao, setValorAquisicao] = useState<number | null>(null)
+  const [dataAquisicao, setDataAquisicao] = useState('')
+  const [vidaUtilAnos, setVidaUtilAnos] = useState(5)
+  const [valorResidual, setValorResidual] = useState(0)
+  const [valorLocacaoDiaria, setValorLocacaoDiaria] = useState<number | null>(null)
+  const [valorLocacaoMensal, setValorLocacaoMensal] = useState<number | null>(null)
+  const [comOperador, setComOperador] = useState(false)
+  const [planoManutencao, setPlanoManutencao] = useState('')
+
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    tag: '',
+    nome: '',
+    tipo: '',
+    marca: '',
+    modelo: '',
+    anoFabricacao: '',
+    numeroSerie: '',
   })
 
-  const obraId = watch('obraId')
-  const status = watch('status')
-
   useEffect(() => {
-    carregarEquipamento()
-    carregarObras()
-    carregarCentrosCusto()
+    carregarDados()
   }, [params.id])
 
   useEffect(() => {
@@ -121,25 +101,54 @@ export default function EditarEquipamentoPage() {
     }
   }, [obraId])
 
-  const carregarEquipamento = async () => {
+  const carregarDados = async () => {
     try {
       setLoading(true)
-      const response = await api.get(`/equipamentos/${params.id}`)
-      const equipamento = response.data
+      await Promise.all([
+        carregarEquipamento(),
+        carregarObras(),
+        carregarCentrosCusto()
+      ])
+    } catch (error) {
+      console.error('Erro ao carregar dados:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
-      reset({
-        ...equipamento,
-        dataAquisicao: equipamento.dataAquisicao ? 
-          new Date(equipamento.dataAquisicao).toISOString().split('T')[0] : null
-      })
+  const carregarEquipamento = async () => {
+    try {
+      const response = await api.get(`/equipamentos/${params.id}`)
+      const eq = response.data
+
+      setTag(eq.tag || '')
+      setNome(eq.nome || '')
+      setTipo(eq.tipo || '')
+      setMarca(eq.marca || '')
+      setModelo(eq.modelo || '')
+      setAnoFabricacao(eq.anoFabricacao || new Date().getFullYear())
+      setNumeroSerie(eq.numeroSerie || '')
+      setPlaca(eq.placa || '')
+      setStatus(eq.status || 'disponivel')
+      setObraId(eq.obraId || null)
+      setFrenteServicoId(eq.frenteServicoId || null)
+      setCentroCustoId(eq.centroCustoId || null)
+      setHoraAtual(eq.horaAtual || 0)
+      setKmAtual(eq.kmAtual || null)
+      setValorAquisicao(eq.valorAquisicao || null)
+      setDataAquisicao(eq.dataAquisicao ? new Date(eq.dataAquisicao).toISOString().split('T')[0] : '')
+      setVidaUtilAnos(eq.vidaUtilAnos || 5)
+      setValorResidual(eq.valorResidual || 0)
+      setValorLocacaoDiaria(eq.valorLocacaoDiaria || null)
+      setValorLocacaoMensal(eq.valorLocacaoMensal || null)
+      setComOperador(eq.comOperador || false)
+      setPlanoManutencao(eq.planoManutencao || '')
     } catch (error) {
       toast({
         title: 'Erro ao carregar equipamento',
         description: 'Não foi possível carregar os dados do equipamento.',
         variant: 'destructive'
       })
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -148,7 +157,7 @@ export default function EditarEquipamentoPage() {
       const response = await api.get('/obras', {
         params: { limit: 100, status: 'ativa' }
       })
-      setObras(response.data.obras)
+      setObras(response.data.obras || [])
     } catch (error) {
       console.error('Erro ao carregar obras:', error)
     }
@@ -159,7 +168,7 @@ export default function EditarEquipamentoPage() {
       const response = await api.get('/frentes-servico', {
         params: { obraId, limit: 100 }
       })
-      setFrentesServico(response.data.frentes)
+      setFrentesServico(response.data.frentes || [])
     } catch (error) {
       console.error('Erro ao carregar frentes de serviço:', error)
     }
@@ -170,16 +179,99 @@ export default function EditarEquipamentoPage() {
       const response = await api.get('/centros-custo', {
         params: { limit: 100 }
       })
-      setCentrosCusto(response.data.centros)
+      setCentrosCusto(response.data.centros || [])
     } catch (error) {
       console.error('Erro ao carregar centros de custo:', error)
     }
   }
 
-  const onSubmit = async (data: EquipamentoFormData) => {
+  const validate = () => {
+    const newErrors = {
+      tag: '',
+      nome: '',
+      tipo: '',
+      marca: '',
+      modelo: '',
+      anoFabricacao: '',
+      numeroSerie: '',
+    }
+    let isValid = true
+
+    if (!tag) {
+      newErrors.tag = 'Tag é obrigatória'
+      isValid = false
+    }
+
+    if (!nome) {
+      newErrors.nome = 'Nome é obrigatório'
+      isValid = false
+    }
+
+    if (!tipo) {
+      newErrors.tipo = 'Tipo é obrigatório'
+      isValid = false
+    }
+
+    if (!marca) {
+      newErrors.marca = 'Marca é obrigatória'
+      isValid = false
+    }
+
+    if (!modelo) {
+      newErrors.modelo = 'Modelo é obrigatório'
+      isValid = false
+    }
+
+    if (anoFabricacao < 1900 || anoFabricacao > new Date().getFullYear()) {
+      newErrors.anoFabricacao = 'Ano de fabricação inválido'
+      isValid = false
+    }
+
+    if (!numeroSerie) {
+      newErrors.numeroSerie = 'Número de série é obrigatório'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
-      await api.put(`/equipamentos/${params.id}`, data)
+
+      const payload = {
+        tag,
+        nome,
+        tipo,
+        marca,
+        modelo,
+        anoFabricacao,
+        numeroSerie,
+        placa: placa || null,
+        status,
+        obraId: obraId || null,
+        frenteServicoId: frenteServicoId || null,
+        centroCustoId: centroCustoId || null,
+        horaAtual,
+        kmAtual: kmAtual || null,
+        valorAquisicao: valorAquisicao || null,
+        dataAquisicao: dataAquisicao || null,
+        vidaUtilAnos,
+        valorResidual,
+        valorLocacaoDiaria: valorLocacaoDiaria || null,
+        valorLocacaoMensal: valorLocacaoMensal || null,
+        comOperador,
+        planoManutencao: planoManutencao || null,
+      }
+
+      await api.put(`/equipamentos/${params.id}`, payload)
       
       toast({
         title: 'Equipamento atualizado',
@@ -237,7 +329,7 @@ export default function EditarEquipamentoPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={onSubmit} className="space-y-6">
               {/* Identificação */}
               <Card>
                 <CardHeader>
@@ -252,11 +344,12 @@ export default function EditarEquipamentoPage() {
                       <Label htmlFor="tag">Tag *</Label>
                       <Input
                         id="tag"
-                        {...register('tag')}
-                        error={!!errors.tag}
+                        value={tag}
+                        onChange={(e) => setTag(e.target.value)}
+                        className={errors.tag ? 'border-destructive' : ''}
                       />
                       {errors.tag && (
-                        <p className="text-sm text-destructive">{errors.tag.message}</p>
+                        <p className="text-sm text-destructive">{errors.tag}</p>
                       )}
                     </div>
 
@@ -264,11 +357,12 @@ export default function EditarEquipamentoPage() {
                       <Label htmlFor="nome">Nome *</Label>
                       <Input
                         id="nome"
-                        {...register('nome')}
-                        error={!!errors.nome}
+                        value={nome}
+                        onChange={(e) => setNome(e.target.value)}
+                        className={errors.nome ? 'border-destructive' : ''}
                       />
                       {errors.nome && (
-                        <p className="text-sm text-destructive">{errors.nome.message}</p>
+                        <p className="text-sm text-destructive">{errors.nome}</p>
                       )}
                     </div>
 
@@ -276,12 +370,13 @@ export default function EditarEquipamentoPage() {
                       <Label htmlFor="tipo">Tipo *</Label>
                       <Input
                         id="tipo"
-                        {...register('tipo')}
+                        value={tipo}
+                        onChange={(e) => setTipo(e.target.value)}
                         placeholder="Ex: Caminhão, Escavadeira..."
-                        error={!!errors.tipo}
+                        className={errors.tipo ? 'border-destructive' : ''}
                       />
                       {errors.tipo && (
-                        <p className="text-sm text-destructive">{errors.tipo.message}</p>
+                        <p className="text-sm text-destructive">{errors.tipo}</p>
                       )}
                     </div>
 
@@ -289,11 +384,12 @@ export default function EditarEquipamentoPage() {
                       <Label htmlFor="marca">Marca *</Label>
                       <Input
                         id="marca"
-                        {...register('marca')}
-                        error={!!errors.marca}
+                        value={marca}
+                        onChange={(e) => setMarca(e.target.value)}
+                        className={errors.marca ? 'border-destructive' : ''}
                       />
                       {errors.marca && (
-                        <p className="text-sm text-destructive">{errors.marca.message}</p>
+                        <p className="text-sm text-destructive">{errors.marca}</p>
                       )}
                     </div>
 
@@ -301,11 +397,12 @@ export default function EditarEquipamentoPage() {
                       <Label htmlFor="modelo">Modelo *</Label>
                       <Input
                         id="modelo"
-                        {...register('modelo')}
-                        error={!!errors.modelo}
+                        value={modelo}
+                        onChange={(e) => setModelo(e.target.value)}
+                        className={errors.modelo ? 'border-destructive' : ''}
                       />
                       {errors.modelo && (
-                        <p className="text-sm text-destructive">{errors.modelo.message}</p>
+                        <p className="text-sm text-destructive">{errors.modelo}</p>
                       )}
                     </div>
 
@@ -314,11 +411,12 @@ export default function EditarEquipamentoPage() {
                       <Input
                         id="anoFabricacao"
                         type="number"
-                        {...register('anoFabricacao', { valueAsNumber: true })}
-                        error={!!errors.anoFabricacao}
+                        value={anoFabricacao}
+                        onChange={(e) => setAnoFabricacao(parseInt(e.target.value) || new Date().getFullYear())}
+                        className={errors.anoFabricacao ? 'border-destructive' : ''}
                       />
                       {errors.anoFabricacao && (
-                        <p className="text-sm text-destructive">{errors.anoFabricacao.message}</p>
+                        <p className="text-sm text-destructive">{errors.anoFabricacao}</p>
                       )}
                     </div>
 
@@ -326,11 +424,12 @@ export default function EditarEquipamentoPage() {
                       <Label htmlFor="numeroSerie">Número de Série *</Label>
                       <Input
                         id="numeroSerie"
-                        {...register('numeroSerie')}
-                        error={!!errors.numeroSerie}
+                        value={numeroSerie}
+                        onChange={(e) => setNumeroSerie(e.target.value)}
+                        className={errors.numeroSerie ? 'border-destructive' : ''}
                       />
                       {errors.numeroSerie && (
-                        <p className="text-sm text-destructive">{errors.numeroSerie.message}</p>
+                        <p className="text-sm text-destructive">{errors.numeroSerie}</p>
                       )}
                     </div>
 
@@ -338,7 +437,8 @@ export default function EditarEquipamentoPage() {
                       <Label htmlFor="placa">Placa</Label>
                       <Input
                         id="placa"
-                        {...register('placa')}
+                        value={placa}
+                        onChange={(e) => setPlaca(e.target.value)}
                       />
                     </div>
                   </div>
@@ -358,10 +458,7 @@ export default function EditarEquipamentoPage() {
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="status">Status *</Label>
-                        <Select
-                          value={status}
-                          onValueChange={(value: any) => setValue('status', value)}
-                        >
+                        <Select value={status} onValueChange={(value: Status) => setStatus(value)}>
                           <SelectTrigger>
                             <SelectValue placeholder="Selecione o status" />
                           </SelectTrigger>
@@ -376,9 +473,9 @@ export default function EditarEquipamentoPage() {
 
                       <div className="space-y-2">
                         <Label htmlFor="obraId">Obra</Label>
-                        <Select
-                          value={obraId?.toString() || ''}
-                          onValueChange={(value) => setValue('obraId', value ? parseInt(value) : null)}
+                        <Select 
+                          value={obraId?.toString() || ''} 
+                          onValueChange={(value) => setObraId(value ? parseInt(value) : null)}
                         >
                           <SelectTrigger>
                             <SelectValue placeholder="Selecione a obra" />
@@ -397,9 +494,9 @@ export default function EditarEquipamentoPage() {
                       {obraId && (
                         <div className="space-y-2">
                           <Label htmlFor="frenteServicoId">Frente de Serviço</Label>
-                          <Select
-                            value={watch('frenteServicoId')?.toString() || ''}
-                            onValueChange={(value) => setValue('frenteServicoId', value ? parseInt(value) : null)}
+                          <Select 
+                            value={frenteServicoId?.toString() || ''} 
+                            onValueChange={(value) => setFrenteServicoId(value ? parseInt(value) : null)}
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Selecione a frente" />
@@ -420,9 +517,9 @@ export default function EditarEquipamentoPage() {
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="centroCustoId">Centro de Custo</Label>
-                        <Select
-                          value={watch('centroCustoId')?.toString() || ''}
-                          onValueChange={(value) => setValue('centroCustoId', value ? parseInt(value) : null)}
+                        <Select 
+                          value={centroCustoId?.toString() || ''} 
+                          onValueChange={(value) => setCentroCustoId(value ? parseInt(value) : null)}
                         >
                           <SelectTrigger>
                             <SelectValue placeholder="Selecione o centro" />
@@ -444,7 +541,8 @@ export default function EditarEquipamentoPage() {
                           <Input
                             id="horaAtual"
                             type="number"
-                            {...register('horaAtual', { valueAsNumber: true })}
+                            value={horaAtual}
+                            onChange={(e) => setHoraAtual(parseInt(e.target.value) || 0)}
                           />
                         </div>
 
@@ -453,7 +551,8 @@ export default function EditarEquipamentoPage() {
                           <Input
                             id="kmAtual"
                             type="number"
-                            {...register('kmAtual', { valueAsNumber: true })}
+                            value={kmAtual || ''}
+                            onChange={(e) => setKmAtual(e.target.value ? parseInt(e.target.value) : null)}
                           />
                         </div>
                       </div>
@@ -478,7 +577,8 @@ export default function EditarEquipamentoPage() {
                         id="valorAquisicao"
                         type="number"
                         step="0.01"
-                        {...register('valorAquisicao', { valueAsNumber: true })}
+                        value={valorAquisicao || ''}
+                        onChange={(e) => setValorAquisicao(e.target.value ? parseFloat(e.target.value) : null)}
                       />
                     </div>
 
@@ -487,7 +587,8 @@ export default function EditarEquipamentoPage() {
                       <Input
                         id="dataAquisicao"
                         type="date"
-                        {...register('dataAquisicao')}
+                        value={dataAquisicao}
+                        onChange={(e) => setDataAquisicao(e.target.value)}
                       />
                     </div>
 
@@ -496,7 +597,8 @@ export default function EditarEquipamentoPage() {
                       <Input
                         id="vidaUtilAnos"
                         type="number"
-                        {...register('vidaUtilAnos', { valueAsNumber: true })}
+                        value={vidaUtilAnos}
+                        onChange={(e) => setVidaUtilAnos(parseInt(e.target.value) || 5)}
                       />
                     </div>
 
@@ -506,7 +608,8 @@ export default function EditarEquipamentoPage() {
                         id="valorResidual"
                         type="number"
                         step="0.01"
-                        {...register('valorResidual', { valueAsNumber: true })}
+                        value={valorResidual}
+                        onChange={(e) => setValorResidual(parseFloat(e.target.value) || 0)}
                       />
                     </div>
 
@@ -516,7 +619,8 @@ export default function EditarEquipamentoPage() {
                         id="valorLocacaoDiaria"
                         type="number"
                         step="0.01"
-                        {...register('valorLocacaoDiaria', { valueAsNumber: true })}
+                        value={valorLocacaoDiaria || ''}
+                        onChange={(e) => setValorLocacaoDiaria(e.target.value ? parseFloat(e.target.value) : null)}
                       />
                     </div>
 
@@ -526,7 +630,8 @@ export default function EditarEquipamentoPage() {
                         id="valorLocacaoMensal"
                         type="number"
                         step="0.01"
-                        {...register('valorLocacaoMensal', { valueAsNumber: true })}
+                        value={valorLocacaoMensal || ''}
+                        onChange={(e) => setValorLocacaoMensal(e.target.value ? parseFloat(e.target.value) : null)}
                       />
                     </div>
 
@@ -540,8 +645,8 @@ export default function EditarEquipamentoPage() {
                         </div>
                         <Switch
                           id="comOperador"
-                          checked={watch('comOperador')}
-                          onCheckedChange={(checked) => setValue('comOperador', checked)}
+                          checked={comOperador}
+                          onCheckedChange={setComOperador}
                         />
                       </div>
                     </div>
@@ -559,7 +664,8 @@ export default function EditarEquipamentoPage() {
                 </CardHeader>
                 <CardContent>
                   <Textarea
-                    {...register('planoManutencao')}
+                    value={planoManutencao}
+                    onChange={(e) => setPlanoManutencao(e.target.value)}
                     placeholder="Descreva o plano de manutenção do equipamento..."
                     className="min-h-[100px]"
                   />

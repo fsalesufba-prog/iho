@@ -94,7 +94,7 @@ export default function PlanoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os detalhes do plano',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -116,7 +116,7 @@ export default function PlanoDetalhePage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o plano',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

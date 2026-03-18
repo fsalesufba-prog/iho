@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
   DollarSign,
@@ -150,7 +149,7 @@ export default function PagamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível carregar os pagamentos',
-        variant: 'destructive'
+        variant: 'error'
       })
     } finally {
       setLoading(false)
@@ -189,7 +188,7 @@ export default function PagamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível excluir o pagamento',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -208,7 +207,7 @@ export default function PagamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível alterar o status',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }
@@ -225,7 +224,7 @@ export default function PagamentosPage() {
       toast({
         title: 'Erro',
         description: 'Não foi possível reenviar o e-mail',
-        variant: 'destructive'
+        variant: 'error'
       })
     }
   }

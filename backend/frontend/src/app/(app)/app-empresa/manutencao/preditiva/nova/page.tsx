@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { motion } from 'framer-motion'
 import {
   ArrowLeft,
@@ -25,28 +22,16 @@ import { Label } from '@/components/ui/Label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 
-const itemSchema = z.object({
-  descricao: z.string().min(1, 'Descrição é obrigatória'),
-  quantidade: z.number().int().positive(),
-  valorUnitario: z.number().optional().nullable(),
-  tipo: z.enum(['servico', 'peca', 'insumo'])
-})
+type TipoItem = 'servico' | 'peca' | 'insumo'
 
-const manutencaoSchema = z.object({
-  equipamentoId: z.number().int().positive('Selecione um equipamento'),
-  dataProgramada: z.string().min(1, 'Data prevista é obrigatória'),
-  descricao: z.string().min(1, 'Descrição é obrigatória'),
-  observacoes: z.string().optional(),
-  horasEquipamento: z.number().int().default(0),
-  confiabilidade: z.number().int().min(0).max(100).default(85),
-  itens: z.array(itemSchema).default([])
-})
-
-type ManutencaoFormData = z.infer<typeof manutencaoSchema>
-type ItemFormData = z.infer<typeof itemSchema>
+interface Item {
+  descricao: string
+  quantidade: number
+  valorUnitario?: number | null
+  tipo: TipoItem
+}
 
 interface Equipamento {
   id: number
@@ -59,31 +44,35 @@ interface Equipamento {
 
 export default function NovaManutencaoPreditivaPage() {
   const router = useRouter()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [saving, setSaving] = useState(false)
   const [equipamentos, setEquipamentos] = useState<Equipamento[]>([])
-  const [itens, setItens] = useState<ItemFormData[]>([])
-  const [novoItem, setNovoItem] = useState<Partial<ItemFormData>>({
-    tipo: 'servico'
-  })
+  const [itens, setItens] = useState<Item[]>([])
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch
-  } = useForm<ManutencaoFormData>({
-    resolver: zodResolver(manutencaoSchema),
-    defaultValues: {
-      confiabilidade: 85,
-      dataProgramada: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-    }
-  })
+  // Estados do formulário
+  const [equipamentoId, setEquipamentoId] = useState<number | null>(null)
+  const [dataProgramada, setDataProgramada] = useState(
+    new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+  )
+  const [descricao, setDescricao] = useState('')
+  const [observacoes, setObservacoes] = useState('')
+  const [horasEquipamento, setHorasEquipamento] = useState(0)
+  const [confiabilidade, setConfiabilidade] = useState(85)
 
-  const equipamentoId = watch('equipamentoId')
+  // Estados para novo item
+  const [novoItemDescricao, setNovoItemDescricao] = useState('')
+  const [novoItemQuantidade, setNovoItemQuantidade] = useState<number | null>(null)
+  const [novoItemValor, setNovoItemValor] = useState<number | null>(null)
+  const [novoItemTipo, setNovoItemTipo] = useState<TipoItem>('servico')
+
+  // Estados de erro
+  const [errors, setErrors] = useState({
+    equipamentoId: '',
+    dataProgramada: '',
+    descricao: '',
+    confiabilidade: '',
+  })
 
   useEffect(() => {
     carregarEquipamentos()
@@ -93,24 +82,24 @@ export default function NovaManutencaoPreditivaPage() {
     if (equipamentoId) {
       const equipamento = equipamentos.find(e => e.id === equipamentoId)
       if (equipamento) {
-        setValue('horasEquipamento', equipamento.horaAtual)
+        setHorasEquipamento(equipamento.horaAtual)
       }
     }
-  }, [equipamentoId, equipamentos, setValue])
+  }, [equipamentoId, equipamentos])
 
   const carregarEquipamentos = async () => {
     try {
       const response = await api.get('/equipamentos', {
         params: { limit: 100 }
       })
-      setEquipamentos(response.data.equipamentos)
+      setEquipamentos(response.data.equipamentos || [])
     } catch (error) {
       console.error('Erro ao carregar equipamentos:', error)
     }
   }
 
   const adicionarItem = () => {
-    if (!novoItem.descricao || !novoItem.quantidade) {
+    if (!novoItemDescricao || !novoItemQuantidade) {
       toast({
         title: 'Campos obrigatórios',
         description: 'Preencha a descrição e quantidade do item.',
@@ -119,15 +108,18 @@ export default function NovaManutencaoPreditivaPage() {
       return
     }
 
-    const item: ItemFormData = {
-      descricao: novoItem.descricao,
-      quantidade: novoItem.quantidade,
-      valorUnitario: novoItem.valorUnitario || null,
-      tipo: novoItem.tipo as any || 'servico'
+    const item: Item = {
+      descricao: novoItemDescricao,
+      quantidade: novoItemQuantidade,
+      valorUnitario: novoItemValor || null,
+      tipo: novoItemTipo
     }
 
     setItens([...itens, item])
-    setNovoItem({ tipo: 'servico' })
+    setNovoItemDescricao('')
+    setNovoItemQuantidade(null)
+    setNovoItemValor(null)
+    setNovoItemTipo('servico')
   }
 
   const removerItem = (index: number) => {
@@ -140,16 +132,66 @@ export default function NovaManutencaoPreditivaPage() {
     }, 0)
   }
 
-  const onSubmit = async (data: ManutencaoFormData) => {
+  const validate = () => {
+    const newErrors = {
+      equipamentoId: '',
+      dataProgramada: '',
+      descricao: '',
+      confiabilidade: '',
+    }
+    let isValid = true
+
+    if (!equipamentoId) {
+      newErrors.equipamentoId = 'Selecione um equipamento'
+      isValid = false
+    }
+
+    if (!dataProgramada) {
+      newErrors.dataProgramada = 'Data prevista é obrigatória'
+      isValid = false
+    }
+
+    if (!descricao) {
+      newErrors.descricao = 'Descrição é obrigatória'
+      isValid = false
+    }
+
+    if (confiabilidade < 0 || confiabilidade > 100) {
+      newErrors.confiabilidade = 'Confiabilidade deve ser entre 0 e 100'
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
+
+  const getPrioridade = () => {
+    if (confiabilidade < 60) return 'alta'
+    if (confiabilidade < 80) return 'media'
+    return 'baixa'
+  }
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validate()) {
+      return
+    }
+
     try {
       setSaving(true)
       
       const payload = {
-        ...data,
+        equipamentoId,
+        dataProgramada,
+        descricao,
+        observacoes: observacoes || null,
+        horasEquipamento,
+        confiabilidade,
         tipo: 'preditiva',
         custo: calcularCustoTotal(),
         status: 'programada',
-        prioridade: data.confiabilidade < 60 ? 'alta' : data.confiabilidade < 80 ? 'media' : 'baixa',
+        prioridade: getPrioridade(),
         itens
       }
 
@@ -194,7 +236,7 @@ export default function NovaManutencaoPreditivaPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={onSubmit} className="space-y-6">
               {/* Dados da Análise */}
               <Card>
                 <CardHeader>
@@ -207,11 +249,11 @@ export default function NovaManutencaoPreditivaPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="equipamentoId">Equipamento *</Label>
-                      <Select
-                        value={equipamentoId?.toString() || ''}
-                        onValueChange={(value) => setValue('equipamentoId', parseInt(value))}
+                      <Select 
+                        value={equipamentoId?.toString() || ''} 
+                        onValueChange={(value) => setEquipamentoId(value ? parseInt(value) : null)}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className={errors.equipamentoId ? 'border-destructive' : ''}>
                           <SelectValue placeholder="Selecione o equipamento" />
                         </SelectTrigger>
                         <SelectContent>
@@ -223,7 +265,7 @@ export default function NovaManutencaoPreditivaPage() {
                         </SelectContent>
                       </Select>
                       {errors.equipamentoId && (
-                        <p className="text-sm text-destructive">{errors.equipamentoId.message}</p>
+                        <p className="text-sm text-destructive">{errors.equipamentoId}</p>
                       )}
                     </div>
 
@@ -232,11 +274,12 @@ export default function NovaManutencaoPreditivaPage() {
                       <Input
                         id="dataProgramada"
                         type="date"
-                        {...register('dataProgramada')}
-                        error={!!errors.dataProgramada}
+                        value={dataProgramada}
+                        onChange={(e) => setDataProgramada(e.target.value)}
+                        className={errors.dataProgramada ? 'border-destructive' : ''}
                       />
                       {errors.dataProgramada && (
-                        <p className="text-sm text-destructive">{errors.dataProgramada.message}</p>
+                        <p className="text-sm text-destructive">{errors.dataProgramada}</p>
                       )}
                     </div>
 
@@ -247,13 +290,18 @@ export default function NovaManutencaoPreditivaPage() {
                         type="number"
                         min="0"
                         max="100"
-                        {...register('confiabilidade', { valueAsNumber: true })}
+                        value={confiabilidade}
+                        onChange={(e) => setConfiabilidade(parseInt(e.target.value) || 0)}
+                        className={errors.confiabilidade ? 'border-destructive' : ''}
                       />
                       <p className="text-xs text-muted-foreground">
-                        {watch('confiabilidade') < 60 ? 'Crítico - Intervenção imediata' :
-                         watch('confiabilidade') < 80 ? 'Atenção - Monitorar' :
+                        {confiabilidade < 60 ? 'Crítico - Intervenção imediata' :
+                         confiabilidade < 80 ? 'Atenção - Monitorar' :
                          'Bom - Operação normal'}
                       </p>
+                      {errors.confiabilidade && (
+                        <p className="text-sm text-destructive">{errors.confiabilidade}</p>
+                      )}
                     </div>
 
                     <div className="space-y-2">
@@ -261,7 +309,7 @@ export default function NovaManutencaoPreditivaPage() {
                       <Input
                         id="horasEquipamento"
                         type="number"
-                        {...register('horasEquipamento', { valueAsNumber: true })}
+                        value={horasEquipamento}
                         readOnly
                         className="bg-muted"
                       />
@@ -271,13 +319,13 @@ export default function NovaManutencaoPreditivaPage() {
                       <Label htmlFor="descricao">Recomendação *</Label>
                       <Textarea
                         id="descricao"
-                        {...register('descricao')}
+                        value={descricao}
+                        onChange={(e) => setDescricao(e.target.value)}
                         placeholder="Descreva a recomendação baseada na análise preditiva..."
-                        className="min-h-[100px]"
-                        error={!!errors.descricao}
+                        className={`min-h-[100px] ${errors.descricao ? 'border-destructive' : ''}`}
                       />
                       {errors.descricao && (
-                        <p className="text-sm text-destructive">{errors.descricao.message}</p>
+                        <p className="text-sm text-destructive">{errors.descricao}</p>
                       )}
                     </div>
 
@@ -285,7 +333,8 @@ export default function NovaManutencaoPreditivaPage() {
                       <Label htmlFor="observacoes">Observações Técnicas</Label>
                       <Textarea
                         id="observacoes"
-                        {...register('observacoes')}
+                        value={observacoes}
+                        onChange={(e) => setObservacoes(e.target.value)}
                         placeholder="Dados da análise, parâmetros monitorados..."
                         className="min-h-[80px]"
                       />
@@ -334,26 +383,23 @@ export default function NovaManutencaoPreditivaPage() {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
                       <Input
                         placeholder="Descrição do item"
-                        value={novoItem.descricao || ''}
-                        onChange={(e) => setNovoItem({ ...novoItem, descricao: e.target.value })}
+                        value={novoItemDescricao}
+                        onChange={(e) => setNovoItemDescricao(e.target.value)}
                       />
                       <Input
                         type="number"
                         placeholder="Quantidade"
-                        value={novoItem.quantidade || ''}
-                        onChange={(e) => setNovoItem({ ...novoItem, quantidade: parseInt(e.target.value) })}
+                        value={novoItemQuantidade || ''}
+                        onChange={(e) => setNovoItemQuantidade(e.target.value ? parseInt(e.target.value) : null)}
                       />
                       <Input
                         type="number"
                         step="0.01"
                         placeholder="Valor unitário"
-                        value={novoItem.valorUnitario || ''}
-                        onChange={(e) => setNovoItem({ ...novoItem, valorUnitario: parseFloat(e.target.value) })}
+                        value={novoItemValor || ''}
+                        onChange={(e) => setNovoItemValor(e.target.value ? parseFloat(e.target.value) : null)}
                       />
-                      <Select
-                        value={novoItem.tipo}
-                        onValueChange={(value: any) => setNovoItem({ ...novoItem, tipo: value })}
-                      >
+                      <Select value={novoItemTipo} onValueChange={(value: TipoItem) => setNovoItemTipo(value)}>
                         <SelectTrigger>
                           <SelectValue placeholder="Tipo" />
                         </SelectTrigger>

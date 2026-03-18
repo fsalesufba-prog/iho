@@ -13,7 +13,6 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 import { useToast } from '@/components/ui/use-toast'
-import { useAuth } from '@/hooks/useAuth'
 import { api } from '@/lib/api'
 import { formatCurrency } from '@/lib/utils'
 
@@ -36,21 +35,25 @@ interface ClasseData {
 
 export default function DepreciacaoClassePage() {
   const params = useParams()
-  const { user } = useAuth()
   const { toast } = useToast()
 
   const [data, setData] = useState<ClasseData | null>(null)
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
 
-  useEffect(() => {
-    carregarDados()
-  }, [params.tipo])
+  // Converte params.tipo para string (pode ser string ou string[])
+  const tipo = Array.isArray(params.tipo) ? params.tipo[0] : params.tipo
 
-  const carregarDados = async () => {
+  useEffect(() => {
+    if (tipo) {
+      carregarDados(tipo)
+    }
+  }, [tipo])
+
+  const carregarDados = async (tipoParam: string) => {
     try {
       setLoading(true)
-      const response = await api.get(`/financeiro/depreciacao/classes/${encodeURIComponent(params.tipo)}`)
+      const response = await api.get(`/financeiro/depreciacao/classes/${encodeURIComponent(tipoParam)}`)
       setData(response.data.data)
     } catch (error) {
       toast({
@@ -64,8 +67,9 @@ export default function DepreciacaoClassePage() {
   }
 
   const handleRefresh = async () => {
+    if (!tipo) return
     setRefreshing(true)
-    await carregarDados()
+    await carregarDados(tipo)
     setRefreshing(false)
   }
 
@@ -86,7 +90,7 @@ export default function DepreciacaoClassePage() {
     )
   }
 
-  if (!data) {
+  if (!data || !tipo) {
     return (
       <>
         <Sidebar />
