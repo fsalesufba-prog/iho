@@ -135,13 +135,7 @@ async function startServer() {
     }
 
     // 1️⃣ STATIC DO NEXT
-    app.use(
-      '/_next/static',
-      express.static(nextStaticDir, {
-        maxAge: '1y',
-        immutable: true
-      })
-    )
+
 
     // 2️⃣ PUBLIC
     app.use(express.static(publicDir, { maxAge: '1d' }))
