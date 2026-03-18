@@ -13,8 +13,6 @@ import compression from 'compression'
 import morgan from 'morgan'
 import rateLimit from 'express-rate-limit'
 import path from 'path'
-import http from 'http'
-import { parse } from 'url'
 
 import { connectDB } from './config/database'
 import routes from './routes'
@@ -28,10 +26,12 @@ async function startServer() {
 
   const app = express()
 
-  // Security
+  // Security — disable headers that block Next.js assets in production
   app.use(
     helmet({
-      crossOriginResourcePolicy: { policy: 'cross-origin' }
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+      crossOriginEmbedderPolicy: false,
+      contentSecurityPolicy: false,
     })
   )
 
@@ -69,23 +69,22 @@ async function startServer() {
   // Logging
   app.use(morgan('combined'))
 
-  // Rate limit
+  // Rate limit (API only)
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100,
     message: 'Muitas requisições deste IP, tente novamente mais tarde'
   })
-
   app.use('/api', limiter)
 
   // Body parser
   app.use(express.json({ limit: '10mb' }))
   app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
-  // Static
-  app.use('/uploads', express.static('uploads'))
+  // User uploads
+  app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')))
 
-  // API
+  // API routes
   app.use('/api', routes)
 
   // Health check
@@ -99,7 +98,7 @@ async function startServer() {
   })
 
   if (devMode) {
-    // Development mode: serve API only, no Next.js embedding
+    // Development mode: API only
     app.get('/', (_req, res) => {
       res.json({
         message: 'IHO - Índice de Saúde Operacional',
@@ -116,38 +115,36 @@ async function startServer() {
       console.log(`📡 API disponível em /api`)
     })
   } else {
-    // Production mode: embed Next.js frontend
+    // Production mode: Express serves Next.js frontend + API together
+
+    const frontendDir = path.join(process.cwd(), 'frontend')
+    const nextStaticDir = path.join(frontendDir, '.next', 'static')
+    const publicDir = path.join(frontendDir, 'public')
+
+    // 1. Serve Next.js compiled static assets directly — correct MIME types, long cache
+    app.use(
+      '/_next/static',
+      express.static(nextStaticDir, {
+        maxAge: '1y',
+        immutable: true,
+      })
+    )
+
+    // 2. Serve Next.js public folder (logo.svg, favicon, og-image, etc.)
+    app.use(express.static(publicDir, { maxAge: '1d' }))
+
+    // 3. All remaining routes (pages) handled by Next.js
     const next = require('next')
-    const nextApp = next({
-      dev: false,
-      dir: path.join(process.cwd(), 'frontend')
-    })
+    const nextApp = next({ dev: false, dir: frontendDir })
     const handle = nextApp.getRequestHandler()
 
     await nextApp.prepare()
 
-    const server = http.createServer((req, res) => {
-      const parsedUrl = parse(req.url || '/', true)
-      const pathname = parsedUrl.pathname || '/'
-
-      // Primeiro: Deixa o Next.js lidar com todos os assets estáticos e rotas do Next
-      // Isso inclui _next/static, _next/webpack, favicon.ico, etc
-      if (pathname.startsWith('/_next') || pathname === '/favicon.ico' || pathname.startsWith('/icon-')) {
-        handle(req, res, parsedUrl)
-        return
-      }
-
-      // Segundo: API e health check - mantém no Express
-      if (pathname.startsWith('/api') || pathname === '/health') {
-        app(req as any, res as any)
-        return
-      }
-
-      // Terceiro: Para todas as outras rotas (páginas), usa o Next.js
-      handle(req, res, parsedUrl)
+    app.all('*', (req, res) => {
+      return handle(req, res)
     })
 
-    server.listen(PORT, '0.0.0.0', () => {
+    const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 IHO rodando na porta ${PORT}`)
       console.log(`🌐 Ambiente: ${process.env.NODE_ENV}`)
       console.log(`📡 API disponível em /api`)
