@@ -126,26 +126,24 @@ async function startServer() {
 
     await nextApp.prepare()
 
-    // Configura o Express para servir arquivos estáticos do Next.js
-    // Isso é crucial para que os assets do _next sejam servidos corretamente
-    const nextStaticPath = path.join(process.cwd(), 'frontend', '.next')
-    app.use('/_next', express.static(nextStaticPath))
-    
-    // Serve arquivos estáticos da pasta public
-    const publicPath = path.join(process.cwd(), 'frontend', 'public')
-    app.use(express.static(publicPath))
-
     const server = http.createServer((req, res) => {
       const parsedUrl = parse(req.url || '/', true)
       const pathname = parsedUrl.pathname || '/'
 
-      // API e health check - mantém no Express
+      // Primeiro: Deixa o Next.js lidar com todos os assets estáticos e rotas do Next
+      // Isso inclui _next/static, _next/webpack, favicon.ico, etc
+      if (pathname.startsWith('/_next') || pathname === '/favicon.ico' || pathname.startsWith('/icon-')) {
+        handle(req, res, parsedUrl)
+        return
+      }
+
+      // Segundo: API e health check - mantém no Express
       if (pathname.startsWith('/api') || pathname === '/health') {
         app(req as any, res as any)
         return
       }
 
-      // Para todas as outras rotas (incluindo _next, favicon, etc), usa o Next.js
+      // Terceiro: Para todas as outras rotas (páginas), usa o Next.js
       handle(req, res, parsedUrl)
     })
 
@@ -153,8 +151,6 @@ async function startServer() {
       console.log(`🚀 IHO rodando na porta ${PORT}`)
       console.log(`🌐 Ambiente: ${process.env.NODE_ENV}`)
       console.log(`📡 API disponível em /api`)
-      console.log(`📁 Next.js assets sendo servidos de /_next`)
-      console.log(`📁 Arquivos estáticos sendo servidos de /public`)
     })
 
     process.on('SIGTERM', () => {
