@@ -13,6 +13,7 @@ import compression from 'compression'
 import morgan from 'morgan'
 import rateLimit from 'express-rate-limit'
 import path from 'path'
+import fs from 'fs'
 
 import { connectDB } from './config/database'
 import routes from './routes'
@@ -115,39 +116,75 @@ async function startServer() {
       console.log(`📡 API disponível em /api`)
     })
   } else {
-    // Production mode: Express serves Next.js frontend + API together
+    // PRODUCTION MODE
+    console.log('🚀 Iniciando em modo produção...')
 
     const frontendDir = path.join(process.cwd(), 'frontend')
-    const nextStaticDir = path.join(frontendDir, '.next', 'static')
-    const publicDir = path.join(frontendDir, 'public')
 
-    // 1. Serve Next.js compiled static assets directly — correct MIME types, long cache
-    app.use(
-      '/_next/static',
+    // 1. SERVE ARQUIVOS ESTÁTICOS DO NEXT.JS
+    const nextStaticDir = path.join(frontendDir, '.next', 'static')
+    console.log('📁 Servindo arquivos estáticos de:', nextStaticDir)
+
+    // Verifica se a pasta existe
+    if (!fs.existsSync(nextStaticDir)) {
+      console.error('❌ ERRO CRÍTICO: Pasta não encontrada!', nextStaticDir)
+      process.exit(1)
+    }
+
+    // Lista os arquivos CSS disponíveis (para debug)
+    try {
+      const cssFiles = fs.readdirSync(path.join(nextStaticDir, 'css'))
+      console.log('📁 Arquivos CSS disponíveis:', cssFiles)
+    } catch (error) {
+      console.log('⚠️ Nenhum arquivo CSS encontrado ainda')
+    }
+
+    // Middleware para servir arquivos estáticos com headers corretos
+    app.use('/_next/static', (req, res, next) => {
+      // Log para debug (remova em produção se quiser)
+      console.log('📦 Requisição para /_next/static:', req.url)
+      
+      // Configura headers específicos para CSS
+      if (req.url.endsWith('.css')) {
+        res.setHeader('Content-Type', 'text/css')
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable')
+      }
+      
+      // Passa para o express.static
       express.static(nextStaticDir, {
         maxAge: '1y',
         immutable: true,
-      })
-    )
+        setHeaders: (res, filePath) => {
+          if (filePath.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css')
+          }
+        }
+      })(req, res, next)
+    })
 
-    // 2. Serve Next.js public folder (logo.svg, favicon, og-image, etc.)
+    // 2. SERVE ARQUIVOS DA PASTA PUBLIC
+    const publicDir = path.join(frontendDir, 'public')
     app.use(express.static(publicDir, { maxAge: '1d' }))
 
-    // 3. All remaining routes (pages) handled by Next.js
+    // 3. NEXT.JS HANDLER PARA TODAS AS OUTRAS ROTAS
     const next = require('next')
     const nextApp = next({ dev: false, dir: frontendDir })
     const handle = nextApp.getRequestHandler()
 
     await nextApp.prepare()
+    console.log('✅ Next.js preparado')
 
+    // Todas as rotas que não foram capturadas acima vão para o Next.js
     app.all('*', (req, res) => {
       return handle(req, res)
     })
 
+    // Inicia o servidor
     const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 IHO rodando na porta ${PORT}`)
       console.log(`🌐 Ambiente: ${process.env.NODE_ENV}`)
       console.log(`📡 API disponível em /api`)
+      console.log(`📁 Arquivos estáticos sendo servidos de /_next/static`)
     })
 
     process.on('SIGTERM', () => {
