@@ -5,8 +5,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 5000 -H 0.0.0.0",
-    "build": "next build",
+
+    "build": "export NODE_OPTIONS=--max-old-space-size=512 && export NEXT_PRIVATE_MAX_WORKER_THREADS=1 && export RAYON_NUM_THREADS=1 && export UV_THREADPOOL_SIZE=1 && next build --no-lint",
+
     "start": "next start -p 5000 -H 0.0.0.0",
+
     "lint": "next lint",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "type-check": "tsc --noEmit",
