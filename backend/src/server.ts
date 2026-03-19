@@ -39,7 +39,32 @@ async function startServer() {
   )
 
   // 🌐 CORS
-  app.use(cors({ origin: true, credentials: true }))
+  const allowedOrigins = [
+    process.env.CORS_ORIGIN,
+    process.env.FRONTEND_URL,
+    'http://localhost:5000',
+    'http://localhost:3000'
+  ].filter(Boolean)
+
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        if (!origin) return callback(null, true)
+
+        const replitDomain = process.env.REPLIT_DEV_DOMAIN
+
+        if (
+          allowedOrigins.includes(origin) ||
+          (replitDomain && origin.includes(replitDomain))
+        ) {
+          return callback(null, true)
+        }
+
+        callback(new Error('Not allowed by CORS'))
+      },
+      credentials: true
+    })
+  )
 
   // ⚡ Performance
   app.use(compression())
@@ -47,69 +72,116 @@ async function startServer() {
   // 📜 Logs
   app.use(morgan('combined'))
 
-  // 🚫 Rate limit
+  // 🚫 Rate limit (apenas API)
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100
+    max: 100,
+    message: 'Muitas requisições deste IP, tente novamente mais tarde'
   })
 
-  // 📦 Body
+  // 📦 Body parser
   app.use(express.json({ limit: '10mb' }))
-  app.use(express.urlencoded({ extended: true }))
+  app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
-  // ❤️ Health
+  // 📁 Uploads
+  app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')))
+
+  // ❤️ Health check
   app.get('/health', (_req, res) => {
-    res.json({ status: 'ok' })
+    res.json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV,
+      version: process.env.SYSTEM_VERSION || '1.0.0'
+    })
   })
 
   if (devMode) {
+    // 🔧 DEV MODE (só API)
     app.use('/api', limiter)
     app.use('/api', routes)
 
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`🚀 DEV rodando na porta ${PORT}`)
+    app.get('/', (_req, res) => {
+      res.json({
+        message: 'IHO - Índice de Saúde Operacional',
+        mode: 'development',
+        api: '/api',
+        health: '/health'
+      })
     })
 
-    return
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 API rodando na porta ${PORT} (DEV)`)
+    })
+
+  } else {
+    // 🚀 PRODUÇÃO
+    console.log('🚀 Iniciando em modo produção...')
+
+    const frontendDir = path.resolve(__dirname, '../frontend')
+    const nextStaticDir = path.join(frontendDir, '.next', 'static')
+    const publicDir = path.join(frontendDir, 'public')
+
+    // 🔍 Debug
+    console.log('📁 FRONTEND DIR:', frontendDir)
+    console.log('📁 STATIC DIR:', nextStaticDir)
+
+    // 🔍 Validação crítica
+    if (!fs.existsSync(nextStaticDir)) {
+      console.error('❌ ERRO: build do Next não encontrado!')
+      console.error('👉 Caminho esperado:', nextStaticDir)
+      process.exit(1)
+    }
+
+    // 1️⃣ STATIC DO NEXT (_next/static — JS, CSS, chunks)
+    app.use(
+      '/_next/static',
+      express.static(nextStaticDir, {
+        maxAge: '1y',
+        immutable: true,
+      })
+    )
+
+    // 2️⃣ PUBLIC (ícones, imagens, manifest etc.)
+    app.use(express.static(publicDir, { maxAge: '1d' }))
+
+    // 3️⃣ API
+    app.use('/api', limiter)
+    app.use('/api', routes)
+
+    // 4️⃣ NEXT.JS (SSR + páginas)
+    const next = require('next')
+    const nextApp = next({ dev: false, dir: frontendDir })
+    const handle = nextApp.getRequestHandler()
+
+    await nextApp.prepare()
+    console.log('✅ Next.js preparado')
+
+    // ⚠️ Catch-all SEMPRE por último
+    app.all('*', (req, res) => {
+      return handle(req, res)
+    })
+
+    const server = app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 IHO rodando na porta ${PORT}`)
+      console.log(`📡 API: /api`)
+      console.log(`🌐 Frontend: ativo`)
+    })
+
+    // 🛑 Shutdown seguro
+    process.on('SIGTERM', () => {
+      console.log('Encerrando...')
+      server.close(() => process.exit(0))
+    })
+
+    process.on('SIGINT', () => {
+      console.log('Encerrando...')
+      server.close(() => process.exit(0))
+    })
   }
-
-  // 🚀 PRODUÇÃO
-  console.log('🚀 Produção iniciando...')
-
-  const frontendDir = path.resolve(process.cwd(), 'frontend')
-
-  // 🔥 AQUI É O PULO DO GATO
-  const next = require('next')
-  const nextApp = next({
-    dev: false,
-    dir: frontendDir
-  })
-
-  const handle = nextApp.getRequestHandler()
-
-  await nextApp.prepare()
-
-  console.log('✅ Next pronto')
-
-  // ✅ API primeiro
-  app.use('/api', limiter)
-  app.use('/api', routes)
-
-  // ✅ uploads
-  app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')))
-
-  // 🚨 NÃO SERVE _next/static manualmente
-  // Next já faz isso corretamente
-
-  // ✅ TUDO pro Next
-  app.all('*', (req, res) => handle(req, res))
-
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Rodando na porta ${PORT}`)
-  })
 }
 
-startServer().catch(err => {
-  console.error(err)
+startServer().catch((err) => {
+  console.error('Erro ao iniciar servidor:', err)
   process.exit(1)
 })
